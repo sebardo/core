@@ -1,0 +1,68 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+{% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}
+
+{% block section %}actors{% endblock %}
+
+{% block content %}
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ "edit.singular" | trans }} {{ entity.name }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="javascript:">{{ "users" | trans }}</a></li>
+        <li><a href="{{ path('core_actor_index') }}">{{ "user.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_actor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.surnames}}</a></li>
+        <li><a href="{{ path('core_actor_edit', { id: entity.id }) }}">{{ "edit.singular" | trans }} </a></li>
+      </ol>
+    </section>
+    
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                {{ form_start(edit_form, {'action': path('core_actor_update', { id: entity.id }), 'method': 'post', 'class': 'form-horizontal form-row-seperated'}) }}
+                    <div class="box-body">
+                        {{ include('CoreBundle:Actor:_form.html.twig', { form: edit_form, edit: true }) }}
+                    </div><!-- /.box-body -->
+
+                    <input type="hidden" name="_method" value="PUT" />
+
+                    <div class="box-footer">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "save" | trans }}</button>
+                            <a href="{{ path('core_actor_show', { id: entity.id }) }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
+                            <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+                <form id="delete-entity" action="{{ path('core_actor_delete', { id: entity.id }) }}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ form_widget(delete_form) }}
+                </form>
+            </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        jQuery(document).ready(function() {
+            $('#delete-btn').on('click', function(e) {
+                e.preventDefault();
+
+                if (confirm('{{ "are.you.sure" | trans }}')) {
+                    $('#delete-entity').submit();
+                }
+            });
+
+
+        });
+    </script>
+{% endblock %}

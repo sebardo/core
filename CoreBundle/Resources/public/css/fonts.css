@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'cursive-standard';
+    src:url('../fonts/Cursivestandard.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'cursive-standard';
+    src:url('../fonts/Cursivestandardbold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-Bold.otf');
+    font-weight: bold;
+    font-style: normal;
+}
+/*
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-Italic.otf');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-BoldItalic.otf');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-Ultra.otf');
+    font-weight: bolder;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-UltraItalic.otf');
+    font-weight: bolder;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-Light.otf');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-LightItalic.otf');
+    font-weight: lighter;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-XLight.otf');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'today-shop';
+    src:url('../fonts/TodaySHOP-XLightItalic.otf');
+    font-weight: 100;
+    font-style: italic;
+}
+*/

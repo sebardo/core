@@ -1,0 +1,30 @@
+{% block subject %}
+{% spaceless %}
+    {{ 'Contacto: ' }}
+    {% if 'complaint' == type %}
+        {{ 'contact.type.complaint' | trans }}
+    {% elseif 'suggestion' == type %}
+        {{ 'contact.type.suggestion' | trans }}
+    {% else %}
+        {{ 'contact.type.other' | trans }}
+    {% endif %}
+{% endspaceless %}
+{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+IP: {{ client_ip }}
+
+{{ 'contact.name' | trans }}: {{ name }}
+
+{{ 'contact.surnames' | trans }}: {{ surnames }}
+
+{{ 'contact.email' | trans }}: {{ from_email }}
+
+{{ 'contact.type.singular' | trans }}: {{ ('contact.type.' ~ type) | trans }}
+
+{{ 'contact.message.singular' | trans }}: {{ message }}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}{% endblock %}

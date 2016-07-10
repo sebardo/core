@@ -1,0 +1,372 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+
+{% form_theme shippingForm 'AdminBundle:Form:fields.html.twig' %}
+
+{% block section %}actors{% endblock %}
+
+{% block content %}
+    
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ entity.name }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="javascript:">{{ "users" | trans }}</a></li>
+        <li><a href="{{ path('core_actor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.surnames }}</a></li>
+      </ol>
+    </section>
+      
+      
+     <section class="content">
+      <div class="row">
+          <div class="col-md-12">
+              
+               {% include 'CoreBundle:Base:alert.messages.html.twig' %}
+              <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="{{ not app.request.get('transactions') and 
+                                not app.request.get('shippings') ? 'active' }}"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
+                   {# <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>#}
+                    <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
+                    <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "user.email" | trans }}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane {{ not app.request.get('transactions') and 
+                                not app.request.get('shippings') ? 'active'}}" id="info_tab">
+                        <div class="box-body show-tables">
+                             <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>{{ "Email" | trans }}</td>
+                                    <td>{{ entity.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "user.singular" | trans }}</td>
+                                    <td>{{ entity.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "name" | trans }}</td>
+                                    <td>{{ entity.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "surnames" | trans }}</td>
+                                    <td>{{ entity.surnames }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "image.singular" | trans }}</td>
+                                    <td>
+                                        {% if entity.image %}
+                                            <img width="150" src="{{ asset('uploads/images/profile/' ~ entity.id ~'/'~entity.image) }}" alt="{{ entity.image }}" />
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "active" | trans }}</td>
+                                    <td>
+                                        {% if entity.isActive %}
+                                            <span class="label label-success">{{ "yes" | trans }}</span>
+                                        {% else %}
+                                            <span class="label label-danger">{{ "no" | trans }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "newsletter.singular" | trans }}</td>
+                                    <td>
+                                        {% if entity.newsletter %}
+                                            <span class="label label-success">{{ "yes" | trans }}</span>
+                                        {% else %}
+                                            <span class="label label-danger">{{ "no" | trans }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer">
+                            <a href="{{ path('core_actor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
+                                                        
+                            <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn"><i class="ion-trash-a"></i> {{ "delete" | trans }}</button>
+                            <form id="delete-entity" action="{{ path('core_actor_delete', { 'id': entity.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                {{ form_widget(delete_form) }}
+                            </form>
+                        </div>
+                    </div>
+                            
+                            
+                    <div class="tab-pane  {{ app.request.get('address') ? 'active' }}" id="address_tab">
+                        <div class="box-body show-tables">
+                            <table class="table table-striped table-bordered table-hover" id="addresses-table">
+                                <thead>
+                                <tr>
+                                    <th class="hidden-480">ID</th>
+                                    <th class="hidden-480">{{ "name" | trans }}</th>
+                                    <th class="hidden-480">{{ "category.singular" | trans }}</th>
+                                    <th class="hidden-480">{{ "brand.singular" | trans }}</th>
+                                    <th class="hidden-480">{{ "price" | trans }}</th>
+                                    <th class="hidden-480">{{ "stock" | trans }}</th>
+                                    <th class="hidden-480">{{ "active" | trans }}</th>
+                                    <th class="hidden-480">{{ "available" | trans }}</th>
+                                    <th class="hidden-480">{{ "highlighted" | trans }}</th>
+                                    <th class="hidden-480">{{ "freeTransport" | trans }}</th>
+                                    <th style="width:70px;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer"></div>
+                    </div>
+
+                    <div class="tab-pane  {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
+                        <div class="box-body show-tables">
+                             <table class="table table-striped table-bordered table-hover" id="transactions-table">
+                                <thead>
+                                <tr>
+                                    <th class="hidden-480">{{ "number" | trans }}</th>
+                                    <th class="hidden-480">{{ "date" | trans }}</th>
+                                    <th class="hidden-480">{{ "user.singular" | trans }}</th>
+                                    <th class="hidden-480">{{ "items" | trans }}</th>
+                                    <th class="hidden-480">{{ "status.singular" | trans }}</th>
+                                    <th class="hidden-480" style="width: 100px;">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer"></div>
+                    </div>  
+                                    
+                    <div class="tab-pane  {{ app.request.get('shippings') ? 'active' }}" id="shippings_tab">
+                        <div class="box-body show-tables">
+                            <div class="clearfix">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#myModal">
+                                        <i class="fa fa-plus"></i> Nuevo
+                                    </button>
+                                </div>
+                            </div>
+                             <table class="table table-striped table-bordered table-hover" id="shippings-table">
+                                <thead>
+                                <tr>
+                                    <th >ID</th>
+                                    <th class="hidden-480">{{ "created" | trans }}</th>
+                                    <th class="hidden-480">{{ "title" | trans }}</th>
+                                    <th class="hidden-480">{{ "body" | trans }}</th>
+                                    <th class="hidden-480" style="width: 100px;">&nbsp;</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer"></div>
+                    </div>        
+                </div>
+          </div>
+        </div>
+      </div>
+     </section>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{{ "newsletter.new" | trans }}</h4>
+      </div>
+      {#######################################}
+      {############ FORM######################}
+      {#######################################}
+       <!-- BEGIN FORM-->
+        <form id="create-shipping"  action="{{ path('core_actor_email', {id: entity.id }) }}" method="post" {{ form_enctype(shippingForm) }} class="form-horizontal form-row-seperated">
+            <div class="box-body">
+                {{ include('CoreBundle:Actor:_form.email.html.twig', { form: shippingForm }) }}
+            </div><!-- /.box-body -->
+
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button id="send-actor-email" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
+                <a href="{{ path('core_actor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                </div>
+            </div>
+        </form>
+        <!-- END FORM-->
+           
+      
+    </div>
+  </div>
+</div>
+                
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+     {% javascripts 
+        'bundles/admin/plugins/ckeditor-4.5/ckeditor-custom.js'
+        'bundles/admin/plugins/ckeditor/adapters/jquery.js'
+         %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        
+         var transactions_table_columns = [
+            {
+                "mData": function(source) {
+                    return '<a href="/transaction/' + source.id + '">' + source.transactionKey + '</a>';
+                }
+            },
+            {
+                "mData": function (source) {
+                    return source.created.date;
+                }
+            },
+            {
+                "mData": function (source) {
+                    return '<a href="/admin/actor/' + source.actorId + '">' + source.userName + ' ' + source.userSurnames + '</a>';
+                }
+            },
+            { "mData": "nItems" },
+            {
+                "mData": "status",
+                "mRender": function(data) {
+                    var code = '';
+
+                    if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING_TRANSFER') }}" == data) {
+                        code = '<span class="label label-warning">{{ "status.pending.transfer" | trans }}</span>';
+                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING') }}" == data) {
+                        code = '<span class="label label-warning">{{ "status.processed" | trans }}</span>';
+                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_CANCELLED') }}" == data) {
+                        code = '<span class="label label-danger">{{ "status.cancelled" | trans }}</span>';
+                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_DELIVERED') }}" == data) {
+                        code = '<span class="label label-success">{{ "status.sent" | trans }}</span>';
+                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PAID') }}" == data) {
+                        code = '<span class="label label-success">{{ "status.paid" | trans }}</span>';
+                    }
+
+                    return code;
+                }
+            },
+            {
+                "mData": function(source) {
+                    //return '<td><a class="delete" href="javascript:;">Delete</a></td>';
+                    return '<a href="javascript:deleteTransaction(' + source.id +');" class="btn btn-xs btn-danger btn-flat" ><i class="ion-trash-a"></i> {{ "delete" | trans }}</a> ';
+                }
+            }
+        ];
+        
+        var shippings_table_columns = [
+            { "mData": "id" },
+            {
+                "mData": function (source) {
+                    return source.created.date;
+                }
+            },
+            { "mData": "newsletter" },
+            { "mData": "body" },
+            {
+                "mData": function(source) {
+                    //return '<td><a class="delete" href="javascript:;">Delete</a></td>';
+                    return '<a href="javascript:deleteActorShipping(' + source.id +');" class="btn btn-xs btn-danger btn-flat" ><i class="ion-trash-a"></i> {{ "delete" | trans }}</a> ';
+                }
+            }
+        ];
+
+         $(function () {
+            CKEDITOR.replace('corebundle_actoremailtype_body', {
+                extraPlugins: 'uploadimage,image2',
+                height: 100,
+
+                // Upload images to a CKFinder connector (note that the response type is set to JSON).
+                uploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+
+                // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+                filebrowserBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html?type=Images',
+                filebrowserUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+
+                // The following options are not necessary and are used here for presentation purposes only.
+                // They configure the Styles drop-down list and widgets to use classes.
+
+                stylesSet: [
+                        { name: 'Narrow image', type: 'widget', widget: 'image', attributes: { 'class': 'image-narrow' } },
+                        { name: 'Wide image', type: 'widget', widget: 'image', attributes: { 'class': 'image-wide' } }
+                ],
+
+                // Load the default contents.css file plus customizations for this sample.
+                // contentsCss: [ CKEDITOR.basePath + 'contents.css', 'assets/css/widgetstyles.css' ],
+
+                // Configure the Enhanced Image plugin to use classes instead of styles and to disable the
+                // resizer (because image size is controlled by widget styles or the image takes maximum
+                // 100% of the editor width).
+                image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
+                image2_disableResizer: true
+            });
+        });
+        
+        function deleteActorShipping(shipping){
+            if(window.confirm('¿Esta seguro de que desea eliminar el mensaje seleccionado? Esta acción no se podrá deshacer.')){
+                window.location.href = "/admin/shipping/"+shipping+"/delete?redirect={{app.request.uri}}?shippings=1";
+            }
+        }
+        
+        jQuery(document).ready(function() {
+            $('#delete-btn').on('click', function(e) {
+                e.preventDefault();
+
+                if (confirm('{{ "are.you.sure" | trans }}')) {
+                    $('#delete-entity').submit();
+                }
+            });
+
+            
+
+            TableManaged.init(
+                '#transactions-table',
+                '{{ url('ecommerce_transaction_listforuserjson', { actorId: entity.id }) }}',
+                [2],
+                transactions_table_columns,
+                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+        
+            TableManaged.init(
+                '#shippings-table',
+                '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                [2],
+                shippings_table_columns,
+                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+        
+            $("#create-shipping").submit(function(e){
+
+                e.preventDefault();
+                var formSerialize = $(this).serialize();
+                $.post('{{ path('core_actor_email', {id: entity.id })  }}', formSerialize, function(response){
+                     TableManaged.reload(
+                    '#shippings-table',
+                    '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                    [],
+                    shippings_table_columns,
+                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+                    $('#close').click();
+                    
+               },'JSON');
+               
+            });
+            
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+
+{% block subject %}{{ 'validate.email.subject' | trans({ '%app_name%': core.name }) }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+{{ 'validate.email.welcome' | trans({ '%app_name%': core.name }) }}
+
+{{ 'validate.email.message' | trans }}
+
+{{ 'validate.email.thanks' | trans({ '%app_name%': core.name }) }}
+
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% spaceless %}
+    {{ include('CoreBundle:Email:_header.html.twig') }}
+
+    <p>{{ 'validate.email.welcome' | trans({ '%app_name%': core.name }) }}</p>
+
+    <p>{{ 'validate.email.message' | trans }}</p>
+
+    <p>{{ 'validate.email.thanks' | trans({ '%app_name%': core.name }) }}</p>
+
+    {{ include('CoreBundle:Email:_footer.html.twig') }}
+{% endspaceless %}
+{% endblock %}
+
+
+
+

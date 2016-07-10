@@ -1,0 +1,9 @@
+{{ form_errors(form) }}
+
+{{ form_row(form.newsletter, { label: 'newsletter.singular', plus:true  }) }}
+
+{{ form_row(form.type, { label: 'newsletter.shipping.type' }) }}
+
+{{ form_widget(form.inactive) }}
+
+{{ form_rest(form) }}

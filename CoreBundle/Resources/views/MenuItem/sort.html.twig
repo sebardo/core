@@ -1,0 +1,70 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+
+{% block section %}menuitems{% endblock %}
+
+{% block content %}
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ "menu.sort" | trans }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="javascript:">{{ "dashboard" | trans }}</a></li>
+        <li><a href="{{ path('core_menuitem_index') }}">{{ "menu.singular" | trans}}</a></li>
+        <li><a href="{{ path('core_menuitem_sort') }}">{{ "menu.sort" | trans  }}</a></li>
+      </ol>
+    </section>
+      
+    <section class="content">
+      <div class="row">
+          <div class="col-md-12"> 
+             <div class="box">
+                <div class="box-body">
+                {{ include('AdminBundle:Default:_sort_loader.html.twig') }}
+                <!-- TABLE PORTLET-->
+                <div class="portlet-body nestable-list">
+                    <div class="dd" id="nestable-features">
+                        <ol class="dd-list">
+                            {% for menuitem in categories %}
+                                <li class="dd-item" data-id="{{ menuitem.id }}">
+                                    <div class="dd-handle">{{ menuitem.name }}</div>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+                <a class="btn" href="{{ path('core_menuitem_index') }}" title="{{ 'back' | trans }}">{{ 'back' | trans }}</a>
+                </div>
+             </div>
+          </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function updateOutput(e) {
+            var list = e.length ? e : $(e.target)
+            var values = window.JSON.stringify(list.nestable('serialize'));
+
+            $('#sort-loader').addClass('loading');
+
+            $.post('/admin/menuitems/sort', { values: values })
+            .done(function() {
+                $('#sort-loader').removeClass('loading');
+            });
+        }
+
+        jQuery(document).ready(function() {
+
+            $('#nestable-features').nestable({
+                group: 1
+            }).on('change', updateOutput);
+        });
+    </script>
+{% endblock %}

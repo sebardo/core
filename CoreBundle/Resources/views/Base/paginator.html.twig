@@ -1,0 +1,39 @@
+{% set attr = app.request.attributes%}
+{% set route = addSufix(attr.get('_route')) %}
+{% set route_params = attr.get('_route_params') %}
+{% set route_params_relative = route_params%}
+{% if paginator.pages is defined %}
+<div class="paginator ">
+    <ul class="pagination pull-right">
+        {% if route_params.page > 0 and route_params.page < 7%}
+            {% for i in 1..paginator.pages|length %}
+                {% set route_params_relative = changePage(route_params, i) %}
+                <li {% if route_params.page == i%} class="active"{% endif %}>
+                    <a href="{{ path(route, route_params_relative )}}" >{{i}}</a>
+                </li>
+            {% endfor %}
+            {% set route_params_relative = changePage(route_params, (paginator.pages|length)+1) %} 
+            <li {% if (route_params.page - 1)  == paginator.pages|length  %} class="active"{% endif %}>
+                <a href="{{ path(route,route_params_relative )}}"> Ultimo &raquo;</a>
+            </li>
+        {% elseif route_params.page >= 5 %}
+            {% set first_page = route_params.page - 5 %}
+            {% set last_page = route_params.page + 5 %}
+            {% set route_params_relative = changePage(route_params, 1) %}
+            <li><a href="{{ path(route, route_params_relative )}}">&laquo; Primero</a></li>
+            {% for i in first_page..last_page %}
+                {% set route_params_relative = changePage(route_params, i) %}
+                {% if i < paginator.pages|length %}
+                    <li {% if route_params.page == i%} class="active"{% endif %}>
+                        <a href="{{ path(route, route_params_relative )}}" >{{ i }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% set route_params_relative = changePage(route_params, (paginator.pages|length)+1 ) %} 
+            <li {% if (route_params.page - 1)  == paginator.pages|length  %} class="active"{% endif %}>
+                <a href="{{ path(route, route_params_relative )}}"> Ultimo &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+{% endif %}

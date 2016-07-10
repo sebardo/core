@@ -1,0 +1,434 @@
+spain: España
+ago: Hace
+years: años
+months: meses
+days: días
+hours: horas
+minutes: minutos
+seconds: segundos
+year: año
+month: mes
+day: día
+hour: hora
+minute: minuto
+second: segundo
+buy: Comprar
+purchase: Adquirir
+public: Publicado
+storePickup: Recoger en tienda
+publishDateUntil: Fecha rango de publicación
+Bank account number: Nº de cuenta bancaria
+accredited_investor_certificate: Certificado de inversor acreditado
+dni: DNI/NIF
+binding_agreement_investment: Acuerdo vinculante de inversión
+bank_transfer: Comprobante de transferencia
+Email already taken: Email en uso por favor elija otro.
+disable: Cancelar suscripción 
+to: Para
+send: Enviar
+role: Rol
+dashboard: Panel de control
+
+home: Inicio
+continue: Continuar
+completed: Meta ideal alcanzada
+total:
+  percent: Porcentaje total
+  to.pay: Total a pagar
+ 
+notification:
+  sigular: Notificación
+  plural: Notificaciones
+  none: No tiene notificaciones hasta el momento.
+   
+image:
+  singular: Imagen
+  plural: Imágenes
+  of.entity: Imagen de %entity%
+  manage: Gestionar imágenes
+  select: Selecciona una imagen
+  
+video:
+  singular: Video
+  plural: Videos
+  manage: Gestionar video
+  
+menu:
+  singular: Menú
+  plural: Menú Items
+  choose: Elige un menú item
+  parent: Menú item padre
+  created: Se ha creado el item del menú satisfactoriamente
+  edited: Se ha editado el item del menú satisfactoriamente
+  deleted: Se ha eliminado el item del menú satisfactoriamente
+  sort: Ordenar menú
+  new: Nuevo item del menú
+  short.description: Descripción corta
+  short.description*: Descripción corta*
+
+subitems:
+  plural: Sub-menú items
+  from_menuitem: Sub-menú items de %menuitem%
+  new: Nuevo sub-menú item
+  
+actor:
+  created: Se ha creado el usuario satisfactoriamente
+  edited: Se ha editado el usuario satisfactoriamente
+  deleted: Se ha eliminado el usuario satisfactoriamente
+  
+user:
+  singular: Usuario
+  plural: Usuarios
+  edited: Se ha editado el usuario satisfactoriamente
+  deleted: Se ha eliminado el usuario satisfactoriamente
+  choose: Seleccionar usuario
+  new: Nuevo usuario
+  email: Envio de mensajes
+  email.new: Nuevo mensaje
+  email.created: El mensaje se ha enviado satisfactoriamente
+  
+meta:
+  title: Meta título
+  title*: Meta título*
+  description: Meta descripción
+  description*: Meta descripción*
+  tags: Meta etiquetas
+  
+slider:
+  singular: Carrusel de imagenes
+  plural: Carrusel de imagenes
+  created: Se ha creado la imagen del carrusel satisfactoriamente
+  edited: Se ha editado la imagen del carrusel satisfactoriamente
+  deleted: Se ha eliminado la imagen del carrusel satisfactoriamente
+  
+new:
+  singular: Nuevo
+  singular.2: Nueva
+  product: Nuevo producto
+  masterfamily: Nueva familia maestra
+  family: Nueva familia
+  category: Nueva categoría
+  subcategory: Nueva subcategoría
+  brand: Nueva marca
+  model: Modelo
+  web: Nueva web
+  carrier: Nuevo transportista
+  attribute: Nueva función
+  feature: Nueva característica
+  value:
+      attribute: Nuevo valor de %attribute%
+      feature: Nuevo valor de %feature%
+  slider: Nuevo slider
+  page: Nueva página
+  optic: Nueva optica
+add:
+  singular: Añadir
+  new: Añadir nuevo
+  new.2: Añadir nueva
+edit:
+  singular: Editar
+  
+login:
+  account: Entra en tu cuenta
+logout: Salir
+ 
+visits:
+  plural: Visitas
+  this.month: Visitas este mes
+
+subscribed:
+  newsletter: ¿Suscrito a la newsletter?
+
+not.read: No leído
+replied: Contestado
+
+search: Buscar
+dashboard: Panel
+catalogue: Catálogo
+users: Usuarios
+administration: Administración
+setup: Configuración
+analytics: Analíticas
+payment.methods: Métodos de pago
+name: Nombre
+name*: Nombre*
+reference: Referencia
+price: Precio
+priceType: Tipo de precio
+initPrice: Precio incial/original
+endPrice: Precio final
+stock: Stock
+isActive: ¿Activo?
+active: ¿Activo?
+available: ¿Disponible?
+highlighted: ¿Destacado?
+freeTransport: Transporte Gratuito
+finalShot: Remate Final
+promotion.url: URL de promoción
+yes: Sí
+no: No
+information: Información
+save: Guardar
+delete: Eliminar
+are.you.sure: ¿Estás seguro?
+error: Error
+username: Nombre de usuario
+password: Contraseña
+description: Descripción
+description*: Descripción*
+excerpt: Extracto
+technical.details: Detalles técnicos
+weight: Peso
+ean13.jan: Ean13 o Jan
+upc: Upc
+change: Cambiar
+title: Título
+open.new.window: ¿Abierto en nueva ventana?
+caption: Leyenda
+surnames: Apellidos
+birthdate: Fecha de nacimiento
+number: Número
+date: Fecha
+city: Ciudad
+province: Provincia
+postal.code: Código postal
+country: País
+phone: Teléfono
+phone.second: Segundo teléfono
+chosen.schedule: Horario de entrega preferido
+contact.person: Persona de contacto
+items: Artículos
+body: Cuerpo
+from: de
+amount: Importe
+vat: IVA
+expenses: Gastos de envío
+subject: Asunto
+locked: ¿Bloqueado?
+expiration.date: Fecha de caducidad
+quantity: Cantidad
+returned: ¿Devuelto?
+discount: Descuento
+discountType: Tipo de descuento
+back: Volver
+sort.introduction: Arrastra los elementos para colocarlos en el orden que desees
+updating: Actualizando, un momento...
+filtrable: Filtrable
+numeric.type: Tipo numérico (rango)
+website: Sitio web
+borrar: Borrar
+credit_card: Tarjeta de crédito
+paypal: Paypal
+bank_transfer: Transferencia bancaria
+order.sort: Orden
+profile.saved: El perfil ha sido actualizado.
+news.plural: Novedades
+
+detail:
+  singular: Detalle
+  plural: Detalles
+    
+type:
+  singular: Tipo
+  individual: Particular
+  business: Empresa
+  
+start:
+  singular: Empezar
+  upload: Empezar subida
+cancel:
+  singular: Cancelar
+  upload: Cancelar subida
+
+# Registration
+registration:
+    email:
+        subject: Bienvenido a %app_name%
+        welcome: ¡Bienvenido a %app_name%!
+        message: |
+            Tu registro se ha realizado correctamente. Por favor valida tu correo electronico a través del siguiente enlace para poder realizar 
+            compras en nuestra web.
+        thanks: ¡Gracias por confiar en %app_name%!
+        optic:
+            message: |
+                Tu registro se ha realizado correctamente. Por favor valida tu correo electronico a través del siguiente enlace para poder realizar 
+                ventas en nuestra web.
+subscription:
+    email:
+        subject: Subscripción a la newsletter de %app_name%
+        welcome: ¡Bienvenido a %app_name%!
+        message: Tu subscripción a la newsletter de Website se ha realizado correctamente. 
+        thanks: ¡Gracias por confiar en %app_name%!
+        
+validate:
+    message: Te hemos enviado un correo electrónico para que lo validez.
+    email:
+        subject: Validación de correo electrónico en %app_name%
+        welcome: ¡Bienvenido a %app_name%!
+        message: |
+            Tu correo electrónico se ha validado correctamente. A partir de este momento podrás realizar compras de forma
+            rápida y fácil desde nuestra web.
+        text: Validar
+        valid24hs: El enlace solo es valido las proximas 24hs luego de su recepción.
+        thanks: ¡Gracias por confiar en %app_name%!
+        optic: 
+            message: |
+                Tu correo electrónico se ha validado correctamente. A partir de este momento podrás realizar vender de forma
+                rápida y fácil desde nuestra web.
+        
+contact:
+    email:
+        subject: Mensaje de contacto de %app_name%
+        message: |
+                Mensaje enviado a travez del sitio web de %app_name%. 
+                Mensaje enviado al administrador del sitio web con envio de copia al remitente.
+    web:
+        subject: Mensaje de contacto de %app_name%.
+        message: |
+                Mensaje enviado a travez del sitio web de %app_name%.. 
+                Mensaje enviado con envio de copia al remitente.
+  
+
+newsletter:
+    singular: Newsletter
+    plural: Newsletters
+    created: Se ha creado el registro satisfactoriamente
+    edited: Se ha editado el registro satisfactoriamente
+    deleted: Se ha eliminado el registro satisfactoriamente  
+    new: Nuevo newsletter
+    title: Titulo
+    body: Cuerpo del newsletter
+    email.subject: Envio de newsletter [%app_name%]
+    subscripts: 
+        singular: Subscripto
+        plural: Subscriptores
+        disable:   Se ha cancelado la subscripción satisfactoriamente
+    shipping:
+        singular: Envío
+        plural: Envios
+        date: Fecha de envío
+        type: Tipo de envío
+        new: Nuevo envío
+        total: Total de envíos
+        created: Se ha creado el registro satisfactoriamente
+        deleted: Se ha eliminado el registro satisfactoriamente  
+        inactive: Solo a óptica inactivas
+inactive: Solo a óptica inactivas
+    
+phone.abbr: Tel.
+fax.abbr: Fax.
+
+are.you.sure: ¿Estás seguro?
+more.info: Más información
+
+yes: Sí
+no: No
+
+stats:
+  email:
+    subject: Estadísticas %optic_name%
+    thanks: ¡Gracias por confiar en %app_name%!
+
+account:
+  signup:
+    1: Regístrate
+    2: Darme de alta
+    subtitle: Debes registrarte para poder proceder a la compra
+    accept.privacy.policy: Debes aceptar la política de privacidad para registrarte.
+  login: Entra
+  login.subtitle: Entra en tu cuenta
+  my: Mi cuenta
+  user: Usuario
+  user*: Usuario*
+  legalPerson: Responsable legal
+  cif: CIF
+  email:
+    singular: Email
+    singular*: Email*
+    repeat: Repite el email
+  password:
+    singular: Contraseña
+    singular*: Contraseña*
+    remember: No recuerdo mi contraseña
+    change: Cambiar contraseña
+    repeat: Repite la constraseña
+    current: Contraseña actual
+    new: Nueva contraseña
+    new.repeat: Repite la nueva contraseña
+    saved: La constraseña se ha actualizado, en su próximo inicio de sesión podrá utilizarla.
+    error: Su contraseña actual o las nuevas contraseñas no coinciden, por favor vuelva a intentarlo.
+    request:
+      title: Solicitar nueva contraseña
+      help: Introduce tu email y te enviaremos las instrucciones
+      button: Solicitar
+      invalid: %email% no existe en nuestra base de datos
+    recovery:
+      title: Recuperar contraseña
+      submit: Recuperar
+      change.success: Tu contraseña ha sido actualizada con exito.
+      email:
+        title: Hola %name%,
+        message: Para crear una nueva contraseña para su cuenta, por favor siga el siguiente enlace.
+        success: Mensaje de recuperación enviado con exito, revise su casilla de correo.
+  keep.logged.in: No cerrar sesión
+  name: Nombre
+  name*: Nombre*
+  description: Descripción
+  description*: Descripción*
+  name.business: Nombre / Razón social
+  surnames: Apellidos
+  full.name: Nombre completo
+  passport: NIF / NIE / Pasaporte
+  phone:
+    singular: Teléfono de contacto
+    second: Segundo teléfono
+  contact.person: Persona de contacto
+  address:
+    singular: Dirección
+    none: Aún no has añadido ninguna dirección
+    select: Selecciona una dirección
+    select.same: La dirección de envío es la misma que la de facturación
+    select.existing: Enviar a una de mis otras direcciones
+    select.new: Enviar a una nueva dirección
+    saved: La dirección se ha guardado satisfactoriamente
+    added: La dirección se ha añadido satisfactoriamente
+    deleted: La dirección se ha eliminado
+    assigned.for.billing: La dirección se ha establecido para facturación
+    for.billing: Dirección de facturación
+    add: Añadir nueva dirección
+    edit: Editar dirección
+    assign.for.billing: Establecer como dirección de facturación
+  postal.code: Código postal
+  province:
+    singular: Provincia
+    choose: Selecciona provincia
+  city: Población
+  country:
+    singular: País
+    choose: Selecciona país
+  billing.info: Datos para la facturación
+  delivery.info: Datos para el envío
+  choose.schedule: Elige un tramo horario
+  chosen.schedule: Horario de entrega preferido
+  already: Soy cliente
+  new: Soy nuevo cliente
+  registered.customers: Clientes registrados
+  user.zone: Zona de usuario
+  user.profile: Perfil de usuario
+  edit.profile: Editar perfil
+  show.profile: Ver perfil
+  type:
+    singular: Tipo
+    individual: Particular
+    business: Empresa
+  newsletter: Deseo recibir el newsletter con novedades y ofertas
+  privacy.policy: He leído y acepto la <a href='%path%'>política de privacidad</a>
+  enter: Entrar
+  modify.info: Modificar datos
+  document:
+    singular: Documento
+    plural: Documentos
+  optic:
+    our: Nuestra óptica
+    product: Productos
+    service: Servicios

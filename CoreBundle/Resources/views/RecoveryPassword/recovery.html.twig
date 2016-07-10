@@ -1,0 +1,62 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+
+ 
+{% block container_content %}
+ 
+    <div class="container">
+        <div class="col-sm-2"></div>  
+        <div class="col-md-8 core-row login login-container-content">
+             
+            <div class="container-register row" style="margin-bottom: 100px">
+
+                <h2>{{ 'account.password.recovery.title' | trans }}</h2>
+
+                 <span id="returnMessage" style="display: none">
+                    <div class="alert alert-warning alert-recovery-password" >
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <strong></strong>
+                    </div>
+                 </span>
+
+                <input class="form-control" id="email" name="email" type="text">
+                <br>
+                <a id="recoverySubmit" class="btn btn-flat btn-core" style="color: #fff;">Recuperar</a>
+            </div>
+
+        </div>
+        <div class="col-sm-2"></div>     
+    </div>
+  
+    
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+ 
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $('#recoverySubmit').click(function(){
+                var email = $('#email').val();
+
+                if(email != ''){
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('recovery_password') }}/"+email,
+                      }).done(function( data ) {
+                         $('#returnMessage').show();
+                         $('#returnMessage div strong').text(data.answer.message);
+                         if(data.answer.status == 'success'){
+                             $('#returnMessage div').addClass('alert-success');
+                         }
+                      });
+                }
+
+            });
+        });
+
+    </script>
+    
+    
+{% endblock %}

@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    {{ form_row(form.email, { 'attr': {'class': 'form-control', 'placeholder':  'Email' | trans  } } ) }}
+
+    {{ form_row(form.username, { 'label' : 'user.singular' | trans,  'attr': {'class': 'form-control', 'placeholder': 'username' | trans } }) }}
+
+    {{ form_row(form.password, { 'label' : 'account.password.singular' | trans, 'attr': {'class': 'form-control', 'placeholder': 'account.password.singular' | trans } } ) }}
+   
+
+    {{ form_row(form.name, { 'label' : 'account.name' | trans,'attr': {'class': 'form-control', 'placeholder': 'name' | trans } }) }}
+    {{ form_row(form.surnames, { 'label' : 'account.surnames' | trans, 'attr': {'class': 'form-control', 'placeholder': 'surnames' | trans } }) }}
+
+    {{ form_row(form.image, { 'label' : 'image.singular'  }) }}
+
+    {{ form_widget(form.isActive, { 'label' : 'active' }) }}
+    {{ form_row(form.dni, {  'label' : 'account.passport' , 'attr': {'class': 'form-control', 'placeholder': 'account.passport' | trans } }) }}
+    {{ form_row(form.postalCode, { 'label' : 'account.postal.code' ,'attr': {'class': 'form-control', 'placeholder': 'account.postal.code' | trans } }) }}
+    {{ form_row(form.address, { 'label' : 'account.address.singular' ,'attr': {'class': 'form-control', 'placeholder': 'account.address.singular' | trans } }) }}
+    {{ form_row(form.city, { 'label' : 'account.city' ,'attr': {'class': 'form-control', 'placeholder': 'city' | trans } }) }}
+    {{ form_row(form.state, { 'label' : 'account.province.singular' ,'attr': {'class': 'form-control', 'placeholder': 'account.province.singular' | trans } }) }}
+    {{ form_row(form.country, { 'label' : 'account.country.singular' , 'attr': {'class': 'form-control', 'placeholder': 'account.country.singular' | trans } }) }}
+
+    
+
+    <div class="box-footer clearfix">
+        <button type="submit" class="btn blue"><i class="ion-checkmark"></i> Guardar</button>
+        {{ form_rest(form) }}
+    </div>
+         
+{{ form_end(form) }}

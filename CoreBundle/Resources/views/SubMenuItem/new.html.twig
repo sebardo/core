@@ -1,0 +1,59 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+
+{% block section %}menuitems{% endblock %}
+
+{% block content %}
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ "subitems.new" | trans }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="javascript:">{{ "catalogue" | trans }}</a></li>
+        <li><a href="{{ path('core_menuitem_index') }}">{{ "menu.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_menuitem_show', { id: menuitem.id }) }}">{{ menuitem.name }}</a></li>
+        <li><a href="{{ path('core_submenuitem_index', { menuItemId: menuitem.id }) }}">{{ "subitems.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_submenuitem_new', { menuItemId: menuitem.id }) }}">{{ "new.singular" | trans }}</a></li>
+      </ol>
+    </section>
+      
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <form action="{{ path('core_submenuitem_create', { menuItemId: menuitem.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal form-row-seperated">
+                    <div class="box-body">
+                        {{ include('CoreBundle:SubMenuItem:_form.html.twig', { form: form, menuItemId: menuitem.id }) }}
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary btn-flat"><i class="ion-checkmark"></i> {{ "save" | trans }}</button>
+                            <a href="{{ path('core_menuitem_index') }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </section>
+         
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        jQuery(document).ready(function() {
+
+            $('#corebundle_menuitemtype_parentMenuItem').select2({
+                placeholder: "",
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}

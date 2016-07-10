@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Standar tools for sandbox",
     "keywords": ["log","logging"],
-    "homepage": "https://github.com/Sebardo/core",
+    "homepage": "https://github.com/sebardo/core",
     "license": "GNU",
     "authors": [
         {
@@ -18,7 +18,9 @@
     },
     "autoload": {
         "psr-0": {
-            "Core": "src"
+            "CoreBundle": [
+                "vendor/sebardo/core/"
+            ]
         }
     }
 }

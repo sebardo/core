@@ -1,0 +1,49 @@
+services:
+    core.mailer:
+        class: "CoreBundle\\Service\\Mailer"
+        arguments:
+            - "@mailer"
+            - "@twig"
+            - { parameters: %core% }
+            - "@router"
+            - "@templating"
+            - "@html2pdf_factory"
+            - "@kernel"
+            - "@notification_manager"
+            - "@doctrine.orm.entity_manager"
+
+    authentication_handler:
+        class: "CoreBundle\\Handler\\AuthenticationHandler"
+        arguments: ["@service_container"]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+        
+    core_twig_extension:
+        class: "CoreBundle\\Twig\\CoreExtension"
+        calls:
+            - [setContainer, ["@service_container"] ]
+        tags:
+            - { name: twig.extension }
+            
+    notification_manager:
+        class: "CoreBundle\\Service\\NotificationManager"
+        calls:
+            - [setContainer, ["@service_container"] ] 
+            
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+            
+    oauth.user_provider:
+        class: "CoreBundle\\Service\\OAuthUserProvider"
+        tags:
+          - { name: user.provider }
+        arguments: ["@doctrine", "CoreBundle:BaseActor", {twitter: twitter_id, facebook: facebook_id, google: google_id}, null, "@security.encoder_factory", "@session"]
+
+    core_manager:
+        class: "CoreBundle\\Service\\CoreManager"
+        calls:
+            - [setContainer, ["@service_container"] ]
+        arguments:
+          - { parameters: %core% }

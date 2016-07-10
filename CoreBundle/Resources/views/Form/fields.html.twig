@@ -1,0 +1,26 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block choice_widget_expanded -%}
+    {%- for child in form %}
+        <div class="radio">
+            <label>
+                {{- form_widget(child) -}}
+                {{- form_label(child) -}}
+            </label>  
+        </div>
+    {% endfor -%}
+{%- endblock choice_widget_expanded %}
+
+
+{% block form_row %}
+{% spaceless %}    
+    <div class="form-group {{ div_class|default }}">
+        {{ form_label(form, null, { label_attr: {class: 'control-label'} }) }}
+        <div>
+            {{ form_widget(form, { attr: {class: class|default('form-control')} }) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+ 

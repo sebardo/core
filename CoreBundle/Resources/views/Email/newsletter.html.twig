@@ -1,0 +1,18 @@
+
+{% block subject %}{{ 'newsletter.email.subject' | trans({ '%app_name%': core.name }) }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+    {{body | raw}}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% spaceless %}
+    {{ include('CoreBundle:Email:_header.html.twig') }}
+
+    {{body | raw}}
+    
+    {{ include('CoreBundle:Email:_footer.html.twig') }}
+{% endspaceless %}
+{% endblock %}

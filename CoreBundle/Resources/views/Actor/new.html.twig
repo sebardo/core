@@ -1,0 +1,64 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+
+{% block section %}actors{% endblock %}
+
+{% block content %}
+    
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ "user.new" | trans }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="{{ path('core_actor_index') }}">{{ "user.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_actor_new') }}">{{ "new.singular" | trans }}</a></li>
+      </ol>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                {{ form_start(form, {'action': path('core_actor_create'), 'method': 'post', 'class': 'form-horizontal form-row-seperated'}) }}
+                    <div class="box-body">
+                        {{ include('CoreBundle:Actor:_form.html.twig', { form: form }) }}
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "save" | trans }}</button>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+      </div>
+    </section>
+                
+   
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        
+        jQuery(document).ready(function() {
+
+            
+            $('#bundle_corebundle_actor_state').select2({
+                placeholder: "{{ "state.choose" | trans }}",
+                allowClear: true
+            });
+            $('#bundle_corebundle_actor_country').select2({
+                placeholder: "{{ "country.choose" | trans }}",
+                allowClear: true
+            });
+        });
+    </script>
+{% endblock %}

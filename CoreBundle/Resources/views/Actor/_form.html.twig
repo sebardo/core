@@ -1,0 +1,32 @@
+{{ form_errors(form) }}
+
+
+{{ form_row(form.email, { 'label': 'account.email.singular*' | trans , 'attr': {'class': 'form-control', 'placeholder':  'account.email.singular' | trans  } } ) }}
+
+{{ form_row(form.username, { 'label' : 'account.user*' | trans,  'attr': {'class': 'form-control', 'placeholder': 'username' | trans } }) }}
+
+{% if edit is defined and edit%}
+    {% if form.password is defined %}
+        {{ form_row(form.password, { 'label' : 'account.password.singular' | trans, 'attr': { 'class': 'form-control', 'placeholder': 'account.password.singular' | trans } } ) }}
+    {% endif %}
+{% else %}
+    {{ form_row(form.password, { 'label' : 'account.password.singular*' | trans, 'attr': {'required' : 'required', 'class': 'form-control', 'placeholder': 'account.password.singular' | trans } } ) }}
+{% endif %}
+
+
+
+{{ form_row(form.name, { 'label' : 'account.name*' | trans,'attr': {'class': 'form-control', 'placeholder': 'name' | trans } }) }}
+{{ form_row(form.surnames, { 'label' : 'account.surnames' | trans, 'attr': {'class': 'form-control', 'placeholder': 'surnames' | trans } }) }}
+
+{% if entity is defined and entity.image is not null %}
+    {{ form_row(form.image.file, { div_class: 'no-bottom', image: '/profile/'~entity.id~'/'~entity.image.path }) }}
+{% else %}
+    {{ form_row(form.image.file, { div_class: 'no-bottom' }) }}
+{% endif %}
+
+{{ form_widget(form.isActive, { 'label' : 'active' }) }}
+
+{{ form_widget(form.newsletter, { 'label' : 'newsletter.singular' }) }}
+
+
+{{ form_rest(form) }}

@@ -1,0 +1,7 @@
+{{ form_errors(form) }}
+
+{{ form_row(form.title, { label: 'newsletter.title' }) }}
+{{ form_row(form.body, { label: 'newsletter.body' }) }}
+{{ form_widget(form.active, { label: ' ' }) }}
+
+{{ form_rest(form) }}

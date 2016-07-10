@@ -1,0 +1,249 @@
+div.current {
+  .section {
+      font-family: "cursive-standard";
+      font-weight: bold;
+      font-size: 20px;
+    /*display: none;*/
+  }
+}
+
+body.full
+{
+  .top {
+    background-image: url("../images/full/notebook-top2.png");
+    background-repeat: no-repeat;
+    height: 28px;
+    margin: 10px auto 0;
+    width: 1024px;
+  }
+
+  .bottom {
+    background-image: url("../images/full/notebook-bottom2.png");
+    background-repeat: no-repeat;
+    height: 23px;
+    margin: 0 auto 10px;
+    width: 1024px;
+  }
+
+  .main {
+    background-image: url("../images/full/notebook-pattern2.png");
+    background-repeat: repeat-y;
+    margin: 0 auto;
+    width: 1024px;
+    min-height: 737px;
+    padding: 0 21px 9px 37px;
+
+    div.header {
+
+      height: 100px;
+      border-bottom: 3px solid #5a4538;
+
+      #logo {
+
+        a {
+
+          display: block;
+          width: 156px;
+          height: 63px;
+          background: url(../images/logo_inner.png) left center no-repeat;
+        }
+      }
+
+      .login {
+        float: right !important;
+        font-size: 14px;
+        min-width: 160px;
+        max-width: 185px;
+        right: 0;
+        text-align: right;
+        position: relative;
+        > div {
+            min-height: 50px;
+            .profile-img-container{
+                float: left;
+                img{
+                    border-radius: 100px;
+                    -webkit-box-shadow: 5px 8px 10px rgba(0, 0, 0, 0.175);
+                    box-shadow: 5px 8px 10px rgba(0, 0, 0, 0.175);
+                }
+            }
+        }
+      }
+      .login a {
+        font-style: italic;
+        color: #544538;
+        text-decoration: underline;
+      }
+      .login a:hover {
+        color: #544538;
+      }
+      .menu
+      {
+        display: inline-block;
+        margin-top: 57px;
+        margin-left: 60px;
+
+        .btn{
+          background-color: #78b5b5!important;
+        }
+        .btn:hover {
+          background-color: #544538 !important;
+        }
+        div.dropdown{
+          display: inline-block;
+          button.dropdown-toggle span.counter{
+              font-size: 12px;
+              padding-top: 3px;
+              width:17px;
+              height:17px;
+          }
+        }
+        div.dropdown.open .btn {
+          background-color: #544538 !important;
+        }
+        
+        span.icon{
+          background: url(../images/sprite.png) 0px 0px no-repeat;
+          width: 20px;
+          height: 20px;
+          margin-bottom: -3px;
+          display: inline-block;
+        }
+        span.pencil{
+          background: url(../images/sprite.png) -78px -9px no-repeat;
+        }
+        span.eat{
+          background: url(../images/sprite.png) -78px -77px no-repeat;
+        }
+        span.chat{
+          background: url(../images/sprite.png) -78px -42px no-repeat;
+        }
+        span.photo{
+          background: url(../images/sprite.png) -78px -108px no-repeat;
+        }
+        span.event{
+          background: url(../images/sprite.png) -78px -142px no-repeat;
+        }
+        span.circular{
+          background: url(../images/sprite.png) -78px -178px no-repeat;
+        }
+        span.defecate{
+          background: url(../images/sprite.png) -78px -210px no-repeat;
+        }
+        span.sleep{
+          background: url(../images/sprite.png) -119px -8px no-repeat;
+          width: 24px;
+          margin-left: -3px;
+        }
+        .dropdown-toggle{
+          border-radius: 10px 10px 0px 0px!important;
+        }
+        .dropdown-toggle:hover{
+          color: #78b5b5;
+        }
+        .dropdown-menu{
+          width: 170px;
+          border-radius: 0 0 4px 4px;
+        }
+        .dropdown-menu > li{
+          border-bottom: 1px solid #5a4538;
+          margin: 0 10px;
+        }
+        .dropdown-menu > li:last-child{
+          border-bottom: 0px;
+        }
+        .dropdown-menu > li > a {
+          padding: 3px 0px;
+          font-size: 15px;
+        }
+        .container-counter{
+            text-align: right;
+            overflow: hidden;
+            & div{
+                float: left;
+            }
+        }
+        .counter {
+            float: right;
+            background-color: #bf4040;
+            width: 20px;
+            border-radius: 13px;
+            height: 20px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+      }
+      button.dropdown-toggle{
+        font-family: "cursive-standard";
+        font-weight: lighter!important;
+        padding-top: 10px!important;
+        width: 170px;
+      }
+      button.dropdown-toggle:hover > ul.dropdown-menu {
+        display: block;
+      }
+    }
+  }
+
+  .current-time, .current-time-long {
+    margin: auto;
+    width: 200px;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 30px;
+    span{
+      width: 50px;
+      height: 50px;
+      display: block;
+      margin: auto;
+    }
+    span.circle-pencil{
+      background: url(/bundles/front/images/sprite.png) -14px -236px no-repeat;
+    }
+    span.circle-eat{
+      background: url(/bundles/front/images/sprite.png) -14px -303px no-repeat;
+      margin-bottom: 0px!important;
+    }
+    span.circle-event{
+      background: url(/bundles/front/images/sprite.png) -72px -303px no-repeat;
+    }
+    span.circle-mailshot{
+      background: url(/bundles/front/images/sprite.png) -129px -303px no-repeat;
+      /*margin-bottom: 30px!important;*/
+    }
+    span.circle-photo{
+      background: url(/bundles/front/images/sprite.png) -127px -236px no-repeat;
+      margin-bottom: 0px!important;
+    }
+    span.circle-message{
+      background: url(/bundles/front/images/sprite.png) -185px -304px no-repeat;
+      margin-bottom: 0px!important;
+    }
+  }
+}
+
+body.about {
+  .content {
+    p {
+      &:first-child {
+        margin-top: 70px;
+      }
+      padding: 0 100px;
+      font-size: 20px;
+      text-align: justify;
+    }
+  }
+}
+
+.form-inline
+{
+  .field {
+    float: left;
+    margin-right: 5px;
+    a {
+      margin: 5px 0 0 3px;
+      font-size: 13px;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{{ form_errors(form) }}
+
+{{ form_row(form.to, { label: 'to' , attr: {'disabled': 'disabled'} }) }}
+
+{{ form_row(form.subject, { label: 'subject' }) }}
+{{ form_row(form.body, { label: 'body' }) }}
+
+{{ form_rest(form) }}

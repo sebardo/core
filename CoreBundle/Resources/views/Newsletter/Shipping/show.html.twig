@@ -1,0 +1,91 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+
+{% block section %}shippings{% endblock %}
+
+{% block content %}
+    
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+         {{ 'newsletter.shipping.singular' | trans }} {{ entity.newsletter.title }} a los {{ entity.type }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="{{ path('core_newsletter_shipping') }}">{{ "newsletter.shipping.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_newsletter_showshipping', {id: entity.id} ) }}">Detalle</a></li>
+      </ol>
+    </section>
+      
+ 
+    <section class="content">
+      <div class="row">
+          <div class="col-md-12">
+              
+            {% include 'CoreBundle:Base:alert.messages.html.twig' %}
+            
+            <div class="nav-tabs-custom">
+                 <ul class="nav nav-tabs">
+                     <li class="active"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
+                 </ul>
+                 
+                 <div class="tab-content">
+                    <div class="tab-pane {{ not app.request.get('address') ? 'active' }}" id="info_tab">
+                        <div class="box-body show-tables">
+                    
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>{{ "newsletter.singular" | trans }}</td>
+                                    <td>{{ entity.newsletter.title }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "newsletter.shipping.type" | trans }}</td>
+                                    <td>
+                                    {% if entity.type == 'subscripts'%}
+                                        <span class="label label-success">Enviado a todos los suscriptores</span>
+                                    {% elseif entity.type == 'optics'%}
+                                        <span class="label label-warning">Enviado a todos las Ópticas</span>
+                                    {% elseif entity.type == 'users'%}   
+                                        <span class="label label-primary">Enviado a todos los usuarios</span>
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "newsletter.shipping.total" | trans }}</td>
+                                    <td>{{ entity.totalSent }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ "newsletter.shipping.date" | trans }}</td>
+                                    <td>{{ entity.created | date ('d/m/Y H:i:s') }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+     </section>        
+                            
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        jQuery(document).ready(function() {
+            $('#delete-btn').on('click', function(e) {
+                e.preventDefault();
+
+                if (confirm('{{ "are.you.sure" | trans }}')) {
+                    $('#delete-entity').submit();
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

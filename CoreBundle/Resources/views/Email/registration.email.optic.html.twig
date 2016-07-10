@@ -1,0 +1,37 @@
+
+{% block subject %}{{ 'registration.email.subject' | trans({ '%app_name%': core.name }) }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+{{ 'registration.email.welcome' | trans({ '%app_name%': core.name }) }}
+
+{{ 'registration.email.optic.message' | trans }}
+
+<a href="{{core.server_base_url}}{{ path('register_validate' , {'hash': user.salt, 'email': user.email}) }}">{{ 'validate.email.text' | trans }}</a><br><br>
+
+<i>{{ 'validate.email.valid24hs' | trans }}</i>
+<br><br>
+    
+{{ 'registration.email.thanks' | trans({ '%app_name%': core.name }) }}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% spaceless %}
+    {{ include('CoreBundle:Email:_header.html.twig') }}
+
+    <p style="padding:0 0 20px 0; margin:0;">{{ 'registration.email.welcome' | trans({ '%app_name%': core.name }) }}</p>
+
+    <p style="padding:0 0 20px 0; margin:0;">{{ 'registration.email.optic.message' | trans }}</p>
+
+    <a href="{{core.server_base_url}}{{ path('register_validate' , {'hash': user.salt, 'email': user.email}) }}">{{ 'validate.email.text' | trans }}</a><br><br>
+
+    <br><br>
+    <i>{{ 'validate.email.valid24hs' | trans }}</i>
+    <br><br>
+    
+    <p style="padding:0; margin:0;">{{ 'registration.email.thanks' | trans({ '%app_name%': core.name }) }}</p>
+
+    {{ include('CoreBundle:Email:_footer.html.twig') }}
+{% endspaceless %}
+{% endblock %}

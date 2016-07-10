@@ -1,0 +1,5 @@
+email:
+    mismatch: Los dos emails no coinciden
+dni.invalid.number: Número de DNI inválido
+nie.invalid.number: Número de NIE inválido
+cif.invalid: Número de CIF inválido
