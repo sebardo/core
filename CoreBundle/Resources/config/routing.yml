@@ -1,0 +1,42 @@
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+#
+#hwi_oauth_login:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#    prefix:   /login
+    
+twitter_login:
+    path: /login/check-twitter
+
+google_login:
+    path: /login/check-google
+
+facebook_login:
+    path: /login/check-facebook
+    
+security:
+    resource: "@CoreBundle/Controller/"
+    type:     annotation
+    prefix:   /
+    
+admin:
+    resource: "@AdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin
+    
+front:
+    resource: "@FrontBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+blog:
+    resource: "@BlogBundle/Controller/"
+    type:     annotation
+
+
+login_check:
+    path:   /login_check
+
+logout:
+    path:   /logout
