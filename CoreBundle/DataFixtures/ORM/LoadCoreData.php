@@ -12,7 +12,7 @@ use CoreBundle\Entity\Role;
 use CoreBundle\Entity\Actor;
 
 /*
- * php app/console doctrine:fixtures:load --fixtures=vendor/core/core/CoreBundle/DataFixtures/ORM/LoadCoreData.php
+ * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/LoadCoreData.php
  */
 class LoadCoreData extends SqlScriptFixture
 {

@@ -8,27 +8,27 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * @class  ActorControllerTest
- * @brief Test the  Actor entity
+ * @class  SliderControllerTest
+ * @brief Test the  Slider entity
  *
  * To run the testcase:
  * @code
- * phpunit -v -c app vendor/sebardo/core/CoreBundle/Tests/Controller/ActorControllerTest.php
+ * phpunit -v -c app vendor/sebardo/core/CoreBundle/Tests/Controller/SliderControllerTest.php
  * @endcode
  */
-class ActorControllerTest  extends CoreTest
+class SliderControllerTest  extends CoreTest
 {
 
     /**
      * @code
-     * phpunit -v --filter testActor -c app vendor/sebardo/core/CoreBundle/Tests/Controller/ActorControllerTest.php
+     * phpunit -v --filter testSlider -c app vendor/sebardo/core/CoreBundle/Tests/Controller/SliderControllerTest.php
      * @endcode
      * 
      */
-    public function testActor()
+    public function testSlider()
     {
         $uid = rand(999,9999);
-        $crawler = $this->createUser('actor', $uid);
+        $crawler = $this->createSlider($uid);
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click edit///////////////////////////////////////////////////////////////////////////////
@@ -41,26 +41,24 @@ class ActorControllerTest  extends CoreTest
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Editar Name_'.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Editar slider '.$uid.'")')->count());
         
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
         $uid = rand(999,9999);
-        $form['corebundle_actoredittype[email]'] = 'email+'.$uid.'@gmail.com';
-        $form['corebundle_actoredittype[username]'] = 'user'.$uid;
-        $form['corebundle_actoredittype[password]'] = $uid;
-        $form['corebundle_actoredittype[name]'] = 'Name_'.$uid;
-        $form['corebundle_actoredittype[surnames]'] = 'Surname_'.$uid;
-        $form['corebundle_actoredittype[isActive]']->tick();
-        $form['corebundle_actoredittype[newsletter]']->tick();
+         $form['slider[title]'] = 'slider '.$uid;
+        $form['slider[caption]'] = 'caption slider '.$uid;
+        $form['slider[url]'] = 'http://www.google.es';
+        $form['slider[openInNewWindow]']->tick();
+        $form['slider[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("user'.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha editado el usuario satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("slider '.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha editado el ítem del Slider satisfactoriamente")')->count());
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click delete/////////////////////////////////////////////////////////////////////////////
@@ -71,7 +69,7 @@ class ActorControllerTest  extends CoreTest
         $crawler = $this->client->followRedirect();
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha eliminado el usuario satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha eliminado el ítem del Slider")')->count());
     }
     
     

@@ -6,7 +6,6 @@
 {{ form_row(form.url, { label: 'URL' }) }}
 {{ form_row(form.title, { label: 'title' }) }}
 {{ form_widget(form.active, { name: 'active' }) }}
-{{ form_row(form.order, { label: 'order.sort' }) }}
 
 {% if entity is defined and entity.image is not null %}
     {{ form_row(form.image.file, { div_class: 'no-bottom', image: entity.image.path }) }}

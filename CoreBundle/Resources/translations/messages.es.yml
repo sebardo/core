@@ -97,11 +97,11 @@ meta:
   tags: Meta etiquetas
   
 slider:
-  singular: Carrusel de imagenes
+  singular: Slider (carrusel de imagenes)
   plural: Carrusel de imagenes
-  created: Se ha creado la imagen del carrusel satisfactoriamente
-  edited: Se ha editado la imagen del carrusel satisfactoriamente
-  deleted: Se ha eliminado la imagen del carrusel satisfactoriamente
+  created: Se ha creado el ítem del Slider satisfactoriamente
+  edited: Se ha editado el ítem del Slider satisfactoriamente
+  deleted: Se ha eliminado el ítem del Slider  satisfactoriamente
   
 new:
   singular: Nuevo

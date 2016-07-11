@@ -5,6 +5,7 @@ namespace CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 /**
  * Class SliderType
@@ -24,19 +25,16 @@ class SliderType extends AbstractType
             ->add('openInNewWindow', null, array(
                 'required' => false
             ))
-            ->add('url', 'url')
+            ->add('url', UrlType::class, array(
+                'required' => false
+            ))
             ->add('active', null, array(
                 'required' => false
             ))
-            ->add('order')
-            ->add('image', new ImageType(), array(
-                'error_bubbling' => false,
+            ->add('image', ImageType::class, array(
                 'required' => false
             ))
-//            ->add('price', 'text', array(
-//                'required' => false
-//            ))
-                ;
+            ;
     }
 
     /**
@@ -46,7 +44,6 @@ class SliderType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' =>  'CoreBundle\Entity\Slider',
-            'cascade_validation' => true,
         ));
     }
 }

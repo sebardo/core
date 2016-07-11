@@ -52,219 +52,122 @@ class SliderController extends Controller
         /** @var \Kitchenit\AdminBundle\Services\DataTables\JsonList $jsonList */
         $jsonList = $this->get('json_list');
         $jsonList->setRepository($em->getRepository('CoreBundle:Slider'));
-
         $response = $jsonList->get();
-
         return new JsonResponse($response);
     }
 
     /**
-     * Creates a new Slider entity.
-     *
-     * @param Request $request The request
-     *
-     * @return array|RedirectResponse
-     *
-     * @Route("/")
-     * @Method("POST")
-     * @Template("CoreBundle:Slider:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity  = new Slider();
-        $form = $this->createForm(new SliderType(), $entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'slider.created');
-
-            return $this->redirect($this->generateUrl('core_slider_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to create a new Slider entity.
-     *
-     * @return array
+     * Creates a new Comment entity.
      *
      * @Route("/new")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        $entity = new Slider();
-        $form   = $this->createForm(new SliderType(), $entity);
+        $slider = new Slider();
+        $form = $this->createForm('CoreBundle\Form\SliderType', $slider);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($slider);
+            $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'slider.created');
+
+            return $this->redirectToRoute('core_slider_show', array('id' => $slider->getId()));
+        }
 
         return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity' => $slider,
+            'form' => $form->createView(),
         );
     }
 
     /**
-     * Finds and displays a Slider entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
+     * Finds and displays a Comment entity.
      *
      * @Route("/{id}")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Slider $slider)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Slider $entity */
-        $entity = $em->getRepository('CoreBundle:Slider')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Slider entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($slider);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $slider,
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Displays a form to edit an existing Slider entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
+     * Displays a form to edit an existing Comment entity.
      *
      * @Route("/{id}/edit")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, Slider $slider)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Slider $entity */
-        $entity = $em->getRepository('CoreBundle:Slider')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Slider entity.');
-        }
-
-        $editForm = $this->createForm(new SliderType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing Slider entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array|RedirectResponse
-     *
-     * @Route("/{id}")
-     * @Method("PUT")
-     * @Template("CoreBundle:Slider:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Slider $entity */
-        $entity = $em->getRepository('CoreBundle:Slider')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Slider entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SliderType(), $entity);
+        
+        $deleteForm = $this->createDeleteForm($slider);
+        $editForm = $this->createForm('CoreBundle\Form\SliderType', $slider);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($slider);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'slider.edited');
-
-            return $this->redirect($this->generateUrl('core_slider_show', array('id' => $id)));
+            
+            return $this->redirectToRoute('core_slider_show', array('id' => $slider->getId()));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $slider,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Deletes a Slider entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return RedirectResponse
+     * Deletes a Comment entity.
      *
      * @Route("/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, Slider $slider)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($slider);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            /** @var Slider $entity */
-            $entity = $em->getRepository('CoreBundle:Slider')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Slider entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($slider);
             $em->flush();
-
+            
             $this->get('session')->getFlashBag()->add('info', 'slider.deleted');
         }
 
-        return $this->redirect($this->generateUrl('core_slider_index'));
+        return $this->redirectToRoute('core_slider_index');
     }
 
     /**
-     * Creates a form to delete a Slider entity by id.
+     * Creates a form to delete a Comment entity.
      *
-     * @param int $id The entity id
+     * @param Comment $comment The Comment entity
      *
-     * @return Form The form
+     * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm(Slider $slider)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', HiddenType::class)
-            ->getForm();
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_slider_delete', array('id' => $slider->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

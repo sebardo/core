@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
-{% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}
+{% form_theme edit_form 'AdminBundle:Form:base.fields.html.twig' %}
 
 {% block section %}sliders{% endblock %}
 
@@ -8,7 +8,7 @@
      <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ entity.title }}
+        {{ "edit.singular" | trans }} {{ entity.title }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -23,10 +23,14 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 
-                <form action="{{ path('core_slider_update', { id: entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal form-row-seperated">
+                {{ form_start(edit_form, {
+                                    'method': 'POST', 
+                                    'action': path('core_slider_edit', { id: entity.id }),
+                                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                                    }) }}
                     <div class="box-body">
+                        {{ form_errors(edit_form) }}
                         {{ include('CoreBundle:Slider:_form.html.twig', { form: edit_form }) }}
-                        <input type="hidden" name="_method" value="PUT" />
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <div class="col-sm-2"></div>
@@ -36,7 +40,7 @@
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
                         </div>
                     </div>
-                </form>
+                {{ form_end(edit_form) }}
                 <form id="delete-entity" action="{{ path('core_slider_delete', { id: entity.id }) }}" method="post">
                     <input type="hidden" name="_method" value="DELETE" />
                     {{ form_widget(delete_form) }}

@@ -27,6 +27,7 @@ class Slider extends Timestampable
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $title;
 
@@ -69,8 +70,7 @@ class Slider extends Timestampable
     /**
      * @var integer
      *
-     * @ORM\Column(name="_order", type="integer")
-     * @Assert\NotBlank
+     * @ORM\Column(name="_order", type="integer", nullable=true)
      */
     private $order;
 

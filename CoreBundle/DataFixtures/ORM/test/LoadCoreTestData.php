@@ -5,6 +5,9 @@ use CoreBundle\DataFixtures\SqlScriptFixture;
 use CoreBundle\Entity\Role;
 use CoreBundle\Entity\Actor;
 
+/*
+ * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/test/LoadCoreTestData.php
+ */
 class LoadCoreTestData extends SqlScriptFixture
 {
     

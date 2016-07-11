@@ -34,7 +34,7 @@ class CoreTest  extends WebTestCase
         $session = $this->client->getContainer()->get('session');
 
         $firewall = 'secured_area';
-        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
+        $token = new UsernamePasswordToken('admin', 'admin', $firewall, array('ROLE_ADMIN'));
         $session->set('_security_'.$firewall, serialize($token));
         $session->save();
 
@@ -980,6 +980,57 @@ class CoreTest  extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("located '.$uid.'")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la ubicación satisfactoriamente")')->count());
 
+        return $crawler;
+    }
+    
+    protected function createSlider($uid, $username=null, $password=null)
+    {
+        //index
+        if(is_null($username) && is_null($password)){
+            $crawler = $this->client->request('GET', '/admin/sliders/', array(), array(), array(
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW'   => 'admin',
+            ));
+        }else{
+            $crawler = $this->client->request('GET', '/admin/sliders/', array(), array(), array(
+                'PHP_AUTH_USER' => $username,
+                'PHP_AUTH_PW'   => $password,
+            ));
+        }
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Carrusel de imagenes")')->count());
+      
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click new ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $link = $crawler
+            ->filter('a:contains("Añadir nuevo")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo slider")')->count());
+   
+        //fill form
+        $form = $crawler->selectButton('Guardar')->form();
+        $form['slider[title]'] = 'slider '.$uid;
+        $form['slider[caption]'] = 'caption slider '.$uid;
+        $form['slider[url]'] = 'http://www.google.es';
+        $form['slider[openInNewWindow]']->tick();
+        $form['slider[active]']->tick();
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("slider '.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado el ítem del Slider satisfactoriamente")')->count());
+        
         return $crawler;
     }
 }
