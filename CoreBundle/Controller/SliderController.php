@@ -57,7 +57,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Creates a new Comment entity.
+     * Creates a new Slider entity.
      *
      * @Route("/new")
      * @Method({"GET", "POST"})
@@ -86,7 +86,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Finds and displays a Comment entity.
+     * Finds and displays a Slider entity.
      *
      * @Route("/{id}")
      * @Method("GET")
@@ -103,7 +103,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Comment entity.
+     * Displays a form to edit an existing Slider entity.
      *
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
@@ -134,7 +134,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Deletes a Comment entity.
+     * Deletes a Slider entity.
      *
      * @Route("/{id}")
      * @Method("DELETE")
@@ -156,9 +156,9 @@ class SliderController extends Controller
     }
 
     /**
-     * Creates a form to delete a Comment entity.
+     * Creates a form to delete a Slider entity.
      *
-     * @param Comment $comment The Comment entity
+     * @param Slider $slider The Slider entity
      *
      * @return \Symfony\Component\Form\Form The form
      */

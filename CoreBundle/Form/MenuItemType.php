@@ -4,9 +4,13 @@ namespace CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use CoreBundle\Form\ImageType;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class MenuItemType
@@ -33,43 +37,35 @@ class MenuItemType extends AbstractType
             ->add('description')
             ->add('visible', null, array('required' => false))
             ->add('active', null, array('required' => false))
-            ->add('icon', 'choice', array(
-                    'choices' => $icons
+            ->add('icon', ChoiceType::class, array(
+                    'choices' => $icons,
+                    'choices_as_values' => true
                 ))
             ->add('metaTitle')
             ->add('metaDescription')
             ->add('metaTags')
-            ->add('parentMenuItem', 'entity', array(
+            ->add('parentMenuItem', EntityType::class, array(
                 'class' => 'CoreBundle:MenuItem',
                 'required' => false
             ))
-            ->add('image', new ImageType(), array(
-                'error_bubbling' => false,
+            ->add('image', ImageType::class, array(
                 'required' => false
             ))
-            ->add('removeImage', 'hidden', array( 'attr' => array(
+            ->add('removeImage', HiddenType::class, array( 'attr' => array(
                 'class' => 'remove-image'
                 )))
-            ->add('url')
+            ->add('url', UrlType::class, array('required' => false))
             ;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\MenuItem',
-            //'cascade_validation' => true,
+            'data_class' =>  'CoreBundle\Entity\MenuItem',
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-        return 'core_menuitemtype';
-    }
 }

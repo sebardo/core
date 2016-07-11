@@ -213,7 +213,7 @@ class CoreExtension extends \Twig_Extension
     {
 
          /** @var FrontManager $frontManager */
-        $frontManager =  $this->container->get('admin_manager');
+        $frontManager =  $this->container->get('core_manager');
         $profileImage = $frontManager->getProfileImage($actor, $size);
         
         return  $profileImage;

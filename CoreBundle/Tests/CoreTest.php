@@ -1033,4 +1033,57 @@ class CoreTest  extends WebTestCase
         
         return $crawler;
     }
+    
+    protected function createMenuItem($uid, $username=null, $password=null)
+    {
+        //index
+        if(is_null($username) && is_null($password)){
+            $crawler = $this->client->request('GET', '/admin/menuitems/', array(), array(), array(
+                'PHP_AUTH_USER' => 'admin',
+                'PHP_AUTH_PW'   => 'admin',
+            ));
+        }else{
+            $crawler = $this->client->request('GET', '/admin/menuitems/', array(), array(), array(
+                'PHP_AUTH_USER' => $username,
+                'PHP_AUTH_PW'   => $password,
+            ));
+        }
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Menú Items")')->count());
+      
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click new ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $link = $crawler
+            ->filter('a:contains("Añadir nuevo")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo item del menú")')->count());
+   
+        //fill form
+        $form = $crawler->selectButton('Guardar')->form();
+        $form['menu_item[name]'] = 'menuitem '.$uid;
+        $form['menu_item[shortDescription]'] = 'menuitem short description '.$uid;
+        $form['menu_item[description]'] = 'menuitem description '.$uid;
+        $form['menu_item[metaTitle]'] = 'meta title '.$uid;
+        $form['menu_item[metaDescription]'] = ' meta description '.$uid;
+        $form['menu_item[visible]']->tick();
+        $form['menu_item[active]']->tick();
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("menuitem '.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado el item del menú")')->count());
+        
+        return $crawler;
+    }
 }

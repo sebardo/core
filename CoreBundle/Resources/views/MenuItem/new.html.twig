@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
-{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+{% form_theme form 'AdminBundle:Form:base.fields.html.twig' %}
 
 {% block section %}menuitems{% endblock %}
 
@@ -25,8 +25,13 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 <!-- form start -->
-                <form action="{{ path('core_menuitem_create') }}" method="post" {{ form_enctype(form) }} class="form-horizontal form-row-seperated">
+                {{ form_start(form, {
+                                    'action': path('core_menuitem_new'), 
+                                    'method': 'post', 
+                                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                                    }) }}
                     <div class="box-body">
+                        {{ form_errors(form) }}
                         {{ include('CoreBundle:MenuItem:_form.html.twig', { form: form }) }}
                     </div><!-- /.box-body -->
                     <div class="box-footer">
@@ -36,7 +41,7 @@
                             <a href="{{ path('core_menuitem_index') }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
                         </div>
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
     </section>
@@ -58,7 +63,7 @@
     <script>
         
         $(function () {
-            CKEDITOR.replace('core_menuitemtype_shortDescription', {
+            CKEDITOR.replace('menu_item_shortDescription', {
                 extraPlugins: 'uploadimage,image2',
                 height: 100,
 
@@ -85,7 +90,7 @@
                 image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
                 image2_disableResizer: true
             });
-            CKEDITOR.replace('core_menuitemtype_description', {
+            CKEDITOR.replace('menu_item_description', {
                 extraPlugins: 'uploadimage,image2',
                 height: 300,
 
@@ -115,7 +120,7 @@
         });
         
         jQuery(document).ready(function() {
-            $('#core_menuitemtype_parentMenuItem').select2({
+            $('#menu_item_parentMenuItem').select2({
                 placeholder: "",
                 allowClear: true
             });

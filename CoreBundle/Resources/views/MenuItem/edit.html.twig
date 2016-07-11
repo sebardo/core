@@ -1,5 +1,5 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
-{% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}
+{% form_theme edit_form 'AdminBundle:Form:base.fields.html.twig' %}
 
 {% block section %}menuitems{% endblock %}
 
@@ -30,11 +30,15 @@
             {% include 'CoreBundle:Base:alert.messages.html.twig' %}
             <div class="box box-info">
                 <!-- BEGIN FORM-->
-                <form action="{{ path('core_menuitem_update', { id: entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal form-row-seperated">
+                {{ form_start(edit_form, {
+                                    'action': path('core_menuitem_edit', { id: entity.id }), 
+                                    'method': 'post', 
+                                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                                    }) }}
                     <div class="box-body">
+                        {{ form_errors(edit_form) }}
                         {{ include('CoreBundle:MenuItem:_form.html.twig', { form: edit_form }) }}
                     </div><!-- /.box-body -->
-                    <input type="hidden" name="_method" value="PUT" />
                     
                     <div class="box-footer">
                         <div class="col-sm-12">
@@ -43,7 +47,7 @@
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
                         </div>
                     </div>
-                </form>
+                {{ form_end(edit_form) }}
                 <form id="delete-entity" action="{{ path('core_menuitem_delete', { id: entity.id }) }}" method="post">
                     <input type="hidden" name="_method" value="DELETE" />
                     {{ form_widget(delete_form) }}
@@ -68,7 +72,7 @@
     <script>
        
         $(function () {
-            CKEDITOR.replace('core_menuitemtype_shortDescription', {
+            CKEDITOR.replace('menu_item_shortDescription', {
                 extraPlugins: 'uploadimage,image2',
                 height: 100,
 
@@ -95,7 +99,7 @@
                 image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
                 image2_disableResizer: true
             });
-            CKEDITOR.replace('core_menuitemtype_description', {
+            CKEDITOR.replace('menu_item_description', {
                 extraPlugins: 'uploadimage,image2',
                 height: 300,
 
@@ -133,7 +137,7 @@
                 }
             });
         
-            $('#core_menuitemtype_parentMenuItem').select2({
+            $('#menu_item_parentMenuItem').select2({
                 placeholder: "",
                 allowClear: true
             });

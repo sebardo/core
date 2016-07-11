@@ -62,71 +62,134 @@ class MenuItemController extends Controller
     /**
      * Creates a new MenuItem entity.
      *
-     * @param Request $request The request
-     *
-     * @return array|RedirectResponse
-     *
-     * @Route("/")
-     * @Method("POST")
-     * @Template("CoreBundle:MenuItem:new.html.twig")
+     * @Route("/new")
+     * @Method({"GET", "POST"})
+     * @Template()
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
-        $entity  = new MenuItem();
-        $form = $this->createForm(new MenuItemType(), $entity);
-        $form->bind($request);
+        $menu = new MenuItem();
+        $form = $this->createForm('CoreBundle\Form\MenuItemType', $menu);
+        $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            
-            $image = $form->getNormData()->getImage();
-            if($image instanceof Image){
-                $entity->setImage(null);
-            }
-            $em->persist($entity);
+            $em->persist($menu);
             $em->flush();
             
-            if ($image instanceof Image && $image->getFile() instanceof UploadedFile) {
-                $imagePath = $this->get('core_manager')->uploadMenuImage($image->getFile(), $entity);
-                $img = new Image();
-                $img->setPath($imagePath);
-                $em->persist($img);
-                $entity->setImage($img);
-                $em->flush();
+            //images
+            $image = $form->getNormData()->getImage();
+            if ($image instanceof Image) {
+                $this->get('core_manager')->uploadMenuImage($menu);
             }
             
             $this->get('session')->getFlashBag()->add('success', 'menu.created');
 
-            return $this->redirect($this->generateUrl('core_menuitem_show', array('id' => $entity->getId())));
+            return $this->redirectToRoute('core_menuitem_show', array('id' => $menu->getId()));
         }
 
         return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity' => $menu,
+            'form' => $form->createView(),
         );
     }
 
     /**
-     * Displays a form to create a new MenuItem entity.
+     * Finds and displays a MenuItem entity.
      *
-     * @return array
-     *
-     * @Route("/new")
+     * @Route("/{id}")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function showAction(MenuItem $menuItem)
     {
-        $entity = new MenuItem();
-        $form   = $this->createForm(new MenuItemType(), $entity);
+        $deleteForm = $this->createDeleteForm($menuItem);
 
         return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity' => $menuItem,
+            'delete_form' => $deleteForm->createView(),
         );
     }
 
+    /**
+     * Displays a form to edit an existing MenuItem entity.
+     *
+     * @Route("/{id}/edit")
+     * @Method({"GET", "POST"})
+     * @Template()
+     */
+    public function editAction(Request $request, MenuItem $menuItem)
+    {
+        
+        $deleteForm = $this->createDeleteForm($menuItem);
+        $editForm = $this->createForm('CoreBundle\Form\MenuItemType', $menuItem);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($menuItem);
+            $em->flush();
+
+            //images
+            $filesData = $request->files->get('menu_item');
+            if (isset($filesData['image']['file']) && $filesData['image']['file'] instanceof UploadedFile && $editForm->getNormData()->getImage() instanceof Image) {
+                $this->get('core_manager')->uploadMenuImage($menuItem);
+            }
+            
+            $this->get('session')->getFlashBag()->add('success', 'menu.edited');
+            
+            return $this->redirectToRoute('core_menuitem_show', array('id' => $menuItem->getId()));
+        }
+
+        return array(
+            'entity' => $menuItem,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    
+    /**
+     * Deletes a MenuItem entity.
+     *
+     * @Route("/{id}")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, MenuItem $menuItem)
+    {
+        $form = $this->createDeleteForm($menuItem);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //remove image folder
+            $removeFolder = $this->get('core_manager')->getAbsolutePathMenuItem($menuItem->getId());
+            $this->get('core_manager')->recurseRemove($removeFolder);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($menuItem);
+            $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('info', 'menu.deleted');
+        }
+
+        return $this->redirectToRoute('core_menuitem_index');
+    }
+
+   /**
+     * Creates a form to delete a MenuItem entity.
+     *
+     * @param MenuItem $menuItem The MenuItem entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(MenuItem $menuItem)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_menuitem_delete', array('id' => $menuItem->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+    
     /**
      * Sorts a list of features.
      *
@@ -159,181 +222,5 @@ class MenuItemController extends Controller
             'categories' => $categories
         );
     }
-    
-    /**
-     * Finds and displays a MenuItem entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
-     * @Route("/{id}")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $entity */
-        $entity = $em->getRepository('CoreBundle:MenuItem')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Displays a form to edit an existing MenuItem entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
-     * @Route("/{id}/edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $entity */
-        $entity = $em->getRepository('CoreBundle:MenuItem')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
-        $editForm = $this->createForm(new MenuItemType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing MenuItem entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array|RedirectResponse
-     *
-     * @Route("/{id}")
-     * @Method("PUT")
-     * @Template("CoreBundle:MenuItem:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $entity */
-        $entity = $em->getRepository('CoreBundle:MenuItem')->find($id);
-        $oldImage = $entity->getImage();
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new MenuItemType(), $entity);
-        $editForm->bind($request);
-
-        if ($editForm->isValid()) {
-            
-            $data = $editForm->getNormData();
-            $image = $data->getImage();
- 
-            if ($image instanceof Image && $image->getFile() instanceof UploadedFile) {
-                $imagePath = $this->get('core_manager')->uploadMenuImage($image->getFile(), $entity);
-                $img = new Image();
-                $img->setPath($imagePath);
-                $em->persist($img);
-                $entity->setImage($img);
-            }else{
-                $entity->setImage($oldImage);
-            }
-           
-//            if($data->getRemoveImage()){
-//                $entity->setImage(null);
-//            }
-            
-            $em->persist($entity);
-            $em->flush();
-            
-            $this->get('session')->getFlashBag()->add('success', 'menu.edited');
-
-            return $this->redirect($this->generateUrl('core_menuitem_show', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Deletes a MenuItem entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return RedirectResponse
-     *
-     * @Route("/{id}")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            /** @var MenuItem $entity */
-            $entity = $em->getRepository('CoreBundle:MenuItem')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find MenuItem entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('info', 'menu.deleted');
-        }
-
-        return $this->redirect($this->generateUrl('core_menuitem_index'));
-    }
-
-    /**
-     * Creates a form to delete a MenuItem entity by id.
-     *
-     * @param int $id The entity id
-     *
-     * @return Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm();
-    }
-    
     
 }
