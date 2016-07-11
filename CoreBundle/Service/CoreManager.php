@@ -102,33 +102,36 @@ class CoreManager
         return __DIR__ . '/../../../../../web/';
     }
  
-    public function uploadProfileImage($image, $entity)
+    public function uploadProfileImage($entity)
     {
-        $extension = pathinfo($image->getClientOriginalName(), PATHINFO_EXTENSION);
-        $name = sha1(uniqid(mt_rand(), true));
+        $absPathImage = $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
+        $extension = pathinfo($entity->getImage()->getPath(), PATHINFO_EXTENSION);
+        $name = pathinfo($entity->getImage()->getPath(), PATHINFO_FILENAME);
         $imageName = $name . '.' . $extension;
 
-        if ($image->move($this->getAbsolutePathProfile($entity->getId()), $imageName)) {
-            $absPathImage = $this->getAbsolutePathProfile($entity->getId()).$imageName;
+        $dir = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId();
+        if(!is_dir($dir)) {
+            $this->createPath($this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId());
+        }
+        if (copy($absPathImage, $this->getAbsolutePathProfile($entity->getId()).$imageName)) {
             
             $thumPath = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
             if(!is_dir($thumPath)) {
-                $fs = new Filesystem();
-                $fs->mkdir($thumPath, 0777);
-                $fs->chown($thumPath, 'www-data', true);
-                $fs->chgrp($thumPath, 'www-data', true);
-                $fs->chmod($thumPath, 0777, 0000, true);
+                $this->createPath($thumPath);
             }
             
+            $this->resizeImage($absPathImage, $name.'_380', 380, 180, $this->getAbsolutePathProfile($entity->getId()));
             $this->resizeImage($absPathImage, $name.'_260', 260, 123, $this->getAbsolutePathProfile($entity->getId()));
             $this->resizeImage($absPathImage, $name.'_142', 142, 88, $this->getAbsolutePathProfile($entity->getId()));
+            $this->resizeImage($absPathImage, $name.'_150', 150, 150, $this->getAbsolutePathProfile($entity->getId()));
+            unlink($absPathImage);
             return $imageName;
         }
         else {
             return null;
         }
     }
-    
+   
     /**
     * Returns the image path of user actor
     *

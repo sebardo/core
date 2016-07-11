@@ -5,27 +5,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CoreBundle\Form\RegistrationType;
 use CoreBundle\Form\Model\Registration;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use CoreBundle\Form\ActorType;
-use CoreBundle\Form\ActorEditType;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use CoreBundle\Entity\Image;
 use EcommerceBundle\Entity\Address;
 use CoreBundle\Entity\BaseActor;
-use stdClass;
 use Symfony\Component\HttpFoundation\Response;
 use CoreBundle\Form\RecoveryPasswordType;
 use CoreBundle\Form\EmailType as ActorEmailType;
-use CoreBundle\Entity\Optic;
 use CoreBundle\Entity\NewsletterShipping;
 use CoreBundle\Entity\Newsletter;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use stdClass;
 
 class ActorController  extends Controller
 {
@@ -64,220 +58,111 @@ class ActorController  extends Controller
     }
 
     /**
-     * Creates a new Team entity.
+     * Creates a new Actor entity.
      *
-     * @param Request $request The request
-     *
-     * @return array|RedirectResponse
-     *
-     * @Route("/admin/actor/")
-     * @Method("POST")
-     * @Template("CoreBundle:Actor:new.html.twig")
+     * @Route("/admin/actor/new")
+     * @Method({"GET", "POST"})
+     * @Template()
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
-        $entity  = new Actor();
-        $form = $this->createForm(new ActorType(), $entity);
-         
+        $actor = new Actor();
+        $form = $this->createForm('CoreBundle\Form\ActorType', $actor);
         $form->handleRequest($request);
 
-        if ($form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             //crypt password
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder(new Actor());
-            $encodePassword = $encoder->encodePassword($entity->getPassword(), $entity->getSalt());
-            $entity->setPassword($encodePassword);
+            $encodePassword = $encoder->encodePassword($actor->getPassword(), $actor->getSalt());
+            $actor->setPassword($encodePassword);
             $role = $em->getRepository('CoreBundle:Role')->findOneByRole(Role::USER);
-            $entity->addRole($role);
-            $image = $form->getNormData()->getImage();
-            $entity->setImage(null);
-            $em->persist($entity);
+            $actor->addRole($role);
+            $em->persist($actor);
             $em->flush();
 
-            if ($image instanceof UploadedFile) {
-                $imagePath = $this->get('admin_manager')->uploadProfileImage($image, $entity);
-                $img = new Image();
-                $img->setPath($imagePath);
-                $em->persist($img);
-                $entity->setImage($img);
-                $em->flush();
+            $filesData = $request->files->get('actor');
+            if (isset($filesData['image']['file']) && $filesData['image']['file'] instanceof UploadedFile) {            
+                $this->get('core_manager')->uploadProfileImage($actor);
             }
-
             
-            $em->persist($entity);
-            $em->flush();
-
             $this->get('session')->getFlashBag()->add('success', 'actor.created');
-
-            //if come from popup
-            if($request->query->get('referer') != '') {
-                
-                $url = null;
-                $x = 1;
-                foreach ($request->query->all() as $key => $value) {
-                        if($key == 'referer') $url .= $value.'?';
-                        else $url .= $key.'='.$value;
-                        if(count($request->query->all()) != $x && $request->query->all() != 1) $url .= '&';
-                        $x++;
-                }
-                return $this->redirect($url.'&addUser='.$entity->getId());
-            }
             
-            return $this->redirect($this->generateUrl('core_actor_show', array('id' => $entity->getId())));
-        }else{
-//             die('invalid');
+            return $this->redirectToRoute('core_actor_show', array('id' => $actor->getId()));
         }
 
         return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+            'entity' => $actor,
+            'form' => $form->createView(),
         );
     }
 
-  
-    
-    /**
-     * Displays a form to create a new Team entity.
-     *
-     * @return array
-     *
-     * @Route("/admin/actor/new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Actor();
-        $form = $this->createForm(new ActorType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-    
     /**
      * Finds and displays a Actor entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
      *
      * @Route("/admin/actor/{id}")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Actor $actor)
     {
-        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($actor);
+        $shippingForm = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
 
-        /** @var Actor $entity */
-        $entity = $em->getRepository('CoreBundle:Actor')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Actor entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        
-        $shippingForm = $this->createForm(new ActorEmailType(array('email' => $entity->getEmail())));
-        
         return array(
-            'entity'      => $entity,
+            'entity' => $actor,
             'delete_form' => $deleteForm->createView(),
             'shippingForm' => $shippingForm->createView()
         );
     }
-
-    /**
+    
+   /**
      * Displays a form to edit an existing Actor entity.
      *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
      * @Route("/admin/actor/{id}/edit")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, Actor $actor)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Actor $entity */
-        $entity = $em->getRepository('CoreBundle:Actor')->find($id);
-        $entity_image = clone $entity;
-        $entity_image->setImage(null);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Actor entity.');
-        }
-
-        $editForm = $this->createForm(new ActorEditType(), $entity_image);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing Actor entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array|RedirectResponse
-     *
-     * @Route("/admin/actor/{id}")
-     * @Method("PUT")
-     * @Template("CoreBundle:Actor:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Actor $entity */
-        $entity = $em->getRepository('CoreBundle:Actor')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Actor entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ActorEditType(), $entity);
+        $oldPassword = $actor->getPassword();
+        $deleteForm = $this->createDeleteForm($actor);
+        $editForm = $this->createForm('CoreBundle\Form\ActorEditType', $actor);
         $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
+        
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             
+            //crypt password
             $password = $editForm->getNormData()->getPassword();
             if($password != ''){
-                 //crypt password
+                 
                 $factory = $this->get('security.encoder_factory');
                 $encoder = $factory->getEncoder(new Actor());
-                $encodePassword = $encoder->encodePassword($password, $entity->getSalt());
-                $entity->setPassword($encodePassword);
+                $encodePassword = $encoder->encodePassword($password, $actor->getSalt());
+                $actor->setPassword($encodePassword);
+            }else{
+                $actor->setPassword($oldPassword);
             }
-            
-            $em->persist($entity);
+            $em->persist($actor);
             $em->flush();
+            
+            //image
+            $filesData = $request->files->get('actor_edit');
+            if (isset($filesData['image']['file']) && $filesData['image']['file'] instanceof UploadedFile) {            
+                $this->get('core_manager')->uploadProfileImage($actor);
+            }
 
-            $this->get('session')->getFlashBag()->add('success', 'user.edited');
-
-            return $this->redirect($this->generateUrl('core_actor_show', array('id' => $id)));
+            $this->get('session')->getFlashBag()->add('success', 'actor.edited');
+            
+            return $this->redirectToRoute('core_actor_show', array('id' => $actor->getId()));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $actor,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -285,51 +170,41 @@ class ActorController  extends Controller
     /**
      * Deletes a Actor entity.
      *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return RedirectResponse
-     *
      * @Route("/admin/actor/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, Actor $actor)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($actor);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            /** @var Actor $entity */
-            $entity = $em->getRepository('CoreBundle:Actor')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Actor entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($actor);
             $em->flush();
-
-            $this->get('session')->getFlashBag()->add('info', 'user.deleted');
+            
+            $this->get('session')->getFlashBag()->add('info', 'actor.deleted');
         }
 
-        return $this->redirect($this->generateUrl('core_actor_index'));
+        return $this->redirectToRoute('core_actor_index');
     }
 
     /**
-     * Creates a form to delete a Actor entity by id.
+     * Creates a form to delete a Actor entity.
      *
-     * @param int $id The entity id
+     * @param Actor $actor The Actor entity
      *
-     * @return Form The form
+     * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm(Actor $actor)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', HiddenType::class)
-            ->getForm();
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_actor_delete', array('id' => $actor->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
+    
     /**
      *
      * REGISTRATION
@@ -340,7 +215,7 @@ class ActorController  extends Controller
      * Create new Actor entity.
      *
      * @Route("/register", name="register")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template("FrontBundle:Registration:register.html.twig")
      */
     public function registerAction()
@@ -348,39 +223,11 @@ class ActorController  extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
                 return $this->redirect($this->get('router')->generate('index'));
         }
-
-        $form = $this->createForm(new RegistrationType(), new Registration());
-
-        return array('form' => $form->createView());
-    }
-    
-    public function getRefererPath(Request $request=null)
-    {
-        $referer = $request->headers->get('referer');
-
-        $baseUrl = $request->getSchemeAndHttpHost();
-
-        $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
-
-        return $lastPath;
-    }
-
-    /**
-     * Creates
-     *
-     * @Route("/register/", name="create_actor")
-     * @Method("POST")
-     * @Template("FrontBundle:Registration:register.html.twig")
-     */
-    public function createActorAction(Request $request)
-    {
-
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new RegistrationType(), new Registration());
-        $referer = $this->getRefererPath($this->getRequest());
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        $registration = new Registration();
+        $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $registration = $form->getData();
 
             //Encode pass
@@ -406,11 +253,7 @@ class ActorController  extends Controller
             $em->flush();
             
             //Login
-            $username = $registration->getActor()->getName();
             $password = $registration->getActor()->getPassword();
-            $email = $registration->getActor()->getEmail();
-
-            //Automatic login
             $token = new UsernamePasswordToken(
                $registration->getActor(),
                $password,
@@ -445,11 +288,12 @@ class ActorController  extends Controller
                 return $response;
             }
         }
-
-        return array('form' => $form->createView());
-
-   }
-   
+        
+        return array(
+            'form' => $form->createView()
+            );
+    }
+    
    /**
      * Creates
      *
@@ -539,26 +383,16 @@ class ActorController  extends Controller
         return array('form' => $form->createView());
 
    }
+   
+    public function getRefererPath(Request $request=null)
+    {
+        $referer = $request->headers->get('referer');
+        $baseUrl = $request->getSchemeAndHttpHost();
+        $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
 
-   private function getErrorMessages(\Symfony\Component\Form\Form $form) {
-        $errors = array();
-
-        foreach ($form->getErrors() as $key => $error) {
-            if ($form->isRoot()) {
-                $errors['#'][] = $error->getMessage();
-            } else {
-                $errors[] = $error->getMessage();
-            }
-        }
-
-        foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $errors[$child->getName()] = $this->getErrorMessages($child);
-            }
-        }
-
-        return $errors;
+        return $lastPath;
     }
+    
    /**
      * Validate registration.
      *
@@ -610,6 +444,7 @@ class ActorController  extends Controller
     {
         return array();
     }
+    
     /**
      * Validate registration.
      *

@@ -31,9 +31,9 @@
                 <ul class="nav nav-tabs">
                     <li class="{{ not app.request.get('transactions') and 
                                 not app.request.get('shippings') ? 'active' }}"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
-                   {# <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>#}
-                    <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
-                    <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "user.email" | trans }}</a></li>
+                   {# <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>
+                    <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>#}
+                    <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "actor.email" | trans }}</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane {{ not app.request.get('transactions') and 
@@ -46,7 +46,7 @@
                                     <td>{{ entity.email }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ "user.singular" | trans }}</td>
+                                    <td>{{ "actor.singular" | trans }}</td>
                                     <td>{{ entity.username }}</td>
                                 </tr>
                                 <tr>
@@ -127,7 +127,7 @@
                         <div class="box-footer"></div>
                     </div>
 
-                    <div class="tab-pane  {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
+                    {#<div class="tab-pane  {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
                         <div class="box-body show-tables">
                              <table class="table table-striped table-bordered table-hover" id="transactions-table">
                                 <thead>
@@ -145,7 +145,7 @@
                             </table>
                         </div>
                         <div class="box-footer"></div>
-                    </div>  
+                    </div>  #}
                                     
                     <div class="tab-pane  {{ app.request.get('shippings') ? 'active' }}" id="shippings_tab">
                         <div class="box-body show-tables">
@@ -223,7 +223,7 @@
 
     <script>
         
-         var transactions_table_columns = [
+         {#var transactions_table_columns = [
             {
                 "mData": function(source) {
                     return '<a href="/transaction/' + source.id + '">' + source.transactionKey + '</a>';
@@ -267,7 +267,8 @@
                 }
             }
         ];
-        
+        #}
+            
         var shippings_table_columns = [
             { "mData": "id" },
             {
@@ -286,7 +287,7 @@
         ];
 
          $(function () {
-            CKEDITOR.replace('corebundle_actoremailtype_body', {
+            CKEDITOR.replace('email_body', {
                 extraPlugins: 'uploadimage,image2',
                 height: 100,
 
@@ -335,12 +336,12 @@
 
             
 
-            TableManaged.init(
+            {#TableManaged.init(
                 '#transactions-table',
                 '{{ url('ecommerce_transaction_listforuserjson', { actorId: entity.id }) }}',
                 [2],
                 transactions_table_columns,
-                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');#}
         
             TableManaged.init(
                 '#shippings-table',
@@ -352,7 +353,10 @@
             $("#create-shipping").submit(function(e){
 
                 e.preventDefault();
+                var data = CKEDITOR.instances.email_body.getData();
+                $('#email_body').val(data);
                 var formSerialize = $(this).serialize();
+                console.log(formSerialize);
                 $.post('{{ path('core_actor_email', {id: entity.id })  }}', formSerialize, function(response){
                      TableManaged.reload(
                     '#shippings-table',

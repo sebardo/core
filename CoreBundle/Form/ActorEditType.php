@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use CoreBundle\Form\ImageType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * Class ActorEditType
@@ -21,14 +22,13 @@ class ActorEditType extends AbstractType
               ->add('name')
             ->add('surnames')
             ->add('username')
-            ->add('password', 'password', array('required' => false))
+            ->add('password', PasswordType::class, array('required' => false))
             ->add('email')
-            ->add('image', new ImageType(), array(
-                'error_bubbling' => false,
+            ->add('image', ImageType::class, array(
                 'required' => false
             ))
-            ->add('isActive', 'checkbox', array('required' => false))
-            ->add('newsletter', 'checkbox', array('required' => false))
+            ->add('active', null, array('required' => false))
+            ->add('newsletter', null, array('required' => false))
             
 
         ;

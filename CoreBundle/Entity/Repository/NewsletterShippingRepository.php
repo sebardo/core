@@ -36,22 +36,16 @@ class NewsletterShippingRepository extends EntityRepository
     {
         // select
         $qb = $this->getQueryBuilder()
-            ->select('m.id, n.title as newsletter, n.body as body, m.totalSent, m.type, m.created');
-
-        if (is_null($actorId)) {
-            $qb->addSelect('a.name name, a.surnames userSurnames')
-            ->leftJoin('m.actor', 'a')
-            ->leftJoin('m.optic', 'o')
-            ;
-        }
-        
-        $qb->join('m.newsletter', 'n');
-  
+            ->select('m.id, n.title as newsletter, n.body as body, m.totalSent, m.type, m.created, a.name name, a.surnames userSurnames')
+            ->join('m.newsletter', 'n')
+            ->leftJoin('m.actor', 'a');
+    
          // where
-         $where = $qb->where("m.type != 'personal'");
         if (!is_null($actorId)) {
-            $qb->andWhere('m.actor = :actor_id')
+            $qb->where('m.actor = :actor_id')
                 ->setParameter('actor_id', $actorId);
+        }else{
+            $qb->where("m.type != 'personal'");
         }
         
         // search

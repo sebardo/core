@@ -121,9 +121,9 @@ class CoreExtension extends \Twig_Extension
             $path = implode('/', $arr2);
             $returnPath =  $path.'/thumbnail/'.$name.'_'.$size.'.'.$arr[1];
             
-            $frontManager =  $this->container->get('admin_manager');
+            $coreManager =  $this->container->get('core_manager');
             $core = $this->container->getParameter('core');
-            if(!$frontManager->checkRemoteFile($core['server_base_url'].$returnPath)){
+            if(!$coreManager->checkRemoteFile($core['server_base_url'].$returnPath)){
                 $returnPath =  $path.'/thumbnail/'.$name.'_'.$size.'.jpg';
             }
             

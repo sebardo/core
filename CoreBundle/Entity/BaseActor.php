@@ -48,9 +48,9 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     protected $email;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="active", type="boolean")
      */
-    protected $isActive;
+    protected $active;
 
     /**
      * @ORM\Column(type="datetime")
@@ -83,7 +83,7 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     
     public function __construct()
     {
-        $this->isActive = false;
+        $this->active = false;
         $this->salt = md5(uniqid(null, true));
         $this->setCreated(new \DateTime());
         $this->roles = new ArrayCollection();
@@ -177,17 +177,17 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     /**
      * @inheritDoc
      */
-    public function setIsActive($isActive)
+    public function setActive($active)
     {
-        $this->isActive = $isActive;
+        $this->active = $active;
     }
 
     /**
      * @inheritDoc
      */
-    public function getIsActive()
+    public function isActive()
     {
-        return $this->isActive;
+        return $this->active;
     }
 
     /**

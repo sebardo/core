@@ -72,13 +72,15 @@ subitems:
   plural: Sub-menú items
   from_menuitem: Sub-menú items de %menuitem%
   new: Nuevo sub-menú item
+ 
+meta:
+  title: Meta título
+  title*: Meta título*
+  description: Meta descripción
+  description*: Meta descripción*
+  tags: Meta etiquetas
   
 actor:
-  created: Se ha creado el usuario satisfactoriamente
-  edited: Se ha editado el usuario satisfactoriamente
-  deleted: Se ha eliminado el usuario satisfactoriamente
-  
-user:
   singular: Usuario
   plural: Usuarios
   edited: Se ha editado el usuario satisfactoriamente
@@ -88,14 +90,7 @@ user:
   email: Envio de mensajes
   email.new: Nuevo mensaje
   email.created: El mensaje se ha enviado satisfactoriamente
-  
-meta:
-  title: Meta título
-  title*: Meta título*
-  description: Meta descripción
-  description*: Meta descripción*
-  tags: Meta etiquetas
-  
+ 
 slider:
   singular: Slider (carrusel de imagenes)
   plural: Carrusel de imagenes

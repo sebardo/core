@@ -68,30 +68,30 @@ class CoreTest  extends WebTestCase
 
                 //fill form
                 $form = $crawler->selectButton('Guardar')->form();
-                $form['bundle_corebundle_actor[email]'] = 'user+'.$uid.'@gmail.com';
-                $form['bundle_corebundle_actor[username]'] = 'user'.$uid;
-                $form['bundle_corebundle_actor[password]'] = $uid;
-                $form['bundle_corebundle_actor[name]'] = 'Name_'.$uid;
-                $form['bundle_corebundle_actor[surnames]'] = 'Surname_'.$uid;
-                $form['bundle_corebundle_actor[isActive]']->tick();
-                $form['bundle_corebundle_actor[newsletter]']->tick();
+                $form['actor[email]'] = 'actor+'.$uid.'@email.com';
+                $form['actor[username]'] = 'actor'.$uid;
+                $form['actor[password]'] = $uid;
+                $form['actor[name]'] = 'Name_'.$uid;
+                $form['actor[surnames]'] = 'Surname_'.$uid;
+                $form['actor[active]']->tick();
+                $form['actor[newsletter]']->tick();
                 $crawler = $this->client->submit($form);// submit the form
 
                 //Asserts
                 $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
                 $crawler = $this->client->followRedirect();
                 $this->assertTrue($this->client->getResponse()->isSuccessful());
-                $this->assertGreaterThan(0, $crawler->filter('html:contains("user'.$uid.'")')->count());
+                $this->assertGreaterThan(0, $crawler->filter('html:contains("actor'.$uid.'")')->count());
                 break;
-            case 'optic':
+            case 'company':
                 //Optic index
-                $crawler = $this->client->request('GET', '/admin/optic', array(), array(), array(
+                $crawler = $this->client->request('GET', '/admin/company', array(), array(), array(
                     'PHP_AUTH_USER' => 'admin',
                     'PHP_AUTH_PW'   => 'admin',
                 ));
                 //Asserts
                 $this->assertTrue($this->client->getResponse()->isSuccessful());
-                $this->assertGreaterThan(0, $crawler->filter('html:contains("Opticas")')->count());
+                $this->assertGreaterThan(0, $crawler->filter('html:contains("Companias")')->count());
 
                 //Click new
                 $link = $crawler
@@ -102,7 +102,7 @@ class CoreTest  extends WebTestCase
                 $crawler = $this->client->click($link);// and click it
                 //Asserts
                 $this->assertTrue($this->client->getResponse()->isSuccessful());
-                $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva optica")')->count());
+                $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva companía")')->count());
 
                 //fill form
                 $form = $crawler->selectButton('Guardar')->form();
@@ -111,7 +111,7 @@ class CoreTest  extends WebTestCase
                 $form['corebundle_optictype[password]'] = $uid;
                 $form['corebundle_optictype[name]'] = 'Name_'.$uid;
                 $form['corebundle_optictype[description]'] = 'Description_'.$uid;
-                $form['corebundle_optictype[isActive]']->tick();
+                $form['corebundle_optictype[active]']->tick();
                 $form['corebundle_optictype[newsletter]']->tick();
                 $form['corebundle_optictype[address]'] = 'Av address 123'.$uid;
                 $form['corebundle_optictype[city]'] = 'Cabrera de Mar'.$uid;
@@ -126,7 +126,7 @@ class CoreTest  extends WebTestCase
                 $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
                 $crawler = $this->client->followRedirect();
                 $this->assertTrue($this->client->getResponse()->isSuccessful());
-                $this->assertGreaterThan(0, $crawler->filter('html:contains("optic+'.$uid.'@gmail.com")')->count());
+                $this->assertGreaterThan(0, $crawler->filter('html:contains("company+'.$uid.'@email.com")')->count());
 
                 break;
             default:

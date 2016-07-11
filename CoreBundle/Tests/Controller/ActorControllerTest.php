@@ -46,20 +46,20 @@ class ActorControllerTest  extends CoreTest
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
         $uid = rand(999,9999);
-        $form['corebundle_actoredittype[email]'] = 'email+'.$uid.'@gmail.com';
-        $form['corebundle_actoredittype[username]'] = 'user'.$uid;
-        $form['corebundle_actoredittype[password]'] = $uid;
-        $form['corebundle_actoredittype[name]'] = 'Name_'.$uid;
-        $form['corebundle_actoredittype[surnames]'] = 'Surname_'.$uid;
-        $form['corebundle_actoredittype[isActive]']->tick();
-        $form['corebundle_actoredittype[newsletter]']->tick();
+        $form['actor_edit[email]'] = 'actor+'.$uid.'@email.com';
+        $form['actor_edit[username]'] = 'actor'.$uid;
+        $form['actor_edit[password]'] = $uid;
+        $form['actor_edit[name]'] = 'Name_'.$uid;
+        $form['actor_edit[surnames]'] = 'Surname_'.$uid;
+        $form['actor_edit[active]']->tick();
+        $form['actor_edit[newsletter]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("user'.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("actor'.$uid.'")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha editado el usuario satisfactoriamente")')->count());
 
         ///////////////////////////////////////////////////////////////////////////////////////////
