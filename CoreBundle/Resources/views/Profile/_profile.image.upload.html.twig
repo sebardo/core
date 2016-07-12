@@ -1,0 +1,80 @@
+
+<div id="container{{app.user.id}}" >
+    
+    <a id="pickfiles{{app.user.id}}" class="btn btn-seccess select-image-button"href="javascript:;">
+        <span class="ion-edit"></span> Editar avatar <span id="filelist{{app.user.id}}" class="filelist">No runtime found.</span>
+    </a>
+</div>
+<script type="text/javascript">
+    $(document).ready(function (){
+
+        $(function() {
+            var uploader{{app.user.id}} = new plupload.Uploader({
+                    runtimes : 'gears,html5,flash,silverlight,browserplus',
+                    browse_button : 'pickfiles{{app.user.id}}',
+                    container: 'container{{app.user.id}}',
+                    max_file_size : '10mb',
+                    url : '/user/{{app.user.id}}/upload',
+                    {#  resize : {width : 320, height : 240, quality : 90},#}
+                    flash_swf_url : '{{ asset('bundles/common/js/plupload/js/plupload.flash.swf') }}',
+                    silverlight_xap_url : '{{ asset('bundles/common/js/plupload/js/plupload.silverlight.xap') }}',
+                    filters : [
+                             { title : "Image files", extensions : "jpg,gif,png" }
+                    ]
+            });
+
+            uploader{{app.user.id}}.bind('Init', function(up, params) {
+                    $('#filelist{{app.user.id}}').html("<div style='display:none'>Current runtime: " + params.runtime + "</div>");
+            });
+
+            $('#uploadfiles{{app.user.id}}').click(function(e) {
+                    uploader.start();
+                    e.preventDefault();
+            });
+
+            uploader{{app.user.id}}.init();
+
+            uploader{{app.user.id}}.bind('FilesAdded', function(up, files) {
+                setTimeout(function () { up.start(); }, 500);
+                    $.each(files, function(i, file) {
+                            $('#filelist{{app.user.id}}').html(
+                                    ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                            '</span>');
+                    });
+
+                    up.refresh(); // Reposition Flash/Silverlight
+                    
+            });
+
+            uploader{{app.user.id}}.bind('UploadProgress', function(up, file) {
+                    $('.profile-img img').css('opacity',0.5);
+                    // $('#loading-upload').css('display', 'block');
+                    if(file.percent == 100){
+                        $('#filelist{{app.user.id}}').html('');
+                    }else{
+                        $('#filelist{{app.user.id}} b').html('<span>' + file.percent + "%</span>");
+                    }
+            });
+
+            uploader{{app.user.id}}.bind('Error', function(up, err) {
+                    $('.subtitle-section').html('<div class="alert alert-danger">Se ha producido un error subiendo la imagen. Por favor vuelva a intentarlo o contacte con el administrador. </div>');
+                    /*$('#filelist{{app.user.id}}').append("<div>Error: " + err.code +
+                            ", Message: " + err.message +
+                            (err.file ? ", File: " + err.file.name : "") +
+                            "</div>"
+                    );*/
+
+                    up.refresh(); // Reposition Flash/Silverlight
+            });
+
+            uploader{{app.user.id}}.bind('FileUploaded', function(up, file, response) {
+                //console.log(response);
+                $('.profile-img img').css('opacity',1);
+                $('.profile-img img').attr('src', '/uploads/images/profile/{{app.user.id}}/' +JSON.parse(response.response));
+                var returnReesponse = jQuery.parseJSON(response.response);
+            });
+
+        });
+
+    });
+</script>

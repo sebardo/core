@@ -188,6 +188,7 @@ number: Número
 date: Fecha
 city: Ciudad
 province: Provincia
+state: Provincia
 postal.code: Código postal
 country: País
 phone: Teléfono
@@ -398,7 +399,10 @@ account:
   postal.code: Código postal
   province:
     singular: Provincia
-    choose: Selecciona provincia
+    choose: Seleccionar provincia
+  state:
+    singular: Estado
+    choose: Seleccionar estado
   city: Población
   country:
     singular: País

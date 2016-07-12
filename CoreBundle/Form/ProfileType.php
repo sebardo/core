@@ -5,23 +5,42 @@ namespace CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
 
-/**
- * {@inheritDoc}
- */
 class ProfileType extends AbstractType
 {
-    /**
-     * {@inheritDoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
        
-        $builder
-            ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
-            ->add('name')
-            ->add('surnames')
-     ;
+        $builder->add('username', 'text');
+        $builder->add('email', 'email');
+        $builder->add('name', 'text');
+        $builder->add('dni', 'text');
+        $builder->add('address', 'text');
+        $builder->add('postalCode', 'text');
+        $builder->add('city', 'text');
+        $builder->add('state', 'text');
+        $builder->add('state', 'entity', array(
+                'class' => 'CoreBundle:State',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c');
+//                        ->where('c.parentCategory IS NOT NULL');
+                },
+                'required' => false
+            ));
+        $builder->add('country', 'entity', array(
+                'class' => 'CoreBundle:Country',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c');
+//                        ->where('c.parentCategory IS NOT NULL');
+                },
+                'required' => false
+            ));
+        $builder->add(
+            'newsletter',
+            'checkbox',
+            array('required' => false)
+                );
     }
 
     /**
@@ -30,7 +49,8 @@ class ProfileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\Actor'
+            'data_class' => 'CoreBundle\Entity\BaseActor'
         ));
     }
+
 }

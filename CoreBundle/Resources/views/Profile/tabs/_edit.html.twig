@@ -1,0 +1,23 @@
+{{ form_errors(form) }}
+
+
+
+<form class="optic-profile-form" method="post" action="{{ path('optisoop_front_profile_edit') }}{% if(app.request.query.get('redirect')!='') %}?redirect={{ app.request.query.get('redirect')}} {% endif %}" {{ form_enctype(form) }}>
+   
+        <p><b>{{ 'account.email.singular' | trans }}</b>  {{ form_widget(form.email, {'attr': {'class': 'form-control'} } ) }}</p>
+        <p><b>{{ 'account.user' | trans }}</b> {{ form_widget(form.username, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.name' | trans }}</b> {{ form_widget(form.name, {'attr': {'class': 'form-control'} }) }} </p>
+        <p><b>{{ 'account.passport' | trans }}</b> {{ form_widget(form.dni, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.postal.code' | trans }}</b> {{ form_widget(form.postalCode, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.address.singular' | trans }}</b> {{ form_widget(form.address, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.city' | trans }}</b> {{ form_widget(form.city, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.province.singular' | trans }}</b> {{ form_widget(form.state, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.country.singular' | trans }}</b> {{ form_widget(form.country, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b style="width: 370px;">{{ 'account.newsletter' | trans }}</b> {{ form_widget(form.newsletter, {'attr' : {'class': 'minimal' } }) }}</p>
+
+
+    {{ form_rest(form) }}
+    <button  type="submit"><span class="ion-checkmark"></span> {{ 'save' | trans }}</button><br/>
+    <a href="javascript:void(0);" id="back"><span class="ion-reply"></span> {{ 'back' | trans }}</a> 
+    
+</form>

@@ -1,0 +1,23 @@
+<script type="text/javascript">
+
+        $(document).ready(function(){
+            $('#register').click(function(){
+                $('#registerModal').modal();
+                return false;
+            });
+        });
+
+</script>
+<!-- Modal -->
+<div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">{{ 'core.user.register' | trans }}</h3>
+  </div>
+  <div class="modal-body">
+
+    {#{ registrationForm()|raw }#}
+
+  </div>
+
+</div>

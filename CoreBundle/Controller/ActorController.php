@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use EcommerceBundle\Entity\Address;
 use CoreBundle\Entity\BaseActor;
 use Symfony\Component\HttpFoundation\Response;
 use CoreBundle\Form\RecoveryPasswordType;
@@ -216,15 +215,14 @@ class ActorController  extends Controller
      *
      * @Route("/register", name="register")
      * @Method({"GET", "POST"})
-     * @Template("FrontBundle:Registration:register.html.twig")
+     * @Template("CoreBundle:Registration:register.html.twig")
      */
-    public function registerAction()
+    public function registerAction(Request $request)
     {
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
-                return $this->redirect($this->get('router')->generate('index'));
-        }
+        
         $registration = new Registration();
         $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration);
+        $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -241,19 +239,18 @@ class ActorController  extends Controller
             $registration->getActor()->addRole($role);
             
             //create address
-            $address = new Address();
-            $address->setActor($registration->getActor());
-            $address->setCity($registration->getCity());
-            $address->setState($registration->getState());
-            $address->setCountry($registration->getCountry());
-            $address->setForBilling(false);
-            
-            $em->persist($address);
+            //$address = new Address();
+            //$address->setActor($registration->getActor());
+            //$address->setCity($registration->getCity());
+            //$address->setState($registration->getState());
+            //$address->setCountry($registration->getCountry());
+            //$address->setForBilling(false);
+            //
+            //$em->persist($address);
             $em->persist($registration->getActor());
             $em->flush();
             
             //Login
-            $password = $registration->getActor()->getPassword();
             $token = new UsernamePasswordToken(
                $registration->getActor(),
                $password,
@@ -265,6 +262,7 @@ class ActorController  extends Controller
 
             $this->get('core.mailer')->sendRegisteredEmailMessage($registration->getActor());
 
+            $referer = $this->getRefererPath($request);
             if ($referer == '/identification') {
                 return $this->redirect($this->generateUrl('ecommerce_checkout_detail'));
             }
@@ -279,110 +277,14 @@ class ActorController  extends Controller
             return $this->redirect($this->generateUrl('core_profile_index'));
 
 
-        }else{
-            $string = var_export($this->getErrorMessages($form), true);
-            if ($request->isXmlHttpRequest()) {
-                $result = array('success' => true, 'message' => $string);
-                $response = new Response(json_encode($result));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
         }
+       
         
         return array(
             'form' => $form->createView()
             );
     }
-    
-   /**
-     * Creates
-     *
-     * @Route("/register/brand", name="create_actor_brand")
-     * @Method("POST")
-     * @Template("FrontBundle:Registration:register.html.twig")
-     */
-    public function createActorBrandAction(Request $request)
-    {
-
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new RegistrationBrandType(), new RegistrationBrand());
-        $referer = $this->getRefererPath($this->getRequest());
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $registration = $form->getData();
-
-            //set username
-            $registration->getActor()->setUsername($registration->getActor()->getEmail());
-                    
-            //Encode pass
-            $factory = $this->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($registration->getActor());
-            $password = $encoder->encodePassword($registration->getActor()->getPassword(), $registration->getActor()->getSalt());
-            $registration->getActor()->setPassword($password);
-
-            //Add ROLE
-            $role = $em->getRepository('CoreBundle:Role')->findOneBy(array('role' => 'ROLE_USER'));
-            $role2 = $em->getRepository('CoreBundle:Role')->findOneBy(array('role' => 'ROLE_BRAND'));
-            $registration->getActor()->addRole($role);
-            $registration->getActor()->addRole($role2);
-            
-            //create address
-            $address = new Address();
-            $address->setActor($registration->getActor());
-            $address->setCity($registration->getCity());
-            $address->setState($registration->getState());
-            $address->setCountry($registration->getCountry());
-            $address->setForBilling(false);
-            
-            $em->persist($address);
-            $em->persist($registration->getActor());
-            $em->flush();
-            
-            //Login
-            $username = $registration->getActor()->getName();
-            $password = $registration->getActor()->getPassword();
-            $email = $registration->getActor()->getEmail();
-
-            //Automatic login
-            $token = new UsernamePasswordToken(
-               $registration->getActor(),
-               $password,
-               'secured_area',
-               $registration->getActor()->getRoles()
-               );
-
-            $this->get('security.token_storage')->setToken($token);
-
-            $this->get('core.mailer')->sendRegisteredEmailMessage($registration->getActor());
-
-            if ($referer == '/identification') {
-                return $this->redirect($this->generateUrl('ecommerce_checkout_detail'));
-            }
-   
-            if ($request->isXmlHttpRequest()) {
-                $result = array('success' => true);
-                $response = new Response(json_encode($result));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
-
-            return $this->redirect($this->generateUrl('core_profile_index'));
-
-
-        }else{
-            $string = var_export($this->getErrorMessages($form), true);
-            if ($request->isXmlHttpRequest()) {
-                $result = array('success' => false, 'message' => $string);
-                $response = new Response(json_encode($result));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            }
-        }
-
-        return array('form' => $form->createView());
-
-   }
+ 
    
     public function getRefererPath(Request $request=null)
     {
@@ -468,18 +370,8 @@ class ActorController  extends Controller
             $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
 
         } else {
-            $user = $em->getRepository('CoreBundle:Optic')->findOneByEmail($email);
-            if ($user instanceof Optic) {
-                $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
-                
-                $returnValues->status = 'success';
-                $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
-
-            }else{
-                $returnValues->status = 'error';
-                $returnValues->message = 'Unable to find user.';
-            }
-            
+            $returnValues->status = 'error';
+            $returnValues->message = 'Unable to find user.';
         }
 
         $response = new Response();
@@ -506,16 +398,13 @@ class ActorController  extends Controller
         $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($email);
 
         if (!$user) {
-            $user = $em->getRepository('CoreBundle:Optic')->findOneByEmail($email);
-            if (!$user) {
-               throw $this->createNotFoundException('Unable to find user.');
-            }
+            throw $this->createNotFoundException('Unable to find user.');
         }
 
-        if (($user instanceof Actor || $user instanceof Optic) && ($user->getSalt() == $hash)) {
+        if ($user instanceof Actor && $user->getSalt() == $hash) {
             //Default hash value
             $options = array('hash'=>$hash);
-            $form = $this->createForm(new RecoveryPasswordType($options));
+            $form = $this->createForm(new RecoveryPasswordType(), null, $options);
             return array('form' => $form->createView());
         } else {
             throw $this->createNotFoundException('Invalid parameters. {'.$hash.'}');
@@ -534,30 +423,21 @@ class ActorController  extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(new RecoveryPasswordType());
-
         $form->handleRequest($this->getRequest());
 
         if ($form->isValid()) {
             
             //Encode pass
             $factory = $this->get('security.encoder_factory');
-            
-            //Get params
             $recovery = $form->getData();
             $newPassword = $recovery['password'];
             $hash = $recovery['hash'];
-            
             $user = $em->getRepository('CoreBundle:Actor')->findOneBySalt($hash);
             $encoder = $factory->getEncoder(new Actor());
             
             if (!$user) {
-                $user = $em->getRepository('CoreBundle:Optic')->findOneBySalt($hash);
-                $encoder = $factory->getEncoder(new Optic());
-                if (!$user) {
-                   throw $this->createNotFoundException('Unable to find user.');
-                }
+                throw $this->createNotFoundException('Unable to find user.');
             }
             $newSalt = md5(uniqid(null, true));
             $password = $encoder->encodePassword($newPassword, $newSalt);
@@ -570,9 +450,7 @@ class ActorController  extends Controller
             return $this->render('CoreBundle:RecoveryPassword:create.html.twig');
 
         }
-
-         return array('form' => $form->createView());
-
+        return array('form' => $form->createView());
    }
    
     
@@ -637,6 +515,26 @@ class ActorController  extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         );
+    }
+    
+    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
+        $errors = array();
+
+        foreach ($form->getErrors() as $key => $error) {
+            if ($form->isRoot()) {
+                $errors['#'][] = $error->getMessage();
+            } else {
+                $errors[] = $error->getMessage();
+            }
+        }
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getErrorMessages($child);
+            }
+        }
+
+        return $errors;
     }
     
 }

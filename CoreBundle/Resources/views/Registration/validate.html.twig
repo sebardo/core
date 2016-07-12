@@ -1,0 +1,17 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+
+
+{% block content %}
+ 
+    <div class="container">
+        <div class="col-sm-2"></div>  
+        <div class="col-md-8 validate" >
+            <div class="alert alert-success" role="alert">{{ 'validate.email.message' | trans }}</div>
+                    
+            <a  class="btn btn-flat btn-core pull-right" href="{{path('front_profile_index')}}">{{ 'continue' | trans }}</a>
+            
+        </div>
+        <div class="col-sm-2"></div>  
+    </div>  
+
+{% endblock content%}

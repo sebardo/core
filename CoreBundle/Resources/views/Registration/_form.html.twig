@@ -1,0 +1,121 @@
+{% form_theme form 'CoreBundle:Form:base.fields.html.twig' %}
+
+{{ form_start(form, {
+                        'action': path('register'), 
+                        'method': 'post', 
+                        'attr': {'class': 'register-form col-xs-12'}
+                        }) }}
+    {{ form_errors(form) }}
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">{{ 'account.email.singular' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.email, { 'attr': {'class': 'form-control', 'placeholder':  'Email' | trans  } } ) }}
+                {{ form_errors(form.actor.email) }}
+            </div>
+        </div>
+    </div>  
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">{{ 'account.user' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.username, { 'attr': {'class': 'form-control', 'placeholder': 'username' | trans } }) }}
+                {{ form_errors(form.actor.username) }}
+            </div>
+        </div>    
+    </div>  
+    <div class="col-md-4 last">
+        <div class="form-group">
+            <label class="control-label">{{ 'account.name' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.name, { 'attr': {'class': 'form-control', 'placeholder': 'name' | trans } }) }}
+                {{ form_errors(form.actor.name) }}
+            </div>
+        </div>    
+    </div>  
+
+    <div style="clear: both"></div>
+
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label class="control-label">{{ 'account.password.singular' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.password.first, { 'attr': {'class': 'form-control', 'placeholder': 'account.password.singular' | trans } } ) }}</div>
+                {{ form_errors(form.actor.password.first) }}
+        </div>
+
+    </div>  
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">{{ 'account.password.repeat' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.password.second, { 'attr': {'class': 'form-control', 'placeholder': 'account.password.repeat' | trans } }) }}
+                {{ form_errors(form.actor.password.second) }}
+            </div>
+        </div>
+    </div>    
+     
+    <div class="col-md-4 last">
+        <div class="form-group">
+            <label class="control-label">{{ 'account.surnames' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.actor.surnames, { 'attr': {'class': 'form-control', 'placeholder': 'surnames' | trans } }) }}
+                {{ form_errors(form.actor.surnames) }}
+            </div>
+        </div>
+    </div>  
+            
+    <div style="clear: both"></div>
+             
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label class="control-label">{{ 'account.city' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.city, { 'attr': {'class': 'form-control', 'placeholder': 'account.city' | trans } } ) }}
+                {{ form_errors(form.city) }}
+            </div>
+        </div>
+    </div>  
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label class="control-label">{{ 'account.state.singular' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.state, { 'attr': {'class': 'form-control', 'placeholder': 'account.state.singular' | trans } }) }}
+                {{ form_errors(form.state) }}
+            </div>
+        </div>
+    </div>  
+    <div class="col-md-4 last">
+        <div class="form-group">
+            <label class="control-label">{{ 'country' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.country, { 'attr': {'class': 'form-control', 'placeholder': 'country' | trans } }) }}
+                {{ form_errors(form.country) }}
+            </div>
+        </div>
+    </div>
+            
+    <div class="col-md-12">
+        <div class="checkboxes">
+            {{ form_widget(form.actor.newsletter, {'attr': {'class':'minimal'} }) }}
+            Deseo recibir el newsletter
+            <br/>
+             
+            {{ form_widget(form.terms, {'attr': {'class':'minimal'} }) }}
+             
+            {% include 'CoreBundle:Registration/Block:terms.modal.html.twig' %}
+        </div>
+            
+            
+       
+
+        <input id="register-button-submit" type="submit" value="Darme de alta" class="btn btn-large purple-black pull-right"/> 
+    </div>        
+
+
+    {{ form_rest(form) }}
+{{ form_end(form) }}
+

@@ -1,0 +1,13 @@
+{{ form_errors(form_pass) }}
+
+<form method="post" action="{{ path('optisoop_front_profile_changepassword') }}" {{ form_enctype(form_pass) }}>
+   
+        <p><b>{{ 'account.password.current' | trans }}</b>  {{ form_widget(form_pass.password_old, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.password.new' | trans }}</b> {{ form_widget(form_pass.password.password, {'attr': {'class': 'form-control'} }) }}</p>
+        <p><b>{{ 'account.password.new.repeat' | trans }}</b> {{ form_widget(form_pass.password.confirm, {'attr': {'class': 'form-control'} }) }} </p>
+        
+    {{ form_rest(form_pass) }}
+    <button  type="submit">{{ 'save' | trans }}</button><br/>
+    <a href="javascript:void(0);" id="back_pass">{{ 'back' | trans }}</a> 
+    
+</form>

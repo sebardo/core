@@ -1,0 +1,46 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block choice_widget_expanded -%}
+    {%- for child in form %}
+        <div class="radio">
+            <label>
+                {{- form_widget(child) -}}
+                {{- form_label(child) -}}
+            </label>  
+        </div>
+    {% endfor -%}
+{%- endblock choice_widget_expanded %}
+
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+    <ul class="sf-errors">
+        {%- for error in errors -%}
+            <li>{{ error.message | trans }}</li>
+        {%- endfor -%}
+    </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{% block form_row %}
+{% spaceless %}    
+    <div class="form-group {{ div_class|default }}">
+        {{ form_label(form, null, { label_attr: {class: 'col-sm-4 control-label'} }) }}
+            <div class="{% if plus is defined %}col-sm-7{% else %}col-sm-8{% endif %}">
+                {{ form_widget(form, { attr: {class: class|default('form-control')} }) }}
+                {{ form_errors(form) }}
+            </div>
+        {% if plus is defined %}
+            <div class="col-sm-1">
+                <!-- Button trigger modal -->
+                <button style="margin-left: -17px;" type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#myModal">
+                  <i class="fa fa-plus"></i> Nuevo
+                </button>
+            </div>
+        {% endif %}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+
+ 

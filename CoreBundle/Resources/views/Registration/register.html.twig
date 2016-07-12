@@ -1,0 +1,20 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+ 
+{% block content %}
+ 
+    <div class="container">
+        <div class="col-sm-2"></div>  
+        <div class="col-md-8 container-register">
+            <div class="row container-login-register" style="text-align: center">
+                <h2>Soy nuevo en el sitio</h2>
+                <hr>
+                <div class="container-register-form">
+                    {% include 'CoreBundle:Registration:_form.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>     
+    </div>
+  
+    
+{% endblock %}

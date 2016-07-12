@@ -16,7 +16,7 @@ class Registration
 
     /**
      * @Assert\NotBlank()
-     * @Assert\True()
+     * @Assert\IsTrue()
      */
     protected $termsAccepted;
    

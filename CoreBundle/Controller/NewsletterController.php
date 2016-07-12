@@ -2,7 +2,6 @@
 
 namespace CoreBundle\Controller;
 
-use Doctrine\ORM\Query;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

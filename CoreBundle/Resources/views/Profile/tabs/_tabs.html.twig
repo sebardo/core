@@ -1,0 +1,35 @@
+<div class="tabbable tabbable-custom boxless custom-border project">
+    <ul class="nav nav-tabs">
+        {#% set section = 'transactions'%#}
+        <li class="active userTab profileIcon"><a href="#profile_tab" data-toggle="tab"><span class="ion-person"></span> {{ "account.user.profile" | trans }}</a></li>
+        {#<li class="docTab docIcon"><a href="#document_tab" data-toggle="tab"><span class="ion-clipboard"></span> {{ "account.document.plural" | trans }}</a></li>#}
+        
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="profile_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body profile">
+                   <div  id="content"  class="account">
+                         {% include 'FrontBundle:Profile/tabs:_profile.html.twig'%}
+                    </div>   
+                    <div  id="edit_content"  class="edit_account">
+                         {% include 'FrontBundle:Profile/tabs:_edit.html.twig'%}
+                    </div>
+                    <div  id="pass_content"  class="edit_pass">
+                         {% include 'FrontBundle:Profile/tabs:_pass.html.twig'%}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="profile_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body document">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END TABS-->

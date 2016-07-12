@@ -1,0 +1,83 @@
+ <div class="col-md-8">
+    <div class="selector">
+        <div>Detalles</div>
+        <div class="more"> ver más <span class="arrow-down"></span></div>
+    </div>
+
+    <div id="select_tab">
+        <li id="#profile_tab" class="{{ not app.request.get('transactions') ? 'active' and
+            not app.request.get('projects') ? 'active' and     
+            not app.request.get('notifications') ? 'active'  }}">{{ "account.user.profile" | trans }}</</li>
+        <li id="#transactions_tab" class="{{ app.request.get('transactions') ? 'active' }}">{{ "Compras realizadas" | trans }}</li>
+        <li id="#projects_tab" class="{{ app.request.get('projects') ? 'active' }}">{{ "project.plural" | trans }}</li>
+        <li id="#notifications_tab" class="{{ app.request.get('notifications') ? 'active' }}">{{ "notification.plural" | trans }}</li>
+    </div>
+    <div class="tabbable tabbable-custom boxless custom-border">
+
+        <div class="tab-pane {{ not app.request.get('transactions') ? 'active' and
+                            not app.request.get('projects') ? 'active' and     
+                            not app.request.get('notifications') ? 'active'
+             }}" id="profile_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body profile">
+                    <div  id="content"  class="account">
+                        {% include 'FrontBundle:Profile/tabs:_profile.html.twig'%}
+                    </div>   
+                    <div  id="edit_content"  class="edit_account">
+                        {% include 'FrontBundle:Profile/tabs:_edit.html.twig'%}
+                    </div>
+                    <div  id="pass_content"  class="edit_pass">
+                        {% include 'FrontBundle:Profile/tabs:_pass.html.twig'%}
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body">
+                    <div class="container-table-transactions">
+                        {% if transactions is empty %}
+                            {{ 'transaction.none' | trans }}
+                        {% else %}
+                            {% include 'FrontBundle:Profile/tabs:_transactions.html.twig'%}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane {{ app.request.get('projects') ? 'active' }}" id="projects_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body">
+                    <div id="container" class="project-list profile-tabs">
+                        {% if projects is empty %}
+                            {{ 'project.none' | trans }}
+                        {% else %}
+                            {% include 'FrontBundle:Profile/tabs:_projects.html.twig'%}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane {{ app.request.get('notifications') ? 'active' }}" id="notifications_tab">
+            <div class="portlet box custom">
+                <div class="portlet-body">
+                    <div id="container" class="project-list notifications-tabs">
+                        {% if notifications is empty %}
+                            {{ 'notification.none' | trans }}
+                        {% else %}
+                            {% include 'FrontBundle:Profile/tabs:_notifications.html.twig'%}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div> 
+    <!--END TABS-->
+</div>
