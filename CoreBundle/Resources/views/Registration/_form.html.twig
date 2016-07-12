@@ -1,10 +1,10 @@
 {% form_theme form 'CoreBundle:Form:base.fields.html.twig' %}
 
 {{ form_start(form, {
-                        'action': path('register'), 
-                        'method': 'post', 
-                        'attr': {'class': 'register-form col-xs-12'}
-                        }) }}
+                    'action': path('register'), 
+                    'method': 'post', 
+                    'attr': {'class': 'register-form col-xs-12'}
+                    }) }}
     {{ form_errors(form) }}
     <div class="col-md-4">
         <div class="form-group">

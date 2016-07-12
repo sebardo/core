@@ -25,7 +25,11 @@
       <div class="row">
         <div class="col-xs-12">
             <div class="box box-info">
-                <form action="{{ path('core_submenuitem_create', { menuItemId: menuitem.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal form-row-seperated">
+                {{ form_start(form, {
+                            'action': path('core_submenuitem_create', {menuItemId: menuitem.id }), 
+                            'method': 'post', 
+                            'attr': {'class': 'form-horizontal form-row-seperated'}
+                            }) }}
                     <div class="box-body">
                         {{ include('CoreBundle:SubMenuItem:_form.html.twig', { form: form, menuItemId: menuitem.id }) }}
                     </div><!-- /.box-body -->
@@ -36,7 +40,7 @@
                             <a href="{{ path('core_menuitem_index') }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
                         </div>
                     </div>
-                </form>
+                {{ form_end(form) }}
             </div>
         </div>
       </div>

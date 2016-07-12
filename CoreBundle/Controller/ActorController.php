@@ -18,6 +18,9 @@ use CoreBundle\Form\RecoveryPasswordType;
 use CoreBundle\Form\EmailType as ActorEmailType;
 use CoreBundle\Entity\NewsletterShipping;
 use CoreBundle\Entity\Newsletter;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use stdClass;
 
 class ActorController  extends Controller
@@ -227,26 +230,14 @@ class ActorController  extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $registration = $form->getData();
-
             //Encode pass
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($registration->getActor());
             $password = $encoder->encodePassword($registration->getActor()->getPassword(), $registration->getActor()->getSalt());
             $registration->getActor()->setPassword($password);
-
             //Add ROLE
             $role = $em->getRepository('CoreBundle:Role')->findOneBy(array('role' => 'ROLE_USER'));
             $registration->getActor()->addRole($role);
-            
-            //create address
-            //$address = new Address();
-            //$address->setActor($registration->getActor());
-            //$address->setCity($registration->getCity());
-            //$address->setState($registration->getState());
-            //$address->setCountry($registration->getCountry());
-            //$address->setForBilling(false);
-            //
-            //$em->persist($address);
             $em->persist($registration->getActor());
             $em->flush();
             
@@ -261,11 +252,6 @@ class ActorController  extends Controller
             $this->get('security.token_storage')->setToken($token);
 
             $this->get('core.mailer')->sendRegisteredEmailMessage($registration->getActor());
-
-            $referer = $this->getRefererPath($request);
-            if ($referer == '/identification') {
-                return $this->redirect($this->generateUrl('ecommerce_checkout_detail'));
-            }
    
             if ($request->isXmlHttpRequest()) {
                 $result = array('success' => true);
@@ -274,27 +260,15 @@ class ActorController  extends Controller
                 return $response;
             }
 
-            return $this->redirect($this->generateUrl('core_profile_index'));
-
+            return $this->redirect($this->generateUrl('core_actor_profile'));
 
         }
        
-        
         return array(
             'form' => $form->createView()
             );
     }
- 
-   
-    public function getRefererPath(Request $request=null)
-    {
-        $referer = $request->headers->get('referer');
-        $baseUrl = $request->getSchemeAndHttpHost();
-        $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
 
-        return $lastPath;
-    }
-    
    /**
      * Validate registration.
      *
@@ -332,8 +306,9 @@ class ActorController  extends Controller
     }
   
     /**
-     *
+     * 
      * RECOVERY PASSWORD
+     * 
      */
 
     /**
@@ -537,4 +512,148 @@ class ActorController  extends Controller
         return $errors;
     }
     
+    /*
+     * 
+     * PROFILE
+     * 
+     */
+    /**
+     * Profile details
+     *
+     * @Route("/profile")
+     * @Method({"GET","POST"})
+     * @Template("CoreBundle:Profile:index.html.twig")
+     * 
+     */
+    public function profileAction(Request $request)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+        
+        if($user->isGranted('ROLE_ADMIN')) {
+            return $this->redirect( $this->generateUrl('core_admin_dashboard'));
+        }
+
+        $form = $this->createForm('CoreBundle\Form\ProfileUserType', $user);
+        $form_pass = $this->createForm('CoreBundle\Form\PasswordType', $user);
+
+         if ('POST' === $request->getMethod()) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em->persist($user);
+                $em->flush();
+                $this->container->get('session')->getFlashBag()->add('success', 'profile.saved');
+            }
+        }
+        
+        return array(
+            'form' => $form->createView(),
+            'form_pass' => $form_pass->createView(),
+        );
+    }
+    
+ 
+    /**
+     * Profile details
+     *
+     * @Route("/profile/{id}")
+     * @Method("GET")
+     * @Template("CoreBundle:Profile:show.html.twig")
+     * 
+     */
+    public function profileShowAction(Actor $actor)
+    {
+        //stats
+//        $this->get('core_manager')->setStats($actor);
+                
+        if (!is_object($actor)) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        return array(
+            'user' => $actor
+        );
+    }
+
+    /**
+     * Upload profile image
+     * @Route("/user/{id}/upload", name="upload_profile_image", defaults={"_format" = "json"})
+    */
+    public function uploadProfileImage(Request $request, $id)
+    {
+
+        if (!$id) {
+            throw $this->createNotFoundException('Unable to upload.');
+        }
+
+        if ($id != $this->get('security.token_storage')->getToken()->getUser()->getId()) {
+            throw $this->createNotFoundException('Can not upload anything to a profile that is not their own.');
+        }
+        
+        $em = $this->container->get('doctrine')->getManager();
+        $entity = $this->get('security.token_storage')->getToken()->getUser();
+        if ($request->files->get('file') instanceof UploadedFile) {
+            $imagePath = $this->get('core_manager')->uploadProfileImagePost($request->files->get('file'), $entity);
+            $img = new Image();
+            $img->setPath($imagePath);
+            $em->persist($img);
+            $entity->setImage($img);
+            $em->flush();
+        }
+
+        return new JsonResponse($imagePath);
+
+    }
+    
+    /**
+     * Profile details
+     *
+     * @Route("/profile/change-password")
+     * @Method("POST")
+     */
+    public function changePasswordAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $form_pass = $this->createForm('CoreBundle\Form\PasswordType', $user);
+
+        if ($request->isMethod('POST')) {
+            $form_pass->handleRequest($request);
+
+            if ($form_pass->isValid()) {
+                $data = $request->get('password');
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder(new Actor());
+                $encodePasswordOld = $encoder->encodePassword($data['password_old'], $user->getSalt());
+                $actor = $em->getRepository('CoreBundle:Actor')->findOneByPassword($encodePasswordOld);
+                
+                if (!$actor instanceof Actor) {
+                    throw $this->createNotFoundException('This user does not found.');
+                }
+                
+                if($actor->getId().' == '.$user->getId() && $data['password']['first']  ==  $data['password']['second']){
+                    $encodePassword = $encoder->encodePassword($data['password']['first'], $user->getSalt());
+                    $user->setPassword($encodePassword);
+                    $em->flush();
+                    $this->container->get('session')->getFlashBag()->add('success', 'account.password.saved');
+                }else{
+                    $this->container->get('session')->getFlashBag()->add('warning', 'account.password.error');
+                }
+            }else{
+                 $this->container->get('session')->getFlashBag()->add('warning', 'account.password.error');
+            }
+        }
+        
+        $url = $this->container->get('router')->generate('core_actor_profile');
+        return new RedirectResponse($url);
+
+    }
 }

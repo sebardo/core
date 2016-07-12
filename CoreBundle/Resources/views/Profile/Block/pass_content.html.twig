@@ -1,11 +1,11 @@
-
-
 <h3>{{ 'account.user.profile' | trans }}</h3>
 
-{{ form_errors(form_pass) }}
-
-<form  class="form-horizontal" method="post" action="{{ path('core_profile_changepassword') }}" {{ form_enctype(form_pass) }}>
-   
+{{ form_start(form_pass, {
+                        'action': path('core_actor_changepassword'), 
+                        'method': 'post',
+                        'attr': {'class': 'form-horizontal'}
+                        }) }}
+   {{ form_errors(form_pass) }}
     <div class="form-group">
         <label class="control-label col-sm-4">{{'account.password.current' | trans}}</label>
         <div class="col-sm-8">
@@ -33,4 +33,4 @@
         <a href="javascript:void(0);" id="back_pass"><i class="ion-reply"></i> <span>{{ 'back' | trans }}</span></a>
         <button type="submit" class="btn pull-right saveProfile"> <i class="ion-checkmark"></i> {{ 'save' | trans }}</button> 
     </div> 
-</form>
+{{ form_end(form_pass) }}

@@ -77,6 +77,7 @@ class CoreTest  extends WebTestCase
                 $form['actor[newsletter]']->tick();
                 $crawler = $this->client->submit($form);// submit the form
 
+                
                 //Asserts
                 $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
                 $crawler = $this->client->followRedirect();

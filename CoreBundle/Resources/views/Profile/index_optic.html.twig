@@ -1,0 +1,130 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+
+{% block breadcrumb %}
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="#">Perfil</a></li>
+            <li class="active"><a href="#">Detalle</a></li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row core-row profile" >
+            <div class="col-md-3 col-xs-12 profile-img">
+                <img src="{{ get_profile_image() }}">
+                {% include 'CoreBundle:Profile:_profile.image.upload.html.twig' %}
+            </div>
+             <div class="col-md-9 col-xs-12 profile-desc">
+                 <h1 class="title">
+                     {{app.user.fullName}}
+                 </h1>
+                 <div class="subtitle-section">
+                    {% include 'CoreBundle:Base:alert.messages.html.twig'%}	
+                    {% if not app.user.active  %}
+                        <div class="alert alert-info" role="alert">
+                                Te hemos enviado un correo electrónico para que lo validez.
+                        </div>
+                    {% else %}
+                        {% include 'CoreBundle:Base:alert.messages.html.twig' %}
+                    {% endif  %}
+                </div> 
+                <!--TABS-->
+                {% if app.user.active or app.request.get('id')   %}
+                    {% include 'CoreBundle:Base:alert.messages.html.twig' %}
+                    {% include 'CoreBundle:Profile/tabs:_tabs.html.twig' %}
+                {% endif  %}
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+        {{ parent() }}
+        
+        <script type="text/javascript">
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
+
+            $(document).ready(function (){
+                $("#edit").click(function(){
+                    $('.account').fadeOut("slow", function() {
+                        $('.edit_account').fadeIn("slow");
+                    });
+                });
+                $("#back").click(function(){
+                    $('.edit_account').fadeOut("slow", function() {
+                        $('.account').fadeIn("slow");
+                    });
+                });
+                $("#back_pass").click(function(){
+                    $('.edit_pass').fadeOut("slow", function() {
+                        $('.account').fadeIn("slow");
+                    });
+                });
+                $("#change-password").click(function(){
+                    $('.account').fadeOut("slow", function() {
+                        $('.edit_pass').fadeIn("slow");
+                    });
+                });
+                var redirect = getUrlParameter('redirect');
+                if (typeof redirect != 'undefined'){
+                    $("#edit").click();
+                }
+            });
+      
+      
+            function addmarker(latilongi, map) {
+                 
+                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                var marker = new google.maps.Marker({
+                    position: latilongi,
+                    title: 'new marker',
+                    draggable: true,
+                    map: map,
+                    icon: iconBase + 'schools_maps.png'
+                });
+                
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: '<div id="infodiv2">{{app.user.name}}</div>'
+                });
+                map.setZoom(15);
+                map.setCenter(marker.getPosition())
+                infowindow.open(map, marker)
+            }
+            
+            //PRINT CLEAN MAP
+            var ES = new google.maps.LatLng(40.415363, -3.707398);
+            var myOptions = {
+                zoom: 11,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                center: ES,
+                mapTypeControl: false,
+                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            map = new google.maps.Map(document.getElementById("map"), myOptions);
+            
+            latlng = new google.maps.LatLng({{app.user.latitude}}, {{app.user.longitude}});
+            addmarker(latlng, map);
+            
+            
+ 
+            </script>
+{% endblock %}

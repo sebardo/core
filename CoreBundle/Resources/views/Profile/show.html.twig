@@ -1,39 +1,5 @@
 {% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
 
-
-{% block title %}{% if user.metaTitle is not null%}{{ user.metaTitle }}- {{user.address}} | Optisoop{% else %}{{user.name}} - {{user.address}} | Optisoop{% endif %}{% endblock %}
-{% block head %}
-    <meta name="description" content="{{ user.metaDescription }}">
-    <meta name="keywords" content="{{ user.metaTags }}">
-
-    <meta property="og:title" content="{{ user.name }}" />
-    <meta property="og:type" content="optic" />
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@Optisoop">
-    <meta name="twitter:creator" content="@Optisoop">
-    <meta name="twitter:title" content="{{ user.name }}">
-    <meta name="twitter:description" content="{{ user.description|truncate(200)|striptags }}">
-    
-    <meta name="twitter:image" content="{{ core.server_base_url }}{{ get_profile_image(user, '260') }}">
-{% endblock %}
-
-{% block breadcrumb %}
-    {% if not is_mobile() %}
-    <div class="col-md-6 col-xs-6 back">
-        <a href="#" onclick="window.history.back();return false;">
-        <i class="ion-reply"></i><span>Volver</span>
-        </a>
-    </div>
-    <div class="col-md-6">
-        <ol class="breadcrumb">
-            <li><a href="#">Perfil</a></li>
-            <li class="active"><a href="{{ path('optisoop_front_profile_show', { 'id': id })}}">{{user.name}}</a></li>
-        </ol>
-    </div>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
     <div class="container">
         <div class="row optisoop-row profile profile-optic" style="display: block" >
@@ -43,57 +9,10 @@
             <div class="col-md-9 col-xs-12 profile-desc">
                 <h1 class="title">
                     {{user.name}}
-                    <div class="social-links">
-                        {% if user.facebookUrl != ''%}
-                            <a target="_blank" href="{{user.facebookUrl}}">
-                                <span class="fb-icon"></span>
-                            </a>
-                        {% endif%}
-                        {% if user.twitterUrl != ''%}
-                            <a target="_blank" href="{{user.twitterUrl}}">
-                                <span class="twitter-icon"></span>
-                            </a>
-                        {% endif%}
-                        {% if user.pinterestUrl != ''%}
-                            <a target="_blank" href="{{user.pinterestUrl}}">
-                                <span class="linkedin-icon"></span>
-                            </a>
-                        {% endif%}
-                        {% if user.googleUrl != ''%}
-                            <a target="_blank" href="{{user.googleUrl}}">
-                                <span class="google-icon"></span>
-                            </a>
-                        {% endif%}
-
-                    </div>
+                    
                 </h1>
                 <div class="subtitle-section">
                     {% include 'CoreBundle:Base:alert.messages.html.twig'%}	
-                    {% if app.user and not user.isActive and app.user.id == user.id %}
-                        <div class="alert alert-info" role="alert">
-                                Te hemos enviado un correo electrónico para que lo validez.
-                        </div>
-                    {% endif  %}
-                        <div><p>{{user.description | raw}}</p> </div>
-                        <div>
-                            {{user.address}}, {{user.city}} -  {{user.postalCode}} | 
-                            {% if user.latitude != '' %}
-                                <span class="map-route"><a onclick="_gaq.push (['_trackEvent', 'Market place - Fichas de producto', 'Nombre optica - {{user.name}}', 'Nombre producto - ']);" href="https://www.google.com/maps?q={{user.latitude}},{{user.longitude}}" class="ver_ruta" target="_blank">Ver ruta hasta aquí</a></span>
-                            {% endif %}
-                        </div>
-                   
-                    
-                    {% if user.pack is defined and user.pack.id == 1 %}
-                        <div class="results" style="background-position: -65px 0px;margin: 30px 0px; width: 775px; height: 198px; background: url(/bundles/front/images/optic-freepack-message.png) no-repeat; padding-top: 28px;">
-                            <div style="text-align: center; color: #fff; font-weight: bold; font-size: 1.2em; width: 90%; margin: 0 auto;">
-
-                                Tu óptica más cercana no es usuaria de Optisoop pero te llevamos hasta ella en un
-                                abrir y cerrar de ojos. Cuando llegues, cuéntale a tu óptico que nuestra plataforma 
-                                te ha llevado hasta él. 
-
-                            </div>
-                        </div>    
-                    {% endif %}
                 </div> 
             </div>
 
@@ -101,22 +20,18 @@
 
             {% include 'CoreBundle:Base:alert.messages.html.twig'%}
             
-            {% if user.isActive  %}
+            {% if user.active  %}
                 <div class="col-md-3" style="padding-right: 0px"> <!-- required for floating -->
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs tabs-left">
-                        <li class="{{ not app.request.get('products') and
-                                not app.request.get('services') ? 'active'}}"><a href="#profile_tab" data-toggle="tab">{{ "account.optic.our" | trans }}</a></li>
-                        <li class="{{ app.request.get('products') ? 'active' }}"><a href="#product_tab" data-toggle="tab">{{ "account.optic.product" | trans }} {% if products | length > 0%}({{products | length}}){% endif %}</a></li>
-                        <li class="{{ app.request.get('services') ? 'active' }}"><a href="#service_tab" data-toggle="tab">{{ "account.optic.service" | trans }} {% if services | length > 0%}({{services | length}}){% endif %}</a></li>
+                        <li class="active"><a href="#profile_tab" data-toggle="tab">{{ "account.profile" | trans }}</a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-9" style="margin-top: 0px;border-top: 1px solid #01acc6;">
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane {{ not app.request.get('products') and
-                            not app.request.get('services') ? 'active' }}" id="profile_tab">
+                    <div class="tab-pane active" id="profile_tab">
                         <div class="portlet box custom">
                             <div class="portlet-body profile">
                                 <div id="profile-content">
@@ -127,33 +42,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="tab-pane {{ app.request.get('products') ? 'active' }}" id="product_tab">
-                        <div class="portlet box custom">
-                            <div class="portlet-body">
-                                <div id="products" class="product-list" style="margin-top: 15px;">
-                                    {% set panel_size = '3' %}
-                                    {% for product in products %}
-                                        {% include 'FrontBundle:Product:panel.product.html.twig' with {'panel_size': '3', multiple: 4} %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane {{ app.request.get('services') ? 'active' }}" id="service_tab">
-                        <div class="portlet box custom">
-                            <div class="portlet-body">
-                                <div id="services" class="product-list">
-                                    {% for product in services %}
-                                        {% include 'FrontBundle:Product:panel.product.html.twig' with {'panel_size': '3'} %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                     
                 </div>
             </div>  
             {% endif  %}
@@ -175,47 +63,4 @@
 
 {% block javascripts %}
         {{ parent() }}
-
-     
-        <script type="text/javascript">
-            $(document).ready(function (){
-
-            });
-            
-            function addmarker(latilongi, map) {
-                 
-                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-                var marker = new google.maps.Marker({
-                    position: latilongi,
-                    title: 'new marker',
-                    draggable: true,
-                    map: map,
-                    icon: iconBase + 'schools_maps.png'
-                });
-                
-
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div id="infodiv2">{{user.name}}</div>'
-                });
-                map.setZoom(15);
-                map.setCenter(marker.getPosition())
-                infowindow.open(map, marker)
-            }
-            
-            //PRINT CLEAN MAP
-            var ES = new google.maps.LatLng(40.415363, -3.707398);
-            var myOptions = {
-                zoom: 11,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                center: ES,
-                mapTypeControl: false,
-                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-            map = new google.maps.Map(document.getElementById("map"), myOptions);
-            
-            latlng = new google.maps.LatLng({{user.latitude}}, {{user.longitude}});
-            addmarker(latlng, map);
-        </script>
-
 {% endblock %}

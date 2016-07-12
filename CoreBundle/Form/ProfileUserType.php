@@ -18,7 +18,7 @@ class ProfileUserType extends AbstractType
     {
        
         $builder
-            ->add('email', 'email', array('label' => 'form.email'))
+            ->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class, array('label' => 'form.email'))
             ->add('name')
             ->add('surnames')
      ;

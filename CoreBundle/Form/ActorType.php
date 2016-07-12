@@ -21,14 +21,7 @@ class ActorType extends AbstractType
             ->add('name')
             ->add('surnames')
             ->add('username')
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'options' => array('attr' => array('class' => 'password-field')),
-                'required' => true,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-            ))
+            ->add('password', PasswordType::class)
             ->add('email')
             ->add('image', ImageType::class, array(
                 'required' => false

@@ -11,65 +11,145 @@
 
 {% block content %}
     <div class="container">
-        <div class="row core-row profile" >
-            <div class="col-md-3 col-xs-12 profile-img">
-                <img src="{{ get_profile_image() }}">
-                {% include 'CoreBundle:Profile:_profile.image.upload.html.twig' %}
-            </div>
-             <div class="col-md-9 col-xs-12 profile-desc">
-                 <h1 class="title">
-                     {{app.user.fullName}}
-                 </h1>
-                 <div class="subtitle-section">
-                    {% include 'CoreBundle:Base:alert.messages.html.twig'%}	
-                    {% if not app.user.active  %}
-                        <div class="alert alert-info" role="alert">
-                                Te hemos enviado un correo electrónico para que lo validez.
+        <div class="row core-row profile user" >
+           
+                {% include 'CoreBundle:Profile/Block:_profile.header.html.twig' %}
+
+                {% include 'CoreBundle:Base:alert.messages.html.twig'%}
+                
+                <div class="col-md-3 col-sm-3 col-xs-12 paddingForFloat"> <!-- required for floating -->
+                    {{ include('CoreBundle:Profile/Block:_sidebar.html.twig') }}
+                </div>
+
+                <div class="col-md-9 col-sm-9 col-xs-12 borderMenuProfile">
+                    <!-- Tab panes -->
+                    <div class="tab-content col-xs-12">
+                        <div class="tab-pane {{ not app.request.get('billing') and
+                                not app.request.get('delivery') and
+                                not app.request.get('transactions') and 
+                                not app.request.get('adverts') ? 'active' }}" id="profile_tab">
+                            <div class="portlet box custom">
+                                <div class="portlet-body profile">
+                                    <div class="profile-content">
+                                        {% include "CoreBundle:Profile/Block:show_content.html.twig" with {user: app.user }%}
+                                    </div>
+                                    <div id="edit_content" class="edit_account">
+                                        {% include "CoreBundle:Profile/Block:edit_content.html.twig" %}
+                                    </div>
+                                    <div  id="pass_content"  class="edit_pass">
+                                        {% include 'CoreBundle:Profile/Block:pass_content.html.twig'%}
+                                   </div>
+                                </div>
+                            </div>
                         </div>
-                    {% else %}
-                        {% include 'CoreBundle:Base:alert.messages.html.twig' %}
-                    {% endif  %}
-                </div> 
-                <!--TABS-->
-                {% if app.user.active or app.request.get('id')   %}
-                    {% include 'CoreBundle:Base:alert.messages.html.twig' %}
-                    {% include 'CoreBundle:Profile/tabs:_tabs.html.twig' %}
-                {% endif  %}
-            </div>
-            <div style="clear: both"></div>
+                    </div>
+                </div>  
+                <!--END TABS-->
+
         </div>
     </div>
+
 {% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+            'bundles/admin/plugins/bootstrap-plugins/bootstrap.vertical-tabs.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+
+            
+{% endblock %}
+
 
 
 {% block javascripts %}
         {{ parent() }}
-        
+        {% set max_file_size = get_max_size_file() %}
+        <script> var maxFileSize = {{max_file_size}}</script>
+        {% javascripts 
+        'bundles/admin/plugins/ckeditor-4.5/ckeditor-custom.js'
+        'bundles/admin/plugins/ckeditor/adapters/jquery.js'
+        'bundles/admin/plugins/plupload/plupload.full.min.js'
+         %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
         <script type="text/javascript">
-            var getUrlParameter = function getUrlParameter(sParam) {
-                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                    sURLVariables = sPageURL.split('&'),
-                    sParameterName,
-                    i;
-
-                for (i = 0; i < sURLVariables.length; i++) {
-                    sParameterName = sURLVariables[i].split('=');
-
-                    if (sParameterName[0] === sParam) {
-                        return sParameterName[1] === undefined ? true : sParameterName[1];
-                    }
-                }
-            };
-
+            
             $(document).ready(function (){
-                $("#edit").click(function(){
-                    $('.account').fadeOut("slow", function() {
-                        $('.edit_account').fadeIn("slow");
+                
+                 $('.advert-edit').click(function(e){
+                     e.preventDefault();
+                     var href = $(this).attr('href');
+                     
+                     $.ajax({
+                        method: "GET",
+                        url: href,
+                    }).done(function (results) {
+                        $('#advert-show').fadeOut('slow', function(){
+                            $('#advert-edit').html(results);
+                              
+                            $(function () {
+                                CKEDITOR.replace('optisoop_bundle_ecommercebundle_advert_description', {
+                                    extraPlugins: 'uploadimage,image2',
+                                    height: 150,
+
+                                    // Upload images to a CKFinder connector (note that the response type is set to JSON).
+                                    uploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+
+                                    // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+                                    filebrowserBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html',
+                                    filebrowserImageBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html?type=Images',
+                                    filebrowserUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                                    filebrowserImageUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+
+                                    // The following options are not necessary and are used here for presentation purposes only.
+                                    // They configure the Styles drop-down list and widgets to use classes.
+
+                                    stylesSet: [
+                                            { name: 'Narrow image', type: 'widget', widget: 'image', attributes: { 'class': 'image-narrow' } },
+                                            { name: 'Wide image', type: 'widget', widget: 'image', attributes: { 'class': 'image-wide' } }
+                                    ],
+
+                                    // Load the default contents.css file plus customizations for this sample.
+                                    //contentsCss: [ CKEDITOR.basePath + 'contents.css', 'assets/css/widgetstyles.css' ],
+
+                                    // Configure the Enhanced Image plugin to use classes instead of styles and to disable the
+                                    // resizer (because image size is controlled by widget styles or the image takes maximum
+                                    // 100% of the editor width).
+                                    image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
+                                    image2_disableResizer: true
+                                });
+                                $.getScript('/bundles/admin/plugins/bootstrap-fileupload/bootstrap-fileupload.js', function( data, textStatus, jqxhr ) {
+                                    console.log( data ); // Data returned
+                                    console.log( textStatus ); // Success
+                                    console.log( jqxhr.status ); // 200
+                                    console.log( "Load was performed." );
+                                  });
+                                 
+                            });
+                        });
+                        
+                    });
+                     
+                 });
+                
+                $('#edit-profile').click(function(){
+                    $('.profile-content').fadeOut('slow', function(){
+                        $('#edit_content').fadeIn('slow');
                     });
                 });
-                $("#back").click(function(){
-                    $('.edit_account').fadeOut("slow", function() {
-                        $('.account').fadeIn("slow");
+                $('.profile-back').click(function(){
+                    $('#edit_content').fadeOut('slow', function(){
+                        $('.profile-content').fadeIn('slow');
+                    }); 
+                });
+                $("#change-password").click(function(){
+                    $('.account').fadeOut("slow", function() {
+                        $('.edit_pass').fadeIn("slow");
                     });
                 });
                 $("#back_pass").click(function(){
@@ -77,54 +157,38 @@
                         $('.account').fadeIn("slow");
                     });
                 });
-                $("#change-password").click(function(){
-                    $('.account').fadeOut("slow", function() {
-                        $('.edit_pass').fadeIn("slow");
+                
+                $('#new-delivery').click(function(){
+                    $('.delivery-content').fadeOut('slow', function(){
+                        $('.delivery-new').fadeIn('slow');
                     });
+                    $(this).fadeOut('slow');
                 });
-                var redirect = getUrlParameter('redirect');
-                if (typeof redirect != 'undefined'){
-                    $("#edit").click();
-                }
-            });
-      
-      
-            function addmarker(latilongi, map) {
-                 
-                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-                var marker = new google.maps.Marker({
-                    position: latilongi,
-                    title: 'new marker',
-                    draggable: true,
-                    map: map,
-                    icon: iconBase + 'schools_maps.png'
+                $('.delivery-back').click(function(){
+                    $('.delivery-new').fadeOut('slow', function(){
+                        $('.delivery-content').fadeIn('slow');
+                    }); 
+                    $('#new-delivery').fadeIn('slow');
                 });
                 
-
-                var infowindow = new google.maps.InfoWindow({
-                    content: '<div id="infodiv2">{{app.user.name}}</div>'
+                
+                //delivery edit address
+                $('.edit-address').click(function(){
+                    var id = $(this).attr('id');
+                    $('.address').fadeOut('slow', function(){
+                        $('#address-'+id).fadeIn('slow');
+                    });
+                    $('#new-delivery').fadeOut('slow');
                 });
-                map.setZoom(15);
-                map.setCenter(marker.getPosition())
-                infowindow.open(map, marker)
-            }
-            
-            //PRINT CLEAN MAP
-            var ES = new google.maps.LatLng(40.415363, -3.707398);
-            var myOptions = {
-                zoom: 11,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                center: ES,
-                mapTypeControl: false,
-                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-            map = new google.maps.Map(document.getElementById("map"), myOptions);
-            
-            latlng = new google.maps.LatLng({{app.user.latitude}}, {{app.user.longitude}});
-            addmarker(latlng, map);
-            
-            
- 
-            </script>
+                $('.delivery-edit-back').click(function(){
+                    var id = $(this).attr('data');
+                    $('#address-'+id).fadeOut('slow', function(){
+                        $('.address').fadeIn('slow');
+                    }); 
+                    $('#new-delivery').fadeIn('slow');
+                });
+                
+            });
+        </script>
+
 {% endblock %}

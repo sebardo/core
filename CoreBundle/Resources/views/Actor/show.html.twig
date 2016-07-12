@@ -94,10 +94,14 @@
                             <a href="{{ path('core_actor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
                                                         
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn"><i class="ion-trash-a"></i> {{ "delete" | trans }}</button>
-                            <form id="delete-entity" action="{{ path('core_actor_delete', { 'id': entity.id }) }}" method="post">
+                            {{ form_start(delete_form, {
+                                    'action': path('core_actor_delete', {id: entity.id }), 
+                                    'method': 'post', 
+                                    'attr': {'id': 'delete-entity'}
+                                    }) }}
                                 <input type="hidden" name="_method" value="DELETE" />
                                 {{ form_widget(delete_form) }}
-                            </form>
+                            {{ form_end(delete_form) }}
                         </div>
                     </div>
                             
@@ -190,7 +194,12 @@
       {############ FORM######################}
       {#######################################}
        <!-- BEGIN FORM-->
-        <form id="create-shipping"  action="{{ path('core_actor_email', {id: entity.id }) }}" method="post" {{ form_enctype(shippingForm) }} class="form-horizontal form-row-seperated">
+       {{ form_start(shippingForm, {
+                            'action': path('core_actor_email', {id: entity.id }), 
+                            'method': 'post', 
+                            'attr': {'id': 'create-shipping', 'class': 'form-horizontal form-row-seperated'}
+                            }) }}
+            {{ form_errors(shippingForm) }}                
             <div class="box-body">
                 {{ include('CoreBundle:Actor:_form.email.html.twig', { form: shippingForm }) }}
             </div><!-- /.box-body -->
@@ -201,7 +210,7 @@
                 <a href="{{ path('core_actor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
                 </div>
             </div>
-        </form>
+        {{ form_end(shippingForm) }}
         <!-- END FORM-->
            
       
