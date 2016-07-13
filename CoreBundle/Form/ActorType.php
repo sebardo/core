@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use CoreBundle\Form\ImageType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class ActorType extends AbstractType
@@ -26,6 +26,9 @@ class ActorType extends AbstractType
             ->add('image', ImageType::class, array(
                 'required' => false
             ))
+            ->add('removeImage', HiddenType::class, array( 'attr' => array(
+                'class' => 'remove-image'
+                )))
             ->add('active', null, array('required' => false))
             ->add('newsletter', null, array('required' => false))    
         ;

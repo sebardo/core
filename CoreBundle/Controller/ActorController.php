@@ -137,6 +137,10 @@ class ActorController  extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+            if($actor->getRemoveImage()){
+                $actor->setImage(null);
+            }
+            
             //crypt password
             $password = $editForm->getNormData()->getPassword();
             if($password != ''){

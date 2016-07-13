@@ -63,6 +63,8 @@ class Actor extends BaseActor
      * @ORM\JoinColumn(onDelete="set null")
      */
     private $image;
+
+    public $removeImage;
     
 //    /**
 //     * @var ArrayCollection
@@ -276,6 +278,19 @@ class Actor extends BaseActor
         return $this->image;
     }
      
+    
+    public function setRemoveImage($removeImage)
+    {
+        $this->removeImage = $removeImage;
+
+        return $this->removeImage;
+    }
+
+    public function getRemoveImage()
+    {
+        return $this->removeImage;
+    }
+    
     /**
      * Set newsletter
      *

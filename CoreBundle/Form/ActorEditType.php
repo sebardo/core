@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use CoreBundle\Form\ImageType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
  * Class ActorEditType
@@ -27,6 +28,9 @@ class ActorEditType extends AbstractType
             ->add('image', ImageType::class, array(
                 'required' => false
             ))
+            ->add('removeImage', HiddenType::class, array( 'attr' => array(
+                'class' => 'remove-image'
+                )))
             ->add('active', null, array('required' => false))
             ->add('newsletter', null, array('required' => false))
             
