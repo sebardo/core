@@ -24,7 +24,7 @@
             <div class="box box-info">
                 <!-- BEGIN FORM-->
                 {{ form_start(form, {
-                            'action': path('core_newsletter_create'), 
+                            'action': path('core_newsletter_new'), 
                             'method': 'post', 
                             'attr': {'class': 'form-horizontal form-row-seperated'}
                             }) }}
@@ -60,7 +60,7 @@
     <script>
         
         $(function () {
-            CKEDITOR.replace('corebundle_newslettertype_body', {
+            CKEDITOR.replace('newsletter_body', {
                 extraPlugins: 'uploadimage,image2',
                 height: 300,
 

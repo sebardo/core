@@ -2,7 +2,6 @@
 
 namespace CoreBundle\Controller;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,12 +10,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CoreBundle\Entity\Newsletter;
-use CoreBundle\Form\NewsletterType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use CoreBundle\Entity\NewsletterShipping;
-use CoreBundle\Form\NewsletterShippingType;
 use CoreBundle\Entity\EmailToken;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 /**
@@ -87,14 +83,12 @@ class NewsletterController extends Controller
             throw $this->createNotFoundException('Unable to find Actor  entity.');
         }
         
-        
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if (!$user->isGranted('ROLE_ADMIN')) {
             return $this->redirect($this->generateUrl('core_newsletter_index'));
         }
         
         $entity->setNewsletter(false);
-        
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'newsletter.subscripts.disable');
@@ -140,30 +134,26 @@ class NewsletterController extends Controller
         return new JsonResponse($response);
     }
     
+    
     /**
      * Creates a new Newsletter entity.
      *
-     * @param Request $request The request
-     *
-     * @return array|RedirectResponse
-     *
-     * @Route("/newsletter/")
-     * @Method("POST")
+     * @Route("/newsletter/new")
+     * @Method({"GET", "POST"})
+     * @Template()
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
-        $entity  = new Newsletter();
-        $form = $this->createForm(new NewsletterType(), $entity);
+        $entity = new Newsletter();
+        $form = $this->createForm('CoreBundle\Form\NewsletterType', $entity);
         $form->handleRequest($request);
 
-         
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity->setVisible(true);
             $em->persist($entity);
             $em->flush();
-
-           
+            
             //if come from popup
             if ($request->isXMLHttpRequest()) {         
                 return new JsonResponse(array(
@@ -171,65 +161,32 @@ class NewsletterController extends Controller
                             'title' => $entity->getTitle()
                         ));
             }
-
-            $this->get('session')->getFlashBag()->add('success', 'newsletter.created');
             
-            return $this->redirect($this->generateUrl('core_newsletter_show', array('id' => $entity->getId())));
+            $this->get('session')->getFlashBag()->add('success', 'menu.created');
+
+            return $this->redirectToRoute('core_newsletter_show', array('id' => $entity->getId()));
         }
-
-        return $this->render( 'CoreBundle:Newsletter:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to create a new Newsletter entity.
-     *
-     * @return array
-     *
-     * @Route("/newsletter/new")
-     * @Method("GET")
-     * @Template("CoreBundle:Newsletter:new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new Newsletter();
-        $form   = $this->createForm(new NewsletterType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
+        
     }
 
     /**
      * Finds and displays a Newsletter entity.
      *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
      * @Route("/newsletter/{id}")
      * @Method("GET")
-     * @Template("CoreBundle:Newsletter:show.html.twig")
+     * @Template()
      */
-    public function showAction($id)
+    public function showAction(Newsletter $newsletter)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:Newsletter')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Newsletter entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($newsletter);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $newsletter,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -237,130 +194,73 @@ class NewsletterController extends Controller
     /**
      * Displays a form to edit an existing Newsletter entity.
      *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
      * @Route("/newsletter/{id}/edit")
-     * @Method("GET")
-     * @Template("CoreBundle:Newsletter:edit.html.twig")
+     * @Method({"GET", "POST"})
+     * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, Newsletter $newsletter)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:Newsletter')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Newsletter entity.');
-        }
-
-        $editForm = $this->createForm(new NewsletterType(), $entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-     * Edits an existing Newsletter entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array|RedirectResponse
-     *
-     * @Route("/newsletter/{id}")
-     * @Method("PUT")
-     * @Template("CoreBundle:Newsletter:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:Newsletter')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Newsletter entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new NewsletterType(), $entity);
+        
+        $deleteForm = $this->createDeleteForm($newsletter);
+        $editForm = $this->createForm('CoreBundle\Form\NewsletterType', $newsletter);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
-            
-            $em->persist($entity);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newsletter);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'newsletter.edited');
-
-            return $this->redirect($this->generateUrl('core_newsletter_show', array('id' => $id)));
+            
+            return $this->redirectToRoute('core_newsletter_show', array('id' => $newsletter->getId()));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $newsletter,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
-
+    
     /**
      * Deletes a Newsletter entity.
-     *
-     * @param Request $request The request
-     * @param int     $id      The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return RedirectResponse
      *
      * @Route("/newsletter/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, Newsletter $newsletter)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($newsletter);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            
             $em = $this->getDoctrine()->getManager();
-            /** @var Newsletter $entity */
-            $entity = $em->getRepository('CoreBundle:Newsletter')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Newsletter entity.');
-            }
-            $em->remove($entity);
+            $em->remove($newsletter);
             $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'newsletter.deleted');
+            
+            $this->get('session')->getFlashBag()->add('info', 'newsletter.deleted');
         }
 
-        return $this->redirect($this->generateUrl('core_newsletter_index'));
+        return $this->redirectToRoute('core_newsletter_index');
     }
 
-    
-    
-    /**
-     * Creates a form to delete a Newsletter entity by id.
+   /**
+     * Creates a form to delete a MenuItem entity.
      *
-     * @param int $id The entity id
+     * @param Newsletter $newsletter The Newsletter entity
      *
-     * @return Form The form
+     * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm(Newsletter $newsletter)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', HiddenType::class)
-            ->getForm();
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_newsletter_delete', array('id' => $newsletter->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
+    
     
     
     /******************************/
@@ -433,11 +333,11 @@ class NewsletterController extends Controller
      *
      * @return array|RedirectResponse
      *
-     * @Route("/shipping/")
-     * @Method("POST")
+     * @Route("/shipping/new")
+     * @Method({"GET", "POST"})
      * @Template("CoreBundle:Newsletter/Shipping:new.html.twig")
      */
-    public function createShippingAction(Request $request)
+    public function newShippingAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $entity  = new NewsletterShipping();
@@ -446,12 +346,12 @@ class NewsletterController extends Controller
         if(isset($data['type']) && $data['type'] == 'token'){
             $formConfig['token'] = true;
         }
-        $form = $this->createForm(new NewsletterShippingType($formConfig), $entity);
+        $form = $this->createForm('CoreBundle\Form\NewsletterShippingType', $entity, $formConfig);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $emailArray = $this->getSubscriptorFromType($entity);
+            $emailArray = $this->get('core_manager')->getSubscriptorFromType($entity);
             $entity->setTotalSent(count($emailArray));
             
             /////////////////////////////////////////////////////////
@@ -498,90 +398,23 @@ class NewsletterController extends Controller
         );
     }
 
-    private function getSubscriptorFromType(NewsletterShipping $entity)
-    {
-        $emailArray  = array();
-        $em = $this->getDoctrine()->getManager();
-        $query =  null;
-        if($entity->getType() == NewsletterShipping::TYPE_SUBSCRIPTS){
-            $query = ' SELECT a'
-                . ' FROM CoreBundle:NewsletterSubscription a'
-                ;
-        }elseif($entity->getType() == NewsletterShipping::TYPE_USER){
-            $query = ' SELECT a'
-                . ' FROM CoreBundle:Actor a'
-                . " WHERE a.newsletter =  true "
-                ;
-        }
-        
-        if(is_null($query)) throw $this->createNotFoundException('No type found');
-       
-        $q = $em->createQuery($query);
-        $entities = $q->getResult();
-        foreach ($entities as $value) {
-            ///////////////////////////////////////////////////
-            ///////////////// test case ///////////////////////
-            ///////////////////////////////////////////////////
-            $core = $this->getParameter('core');
-            if(preg_match($core['xpath_email'], $value->getEmail())){
-                 $emailArray[] = $value->getEmail();
-            }
-            
-        }
-         
-        return $emailArray;
-    }
-    
     /**
-     * Displays a form to create a new NewsletterShipping entity.
-     *
-     * @return array
-     *
-     * @Route("/shipping/new")
-     * @Method("GET")
-     * @Template("CoreBundle:Newsletter/Shipping:new.html.twig")
-     */
-    public function newShippingAction()
-    {
-        $entity = new NewsletterShipping();
-        $form   = $this->createForm(new NewsletterShippingType(), $entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-    
-    /**
-     * Finds and displays a Newsletter entity.
-     *
-     * @param int $id The entity id
-     *
-     * @throws NotFoundHttpException
-     * @return array
+     * Finds and displays a NewsletterShipping entity.
      *
      * @Route("/shipping/{id}")
      * @Method("GET")
      * @Template("CoreBundle:Newsletter/Shipping:show.html.twig")
      */
-    public function showShippingAction($id)
+    public function showShippingAction(NewsletterShipping $newsletterShipping)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:NewsletterShipping')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find NewsletterShipping entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createNShippingDeleteForm($newsletterShipping);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $newsletterShipping,
             'delete_form' => $deleteForm->createView(),
         );
     }
+    
     
     /**
      * Deletes a NewsletterShipping entity.
@@ -594,17 +427,10 @@ class NewsletterController extends Controller
      *
      * @Route("/shipping/{id}/delete")
      */
-    public function deleteShippingAction(Request $request, $id)
+    public function deleteShippingAction(Request $request, NewsletterShipping $newsletterShipping)
     {
         $em = $this->getDoctrine()->getManager();
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:NewsletterShipping')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find NewsletterShipping entity.');
-        }
-
-        $em->remove($entity);
+        $em->remove($newsletterShipping);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'newsletter.shipping.deleted');
@@ -614,5 +440,21 @@ class NewsletterController extends Controller
         }
         
         return $this->redirect($this->generateUrl('core_newsletter_shipping'));
+    }
+    
+    /**
+     * Creates a form to delete a MenuItem entity.
+     *
+     * @param Newsletter $newsletter The Newsletter entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createNShippingDeleteForm(NewsletterShipping $nshipping)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_newsletter_deleteshipping', array('id' => $nshipping->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

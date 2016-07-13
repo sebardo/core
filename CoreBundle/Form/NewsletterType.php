@@ -32,7 +32,6 @@ class NewsletterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CoreBundle\Entity\Newsletter',
-            'cascade_validation' => true,
         ));
     }
 }

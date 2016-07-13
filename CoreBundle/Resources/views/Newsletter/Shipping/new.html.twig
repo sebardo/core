@@ -24,7 +24,11 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 <!-- BEGIN FORM-->
-                {{ form_start(form, {'action': path('core_newsletter_createshipping'), 'method': 'post', 'class': 'form-horizontal form-row-seperated'}) }}
+                {{ form_start(form, {
+                                    'action': path('core_newsletter_newshipping'), 
+                                    'method': 'post', 
+                                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                                    }) }}
                     <div class="box-body">
                         {{ include('CoreBundle:Newsletter/Shipping:_form.no.plus.html.twig', { form: form }) }}
                     </div><!-- /.box-body -->

@@ -4,6 +4,7 @@ namespace CoreBundle\Service;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
+use CoreBundle\Entity\NewsletterShipping;
 
 class CoreManager 
 {
@@ -386,5 +387,40 @@ class CoreManager
         }
 
         return $text;
+    }
+    
+    
+    public function getSubscriptorFromType(NewsletterShipping $entity)
+    {
+        $emailArray  = array();
+        $em = $this->container->get('doctrine')->getManager();
+        $query =  null;
+        if($entity->getType() == NewsletterShipping::TYPE_SUBSCRIPTS){
+            $query = ' SELECT a'
+                . ' FROM CoreBundle:NewsletterSubscription a'
+                ;
+        }elseif($entity->getType() == NewsletterShipping::TYPE_USER){
+            $query = ' SELECT a'
+                . ' FROM CoreBundle:Actor a'
+                . " WHERE a.newsletter =  true "
+                ;
+        }
+        
+        if(is_null($query)) throw $this->createNotFoundException('No type found');
+       
+        $q = $em->createQuery($query);
+        $entities = $q->getResult();
+        foreach ($entities as $value) {
+            ///////////////////////////////////////////////////
+            ///////////////// test case ///////////////////////
+            ///////////////////////////////////////////////////
+//            $core = $this->getParameter('core');
+//            if(preg_match($core['xpath_email'], $value->getEmail())){
+                 $emailArray[] = $value->getEmail();
+//            }
+            
+        }
+         
+        return $emailArray;
     }
 }

@@ -7,25 +7,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use CoreBundle\Entity\NewsletterShipping;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
  * Class NewsletterShippingType
  */
 class NewsletterShippingType extends AbstractType
 {
-    protected $config;
-    
-    public function __construct($params=array()) {
-        $this->config = $params;
-    }
-
     /**
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('newsletter', 'entity', array(
+            ->add('newsletter', EntityType::class, array(
                 'class' => 'CoreBundle:Newsletter',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
@@ -33,29 +30,29 @@ class NewsletterShippingType extends AbstractType
                 },
                 'required' => false
             ));
-        if(isset($this->config['token'])){
-            $builder->add('type', 'choice', array(
+        if(isset($options['token'])){
+            $builder->add('type', ChoiceType::class, array(
                     'label' => 'newsletter.shipping.type',
                     'choices' => array(
-                         NewsletterShipping::TYPE_TOKEN => 'Enviar comunicado relanzamiento',
-                    )
+                        'Enviar comunicado relanzamiento' => NewsletterShipping::TYPE_TOKEN,
+                    ),
+                    'choices_as_values' => true
                 )
             )
-            ->add('inactive','checkbox', array('required' => false, 'data' => true ))
+            ->add('inactive', CheckboxType::class, array('required' => false, 'data' => true ))
                 
             ;
         } else{
-            $builder->add('type', 'choice', array(
+            $builder->add('type', ChoiceType::class, array(
                     'label' => 'newsletter.shipping.type',
                     'choices' => array(
-                         NewsletterShipping::TYPE_SUBSCRIPTS => 'Enviar a todos los suscriptores',
-                         NewsletterShipping::TYPE_OPTICS => 'Enviar a las Ópticas',
-                         NewsletterShipping::TYPE_USER => 'Enviar a los usuarios',
-                         NewsletterShipping::TYPE_TOKEN => 'Enviar comunicado relanzamiento',
-                    )
+                         'Enviar a todos los suscriptores' => NewsletterShipping::TYPE_SUBSCRIPTS,
+                         'Enviar a los usuarios' => NewsletterShipping::TYPE_USER ,
+                         'Enviar comunicado relanzamiento' => NewsletterShipping::TYPE_TOKEN,
+                    ),
+                    'choices_as_values' => true
                 )
-            )
-            ;
+            );
         }
         
     }
@@ -67,7 +64,6 @@ class NewsletterShippingType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CoreBundle\Entity\NewsletterShipping',
-            'cascade_validation' => true,
         ));
     }
 }

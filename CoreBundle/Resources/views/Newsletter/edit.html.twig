@@ -25,26 +25,33 @@
       <div class="row">
         <div class="col-xs-12">
             <div class="box box-info">
-                {{ form_start(form, {'action': path('core_newsletter_update', { id: entity.id }), 'method': 'post', 'class': 'form-horizontal form-row-seperated'}) }}
+                {{ form_start(edit_form, {
+                                        'action': path('core_newsletter_edit', { id: entity.id }), 
+                                        'method': 'post', 
+                                        'attr': {'class': 'form-horizontal form-row-seperated'}
+                                        }) }}
                     <div class="box-body">
                         {{ include('CoreBundle:Newsletter:_form.html.twig', { form: edit_form }) }}
                     </div><!-- /.box-body -->
-
-                    <input type="hidden" name="_method" value="PUT" />
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "save" | trans }}</button>
                         <a href="{{ path('core_newsletter_show', { id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
                         <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
                     </div>
-                {{ form_end(form) }}
+                {{ form_end(edit_form) }}
             </div>
         </div>
 
-        <form id="delete-entity" action="{{ path('core_newsletter_delete', { id: entity.id }) }}" method="post">
+        {{ form_start(delete_form, {
+                                'action': path('core_newsletter_delete', { id: entity.id }), 
+                                'method': 'post', 
+                                'id': 'delete-entity'
+                                }) }}
+     
             <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
-        </form>
+        {{ form_end(delete_form) }}
       </div>
     </section>
                      
@@ -64,7 +71,7 @@
     <script>
         
         $(function () {
-            CKEDITOR.replace('corebundle_newslettertype_body', {
+            CKEDITOR.replace('newsletter_body', {
                 extraPlugins: 'uploadimage,image2',
                 height: 300,
 
