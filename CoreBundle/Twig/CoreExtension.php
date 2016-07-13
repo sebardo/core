@@ -129,7 +129,7 @@ class CoreExtension extends \Twig_Extension
             
             return $returnPath;
         }
-        return $arr[0].'_'.$size.'.jpg';
+        return $arr[0].'_'.$size.'.'.$arr[1];
     }
     
     public function checkSliderImage($imageName) {
