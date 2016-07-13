@@ -24,10 +24,7 @@
                 <div class="col-md-9 col-sm-9 col-xs-12 borderMenuProfile">
                     <!-- Tab panes -->
                     <div class="tab-content col-xs-12">
-                        <div class="tab-pane {{ not app.request.get('billing') and
-                                not app.request.get('delivery') and
-                                not app.request.get('transactions') and 
-                                not app.request.get('adverts') ? 'active' }}" id="profile_tab">
+                        <div class="tab-pane active" id="profile_tab">
                             <div class="portlet box custom">
                                 <div class="portlet-body profile">
                                     <div class="profile-content">
