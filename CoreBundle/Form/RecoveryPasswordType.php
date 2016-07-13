@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType as PType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class RecoveryPasswordType extends AbstractType
@@ -20,7 +20,7 @@ class RecoveryPasswordType extends AbstractType
     {
         
         $builder->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
+                'type' => PType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field')),
                 'required' => true,
