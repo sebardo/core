@@ -2,9 +2,6 @@
 
 namespace CoreBundle\Controller;
 
-use Doctrine\ORM\Query;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,8 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CoreBundle\Entity\MenuItem;
-use CoreBundle\Form\SubMenuItemType;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use CoreBundle\Entity\Image;
 
 /**
  * SubMenuItem controller.
@@ -27,26 +23,14 @@ class SubMenuItemController extends Controller
      *
      * @param int $menuItemId The MenuItem id
      *
-     * @throws NotFoundHttpException
-     * @return array
-     *
      * @Route("/")
      * @Method("GET")
      * @Template("CoreBundle:SubMenuItem:index.html.twig")
      */
-    public function indexAction($menuItemId)
+    public function indexAction(MenuItem $menuItemId)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $entity */
-        $entity = $em->getRepository('CoreBundle:MenuItem')->find($menuItemId);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
         return array(
-            'menuitem' => $entity,
+            'menuitem' => $menuItemId,
         );
     }
 
@@ -75,81 +59,38 @@ class SubMenuItemController extends Controller
     }
 
     /**
-     * Creates a new MenuItem entity.
-     *
-     * @param Request $request    The request
-     * @param int     $menuItemId The MenuItem id
-     *
-     * @throws NotFoundHttpException
-     * @return array|RedirectResponse
-     *
-     * @Route("/")
-     * @Method("POST")
-     * @Template("CoreBundle:MenuItem:new.html.twig")
-     */
-    public function createAction(Request $request, $menuItemId)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $menuItem */
-        $menuItem = $em->getRepository('CoreBundle:MenuItem')->find($menuItemId);
-
-        if (!$menuItem) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
-        $entity  = new MenuItem();
-        $form = $this->createForm(new SubMenuItemType(), $entity);
-        $entity->setParentMenuItem($menuItem);
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('success', 'menu.created');
-
-            return $this->redirect($this->generateUrl('core_menuitem_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'menuitem' => $menuitemy,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
      * Displays a form to create a new MenuItem entity.
      *
-     * @param int $menuItemId The MenuItem id
-     *
-     * @throws NotFoundHttpException
-     * @return array
-     *
      * @Route("/new")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template("CoreBundle:SubMenuItem:new.html.twig")
      */
-    public function newAction($menuItemId)
+    public function newAction(Request $request, MenuItem $menuItemId)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        /** @var MenuItem $menuItem */
-        $menuItem = $em->getRepository('CoreBundle:MenuItem')->find($menuItemId);
-
-        if (!$menuItem) {
-            throw $this->createNotFoundException('Unable to find MenuItem entity.');
-        }
-
         $entity = new MenuItem();
-        $form   = $this->createForm(new SubMenuItemType(), $entity);
+        $form   = $this->createForm('CoreBundle\Form\SubMenuItemType', $entity);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity->getParentMenuItem($menuItemId);
+            $em->persist($entity);
+            $em->flush();
+            
+            //images
+            $image = $form->getNormData()->getImage();
+            if ($image instanceof Image) {
+                $this->get('core_manager')->uploadMenuImage($entity);
+            }
+            
+            $this->get('session')->getFlashBag()->add('success', 'menu.created');
 
+            return $this->redirectToRoute('core_menuitem_show', array('id' => $entity->getId()));
+        }
+        
         return array(
             'entity' => $entity,
-            'menuitem' => $menuItem,
+            'menuitem' => $menuItemId,
             'form'   => $form->createView(),
         );
     }

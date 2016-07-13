@@ -265,8 +265,8 @@ class NewsletterControllerTest  extends CoreTest
   
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['newslettershipping[newsletter]']->select($entity->getId());
-        $form['newslettershipping[type]']->select('subscripts');        
+        $form['newsletter_shipping[newsletter]']->select($entity->getId());
+        $form['newsletter_shipping[type]']->select('subscripts');        
         $crawler = $this->client->submit($form);// submit the form
         
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);

@@ -4,7 +4,7 @@ namespace CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use CoreBundle\Form\ImageType;
 
 /**
@@ -19,34 +19,26 @@ class SubMenuItemType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description')            
+            ->add('shortDescription')
             ->add('metaTitle')
             ->add('metaDescription')
             ->add('metaTags')
-            ->add('image', new ImageType(), array(
-                'error_bubbling' => false,
+            ->add('image', ImageType::class, array(
                 'required' => false
             ))
-            ->add('active')
+            ->add('visible', null, array('required' => false))
+            ->add('active', null, array('required' => false))
             ;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\MenuItem',
-            'cascade_validation' => true,
+            'data_class' =>  'CoreBundle\Entity\MenuItem',
         ));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-        return 'corebundle_menuitemtype';
     }
 }

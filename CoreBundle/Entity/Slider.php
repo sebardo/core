@@ -81,6 +81,8 @@ class Slider extends Timestampable
      * @ORM\JoinColumn(onDelete="set null")
      */
     private $image;
+    
+    public $removeImage;
 
 
     /**
@@ -293,5 +295,17 @@ class Slider extends Timestampable
     public function __toString()
     {
         return $this->title;
+    }
+    
+    public function setRemoveImage($removeImage)
+    {
+        $this->removeImage = $removeImage;
+
+        return $this->removeImage;
+    }
+
+    public function getRemoveImage()
+    {
+        return $this->removeImage;
     }
 }

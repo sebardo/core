@@ -118,6 +118,11 @@ class SliderController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            
+            if($slider->getRemoveImage()){
+                $slider->setImage(null);
+            }
+            
             $em->persist($slider);
             $em->flush();
 

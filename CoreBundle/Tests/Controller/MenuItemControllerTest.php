@@ -73,4 +73,96 @@ class MenuItemControllerTest  extends CoreTest
     }
     
     
+    /**
+     * @code
+     * phpunit -v --filter testSubMenuItem -c app vendor/sebardo/core/CoreBundle/Tests/Controller/MenuItemControllerTest.php
+     * @endcode
+     * 
+     */
+    public function testSubMenuItem()
+    {
+        $uid = rand(999,9999);
+        $crawler = $this->createMenuItem($uid);
+        $entity = $this->getEntity($uid, 'CoreBundle:MenuItem');
+
+        //Submenu page
+        $crawler = $this->client->request('GET', '/admin/menuitems/'.$entity->getId().'/submenuitems/');
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click new ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $link = $crawler
+            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo sub-menú item")')->count());
+   
+        //fill form
+        $form = $crawler->selectButton('Guardar')->form();
+        $form['sub_menu_item[name]'] = 'menuitem '.$uid;
+        $form['sub_menu_item[shortDescription]'] = 'menuitem short description '.$uid;
+        $form['sub_menu_item[description]'] = 'menuitem description '.$uid;
+        $form['sub_menu_item[metaTitle]'] = 'meta title '.$uid;
+        $form['sub_menu_item[metaDescription]'] = ' meta description '.$uid;
+        $form['sub_menu_item[visible]']->tick();
+        $form['sub_menu_item[active]']->tick();
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("menuitem '.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado el item del menú")')->count());
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click edit///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $link = $crawler
+            ->filter('a:contains("Editar")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Editar menuitem '.$uid.'")')->count());
+        
+        //fill form
+        $form = $crawler->selectButton('Guardar')->form();
+        $uid = rand(999,9999);
+        $form['menu_item[name]'] = 'menuitem '.$uid;
+        $form['menu_item[shortDescription]'] = 'menuitem short description '.$uid;
+        $form['menu_item[description]'] = 'menuitem description '.$uid;
+        $form['menu_item[metaTitle]'] = 'meta title '.$uid;
+        $form['menu_item[metaDescription]'] = ' meta description '.$uid;
+        $form['menu_item[visible]']->tick();
+        $form['menu_item[active]']->tick();
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("menuitem '.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha editado el item del menú satisfactoriamente")')->count());
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click delete/////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $form = $crawler->filter('form[id="delete-entity"]')->form();
+        $crawler = $this->client->submit($form);// submit the form
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha eliminado el item del menú satisfactoriamente")')->count());
+    }
+    
+    
 }

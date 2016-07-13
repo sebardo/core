@@ -1087,4 +1087,20 @@ class CoreTest  extends WebTestCase
         
         return $crawler;
     }
+    
+    public function getEntity($uid, $repository) {
+        $container = $this->client->getContainer();
+        $manager = $container->get('doctrine')->getManager();
+        
+        $qb = $manager->getRepository($repository)
+            ->createQueryBuilder('r')
+            ->where('r.name LIKE :search')
+            ->setParameter('search', '%'.$uid.'%');
+            
+        $query = $qb->getQuery();
+        $entity = $query->getOneOrNullResult();
+       
+        return $entity;
+
+    }
 }
