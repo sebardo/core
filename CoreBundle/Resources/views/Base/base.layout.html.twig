@@ -14,6 +14,8 @@
             {% stylesheets
                 'bundles/admin/plugins/bootstrap-3.3.6/css/bootstrap.min.css'
                 'bundles/admin/plugins/iCheck/minimal/_all.css'
+                'bundles/admin/plugins/ionicons-2.0.1/css/ionicons.min.css'
+                'bundles/admin/plugins/font-awesome-4.6.3/css/font-awesome.min.css'
                 'bundles/core/css/fonts.css'
                 'bundles/core/less/main-full.less'
             %}
@@ -35,12 +37,18 @@
 
     {% block body %}
     <body class="core-body">
+        
+        {% block header %}{% endblock %}
+        
+        {% block contianer_content %}
         <div class="container">
             <div class="row core-row">
+                {% block content_header %}{% endblock %}
                 {% block content %}{% endblock %}
+                {% block content_footer %}{% endblock %}
             </div>
         </div>
-        
+        {% endblock %}
         {% block footer %}{% endblock %}
         
         {% block javascripts %}
