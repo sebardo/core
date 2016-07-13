@@ -4,9 +4,9 @@
    
 
     <div class="col-sm-4"></div>        
-    <div class="col-sm-4" style="text-align: center">
+    <div class="col-sm-4">
         <div class="container-login">
-           <h2>Soy cliente</h2>
+            <h2 class="center">Soy cliente</h2>
            <hr>
            {% if error is defined and error %}
                <div>{{ error.message }}</div>
@@ -25,18 +25,18 @@
                    </div>
                </div>         
 
-               <div class="clearfix prettycheckbox labelright  blue ">
-                   <div class="checkbox">
-                       <label>
+                <div class="form-group row">
+                    <div class="col-md-5 pull-left">
                         <input type="checkbox" class="minimal" value=""> No cerrar sesión 
-                       </label>
-                         <a href="{{ path('core_actor_recovery') }}" title="No recuerdo mi contraseña">No recuerdo mi contraseña</a>
-                   </div>
-               </div>
-
-               <button type="submit" class="btn btn-primary btn-block">
+                    </div>
+                    <div class="col-md-7">  
+                        <a class="pull-right" href="{{ path('core_actor_recovery') }}" title="No recuerdo mi contraseña">No recuerdo mi contraseña</a>
+                    </div>   
+                        
+                </div>
+                <button type="submit" class="btn-core btn btn-block">
                    Entrar
-               </button>
+                </button>
 
            </form>
        </div>

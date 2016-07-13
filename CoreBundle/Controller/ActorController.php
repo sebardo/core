@@ -212,17 +212,77 @@ class ActorController  extends Controller
     }
     
     /**
+     * Creates a new Newsletter entity.
+     *
+     * @param Request $request The request
+     *
+     * @return array|RedirectResponse
+     *
+     * @Route("/admin/actor/{id}/email")
+     * @Template("CoreBundle:Actor:email.html.twig")
+     */
+    public function emailAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        /** @var Newsletter $entity */
+        $entity = $em->getRepository('CoreBundle:Actor')->find($id);
+        
+        $form = $this->createForm(new ActorEmailType(array('email' => $entity->getEmail())));
+       
+        if($request->getMethod() == 'POST'){
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                //Get params
+                $data = $form->getData();
+                $email = $data['email'];            
+                if($entity->getEmail() == $email){
+                    
+                    $news = new Newsletter();
+                    $news->setTitle($data['subject']);
+                    $news->setBody($data['body']);
+                    $news->setActive(true);
+                    $em->persist($news);
+                    
+                    $shipping = new NewsletterShipping();
+                    $shipping->setNewsletter($news);
+                    $shipping->setActor($entity);
+                    $shipping->setTotalSent(1);
+                    $shipping->setType(NewsletterShipping::TYPE_PERSONAL);
+                    $em->persist($shipping);
+                    $em->flush();
+                    
+                    $this->get('core.mailer')->sendActorEmail($email, $data['subject'], $data['body']);
+                    
+                    //if come from popup
+                    if ($request->isXMLHttpRequest()) {         
+                        return new JsonResponse(array(
+                                    'id' => $shipping->getId()
+                                ));
+                    }
+
+                    $this->get('session')->getFlashBag()->add('success', 'user.email.created');
+                    return $this->redirect($this->generateUrl('core_actor_show', array('id' => $entity->getId())));
+                }
+
+            }
+        }
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+    
+    /**
      *
      * REGISTRATION
      *
-     */
-
-    /**
      * Create new Actor entity.
      *
      * @Route("/register", name="register")
      * @Method({"GET", "POST"})
-     * @Template("CoreBundle:Registration:register.html.twig")
+     * @Template("CoreBundle:Registration:index.html.twig")
      */
     public function registerAction(Request $request)
     {
@@ -319,58 +379,86 @@ class ActorController  extends Controller
      * Validate registration.
      *
      * @Route("/recovery")
-     * @Template("CoreBundle:RecoveryPassword:recovery.html.twig")
+     * @Template("CoreBundle:RecoveryPassword:index.html.twig")
      */
-    public function recoveryAction()
+    public function recoveryAction(Request $request)
     {
-        return array();
+        $form = $this->createForm('CoreBundle\Form\RecoveryEmailType');
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getNormData();
+            if(isset($data['email'])){
+                $em = $this->getDoctrine()->getManager();
+                $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($data['email']);
+                
+                if ($request->isXmlHttpRequest()) {
+                    $returnValues = new stdClass();
+                    if ($user instanceof Actor) {
+                        $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
+                        $returnValues->status = 'success';
+                        $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
+                    } else {
+                        $returnValues->status = 'error';
+                        $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.error');;
+                    }
+                    $response = new Response();
+                    $response->setContent(json_encode(array(
+                        'answer' => $returnValues
+                    )));
+                    $response->headers->set('Content-Type', 'application/json');
+                    return $response;
+                }else{
+                    if ($user instanceof Actor) {
+                        $this->get('core.mailer')->sendRecoveryPasswordMessage($user); 
+                        $this->get('session')->getFlashBag()->add('success', 'account.password.recovery.email.success');
+                    } else {
+                        $this->get('session')->getFlashBag()->add('danger', 'account.password.recovery.email.error');
+                    }
+                }
+            }
+            
+        }
+        
+        return array('form' => $form->createView());
     }
     
     /**
      * Validate registration.
      *
-     * @Route("/recovery-password/{email}", name="recovery_password", defaults={"email" = ""})
+     * @Route("/recovery/{email}", name="recovery_password", defaults={"email" = ""})
      * @Method("POST")
      * @Template("CoreBundle:RecoveryPassword:recovery.password.html.twig")
      */
     public function recoveryPasswordAction($email)
     {
-
-        $em = $this->getDoctrine()
-                    ->getManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($email);
-
         $returnValues = new stdClass();
-
         if ($user instanceof Actor) {
             $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
-            
             $returnValues->status = 'success';
             $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
-
         } else {
             $returnValues->status = 'error';
-            $returnValues->message = 'Unable to find user.';
+            $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.error');;
         }
-
         $response = new Response();
         $response->setContent(json_encode(array(
             'answer' => $returnValues
         )));
         $response->headers->set('Content-Type', 'application/json');
-
         return $response;
-
     }
 
     /**
      * Validate registration.
      *
-     * @Route("/recovery-password-form/{email}/{hash}", name="recovery_password_form")
-     * @Method("GET")
-     * @Template("CoreBundle:RecoveryPassword:recovery.password.html.twig")
+     * @Route("/recovery/{email}/{hash}", name="recovery_password_form")
+     * @Method({"GET", "POST"})
+     * @Template("CoreBundle:RecoveryPassword:new.html.twig")
      */
-    public function recoveryPasswordFormAction($email, $hash)
+    public function recoveryPasswordFormAction(Request $request, $email, $hash)
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -381,139 +469,40 @@ class ActorController  extends Controller
         }
 
         if ($user instanceof Actor && $user->getSalt() == $hash) {
-            //Default hash value
             $options = array('hash'=>$hash);
-            $form = $this->createForm(new RecoveryPasswordType(), null, $options);
+            $form = $this->createForm('CoreBundle\Form\RecoveryPasswordType', null, $options);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) {
+                //Encode pass
+                $factory = $this->get('security.encoder_factory');
+                $recovery = $form->getData();
+                $newPassword = $recovery['password'];
+                $hash = $recovery['hash'];
+                $user = $em->getRepository('CoreBundle:Actor')->findOneBySalt($hash);
+                $encoder = $factory->getEncoder(new Actor());
+
+                if (!$user) {
+                    throw $this->createNotFoundException('Unable to find user.');
+                }
+                $newSalt = md5(uniqid(null, true));
+                $password = $encoder->encodePassword($newPassword, $newSalt);
+                $user->setSalt($newSalt);
+                $user->setPassword($password);
+                $em->flush();
+
+                $this->get('core.mailer')->sendRecoveryPasswordConfirmation($user);
+
+                $this->get('session')->getFlashBag()->add('success', 'account.password.recovery.change.success');
+
+            }
+            
             return array('form' => $form->createView());
+            
         } else {
             throw $this->createNotFoundException('Invalid parameters. {'.$hash.'}');
         }
 
-    }
-
-    /**
-     * Creates
-     *
-     * @Route("/recovery-password-form/", name="recovery_password_create")
-     * @Method("POST")
-     * @Template("CoreBundle:RecoveryPassword:recovery.password.html.twig")
-     */
-    public function recoveryPasswordUpdateAction()
-    {
-
-        $em = $this->getDoctrine()->getManager();
-        $form = $this->createForm(new RecoveryPasswordType());
-        $form->handleRequest($this->getRequest());
-
-        if ($form->isValid()) {
-            
-            //Encode pass
-            $factory = $this->get('security.encoder_factory');
-            $recovery = $form->getData();
-            $newPassword = $recovery['password'];
-            $hash = $recovery['hash'];
-            $user = $em->getRepository('CoreBundle:Actor')->findOneBySalt($hash);
-            $encoder = $factory->getEncoder(new Actor());
-            
-            if (!$user) {
-                throw $this->createNotFoundException('Unable to find user.');
-            }
-            $newSalt = md5(uniqid(null, true));
-            $password = $encoder->encodePassword($newPassword, $newSalt);
-            $user->setSalt($newSalt);
-            $user->setPassword($password);
-            $em->flush();
-            
-            $this->get('core.mailer')->sendRecoveryPasswordConfirmation($user);
-            
-            return $this->render('CoreBundle:RecoveryPassword:create.html.twig');
-
-        }
-        return array('form' => $form->createView());
-   }
-   
-    
-   /**
-     * Creates a new Newsletter entity.
-     *
-     * @param Request $request The request
-     *
-     * @return array|RedirectResponse
-     *
-     * @Route("/admin/actor/{id}/email")
-     * @Template("CoreBundle:Actor:email.html.twig")
-     */
-    public function emailAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        /** @var Newsletter $entity */
-        $entity = $em->getRepository('CoreBundle:Actor')->find($id);
-        
-        $form = $this->createForm(new ActorEmailType(array('email' => $entity->getEmail())));
-       
-        if($request->getMethod() == 'POST'){
-            $form->handleRequest($request);
-
-            if ($form->isValid()) {
-                //Get params
-                $data = $form->getData();
-                $email = $data['email'];            
-                if($entity->getEmail() == $email){
-                    
-                    $news = new Newsletter();
-                    $news->setTitle($data['subject']);
-                    $news->setBody($data['body']);
-                    $news->setActive(true);
-                    $em->persist($news);
-                    
-                    $shipping = new NewsletterShipping();
-                    $shipping->setNewsletter($news);
-                    $shipping->setActor($entity);
-                    $shipping->setTotalSent(1);
-                    $shipping->setType(NewsletterShipping::TYPE_PERSONAL);
-                    $em->persist($shipping);
-                    $em->flush();
-                    
-                    $this->get('core.mailer')->sendActorEmail($email, $data['subject'], $data['body']);
-                    
-                    //if come from popup
-                    if ($request->isXMLHttpRequest()) {         
-                        return new JsonResponse(array(
-                                    'id' => $shipping->getId()
-                                ));
-                    }
-
-                    $this->get('session')->getFlashBag()->add('success', 'user.email.created');
-                    return $this->redirect($this->generateUrl('core_actor_show', array('id' => $entity->getId())));
-                }
-
-            }
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-    
-    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
-        $errors = array();
-
-        foreach ($form->getErrors() as $key => $error) {
-            if ($form->isRoot()) {
-                $errors['#'][] = $error->getMessage();
-            } else {
-                $errors[] = $error->getMessage();
-            }
-        }
-
-        foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
-                $errors[$child->getName()] = $this->getErrorMessages($child);
-            }
-        }
-
-        return $errors;
     }
     
     /*
@@ -571,7 +560,7 @@ class ActorController  extends Controller
     public function profileShowAction(Actor $actor)
     {
         //stats
-//        $this->get('core_manager')->setStats($actor);
+        //$this->get('core_manager')->setStats($actor);
                 
         if (!is_object($actor)) {
             throw new AccessDeniedException('This user does not have access to this section.');

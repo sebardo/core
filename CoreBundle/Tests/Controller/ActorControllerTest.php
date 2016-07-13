@@ -148,4 +148,64 @@ class ActorControllerTest  extends CoreTest
         
     }
   
+    /**
+     * @code
+     * phpunit -v --filter testRecovery -c app vendor/sebardo/core/CoreBundle/Tests/Controller/ActorControllerTest.php
+     * @endcode
+     * 
+     */
+    public function testRecovery()
+    {
+        //Actor create
+        $uid = rand(999,9999);
+        $crawler = $this->createUser('actor', $uid);
+        $entity = $this->getEntity($uid, 'CoreBundle:Actor');
+        
+        //Actor register
+        $crawler = $this->client->request('GET', '/recovery');
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Recuperar contraseña")')->count());
+
+        //fill form
+        $form = $crawler->selectButton('Recuperar')->form();
+        $form['recovery_email[email]'] = $entity->getEmail();
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Mensaje de recuperación enviado con exito, revise su casilla de correo.")')->count());
+
+        //Recovery Form
+        $crawler = $this->client->request('GET', '/recovery/'.$entity->getEmail().'/'.$entity->getSalt());
+        
+        
+        //fill form
+        $uid = rand(999,9999);
+        $form = $crawler->selectButton('Recuperar')->form();
+        $form['recovery_password[password][first]'] = $uid;
+        $form['recovery_password[password][second]'] = $uid;
+        $crawler = $this->client->submit($form);// submit the form
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Tu contraseña ha sido actualizada con exito.")')->count());
+
+        //Login Form
+        //Check new password
+        $crawler = $this->client->request('GET', '/login');
+        
+        //fill form
+        $form = $crawler->selectButton('Entrar')->form();
+        $form['_username'] = $entity->getEmail();
+        $form['_password'] = $uid;
+        $crawler = $this->client->submit($form);// submit the form
+
+        //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Login success")')->count());
+        
+    }
 }

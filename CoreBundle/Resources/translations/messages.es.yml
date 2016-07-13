@@ -344,6 +344,7 @@ account:
     singular: Email
     singular*: Email*
     repeat: Repite el email
+    enter: Ingrese su correo electrónico
   password:
     singular: Contraseña
     singular*: Contraseña*
@@ -368,6 +369,7 @@ account:
         title: Hola %name%,
         message: Para crear una nueva contraseña para su cuenta, por favor siga el siguiente enlace.
         success: Mensaje de recuperación enviado con exito, revise su casilla de correo.
+        error: Usuario no encontrado.
   keep.logged.in: No cerrar sesión
   name: Nombre
   name*: Nombre*

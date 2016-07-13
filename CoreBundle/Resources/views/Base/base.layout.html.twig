@@ -12,10 +12,10 @@
         {% block stylesheets %}
 
             {% stylesheets
-                'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+                'bundles/admin/plugins/bootstrap-3.3.6/css/bootstrap.min.css'
+                'bundles/admin/plugins/iCheck/minimal/_all.css'
                 'bundles/core/css/fonts.css'
                 'bundles/core/less/main-full.less'
-                'bundles/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'
             %}
                 <link rel="stylesheet" href="{{ asset_url }}">
             {% endstylesheets %}
@@ -24,6 +24,8 @@
 
         {% javascripts
             'bundles/core/js/jquery-1.11.1.min.js'
+            'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
+            'bundles/admin/plugins/iCheck/icheck.min.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
@@ -42,6 +44,25 @@
         {% block footer %}{% endblock %}
         
         {% block javascripts %}
+            
+            <script>
+                //iCheck for checkbox and radio inputs
+                $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                  checkboxClass: 'icheckbox_minimal-blue',
+                  radioClass: 'iradio_minimal-blue'
+                });
+                //Red color scheme for iCheck
+                $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+                  checkboxClass: 'icheckbox_minimal-red',
+                  radioClass: 'iradio_minimal-red'
+                });
+                //Flat red color scheme for iCheck
+                $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                  checkboxClass: 'icheckbox_flat-green',
+                  radioClass: 'iradio_flat-green'
+                });
+
+            </script>
         {% endblock %}
     </body>
     {% endblock %}
