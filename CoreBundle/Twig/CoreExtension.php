@@ -129,7 +129,11 @@ class CoreExtension extends \Twig_Extension
             
             return $returnPath;
         }
+<<<<<<< Updated upstream
         return $arr[0].'_'.$size.'.'.$arr[1];
+=======
+        return $arr[0].'_'.$size.'.'.$arr[0];
+>>>>>>> Stashed changes
     }
     
     public function checkSliderImage($imageName) {
@@ -142,15 +146,16 @@ class CoreExtension extends \Twig_Extension
             $path = implode('/', $arr2);
             $returnPath =  $path.'/'.$name.'.'.$arr[1];
             
-            $frontManager =  $this->container->get('admin_manager');
-            if(!$frontManager->checkRemoteFile($this->parameters['server_base_url'].$returnPath)){
+            $frontManager =  $this->container->get('core_manager');
+            $core = $this->container->getParameter('core');
+            if(!$frontManager->checkRemoteFile($core['server_base_url'].$returnPath)){
                 return  $path.'/'.$name.'.jpg';
             }
             
             return $returnPath;
         }
         //default image
-        return $arr[0].'.jpg';
+        return $arr[0].'.'.$arr[0];
     }
     
     public function getMaxFileSize(){
