@@ -129,11 +129,7 @@ class CoreExtension extends \Twig_Extension
             
             return $returnPath;
         }
-<<<<<<< Updated upstream
         return $arr[0].'_'.$size.'.'.$arr[1];
-=======
-        return $arr[0].'_'.$size.'.'.$arr[0];
->>>>>>> Stashed changes
     }
     
     public function checkSliderImage($imageName) {
