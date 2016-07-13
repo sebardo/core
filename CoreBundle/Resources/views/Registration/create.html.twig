@@ -1,9 +1,0 @@
-{% extends 'CoreBundle:Base:base.layout.html.twig' %}
-
-{% block content %}
-
-{{ 'core.user.register.success' | trans }}
-
-<br><br>
-<a class="btn btn-success" href="{{ path('user_edit', {'targetUsername': app.user.username}) }}">{{ 'core.user.continue' | trans }} </a>
-{% endblock content%}
