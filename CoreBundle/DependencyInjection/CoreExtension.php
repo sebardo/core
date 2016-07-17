@@ -39,8 +39,41 @@ class CoreExtension extends Extension implements PrependExtensionInterface
     private function addMenuItemsByBundles($container, $config)
     {
         $bundles = $container->getParameter('kernel.bundles');
+        
+        if (isset($bundles['CoreBundle'])) {
+            $config = $this->arraymap(array(
+                'admin_menus' => array(
+                    'dashboard' => array(
+                        'icon_class' => 'fa fa-dashboard',
+                        'label' => 'dashboard',
+                        'options' => array(
+                            'menuitems' => 'core_menuitem_index',
+                            'sliders' => 'core_slider_index'
+                        )
+                     ),
+                    'user' => array(
+                        'icon_class' => 'fa fa-users',
+                        'label' => 'actor.plural',
+                        'options' => array(
+                            'actors' => 'core_actor_index',
+                            )
+                    ),
+                    'newsletter' => array(
+                        'icon_class' => 'fa fa-envelope-o',
+                        'label' => 'newsletter.plural',
+                        'options' => array(
+                            'subscriptions' => 'core_newsletter_subscription',
+                            'newsletters' => 'core_newsletter_index',
+                            'shippings' => 'core_newsletter_shipping',
+                        )
+                    )
+                )
+            ),$config);
+        }
+        
+        
         if (isset($bundles['AdminBundle'])) {
-            $configs = $this->arraymap(array(
+            $config = $this->arraymap(array(
                 'admin_menus' => array(
                     'dashboard' => array(
                         'options' => array(
@@ -49,12 +82,10 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                         )
                     )
                 ),$config);
-        }else{
-            $configs = $config['admin_menus'];
         }
         
         if (isset($bundles['BlogBundle'])) {
-            $configs = $this->arraymap(array(
+            $config = $this->arraymap(array(
                 'admin_menus' => array(
                     'blog' => array(
                         'icon_class' => 'fa ion-ios-compose-outline',
@@ -70,14 +101,14 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                 ),$config);
         }
         
-        return $configs;
+        return $config;
     }
 
     private function arraymap($arr1, $arr2)
     {
             foreach ($arr1 as $key => $menu_item) {
                 if(!array_key_exists($key, $arr2)){
-                    array_push($arr2, $menu_item);
+                    $arr2[$key] = $menu_item;
                 }else{
                     foreach ($menu_item as $key2 => $menu_item2) {
                         if(!array_key_exists($key2, $arr2[$key])){
