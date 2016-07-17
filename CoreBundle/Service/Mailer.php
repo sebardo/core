@@ -20,7 +20,6 @@ class Mailer
     private $parameters;
     private $router;
     private $templating;
-    private $html2pdf_factory;
     private $kernel;
     private $notificationManager;
     private $manager;
@@ -36,7 +35,6 @@ class Mailer
             array $parameters, 
             $router,
             $templating,
-            $html2pdf_factory,
             $kernel,
             $notificationManager,
             $manager
@@ -47,7 +45,6 @@ class Mailer
         $this->parameters = $parameters['parameters'];
         $this->router = $router;
         $this->templating = $templating;
-        $this->html2pdf_factory = $html2pdf_factory;
         $this->kernel = $kernel;
         $this->notificationManager = $notificationManager;
         $this->manager = $manager;

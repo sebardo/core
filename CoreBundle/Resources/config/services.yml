@@ -7,7 +7,6 @@ services:
             - { parameters: %core% }
             - "@router"
             - "@templating"
-            - "@html2pdf_factory"
             - "@kernel"
             - "@notification_manager"
             - "@doctrine.orm.entity_manager"

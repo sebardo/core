@@ -48,13 +48,6 @@ class Actor extends BaseActor
      * @ORM\Column(name="newsletter", type="boolean")
      */
     private $newsletter;
-    
-//    /**
-//     * @var ArrayCollection
-//     *
-//     * @ORM\OneToMany(targetEntity="\EcommerceBundle\Entity\Address", mappedBy="actor", cascade={"persist", "remove"})
-//     */
-//    private $addresses;
 
     /**
      * @var Image
@@ -66,40 +59,12 @@ class Actor extends BaseActor
 
     public $removeImage;
     
-//    /**
-//     * @var ArrayCollection
-//     *
-//     * @ORM\OneToMany(targetEntity="\EcommerceBundle\Entity\Transaction", mappedBy="actor", cascade={"remove"})
-//     */
-//    private $transactions;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="\BlogBundle\Entity\Post", mappedBy="actor", cascade={"remove"})
-     */
-    private $posts;
-    
-//    /**
-//     * @var ArrayCollection
-//     *
-//     * @ORM\OneToMany(targetEntity="\EcommerceBundle\Entity\Advert", mappedBy="actor", cascade={"remove"})
-//     */
-//    private $adverts;
-    
     /**
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="\CoreBundle\Entity\NewsletterShipping", mappedBy="actor", cascade={"remove"})
      */
     private $shippings;
-    
-//    /**
-//     * @var ArrayCollection
-//     *
-//     * @ORM\OneToMany(targetEntity="\BlogBundle\Entity\Comment", mappedBy="actor", cascade={"remove"})
-//     */
-//    private $comments;
 
     /**
      * Constructor
@@ -108,12 +73,7 @@ class Actor extends BaseActor
     {
         parent::__construct();
         $this->newsletter = false;
-//        $this->addresses = new ArrayCollection();
-//        $this->transactions = new ArrayCollection();
-        $this->posts = new ArrayCollection();
-//        $this->adverts = new ArrayCollection();
         $this->shippings = new ArrayCollection();
-//        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -173,76 +133,6 @@ class Actor extends BaseActor
     {
         return $this->surnames;
     }
-//
-//    /**
-//     * Add address
-//     *
-//     * @param Address $address
-//     *
-//     * @return Actor
-//     */
-//    public function addAddress(Address $address)
-//    {
-//        $address->setActor($this);
-//        $this->addresses->add($address);
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove address
-//     *
-//     * @param Address $address
-//     */
-//    public function removeAddress(Address $address)
-//    {
-//        $this->addresses->removeElement($address);
-//    }
-//
-//    /**
-//     * Get addresses
-//     *
-//     * @return ArrayCollection
-//     */
-//    public function getAddresses()
-//    {
-//        return $this->addresses;
-//    }
-//
-//    /**
-//     * Add transaction
-//     *
-//     * @param Transaction $transaction
-//     *
-//     * @return Actor
-//     */
-//    public function addTransaction(Transaction $transaction)
-//    {
-//        $transaction->setActor($this);
-//        $this->transactions->add($transaction);
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove transaction
-//     *
-//     * @param Transaction $transaction
-//     */
-//    public function removeTransaction(Transaction $transaction)
-//    {
-//        $this->transactions->removeElement($transaction);
-//    }
-//
-//    /**
-//     * Get transaction
-//     *
-//     * @return ArrayCollection
-//     */
-//    public function getTransactions()
-//    {
-//        return $this->transactions;
-//    }
 
     /**
      * Get full name
@@ -315,77 +205,6 @@ class Actor extends BaseActor
         return $this->newsletter;
     }
     
-    
-    /**
-     * Add post
-     *
-     * @param Post $post
-     *
-     * @return Actor
-     */
-    public function addPost(Post $post)
-    {
-        $post->setActor($this);
-        $this->posts->add($post);
-
-        return $this;
-    }
-
-    /**
-     * Remove post
-     *
-     * @param Post $post
-     */
-    public function removePost(Post $post)
-    {
-        $this->posts->removeElement($post);
-    }
-
-    /**
-     * Get post
-     *
-     * @return ArrayCollection
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-//    
-//    /**
-//     * Add advert
-//     *
-//     * @param Advert $advert
-//     *
-//     * @return Actor
-//     */
-//    public function addAdvert(Advert $advert)
-//    {
-//        $advert->setActor($this);
-//        $this->adverts->add($advert);
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Remove advert
-//     *
-//     * @param Advert $advert
-//     */
-//    public function removeAdvert(Advert $advert)
-//    {
-//        $this->adverts->removeElement($advert);
-//    }
-//
-//    /**
-//     * Get advert
-//     *
-//     * @return ArrayCollection
-//     */
-//    public function getAdverts()
-//    {
-//        return $this->adverts;
-//    }
-//    
     /**
      * Add shipping
      *
@@ -420,39 +239,5 @@ class Actor extends BaseActor
     {
         return $this->shippings;
     }
-    
-    /**
-     * Add comment
-     *
-     * @param Comment $comment
-     *
-     * @return Actor
-     */
-    public function addComment(Comment $comment)
-    {
-        $comment->setActor($this);
-        $this->comments->add($comment);
 
-        return $this;
-    }
-
-    /**
-     * Remove comment
-     *
-     * @param Comment $comment
-     */
-    public function removeComment(Comment $comment)
-    {
-        $this->comments->removeElement($comment);
-    }
-
-    /**
-     * Get comment
-     *
-     * @return ArrayCollection
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
 }

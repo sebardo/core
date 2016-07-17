@@ -55,6 +55,7 @@ video:
   plural: Videos
   manage: Gestionar video
   
+menuitems: Menú Items
 menu:
   singular: Menú
   plural: Menú Items
@@ -80,6 +81,7 @@ meta:
   description*: Meta descripción*
   tags: Meta etiquetas
   
+actors: Usuarios
 actor:
   singular: Usuario
   plural: Usuarios
@@ -90,7 +92,8 @@ actor:
   email: Envio de mensajes
   email.new: Nuevo mensaje
   email.created: El mensaje se ha enviado satisfactoriamente
- 
+
+sliders: Carrusel de imagenes
 slider:
   singular: Slider (carrusel de imagenes)
   plural: Carrusel de imagenes
@@ -287,6 +290,9 @@ contact:
                 Mensaje enviado con envio de copia al remitente.
   
 
+shippings: Envios
+subscriptions: Subscriptores
+newsletters: Newsletters
 newsletter:
     singular: Newsletter
     plural: Newsletters

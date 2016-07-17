@@ -44,6 +44,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('check_slider_image', array($this, 'checkSliderImage')),
             new Twig_SimpleFunction('get_address_form', array($this, 'getAddressForm')),
             new Twig_SimpleFunction('get_first_image', array($this, 'getFirstImage')),
+            new Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
             
         );
     }
@@ -370,7 +371,11 @@ class CoreExtension extends \Twig_Extension
         return $entities;
     }
     
-    
+    public function getAdminMenu()
+    {
+        $adminMenu = $this->container->getParameter('core.admin_menus');
+        return $adminMenu['admin_menus'];
+    }
     
     /**
      * {@inheritDoc}
