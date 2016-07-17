@@ -61,9 +61,9 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                         'label' => 'blog.singular',
                         'options' => array(
                             'posts' => 'blog_post_index',
-                            'postscategories' => 'blog_category_index',
-                            'poststags' => 'blog_tag_index',
-                            'postscomments' => 'blog_comment_index'
+                            'postcategories' => 'blog_category_index',
+                            'posttags' => 'blog_tag_index',
+                            'postcomments' => 'blog_comment_index'
                             )
                         )
                     )
