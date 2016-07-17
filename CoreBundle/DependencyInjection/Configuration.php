@@ -13,39 +13,6 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * Array of supported resource owners, indentation is intentional to easily notice
-     * which resource is of which type.
-     *
-     * @var array
-     */
-    private static $menuItems = array(
-        'dashboard' => array(
-            'analytics',
-            'menuitems',
-            'sliders',
-        ),
-        'newsletter' => array(
-            'shippings',
-            'newsletters',
-        ),
-    );
-    
-    /**
-     * Checks that given menu item is supported by this bundle.
-     *
-     * @param string $menuItem
-     *
-     * @return Boolean
-     */
-    public static function isMenuItemSupported($menuItem)
-    {
-        if ('dashboard' === $menuItem || 'newsletter' === $menuItem) {
-            return true;
-        }
-
-        return in_array($menuItem, static::$menuItems['dashboard']) || in_array($menuItem, static::$menuItems['newsletter']);
-    }
     
     /**
      * {@inheritdoc}
@@ -56,7 +23,6 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('core');
 
         $this->addMenuConfiguration($rootNode);
-
 
         return $treeBuilder;
     }

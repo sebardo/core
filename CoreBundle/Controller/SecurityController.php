@@ -15,9 +15,6 @@ class SecurityController extends Controller
      */
     public function indexAction(Request $request)
     {
-        print_r('------------------------Controller------------------<pre>');
-        print_r($this->getParameter('core.admin_menus')); 
-        print_r('</pre>');
         return array();
     }
     /**

@@ -57,9 +57,11 @@ class CoreExtension extends Extension implements PrependExtensionInterface
             $configs = $this->arraymap(array(
                 'admin_menus' => array(
                     'blog' => array(
+                        'icon_class' => 'fa ion-ios-compose-outline',
+                        'label' => 'blog.singular',
                         'options' => array(
                             'posts' => 'blog_post_index',
-                            'postscategories' => 'blog_cartegory_index',
+                            'postscategories' => 'blog_category_index',
                             'poststags' => 'blog_tag_index',
                             'postscomments' => 'blog_comment_index'
                             )
