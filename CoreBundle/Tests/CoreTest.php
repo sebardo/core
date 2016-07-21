@@ -18,7 +18,7 @@ class CoreTest  extends WebTestCase
 
     protected $client = null;
     
-    protected $optic = null;
+    protected $actor = null;
     
     protected $plan = null;
     
@@ -233,11 +233,11 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_categorytype[name]'] = 'category '.$uid;
-        $form['ecommercebundle_categorytype[description]'] = 'category description'.$uid;
-        $form['ecommercebundle_categorytype[metaTitle]'] = 'Meta title_'.$uid;
-        $form['ecommercebundle_categorytype[metaDescription]'] = 'Meta description_'.$uid;
-        $form['ecommercebundle_categorytype[active]']->tick();
+        $form['category[name]'] = 'category '.$uid;
+        $form['category[description]'] = 'category description'.$uid;
+        $form['category[metaTitle]'] = 'Meta title_'.$uid;
+        $form['category[metaDescription]'] = 'Meta description_'.$uid;
+        $form['category[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -332,8 +332,8 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_brandtype[name]'] = 'brand '.$uid;
-        $form['ecommercebundle_brandtype[available]']->tick();
+        $form['brand[name]'] = 'brand '.$uid;
+        $form['brand[available]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -372,11 +372,11 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_brandmodeltype[name]'] = 'brandmodel '.$uid;
+        $form['brand_model[name]'] = 'brandmodel '.$uid;
         if($brand instanceof Brand){
-            $form['ecommercebundle_brandmodeltype[brand]']->select($brand->getId());
+            $form['brand_model[brand]']->select($brand->getId());
         }
-        $form['ecommercebundle_brandmodeltype[available]']->tick();
+        $form['brand_model[available]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -440,20 +440,23 @@ class CoreTest  extends WebTestCase
         return $crawler;
     }
     
-    public function createProduct($uid, $active=false) 
+    public function createProduct($uid, $active=false, $admin=true) 
     {
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
         
-        ///////////////////////////////////////////////////////////////////////////
-        // Optic //////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////
-        $opticId = rand(999,9999);
-        $crawler = $this->createUser('optic', $opticId);
-        $username = 'optic+'.$opticId.'@gmail.com';
-        $optic = $manager->getRepository('CoreBundle:Optic')->findOneByEmail($username);
-        $this->optic = $optic;
-        $this->password = $opticId;
+        if(!$admin){
+            ///////////////////////////////////////////////////////////////////////////
+            // Actor //////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////////
+            $actorId = rand(999,9999);
+            $crawler = $this->createUser('actor', $actorId);
+            $username = 'actor+'.$actorId.'@email.com';
+            $actor = $manager->getRepository('CoreBundle:Actor')->findOneByEmail($username);
+            $this->actor = $actor;
+            $this->password = $actorId;
+        }
+        
         
         ////////////////////////////////////////////////////////////////////////////
         // Category ////////////////////////////////////////////////////////////////
@@ -505,24 +508,24 @@ class CoreTest  extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo producto")')->count());
    
         //fill form
-        $form = $crawler->filter('form[name="ecommercebundle_producttype"]')->form();
-        $form['ecommercebundle_producttype[optic]']->select($optic->getId());
-        $form['ecommercebundle_producttype[category]']->select($category->getId());
-        $form['ecommercebundle_producttype[brand]']->select($brand->getId());
-        $form['ecommercebundle_producttype[model]']->select($brandModel->getId());
-        $form['ecommercebundle_producttype[name]'] = 'product '.$uid;
-        $form['ecommercebundle_producttype[description]'] = 'product description'.$uid;
-        $form['ecommercebundle_producttype[initPrice]'] = 100;
-        $form['ecommercebundle_producttype[price]'] = 100;
-        $form['ecommercebundle_producttype[priceType]'] = 0;
-        $form['ecommercebundle_producttype[weight]'] = 1;
-        $form['ecommercebundle_producttype[stock]'] = 20;
-        $form['ecommercebundle_producttype[metaTitle]'] = 'Meta title_'.$uid;
-        $form['ecommercebundle_producttype[metaDescription]'] = 'Meta description_'.$uid;
-        if($active)$form['ecommercebundle_producttype[active]']->tick();
-        $form['ecommercebundle_producttype[available]']->tick();
-        $form['ecommercebundle_producttype[public]']->tick();
-        $form['ecommercebundle_producttype[publishDateRange]'] = '01/01/'.(date('Y')-1).' 30/12/'.(date('Y')+1);
+        $form = $crawler->filter('form[name="product"]')->form();
+//        $form['product[actor]']->select($actor->getId());
+        $form['product[category]']->select($category->getId());
+        $form['product[brand]']->select($brand->getId());
+        $form['product[model]']->select($brandModel->getId());
+        $form['product[name]'] = 'product '.$uid;
+        $form['product[description]'] = 'product description'.$uid;
+        $form['product[initPrice]'] = 100;
+        $form['product[price]'] = 100;
+        $form['product[priceType]'] = 0;
+        $form['product[weight]'] = 1;
+        $form['product[stock]'] = 20;
+        $form['product[metaTitle]'] = 'Meta title_'.$uid;
+        $form['product[metaDescription]'] = 'Meta description_'.$uid;
+        if($active)$form['product[active]']->tick();
+        $form['product[available]']->tick();
+        $form['product[public]']->tick();
+        $form['product[publishDateRange]'] = '01/01/'.(date('Y')-1).' 30/12/'.(date('Y')+1);
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -715,7 +718,7 @@ class CoreTest  extends WebTestCase
         return $pack;
     }
     
-    protected function createContract($uid, $optic, $plan)
+    protected function createContract($uid, $actor, $plan)
     {
         //index
         $crawler = $this->client->request('GET', '/admin/contract/', array(), array(), array(
@@ -742,7 +745,7 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_contract[optic]']->select($optic->getId());
+        $form['ecommercebundle_contract[actor]']->select($actor->getId());
         $form['ecommercebundle_contract[url]'] =  'http://www.local.com/terminos-condiciones';
         $form['ecommercebundle_contract[agreement][name]'] = 'contract '.$uid;
         $form['ecommercebundle_contract[agreement][description]']= 'contract description'.$uid;
@@ -765,7 +768,7 @@ class CoreTest  extends WebTestCase
         return $crawler;
     }
     
-    protected function createAdvert($uid, $user, $username=null, $password=null, $opticView=false)
+    protected function createAdvert($uid, $user, $username=null, $password=null, $actorView=false)
     {
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
@@ -789,8 +792,8 @@ class CoreTest  extends WebTestCase
         $brand = $manager->getRepository('EcommerceBundle:Brand')->findOneByName($brandName);
 
         //index
-        if($opticView){
-            $crawler = $this->client->request('GET', '/admin/optic/'.$user->getId().'?adverts=1', array(), array(), array(
+        if($actorView){
+            $crawler = $this->client->request('GET', '/admin/actor/'.$user->getId().'?adverts=1', array(), array(), array(
                 'PHP_AUTH_USER' => $username,
                 'PHP_AUTH_PW'   => $password,
             ));
@@ -812,7 +815,7 @@ class CoreTest  extends WebTestCase
             
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        if($opticView){
+        if($actorView){
             ///////////////////////////////////////////////////////////////////////////////////////////
             //Click new ///////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////////////////////////////////////
@@ -856,7 +859,7 @@ class CoreTest  extends WebTestCase
 //        $values = array(
 //            'ecommercebundle_advert' => array(
 //                '_token' => $form['ecommercebundle_advert[_token]']->getValue(),
-//                'optic' => $optic->getId(),
+//                'actor' => $actor->getId(),
 //                'geolocated' => array('all'),
 //                'located' => array($located->getId()),
 //                'codes' => '08349,08340',
@@ -897,9 +900,9 @@ class CoreTest  extends WebTestCase
 //        print_r($crawler->html());die();
         
         $form = $crawler->selectButton('Guardar')->form();
-        if(!$opticView){
+        if(!$actorView){
            if($user instanceof Optic){
-                $form['ecommercebundle_advert[optic]']->select($user->getId());
+                $form['ecommercebundle_advert[actor]']->select($user->getId());
             }elseif($user instanceof Actor){
                 $form['ecommercebundle_advert[actor]']->select($user->getId());
                 
@@ -969,9 +972,9 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_located[name]'] = 'located '.$uid;
-        $form['ecommercebundle_located[height]'] = '235px';
-        $form['ecommercebundle_located[width]'] = '235px';
+        $form['located[name]'] = 'located '.$uid;
+        $form['located[height]'] = '235px';
+        $form['located[width]'] = '235px';
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -1102,5 +1105,30 @@ class CoreTest  extends WebTestCase
        
         return $entity;
 
+    }
+    
+    public function addTestAddress($actor)
+    {
+        $container = $this->client->getContainer();
+        $manager = $container->get('doctrine')->getManager();
+        
+        $country = $manager->getRepository('CoreBundle:Country')->find('es');
+        $state = $manager->getRepository('CoreBundle:State')->findOneByName('Barcelona');
+            
+        $address = new Address();
+        $address->setAddress('Test address 113');
+        $address->setPostalCode('08349');
+        $address->setCity('Cabrera de Mar');
+        $address->setState($state);
+        $address->setCountry($country);
+        $address->setPhone('123123123');
+        $address->setPreferredSchedule(1);
+        $address->setContactPerson('Testo Ramon');
+        $address->setForBilling(true);
+        $address->setDni('33956669K');
+        $address->setActor($actor);
+        
+        $manager->persist($address);
+        $address->flush();
     }
 }

@@ -30,6 +30,33 @@ class CoreManager
         return $this->container->get('doctrine')->getManager();
     }
     
+    public function useAdmin()
+    {
+        $bundles = $this->container->getParameter('kernel.bundles');
+        if (isset($bundles['AdminBundle'])) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function useBlog()
+    {
+        $bundles = $this->container->getParameter('kernel.bundles');
+        if (isset($bundles['BlogBundle'])) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function useEcommerce()
+    {
+        $bundles = $this->container->getParameter('kernel.bundles');
+        if (isset($bundles['EcommerceBundle'])) {
+            return true;
+        }
+        return false;
+    }
+    
     public function uploadMenuImage($entity)
     {
         $absPathImage = $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();

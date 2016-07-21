@@ -30,7 +30,9 @@ class ActorType extends AbstractType
                 'class' => 'remove-image'
                 )))
             ->add('active', null, array('required' => false))
-            ->add('newsletter', null, array('required' => false))    
+            ->add('newsletter', null, array('required' => false))
+            
+                
         ;
     }
 

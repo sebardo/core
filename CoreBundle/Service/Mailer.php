@@ -77,11 +77,9 @@ class Mailer
     
     public function sendValidateEmailMessage($user)
     {
-        if($user instanceof Actor){
-           $templateName = 'CoreBundle:Email:validate.email.html.twig';
-        }elseif($user instanceof Optic){
-           $templateName = 'CoreBundle:Email:validate.email.optic.html.twig'; 
-        }
+           
+        $templateName = 'CoreBundle:Email:validate.email.html.twig';
+        
         $context = array(
             'name' => $user->getName(),
         );
@@ -273,13 +271,45 @@ class Mailer
         }
         if(!is_null($attach)) $message->attach(\Swift_Attachment::fromPath($attach));
         
-        
         $this->mailer->send($message);
-        
-        
 
     }
     
-    
-   
+    /*
+     * ECOMMERCE
+     */
+    public function sendActorNewProduct($product){
+        
+        $actor = $product->getActor();
+        //send message to admin
+        $fromEmail =  $this->parameters['company']['email'];
+        $toEmail = $this->parameters['company']['email'];
+        $templateName = 'CoreBundle:Email:new_product.html.twig';
+        $route = $this->router->generate('ecommerce_product_edit',array('id'=>$product->getId()));
+        $context = array(
+            'texto' => 'El usuario "'.$actor->getName().'" ha creado un nuevo producto que espera validación, por favor visita el sguiente enlace para validarlo <a href="'.$this->parameters['server_base_url'].$route.'">Activar producto</a>',
+        );
+        $this->sendMessage($templateName, $context, $fromEmail, $toEmail);
+        
+        //send email to optic, product will be active after moderation
+        $fromEmail =  $this->parameters['company']['email'];
+        $toEmail = $actor->getEmail();
+        $templateName = 'CoreBundle:Email:new_product.html.twig';
+        $context = array(
+            'texto' => 'Hemos recibido su solicitud de alta de una nueva oferta, en las proximas 24hs. nuestro equipo la examinará y si es correcto la activará, te avisaremos cuando esto sucesa.<br><br>Gracias por confiar en Optisoop.',
+        );
+        $this->sendMessage($templateName, $context, $fromEmail, $toEmail);
+       
+         //add notification
+        $user = $this->manager->getRepository('CoreBundle:Actor')->findOneByUsername('admin');
+        $detail = new stdClass();
+        $detail->product = $product->getId();
+        $this->notificationManager->setNotification(
+                $user,
+                $user,
+                Notification::TYPE_NEW_PRODUCT,
+                $detail
+                );
+        
+    }
 }

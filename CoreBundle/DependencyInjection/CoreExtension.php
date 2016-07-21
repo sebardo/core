@@ -70,8 +70,6 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                 )
             ),$config);
         }
-        
-        
         if (isset($bundles['AdminBundle'])) {
             $config = $this->arraymap(array(
                 'admin_menus' => array(
@@ -83,7 +81,6 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                     )
                 ),$config);
         }
-        
         if (isset($bundles['BlogBundle'])) {
             $config = $this->arraymap(array(
                 'admin_menus' => array(
@@ -95,12 +92,52 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                             'postcategories' => 'blog_category_index',
                             'posttags' => 'blog_tag_index',
                             'postcomments' => 'blog_comment_index'
-                            )
                         )
                     )
-                ),$config);
+                )
+            ),$config);
         }
-        
+        if (isset($bundles['EcommerceBundle'])) {
+            $config = $this->arraymap(array(
+                'admin_menus' => array(
+                    'ecommerce' => array(
+                        'icon_class' => 'fa ion-ios-compose-outline',
+                        'label' => 'ecommerce',
+                        'options' => array(
+                            'catalogue' => array(
+                                'options' => array(
+                                    'products' => 'ecommerce_product_index',
+                                    'categories' => 'ecommerce_category_index',
+                                    'features' => 'ecommerce_feature_index',
+                                    'brands' => 'ecommerce_brand_index',
+                                    'models' => 'ecommerce_brandmodel_index',
+                                )
+                            ),
+                            'sales' => array(
+                                'options' => array(
+                                    'transactions' => 'ecommerce_transaction_index',
+                                    'invoices' => 'ecommerce_invoice_index',
+                                    'taxes' => 'ecommerce_tax_index',
+                                )
+                            ),
+                            'recurrings' => array(
+                                'options' => array(
+                                    'contracts' => 'ecommerce_contract_index',
+                                    'plans' => 'ecommerce_plan_index',
+                                )
+                            )
+                        )
+                    ),
+                    'advert' => array(
+                        'icon_class' => 'fa fa-picture-o',
+                        'label' => 'advert.plural',
+                        'options' => array(
+                            'adverts' => 'ecommerce_advert_index',
+                            'advertslocated' => 'ecommerce_located_index',
+                        )
+                    ),
+                )),$config);
+        }
         return $config;
     }
 

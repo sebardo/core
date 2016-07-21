@@ -33,8 +33,6 @@ class ActorEditType extends AbstractType
                 )))
             ->add('active', null, array('required' => false))
             ->add('newsletter', null, array('required' => false))
-            
-
         ;
     }
 
@@ -45,6 +43,8 @@ class ActorEditType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CoreBundle\Entity\Actor',
+            'use_ecommerce' => null,
+            'token_storage' => null
         ));
     }
 }

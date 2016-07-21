@@ -46,3 +46,10 @@ services:
             - [setContainer, ["@service_container"] ]
         arguments:
           - { parameters: %core% }
+          
+    core_listener:
+        class: "CoreBundle\\EventListener\\CoreEventListener"
+        calls: 
+            - [setContainer, ["@service_container"] ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

@@ -31,9 +31,11 @@
                 <ul class="nav nav-tabs">
                     <li class="{{ not app.request.get('transactions') and 
                                 not app.request.get('shippings') ? 'active' }}"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
-                   {# <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>
-                    <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>#}
                     <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "actor.email" | trans }}</a></li>
+                    {% if use_ecommerce %}
+                        <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>
+                        <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane {{ not app.request.get('transactions') and 
@@ -105,57 +107,58 @@
                         </div>
                     </div>
                             
-                            
-                    <div class="tab-pane  {{ app.request.get('address') ? 'active' }}" id="address_tab">
-                        <div class="box-body show-tables">
-                            <table class="table table-striped table-bordered table-hover" id="addresses-table">
-                                <thead>
-                                <tr>
-                                    <th class="hidden-480">ID</th>
-                                    <th class="hidden-480">{{ "name" | trans }}</th>
-                                    <th class="hidden-480">{{ "category.singular" | trans }}</th>
-                                    <th class="hidden-480">{{ "brand.singular" | trans }}</th>
-                                    <th class="hidden-480">{{ "price" | trans }}</th>
-                                    <th class="hidden-480">{{ "stock" | trans }}</th>
-                                    <th class="hidden-480">{{ "active" | trans }}</th>
-                                    <th class="hidden-480">{{ "available" | trans }}</th>
-                                    <th class="hidden-480">{{ "highlighted" | trans }}</th>
-                                    <th class="hidden-480">{{ "freeTransport" | trans }}</th>
-                                    <th style="width:70px;"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                    {% if use_ecommerce %}        
+                        <div class="tab-pane  {{ app.request.get('address') ? 'active' }}" id="address_tab">
+                            <div class="box-body show-tables">
+                                <div class="clearfix">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success btn-flat address-new" data-toggle="modal" data-target="#modalAddress">
+                                            <i class="fa fa-plus"></i> Nuevo
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table table-striped table-bordered table-hover" id="addresses-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="hidden-480">{{ "address.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.state.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.country.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "postalcode" | trans }}</th>
+                                        <th style="width:70px;"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer"></div>
                         </div>
-                        <div class="box-footer"></div>
-                    </div>
 
-                    {#<div class="tab-pane  {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
-                        <div class="box-body show-tables">
-                             <table class="table table-striped table-bordered table-hover" id="transactions-table">
-                                <thead>
-                                <tr>
-                                    <th class="hidden-480">{{ "number" | trans }}</th>
-                                    <th class="hidden-480">{{ "date" | trans }}</th>
-                                    <th class="hidden-480">{{ "user.singular" | trans }}</th>
-                                    <th class="hidden-480">{{ "items" | trans }}</th>
-                                    <th class="hidden-480">{{ "status.singular" | trans }}</th>
-                                    <th class="hidden-480" style="width: 100px;">&nbsp;</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="box-footer"></div>
-                    </div>  #}
-                                    
+                        <div class="tab-pane  {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
+                            <div class="box-body show-tables">
+                                 <table class="table table-striped table-bordered table-hover" id="transactions-table">
+                                    <thead>
+                                    <tr>
+                                        <th class="hidden-480">{{ "number" | trans }}</th>
+                                        <th class="hidden-480">{{ "date" | trans }}</th>
+                                        <th class="hidden-480">{{ "user.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "items" | trans }}</th>
+                                        <th class="hidden-480">{{ "status.singular" | trans }}</th>
+                                        <th class="hidden-480" style="width: 100px;">&nbsp;</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="box-footer"></div>
+                        </div>  
+                    {% endif %}                
                     <div class="tab-pane  {{ app.request.get('shippings') ? 'active' }}" id="shippings_tab">
                         <div class="box-body show-tables">
                             <div class="clearfix">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#myModal">
+                                    <button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#modalShipping">
                                         <i class="fa fa-plus"></i> Nuevo
                                     </button>
                                 </div>
@@ -182,13 +185,48 @@
       </div>
      </section>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+{% if use_ecommerce %}
+<!-- Modal Address -->
+<div class="modal fade" id="modalAddress" tabindex="-1" role="dialog" aria-labelledby="modalAddressLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">{{ "newsletter.new" | trans }}</h4>
+        <h4 class="modal-title" id="modalAddressLabel">{{ "address.new" | trans }}</h4>
+      </div>
+      {#######################################}
+      {############ FORM######################}
+      {#######################################}
+       <!-- BEGIN FORM-->
+       {{ form_start(addressForm, {
+                            'action': path('ecommerce_address_new', {actorId: entity.id }), 
+                            'method': 'post', 
+                            'attr': {'id': 'create-address', 'class': 'form-horizontal form-row-seperated'}
+                            }) }}
+            <div class="box-body">
+                {{ include('EcommerceBundle:Address:_form.html.twig', { form: addressForm }) }}
+            </div><!-- /.box-body -->
+
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button id="send-actor-address" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
+                <a href="{{ path('core_actor_show', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                </div>
+            </div>
+        {{ form_end(addressForm) }}
+        <!-- END FORM-->
+    </div>
+  </div>
+</div>
+{% endif %} 
+
+<!-- Modal Shipping -->
+<div class="modal fade" id="modalShipping" tabindex="-1" role="dialog" aria-labelledby="modalShippingLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalShippingLabel">{{ "newsletter.new" | trans }}</h4>
       </div>
       {#######################################}
       {############ FORM######################}
@@ -212,8 +250,6 @@
             </div>
         {{ form_end(shippingForm) }}
         <!-- END FORM-->
-           
-      
     </div>
   </div>
 </div>
@@ -232,51 +268,7 @@
 
     <script>
         
-         {#var transactions_table_columns = [
-            {
-                "mData": function(source) {
-                    return '<a href="/transaction/' + source.id + '">' + source.transactionKey + '</a>';
-                }
-            },
-            {
-                "mData": function (source) {
-                    return source.created.date;
-                }
-            },
-            {
-                "mData": function (source) {
-                    return '<a href="/admin/actor/' + source.actorId + '">' + source.userName + ' ' + source.userSurnames + '</a>';
-                }
-            },
-            { "mData": "nItems" },
-            {
-                "mData": "status",
-                "mRender": function(data) {
-                    var code = '';
-
-                    if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING_TRANSFER') }}" == data) {
-                        code = '<span class="label label-warning">{{ "status.pending.transfer" | trans }}</span>';
-                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING') }}" == data) {
-                        code = '<span class="label label-warning">{{ "status.processed" | trans }}</span>';
-                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_CANCELLED') }}" == data) {
-                        code = '<span class="label label-danger">{{ "status.cancelled" | trans }}</span>';
-                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_DELIVERED') }}" == data) {
-                        code = '<span class="label label-success">{{ "status.sent" | trans }}</span>';
-                    } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PAID') }}" == data) {
-                        code = '<span class="label label-success">{{ "status.paid" | trans }}</span>';
-                    }
-
-                    return code;
-                }
-            },
-            {
-                "mData": function(source) {
-                    //return '<td><a class="delete" href="javascript:;">Delete</a></td>';
-                    return '<a href="javascript:deleteTransaction(' + source.id +');" class="btn btn-xs btn-danger btn-flat" ><i class="ion-trash-a"></i> {{ "delete" | trans }}</a> ';
-                }
-            }
-        ];
-        #}
+        
             
         var shippings_table_columns = [
             { "mData": "id" },
@@ -294,7 +286,64 @@
                 }
             }
         ];
+        {% if use_ecommerce %}
+            var addresses_table_columns = [
+                { "mData": "dni" },
+                { "mData": "address" },
+                { "mData": "postalCode" },
+                { "mData": "city" },
+                {
+                    "mData": function(source) {
+                        return '<a href="/admin/actor/' + source.actorId + '/addresses/' + source.id + '/getinfo.json" class="btn btn-primary btn-xs btn-flat address-edit"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
+                    }
+                }
+            ];
 
+            var transactions_table_columns = [
+                {
+                    "mData": function(source) {
+                        return '<a href="/transaction/' + source.id + '">' + source.transactionKey + '</a>';
+                    }
+                },
+                {
+                    "mData": function (source) {
+                        return source.created.date;
+                    }
+                },
+                {
+                    "mData": function (source) {
+                        return '<a href="/admin/actor/' + source.actorId + '">' + source.userName + ' ' + source.userSurnames + '</a>';
+                    }
+                },
+                { "mData": "nItems" },
+                {
+                    "mData": "status",
+                    "mRender": function(data) {
+                        var code = '';
+
+                        if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING_TRANSFER') }}" == data) {
+                            code = '<span class="label label-warning">{{ "status.pending.transfer" | trans }}</span>';
+                        } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PENDING') }}" == data) {
+                            code = '<span class="label label-warning">{{ "status.processed" | trans }}</span>';
+                        } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_CANCELLED') }}" == data) {
+                            code = '<span class="label label-danger">{{ "status.cancelled" | trans }}</span>';
+                        } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_DELIVERED') }}" == data) {
+                            code = '<span class="label label-success">{{ "status.sent" | trans }}</span>';
+                        } else if ("{{ constant('EcommerceBundle\\Entity\\Transaction::STATUS_PAID') }}" == data) {
+                            code = '<span class="label label-success">{{ "status.paid" | trans }}</span>';
+                        }
+
+                        return code;
+                    }
+                },
+                {
+                    "mData": function(source) {
+                        //return '<td><a class="delete" href="javascript:;">Delete</a></td>';
+                        return '<a href="javascript:deleteTransaction(' + source.id +');" class="btn btn-xs btn-danger btn-flat" ><i class="ion-trash-a"></i> {{ "delete" | trans }}</a> ';
+                    }
+                }
+            ];
+        {% endif %}
          $(function () {
             CKEDITOR.replace('email_body', {
                 extraPlugins: 'uploadimage,image2',
@@ -328,6 +377,31 @@
             });
         });
         
+        function cleanForm(id) {
+            $(id+" input").each(function( index ) {
+                if($( this ).attr('name') == '_token'){
+                    $( this ).val('');
+                }
+            });
+            $(id+" textarea").val('');
+            $(id+" select").val('');
+            $(id).attr('action', '/admin/actor/{{entity.id}}/addresses/new');
+        }
+        
+        function loadForm(data){
+            $("#create-address").attr('action', '/admin/actor/{{entity.id}}/addresses/'+data.id+'/edit');
+            $("#address_address").val(data.address);
+            $("#address_dni").val(data.dni);
+            $("#address_postalCode").val(data.postalCode);
+            $("#address_phone").val(data.phone);
+            $("#address_phone2").val(data.phone2);
+            $("#address_preferredSchedule").val(data.preferredSchedule);
+            $("#address_city").val(data.city);
+            $("#address_state").val(data.state);
+            $("#address_country").val(data.country);
+            
+            $('#modalAddress').modal('show');
+        }
         function deleteActorShipping(shipping){
             if(window.confirm('¿Esta seguro de que desea eliminar el mensaje seleccionado? Esta acción no se podrá deshacer.')){
                 window.location.href = "/admin/shipping/"+shipping+"/delete?redirect={{app.request.uri}}?shippings=1";
@@ -343,15 +417,21 @@
                 }
             });
 
+            {% if use_ecommerce %}
+                TableManaged.init(
+                    '#addresses-table',
+                    '{{ url('ecommerce_address_listjson', { actorId: entity.id }) }}',
+                    [],
+                    addresses_table_columns,
+                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
             
-
-            {#TableManaged.init(
-                '#transactions-table',
-                '{{ url('ecommerce_transaction_listforuserjson', { actorId: entity.id }) }}',
-                [2],
-                transactions_table_columns,
-                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');#}
-        
+                TableManaged.init(
+                    '#transactions-table',
+                    '{{ url('ecommerce_transaction_listforuserjson', { actorId: entity.id }) }}',
+                    [],
+                    transactions_table_columns,
+                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+            {% endif %}            
             TableManaged.init(
                 '#shippings-table',
                 '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
@@ -379,6 +459,43 @@
                
             });
             
+            {% if use_ecommerce %}
+             $("#create-address").submit(function(e){
+                e.preventDefault();
+                var formSerialize = $(this).serialize();
+                console.log(formSerialize);
+                $.post($("#create-address").attr('action'), formSerialize, function(response){
+                     TableManaged.reload(
+                    '#addresses-table',
+                    '{{ url('ecommerce_address_listjson', { actorId: entity.id }) }}',
+                    [],
+                    addresses_table_columns,
+                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+                    $('#close').click();
+               },'JSON');
+               $('.address-edit').on('click', function(e){
+                    e.preventDefault();
+                    $.get( $(this).attr('href'), function( data ) {
+                        loadForm(data);
+                    });
+                });
+               
+            });
+            $('.address-new').click(function(){
+                cleanForm('#create-address');
+            });
+            
+            setTimeout(function(){
+                $('.address-edit').on('click', function(e){
+                    e.preventDefault();
+                    $.get( $(this).attr('href'), function( data ) {
+                        loadForm(data);
+                    });
+                });
+            }, 1000);
+            
+            {% endif %}
+   
         });
 
     </script>

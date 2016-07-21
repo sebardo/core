@@ -110,14 +110,19 @@ class ActorController  extends Controller
      */
     public function showAction(Actor $actor)
     {
+        $returnValues = array();
         $deleteForm = $this->createDeleteForm($actor);
         $shippingForm = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
-
-        return array(
+        if($this->get('core_manager')->useEcommerce()){
+            $addressForm = $this->createForm('EcommerceBundle\Form\AddressType', null, array('token_storage' => $this->container->get('security.token_storage')));
+            $returnValues['addressForm'] = $addressForm->createView();
+        }
+        
+        return array_merge($returnValues, array(
             'entity' => $actor,
             'delete_form' => $deleteForm->createView(),
             'shippingForm' => $shippingForm->createView()
-        );
+        ));
     }
     
    /**

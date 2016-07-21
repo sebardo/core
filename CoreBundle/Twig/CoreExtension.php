@@ -2,12 +2,9 @@
 
 namespace CoreBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig_SimpleFunction;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Form\ActorType;
-use CoreBundle\Entity\Optic;
-use EcommerceBundle\Entity\Product;
 
 /**
  * Class CoreExtension
