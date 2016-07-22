@@ -654,4 +654,44 @@ class ActorController  extends Controller
         return new RedirectResponse($url);
 
     }
+    
+    /**
+     * Show invoice
+     *
+     * @param Request $request
+     * @param string  $number
+     *
+     * @throws AccessDeniedException
+     * @return Response
+     * 
+     * @Route("/profile/invoice/{number}/view")
+     * @Method("GET")
+     * @Template("EcommerceBundle:Profile:Invoice/show.html.twig")
+     */
+    public function showInvoiceAction(Request $request, $number)
+    {
+        
+        $em = $this->container->get('doctrine')->getManager();
+        /** @var Invoice $invoice */
+        $invoice = $em->getRepository('EcommerceBundle:Invoice')->findOneBy(array(
+            'invoiceNumber' => $number
+        ));
+
+        if (!$invoice ||
+            false === $this->container->get('checkout_manager')->isCurrentUserOwner($invoice->getTransaction())) {
+            throw new AccessDeniedException();
+        }
+
+        /** @var CheckoutManager $checkoutManager */
+        $checkoutManager = $this->container->get('checkout_manager');
+
+        $delivery = $invoice->getTransaction()->getDelivery();
+        $totals = $checkoutManager->calculateTotals($invoice->getTransaction(), $delivery);
+
+        return array(
+                'delivery' => $delivery,
+                'invoice'  => $invoice,
+                'totals'   => $totals,
+            );
+    }
 }

@@ -294,7 +294,7 @@ class Mailer
         //send email to optic, product will be active after moderation
         $fromEmail =  $this->parameters['company']['email'];
         $toEmail = $actor->getEmail();
-        $templateName = 'CoreBundle:Email:new_product.html.twig';
+        $templateName = 'Ecommerce:Email:new_product.html.twig';
         $context = array(
             'texto' => 'Hemos recibido su solicitud de alta de una nueva oferta, en las proximas 24hs. nuestro equipo la examinará y si es correcto la activará, te avisaremos cuando esto sucesa.<br><br>Gracias por confiar en Optisoop.',
         );
@@ -312,4 +312,62 @@ class Mailer
                 );
         
     }
+    /**
+     * Notify invest to the site admin
+     *
+     * @param Invoice $invoice
+     */
+    public function sendAdvertPurchaseNotification(Invoice $invoice)
+    {
+        $templateName = 'EcommerceBundle:Email:advert.notification.admin.html.twig';
+
+        if($invoice->getTransaction()->getActor() instanceof Actor){
+            $email = $invoice->getTransaction()->getActor()->getEmail();
+        }elseif($invoice->getTransaction()->getOptic() instanceof Optic){
+            $email = $invoice->getTransaction()->getOptic()->getEmail();
+        }
+        $context = array(
+            'order_number'    => $invoice->getTransaction()->getTransactionKey(),
+            'invoice_date'      => $invoice->getCreated(),
+            'user_email'        => $email,
+            'order_details_url' => $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
+        );
+
+        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
+    }
+    
+    /**
+     * Send plan purchase confirmation
+     *
+     * @param Invoice $invoice
+     * @param float   $amount
+     */
+    public function sendAdvertPurchaseConfirmationMessage(Invoice $invoice, $amount)
+    {
+        //send email to optic to confirm plan purchase
+        //check empty bank number account
+        $templateName = 'EcommerceBundle:Email:advert.confirmation.html.twig';
+        $advert = $invoice->getTransaction()->getItems()->first()->getAdvert();
+        
+        if($invoice->getTransaction()->getActor() instanceof Actor){
+            $user = $invoice->getTransaction()->getActor();
+        }elseif($invoice->getTransaction()->getOptic() instanceof Optic){
+            $user = $invoice->getTransaction()->getOptic();
+        }
+            
+        $toEmail = $user->getEmail();
+        $token = null;
+            
+         $context = array(
+            'order_number' => $invoice->getTransaction()->getTransactionKey(),
+            'advert' => $advert,
+            'user' => $user,
+            'token' => $token
+        );
+        
+        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+
+        
+    }
+    
 }

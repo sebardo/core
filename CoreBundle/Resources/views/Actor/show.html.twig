@@ -121,10 +121,14 @@
                                     <thead>
                                     <tr>
                                         <th class="hidden-480">{{ "address.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.phone.singular" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.passport" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.city" | trans }}</th>
                                         <th class="hidden-480">{{ "account.state.singular" | trans }}</th>
                                         <th class="hidden-480">{{ "account.country.singular" | trans }}</th>
-                                        <th class="hidden-480">{{ "postalcode" | trans }}</th>
-                                        <th style="width:70px;"></th>
+                                        <th class="hidden-480">{{ "account.postal.code" | trans }}</th>
+                                        <th class="hidden-480">{{ "account.forBilling" | trans }}</th>
+                                        <th style="width:60px;"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -288,10 +292,27 @@
         ];
         {% if use_ecommerce %}
             var addresses_table_columns = [
-                { "mData": "dni" },
                 { "mData": "address" },
-                { "mData": "postalCode" },
+                { "mData": "phone" },
+                { "mData": "dni" },
                 { "mData": "city" },
+                { "mData": "stateName" },
+                { "mData": "countryName" },
+                { "mData": "postalCode" },
+                {
+                    "mData": "forBilling",
+                    "mRender": function(data) {
+                        var code = '';
+
+                        if (true == data) {
+                            code = '<span class="label label-success">{{ "yes" | trans }}</span>';
+                        } else {
+                            code = '<span class="label label-danger">{{ "no" | trans }}</span>';
+                        }
+
+                        return code;
+                    }
+                },
                 {
                     "mData": function(source) {
                         return '<a href="/admin/actor/' + source.actorId + '/addresses/' + source.id + '/getinfo.json" class="btn btn-primary btn-xs btn-flat address-edit"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
@@ -379,7 +400,8 @@
         
         function cleanForm(id) {
             $(id+" input").each(function( index ) {
-                if($( this ).attr('name') == '_token'){
+                console.log($( this ).attr('name'));
+                if($( this ).attr('name') != 'address[_token]'){
                     $( this ).val('');
                 }
             });

@@ -8,8 +8,7 @@ use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use EcommerceBundle\Entity\Brand;
 use CoreBundle\Entity\Pack;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use CoreBundle\Entity\Optic;
+use EcommerceBundle\Entity\Address;
 use CoreBundle\Entity\Actor;
 
 
@@ -781,16 +780,6 @@ class CoreTest  extends WebTestCase
         $locatedName = 'located '.$locatedId;
         $located = $manager->getRepository('EcommerceBundle:Located')->findOneByName($locatedName);
         
-        ////////////////////////////////////////////////////////////////////////////
-        // Brand ///////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////
-        $brandId = rand(999,9999);
-        $crawler = $this->createBrand($brandId);
-        $brandName = 'brand '.$brandId;
-        $container = $this->client->getContainer();
-        $manager = $container->get('doctrine')->getManager();
-        $brand = $manager->getRepository('EcommerceBundle:Brand')->findOneByName($brandName);
-
         //index
         if($actorView){
             $crawler = $this->client->request('GET', '/admin/actor/'.$user->getId().'?adverts=1', array(), array(), array(
@@ -810,9 +799,7 @@ class CoreTest  extends WebTestCase
                 ));
             }
         }
-        
-        
-            
+                    
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         if($actorView){
@@ -857,8 +844,8 @@ class CoreTest  extends WebTestCase
 //        //fill form
 //        $form = $crawler->selectButton('Guardar')->form();
 //        $values = array(
-//            'ecommercebundle_advert' => array(
-//                '_token' => $form['ecommercebundle_advert[_token]']->getValue(),
+//            'advert' => array(
+//                '_token' => $form['advert[_token]']->getValue(),
 //                'actor' => $actor->getId(),
 //                'geolocated' => array('all'),
 //                'located' => array($located->getId()),
@@ -884,7 +871,7 @@ class CoreTest  extends WebTestCase
 //        );
 //            
 //        $files = array(
-//            'ecommercebundle_advert' => array('image' => array('0' => (array('file' => $image))))
+//            'advert' => array('image' => array('0' => (array('file' => $image))))
 //        );
 //
 //        $crawler = $this->client->request(
@@ -901,32 +888,24 @@ class CoreTest  extends WebTestCase
         
         $form = $crawler->selectButton('Guardar')->form();
         if(!$actorView){
-           if($user instanceof Optic){
-                $form['ecommercebundle_advert[actor]']->select($user->getId());
-            }elseif($user instanceof Actor){
-                $form['ecommercebundle_advert[actor]']->select($user->getId());
-                
-                $form['ecommercebundle_advert[brand]']->select($brand->getId());
-            } 
+            $form['advert[actor]']->select($user->getId());
         }
         
-        $form['ecommercebundle_advert[geolocated]']->select('all');
-        $form['ecommercebundle_advert[located]']->select(array($located->getId()));
-        $form['ecommercebundle_advert[codes]'] =  '08349,08340';
-        $form['ecommercebundle_advert[title]'] = 'advert '.$uid;
-        $form['ecommercebundle_advert[description]']= 'advert description'.$uid;
-//        $form['ecommercebundle_advert[image]']->upload($image);
-        $form['ecommercebundle_advert[rangeDate]']= '08/06/2016 28/06/2016';
-        $form['ecommercebundle_advert[days]']= '20';
+        $form['advert[located]']->select(array($located->getId()));
+        $form['advert[title]'] = 'advert '.$uid;
+        $form['advert[description]']= 'advert description'.$uid;
+//        $form['advert[image]']->upload($image);
+        $form['advert[rangeDate]']= '08/06/2016 28/06/2016';
+        $form['advert[days]']= '20';
         
         //fill cc form
-        $form['ecommercebundle_advert[creditCard][firstname]'] = 'name '.$uid;
-        $form['ecommercebundle_advert[creditCard][lastname]'] = 'buyer '.$uid;
-        $form['ecommercebundle_advert[creditCard][cardNo]'] = '4548812049400004';    
-        $form['ecommercebundle_advert[creditCard][expirationDate][day]']->select(1);
-        $form['ecommercebundle_advert[creditCard][expirationDate][month]']->select(12);
-        $form['ecommercebundle_advert[creditCard][expirationDate][year]']->select(2017);
-        $form['ecommercebundle_advert[creditCard][CVV]'] = '123';
+        $form['advert[creditCard][firstname]'] = 'name '.$uid;
+        $form['advert[creditCard][lastname]'] = 'buyer '.$uid;
+        $form['advert[creditCard][cardNo]'] = '4548812049400004';    
+        $form['advert[creditCard][expirationDate][day]']->select(1);
+        $form['advert[creditCard][expirationDate][month]']->select(12);
+        $form['advert[creditCard][expirationDate][year]']->select(2017);
+        $form['advert[creditCard][CVV]'] = '123';
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
@@ -1129,6 +1108,6 @@ class CoreTest  extends WebTestCase
         $address->setActor($actor);
         
         $manager->persist($address);
-        $address->flush();
+        $manager->flush();
     }
 }
