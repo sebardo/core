@@ -5,6 +5,7 @@ namespace CoreBundle\Twig;
 use Twig_SimpleFunction;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Form\ActorType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CoreExtension
@@ -42,6 +43,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_address_form', array($this, 'getAddressForm')),
             new Twig_SimpleFunction('get_first_image', array($this, 'getFirstImage')),
             new Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
+            new Twig_SimpleFunction('get_referer', array($this, 'getRefererPath')),
             
         );
     }
@@ -372,6 +374,20 @@ class CoreExtension extends \Twig_Extension
     {
         $adminMenu = $this->container->getParameter('core.admin_menus');
         return $adminMenu['admin_menus'];
+    }
+    
+    /**
+    * Returns treferer path
+    *
+    */
+    public function getRefererPath(Request $request)
+    {
+
+         /** @var FrontManager $frontManager */
+        $adminManager =  $this->container->get('core_manager');
+        $path = $adminManager->getRefererPath($request);
+
+        return  $path;
     }
     
     /**

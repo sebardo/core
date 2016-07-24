@@ -109,6 +109,7 @@ class CoreExtension extends Extension implements PrependExtensionInterface
                                     'products' => 'ecommerce_product_index',
                                     'categories' => 'ecommerce_category_index',
                                     'features' => 'ecommerce_feature_index',
+                                    'attributes' => 'ecommerce_attribute_index',
                                     'brands' => 'ecommerce_brand_index',
                                     'models' => 'ecommerce_brandmodel_index',
                                 )

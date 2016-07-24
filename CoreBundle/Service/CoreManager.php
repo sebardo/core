@@ -5,6 +5,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
 use CoreBundle\Entity\NewsletterShipping;
+use Symfony\Component\HttpFoundation\Request;
 
 class CoreManager 
 {
@@ -450,4 +451,16 @@ class CoreManager
          
         return $emailArray;
     }
+    
+    public function getRefererPath(Request $request=null)
+    {
+        $referer = $request->headers->get('referer');
+
+        $baseUrl = $request->getSchemeAndHttpHost();
+
+        $lastPath = substr($referer, strpos($referer, $baseUrl) + strlen($baseUrl));
+
+        return $lastPath;
+    }
+    
 }

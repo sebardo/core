@@ -366,6 +366,97 @@ class Mailer
         );
         
         $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+        
+    }
+    
+    /**
+     * Notify invest to the site admin
+     *
+     * @param Invoice $invoice
+     */
+    public function sendPurchaseNotification(Invoice $invoice)
+    {
+        $templateName = 'EcommerceBundle:Email:sale.notification.admin.html.twig';
+
+        if($invoice->getTransaction()->getItems()->first()->getProduct() instanceof Product){
+            $product = $invoice->getTransaction()->getItems()->first()->getProduct();
+        }
+        
+        $sellerEmails = array();
+        if($invoice->getTransaction()->getItems()->first()->getProduct()->getActor() instanceof Actor){
+            $sellerEmails[] = $invoice->getTransaction()->getItems()->first()->getProduct()->getActor()->getEmail();
+        } 
+            
+        $context = array(
+            'order_number'    => $invoice->getTransaction()->getTransactionKey(),
+            'invoice_date'      => $invoice->getCreated(),
+            'user_email'        => $invoice->getTransaction()->getActor()->getEmail(),
+            'seller_email'        => implode(',', $sellerEmails),
+            'order_details_url' => $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
+        );
+
+        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
+    }
+    
+    /**
+     * Send invest confirmation
+     *
+     * @param Invoice $invoice
+     * @param float   $amount
+     */
+    public function sendPurchaseConfirmationMessage(Invoice $invoice, $amount)
+    {
+        $templateName = 'EcommerceBundle:Email:sale.confirmation.html.twig';
+        $toEmail = $invoice->getTransaction()->getActor()->getEmail();
+
+        switch ($invoice->getTransaction()->getPaymentMethod()) {
+            case Transaction::PAYMENT_METHOD_BANK_TRANSFER:
+                $paymentType = 'invoice.payment.by.bank.transfer';
+                break;
+            case Transaction::PAYMENT_METHOD_CREDIT_CARD:
+                $paymentType = 'invoice.payment.by.credit.card';
+                break;
+            case Transaction::PAYMENT_METHOD_PAYPAL:
+                $paymentType = 'invoice.payment.by.paypal';
+        }
+
+        $orderUrl = $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $context = array(
+            'order_number' => $invoice->getTransaction()->getTransactionKey(),
+            'amount'         => $amount,
+            'payment_type'   => $paymentType,
+            'order_url'      => $orderUrl,
+        );
+
+        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+        
+        //send email to optic to confirm purchase
+        //check empty bank number account
+        $templateName = 'EcommerceBundle:Email:sale.confirmation.actor.html.twig';
+        $productItems = $invoice->getTransaction()->getItems();
+        $actor = $productItems->first()->getProduct()->getActor();
+        if($actor instanceof Actor) {
+            $toEmail = $actor->getEmail();
+            $token = null;
+            if($actor->getBankAccountNumber() == ''){
+                $token = sha1(uniqid());
+                $date = new \DateTime();
+                $actor->setBankAccountToken($token);
+                $actor->setBankAccountTime($date->getTimestamp());
+                $this->manager->persist($actor);
+                $this->manager->flush();
+            }
+            $context = array(
+                'order_number' => $invoice->getTransaction()->getTransactionKey(),
+                'products' => $productItems,
+                'token' => $token,
+                'actor' => $actor
+            );
+
+            $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+        }
+        
 
         
     }

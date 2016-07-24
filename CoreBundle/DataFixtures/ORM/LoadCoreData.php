@@ -72,6 +72,17 @@ class LoadCoreData extends SqlScriptFixture
         $user->setName('User');
         $user->setSurnames('Lastname');
         $this->getManager()->persist($user);
+        
+        $password2 = 'user2';
+        $user2 = new Actor();
+        $user2->setUsername('user2');
+        $user2->setEmail('user2@user2.com');
+        $user2->addRole($userRole);
+        $encodePassword2 = $encoder->encodePassword($password2, $user2->getSalt());
+        $user2->setPassword($encodePassword2);
+        $user2->setName('User2');
+        $user2->setSurnames('Lastname2');
+        $this->getManager()->persist($user2);
 
         $this->getManager()->flush();
         //copy profile imges
