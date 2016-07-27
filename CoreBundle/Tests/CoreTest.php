@@ -523,7 +523,6 @@ class CoreTest  extends WebTestCase
         $form['product[metaDescription]'] = 'Meta description_'.$uid;
         if($active)$form['product[active]']->tick();
         $form['product[available]']->tick();
-        $form['product[public]']->tick();
         $form['product[publishDateRange]'] = '01/01/'.(date('Y')-1).' 30/12/'.(date('Y')+1);
         $crawler = $this->client->submit($form);// submit the form
         
@@ -537,22 +536,22 @@ class CoreTest  extends WebTestCase
         return $crawler;
     }
     
-    protected function registerUser($uid, $crawler)
+    protected function fillRegisterFormUser($uid, $crawler)
     {
             
         //fill form
-        $form = $crawler->filter('form[name="corebundle_registrationtype"]')->form();
-        $form['corebundle_registrationtype[actor][email]'] = 'email+'.$uid.'@gmail.com';
-        $form['corebundle_registrationtype[actor][username]'] = 'user'.$uid;
-        $form['corebundle_registrationtype[actor][password][password]'] = $uid;
-        $form['corebundle_registrationtype[actor][password][confirm]'] = $uid;
-        $form['corebundle_registrationtype[actor][name]'] = 'Name_'.$uid;
-        $form['corebundle_registrationtype[actor][surnames]'] = 'Surname_'.$uid;
-        $form['corebundle_registrationtype[actor][newsletter]']->tick();
-        $form['corebundle_registrationtype[terms]']->tick();
-        $form['corebundle_registrationtype[city]'] = 'Surname_'.$uid;
-        $form['corebundle_registrationtype[state]']->select(32);
-        $form['corebundle_registrationtype[country]']->select('es');
+        $form = $crawler->filter('form[name="registration"]')->form();
+        $form['registration[actor][email]'] = 'actor+'.$uid.'@email.com';
+        $form['registration[actor][username]'] = 'actor'.$uid;
+        $form['registration[actor][name]'] = 'Name_'.$uid;
+        $form['registration[actor][password][first]'] = $uid;
+        $form['registration[actor][password][second]'] = $uid;
+        $form['registration[actor][surnames]'] = 'Surname_'.$uid;
+        $form['registration[city]'] = 'City'.$uid;
+        $form['registration[state]']->select(10);
+        $form['registration[country]']->select('es');
+        $form['registration[actor][newsletter]']->tick();
+        $form['registration[terms]']->tick();
         $crawler = $this->client->submit($form);// submit the form
 
         //Asserts
@@ -562,7 +561,7 @@ class CoreTest  extends WebTestCase
         
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
-        $this->user = $manager->getRepository('CoreBundle:Actor')->findOneByEmail('email+'.$uid.'@gmail.com');
+        $this->user = $manager->getRepository('CoreBundle:Actor')->findOneByEmail('actor+'.$uid.'@email.com');
         
         return $crawler;
             
@@ -572,17 +571,17 @@ class CoreTest  extends WebTestCase
     {
             
         //fill form
-        $form = $crawler->filter('form[name="ecommercebundle_deliverytype"]')->form();
-        $form['ecommercebundle_deliverytype[fullName]'] = 'full name '.$uid;
-        $form['ecommercebundle_deliverytype[dni]'] = '30110048N';
-        $form['ecommercebundle_deliverytype[address]'] = 'Address '.$uid;      
-        $form['ecommercebundle_deliverytype[city]'] = 'City '.$uid;   
-        $form['ecommercebundle_deliverytype[state]']->select(32);
-        $form['ecommercebundle_deliverytype[postalCode]'] = '1234';
-        $form['ecommercebundle_deliverytype[phone]'] = '123123123';
-        $form['ecommercebundle_deliverytype[phone2]'] = '321321321';
-        $form['ecommercebundle_deliverytype[preferredSchedule]']->select(1);
-        $form['ecommercebundle_deliverytype[notes]'] = 'notes '.$uid;
+        $form = $crawler->filter('form[name="delivery"]')->form();
+        $form['delivery[fullName]'] = 'full name '.$uid;
+        $form['delivery[dni]'] = '30110048N';
+        $form['delivery[address]'] = 'Address '.$uid;      
+        $form['delivery[city]'] = 'City '.$uid;   
+        $form['delivery[state]']->select(32);
+        $form['delivery[postalCode]'] = '1234';
+        $form['delivery[phone]'] = '123123123';
+        $form['delivery[phone2]'] = '321321321';
+        $form['delivery[preferredSchedule]']->select(1);
+        $form['delivery[notes]'] = 'notes '.$uid;
         $crawler = $this->client->submit($form);// submit the form
 
         //Asserts
@@ -601,28 +600,33 @@ class CoreTest  extends WebTestCase
         $this->assertGreaterThan(0,$crawler->filter('html:contains("Address '.$uid.'")')->count()); 
         $this->assertGreaterThan(0,$crawler->filter('html:contains("1234 City '.$uid.'")')->count());
         $this->assertGreaterThan(0,$crawler->filter('html:contains("Madrid, spain")')->count());
-        
+                
+        $container = $this->client->getContainer();
+        $core = $container->getParameter('core');
         $this->assertGreaterThan(0,$crawler->filter('html:contains("Datos del cliente")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("VIRUAL MATRIX, S.L.")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("B-86665544")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("Torrejón de Ardoz Calle La Solana, nº17")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("28850 Madrid")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("Tel. 918 266 588 | Fax. 918 266 588")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("www.local.com")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['name'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['id'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['address'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['postal_code'].' '.$core['company']['city'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['sales_phone'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['sales_fax'].'")')->count());
+        $this->assertGreaterThan(0,$crawler->filter('html:contains("'.$core['company']['website_url'].'")')->count());
         return $crawler;
     }
      
     protected function fillSummary($uid, $crawler)
     {
         //fill form
-        $form = $crawler->filter('form[name="ecommerce_creditcard"]')->form();
-        $form['ecommerce_creditcard[firstname]'] = 'name '.$uid;
-        $form['ecommerce_creditcard[lastname]'] = 'buyer '.$uid;
-        $form['ecommerce_creditcard[cardNo]'] = '4548812049400004';      
-        $form['ecommerce_creditcard[expirationDate][month]']->select(12);
-        $form['ecommerce_creditcard[expirationDate][year]']->select(2017);
-        $form['ecommerce_creditcard[CVV]'] = '123';
+        $form = $crawler->filter('form[name="credit_card"]')->form();
+        $form['credit_card[firstname]'] = 'name '.$uid;
+        $form['credit_card[lastname]'] = 'buyer '.$uid;
+        $form['credit_card[cardNo]'] = '4548812049400004';      
+        $form['credit_card[expirationDate][month]']->select(12);
+        $form['credit_card[expirationDate][year]']->select(2017);
+        $form['credit_card[CVV]'] = '123';
         $crawler = $this->client->submit($form);// submit the form
+        
+        
         //Asserts
         //$this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         //$crawler = $this->client->followRedirect();
@@ -635,7 +639,6 @@ class CoreTest  extends WebTestCase
     protected function checkSummary($uid, $crawler)
     {
         $this->assertGreaterThan(0,$crawler->filter('html:contains("product '.$uid.'")')->count());
-        $this->assertGreaterThan(0,$crawler->filter('html:contains("100 €")')->count()); 
         $this->assertGreaterThan(0,$crawler->filter('html:contains("Pago mediante tarjeta de crédito")')->count());
         return $crawler;
     }

@@ -123,11 +123,10 @@ class ActorControllerTest  extends CoreTest
         $form['profile_user[email]'] = 'actor+'.$uid.'@email.com';
         $crawler = $this->client->submit($form);
         
-        
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Name_'.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("El perfil ha sido actualizado.")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("El perfil se ha actualizado satisfactoriamente.")')->count());
         
         ///////////////////////////////////////////////////////////////////////////////////////////
         // Change password ////////////////////////////////////////////////////////////////////////

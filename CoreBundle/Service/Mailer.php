@@ -457,8 +457,25 @@ class Mailer
             $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
         }
         
+    }
+    
+    /**
+     * Send the tracking code
+     *
+     * @param Transaction $transaction
+     */
+    public function sendTrackingCodeEmailMessage(Transaction $transaction)
+    {
+        $templateName = 'EcommerceBundle:Email:trackingCode.html.twig';
+        $toEmail = $transaction->getActor()->getEmail();
 
-        
+        $context = array(
+            'order_number'  => $transaction->getTransactionKey(),
+            'tracking_code' => $transaction->getDelivery()->getTrackingCode(),
+            'carrier_name'  => 'Transporte'//$transaction->getDelivery()->getCarrier()->getName()
+        );
+
+        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $toEmail);
     }
     
 }

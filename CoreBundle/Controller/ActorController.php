@@ -322,6 +322,11 @@ class ActorController  extends Controller
 
             $this->get('core.mailer')->sendRegisteredEmailMessage($registration->getActor());
    
+            $referer = $this->get('core_manager')->getRefererPath($request);
+            if ($referer == '/identification') {
+                return $this->redirect($this->generateUrl('ecommerce_checkout_detail'));
+            }
+            
             if ($request->isXmlHttpRequest()) {
                 $result = array('success' => true);
                 $response = new Response(json_encode($result));
@@ -654,6 +659,10 @@ class ActorController  extends Controller
         return new RedirectResponse($url);
 
     }
+    
+    /*
+     * Ecommerce
+     */
     
     /**
      * Show invoice
