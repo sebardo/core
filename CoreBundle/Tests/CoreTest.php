@@ -655,7 +655,6 @@ class CoreTest  extends WebTestCase
     
     protected function createPlan($uid)
     {
-        $pack = $this->createPack('Pack '.rand(999,9999));
         //index
         $crawler = $this->client->request('GET', '/admin/plan/', array(), array(), array(
             'PHP_AUTH_USER' => 'admin',
@@ -681,16 +680,15 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['ecommercebundle_plan[name]'] = 'plan '.$uid;
-        $form['ecommercebundle_plan[description]'] = 'description '.$uid;
-        $form['ecommercebundle_plan[setupAmount]'] = '4.99';
-        $form['ecommercebundle_plan[frequency]']->select('DAY'); 
-        $form['ecommercebundle_plan[frequencyInterval]'] = '1';
-        $form['ecommercebundle_plan[cycles]'] = '10';
-        $form['ecommercebundle_plan[amount]'] = '5.10';
-        $form['ecommercebundle_plan[pack]']->select($pack->getId()); 
-        $form['ecommercebundle_plan[visible]']->tick();
-        $form['ecommercebundle_plan[active]']->tick();
+        $form['plan[name]'] = 'plan '.$uid;
+        $form['plan[description]'] = 'description '.$uid;
+        $form['plan[setupAmount]'] = '4.99';
+        $form['plan[frequency]']->select('DAY'); 
+        $form['plan[frequencyInterval]'] = '1';
+        $form['plan[cycles]'] = '10';
+        $form['plan[amount]'] = '5.10';
+        $form['plan[visible]']->tick();
+        $form['plan[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
         
         //Asserts
