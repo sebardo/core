@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "hwi/oauth-bundle": "0.4.*@dev"
     },
     "autoload": {
         "psr-4": {"CoreBundle\\": "CoreBundle"}
