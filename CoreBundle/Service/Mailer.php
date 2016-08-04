@@ -410,6 +410,9 @@ class Mailer
         $toEmail = $invoice->getTransaction()->getActor()->getEmail();
 
         switch ($invoice->getTransaction()->getPaymentMethod()) {
+            case Transaction::PAYMENT_METHOD_BRAINTREE_CREDIT_CARD:
+                $paymentType = 'invoice.payment.by.braintree';
+                break;
             case Transaction::PAYMENT_METHOD_BANK_TRANSFER:
                 $paymentType = 'invoice.payment.by.bank.transfer';
                 break;
