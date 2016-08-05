@@ -22,41 +22,10 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('core');
 
-        $this->addMenuConfiguration($rootNode);
-
+        // Here you should define the parameters that are allowed to
+        // configure your bundle. See the documentation linked above for
+        // more information on that topic.
         return $treeBuilder;
     }
     
-    private function addMenuConfiguration(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode('admin_menus')
-                    ->isRequired()
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->ignoreExtraKeys()
-                        ->children()
-                            ->scalarNode('icon_class')->defaultNull()->end()
-                            ->scalarNode('label')->defaultNull()->end()
-                            ->arrayNode('options')
-                                ->useAttributeAsKey('name')
-                                ->prototype('array')
-                                    ->ignoreExtraKeys()
-                                    ->children()
-                                        ->scalarNode('icon_class')->defaultNull()->end()
-                                        ->scalarNode('label')->defaultNull()->end()
-                                        ->arrayNode('options')
-                                            ->useAttributeAsKey('name')
-                                            ->prototype('scalar')->end()
-                                        ->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
-    }
 }

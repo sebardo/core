@@ -44,6 +44,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_first_image', array($this, 'getFirstImage')),
             new Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
             new Twig_SimpleFunction('get_referer', array($this, 'getRefererPath')),
+            new Twig_SimpleFunction('get_parameter', array($this, 'getParameter')),
             
         );
     }
@@ -388,6 +389,15 @@ class CoreExtension extends \Twig_Extension
         $path = $adminManager->getRefererPath($request);
 
         return  $path;
+    }
+    
+    /**
+    * Returns parameter config
+    *
+    */
+    public function getParameter($parameter)
+    {
+        return  $this->container->getParameter($parameter);
     }
     
     /**
