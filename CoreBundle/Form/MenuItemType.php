@@ -29,7 +29,7 @@ class MenuItemType extends AbstractType
 
         $icons = array();
         foreach ($value['icons'] as $value) {
-                $icons['fa-'.$value['id']] = $value['name'];
+                $icons[$value['id']] = $value['name'];
         }
         $builder
             ->add('name')
@@ -39,7 +39,7 @@ class MenuItemType extends AbstractType
             ->add('active', null, array('required' => false))
             ->add('icon', ChoiceType::class, array(
                     'choices' => $icons,
-                    'choices_as_values' => true
+                    'choices_as_values' => false,
                 ))
             ->add('metaTitle')
             ->add('metaDescription')

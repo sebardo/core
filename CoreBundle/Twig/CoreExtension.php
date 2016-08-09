@@ -146,13 +146,13 @@ class CoreExtension extends \Twig_Extension
             $frontManager =  $this->container->get('core_manager');
             $core = $this->container->getParameter('core');
             if(!$frontManager->checkRemoteFile($core['server_base_url'].$returnPath)){
-                return  $path.'/'.$name.'.jpg';
+                return  $path.'/'.$name.'.'.$arr[1];
             }
             
             return $returnPath;
         }
         //default image
-        return $arr[0].'.'.$arr[0];
+        return $arr[0].'.'.$arr[1];
     }
     
     public function getMaxFileSize(){

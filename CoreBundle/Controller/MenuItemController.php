@@ -128,6 +128,9 @@ class MenuItemController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             
+//            $data = $request->request->get('menu_item');
+//            print_r($data);die();
+//            
             if($menuItem->getRemoveImage()){
                 $menuItem->setImage(null);
             }
