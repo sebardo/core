@@ -409,26 +409,13 @@ class Mailer
         $templateName = 'EcommerceBundle:Email:sale.confirmation.html.twig';
         $toEmail = $invoice->getTransaction()->getActor()->getEmail();
 
-        switch ($invoice->getTransaction()->getPaymentMethod()) {
-            case Transaction::PAYMENT_METHOD_BRAINTREE_CREDIT_CARD:
-                $paymentType = 'invoice.payment.by.braintree';
-                break;
-            case Transaction::PAYMENT_METHOD_BANK_TRANSFER:
-                $paymentType = 'invoice.payment.by.bank.transfer';
-                break;
-            case Transaction::PAYMENT_METHOD_CREDIT_CARD:
-                $paymentType = 'invoice.payment.by.credit.card';
-                break;
-            case Transaction::PAYMENT_METHOD_PAYPAL:
-                $paymentType = 'invoice.payment.by.paypal';
-        }
-
+      
         $orderUrl = $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = array(
             'order_number' => $invoice->getTransaction()->getTransactionKey(),
             'amount'         => $amount,
-            'payment_type'   => $paymentType,
+            'payment_type'   => $invoice->getTransaction()->getPaymentMethod()->getName(),
             'order_url'      => $orderUrl,
         );
 

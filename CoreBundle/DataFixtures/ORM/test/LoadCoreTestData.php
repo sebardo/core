@@ -6,20 +6,19 @@ use CoreBundle\Entity\Role;
 use CoreBundle\Entity\Actor;
 
 /*
- * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/test/LoadCoreTestData.php
+ * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/test/LoadCoreTestData.php --env=test
  */
 class LoadCoreTestData extends SqlScriptFixture
 {
     
     public function createTestFixtures()
     {
-        $core = $this->container->getParameter('core');
-        if(isset($core['fixtures_test']) && $core['fixtures_test']){
+        $env = $this->container->getParameter("kernel.environment");
+        if($env == 'test'){
             $this->runSqlScript('Country.sql');
             $this->runSqlScript('State.sql');
             $this->runSqlScript('PostalCode.sql');
             $this->runSqlScript('Role.sql');
-
 
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder(new Actor());
