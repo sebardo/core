@@ -16,6 +16,7 @@
                 'bundles/admin/plugins/iCheck/minimal/_all.css'
                 'bundles/admin/plugins/ionicons-2.0.1/css/ionicons.min.css'
                 'bundles/admin/plugins/font-awesome-4.6.3/css/font-awesome.min.css'
+                'http://blazeworx.com/flags.css'
                 'bundles/core/css/fonts.css'
                 'bundles/core/less/main-full.less'
             %}
@@ -28,6 +29,7 @@
             'bundles/core/js/jquery-1.11.1.min.js'
             'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
             'bundles/admin/plugins/iCheck/icheck.min.js'
+            'http://blazeworx.com/jquery.flagstrap.min.js'
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
@@ -51,6 +53,21 @@
         {% endblock %}
         {% block footer %}{% endblock %}
         
+         
+        <form>
+            <div class="form-group">
+                <label>Selecciona tu idioma</label> 
+                <div style="display: inline-block; width: 200px" id="flagstrap2"
+                     data-selected-country="{%if app.request.getLocale() == 'en'%}GB{%else%}{{ app.request.getLocale()|upper}}{%endif%}"
+                     data-button-size="btn-md"
+                     data-button-type="btn-default"
+                     data-scrollable-height="250px"
+                     data-scrollable="true">
+                </div>
+            </div>
+        </form>
+
+
         {% block javascripts %}
             
             <script>
@@ -69,7 +86,29 @@
                   checkboxClass: 'icheckbox_flat-green',
                   radioClass: 'iradio_flat-green'
                 });
-
+                
+                $(document).ready(function(){
+                   $('#flagstrap2').flagStrap({
+                        countries: {
+                            "ES": "Español",
+                            "GB": "Ingles",
+                            "DE": "Alemán"
+                        },
+                        buttonSize: "btn-sm",
+                        buttonType: "btn-info",
+                        labelMargin: "10px",
+                        scrollable: false,
+                        scrollableHeight: "350px",
+                        placeholder: {
+                            value: "",
+                            text: "Selecciona tu idioma"
+                        },
+                        onSelect: function (value, element) {
+                            if(value == 'GB') value = 'EN';
+                            window.location = '/'+value.toLowerCase();
+                        }
+                    });  
+                });
             </script>
         {% endblock %}
     </body>

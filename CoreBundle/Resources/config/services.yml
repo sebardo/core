@@ -16,7 +16,13 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: 'monolog.logger', channel: 'security' }
-        
+    
+    core_locale_listener:
+        class: CoreBundle\EventListener\LocaleListener
+        arguments: ['%kernel.default_locale%']
+        tags:
+            - { name: kernel.event_subscriber }
+            
     core_twig_extension:
         class: "CoreBundle\\Twig\\CoreExtension"
         calls:

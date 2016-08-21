@@ -11,12 +11,14 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/" , name="index")
+     * @Route("/{_locale}" , name="index2")
      * @Template("CoreBundle:Security:index.html.twig")
      */
     public function indexAction(Request $request)
     {
         return array();
     }
+
     /**
      * @Route("/login" , name="login")
      * @Template("CoreBundle:Security:login.html.twig")
