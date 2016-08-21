@@ -47,12 +47,18 @@ class MenuItemRepository extends EntityRepository
         $qb = $this->getQueryBuilder();
 
        
-            // select
-            $qb->select('m.id, m.name, m.order, m.active');
+        // select
+        $qb->select('m.id, m.order, m.active, t.name ')
+           ->join('m.translations', 't')
+            ;
        
+            
         if(is_null($entityId)){
             // where
-            $qb->where('m.parentMenuItem IS NULL ');
+            $qb->where('m.parentMenuItem IS NULL ')
+               ->andWhere('t.locale = :locale ')     
+                ->setParameter('locale', 'es')
+                    ;
         }else{
             // where
             $qb->where('m.parentMenuItem = :menuItem_id')
@@ -62,7 +68,7 @@ class MenuItemRepository extends EntityRepository
 
         // search
         if (!empty($search)) {
-            $qb->andWhere('m.name LIKE :search')
+            $qb->andWhere('t.name LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
         }
 
@@ -72,7 +78,7 @@ class MenuItemRepository extends EntityRepository
                 $qb->orderBy('m.id', $sortDirection);
                 break;
             case 1:
-                $qb->orderBy('m.name', $sortDirection);
+                $qb->orderBy('t.name', $sortDirection);
                 break;
             case 2:
                 $qb->orderBy('m.order', $sortDirection);
@@ -86,6 +92,35 @@ class MenuItemRepository extends EntityRepository
         return $qb->getQuery();
     }
  
+    public function getItemByLocale($locale)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $qb
+            ->select('m, tanslations')
+            ->from('CoreBundle:MenuItem', 'm')
+            ->join('m.translations', 'tanslations')
+            ->where('t.locale = :locale')
+            ->setParameter('locale', $locale);
+          ;
+        return $qb->getQuery()->getResult();
+    }
+    
+    public function getItemsWithTranslations($menuItem)
+    {
+        $qb = $this->getQueryBuilder();
+
+        $qb
+            ->select('m, tanslations')
+            ->from('CoreBundle:MenuItem', 'm')
+            ->join('m.translations', 'tanslations')
+            ->where('m.id = :locale')
+            ->andWhere('t.translatable_id = :menuitem')
+            ->setParameter('menuitem', $menuItem)
+          ;
+        return $qb->getQuery()->getResult();
+    }
+
 
     private function getQueryBuilder()
     {

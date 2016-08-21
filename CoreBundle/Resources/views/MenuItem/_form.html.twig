@@ -1,10 +1,9 @@
 {{ form_errors(form) }}
-
-{{ form_row(form.name, { label: 'name*' }) }}
-{{ form_row(form.shortDescription, { label: 'menu.short.description*' }) }}
-{{ form_row(form.description, { label: 'description*' }) }}
-{{ form_row(form.metaTitle, { label: 'meta.title*'}) }}
-{{ form_row(form.metaDescription, { label: 'meta.description*' }) }}
+    
+ <div class="">
+    {{ form_errors(form.translations) }}
+    {{ form_widget(form.translations) }}
+</div>
 {{ form_row(form.metaTags, { label: 'meta.tags' }) }}
 
 {% if menuItemId is not defined %}

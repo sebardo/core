@@ -17,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use CoreBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use A2lix\I18nDoctrineBundle\Annotation\I18nDoctrine;
 
 /**
  * MenuItem controller.
@@ -100,11 +101,14 @@ class MenuItemController extends Controller
      * @Route("/{id}")
      * @Method("GET")
      * @Template()
+     * @I18nDoctrine
      */
     public function showAction(MenuItem $menuItem)
     {
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($menuItem);
-
+//        $menuItem = $em->getRepository('CoreBundle:MenuItem')->getItemsWithTranslations($menuItem);
+        
         return array(
             'entity' => $menuItem,
             'delete_form' => $deleteForm->createView(),
@@ -117,6 +121,7 @@ class MenuItemController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template()
+     * @I18nDoctrine
      */
     public function editAction(Request $request, MenuItem $menuItem)
     {

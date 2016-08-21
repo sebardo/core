@@ -4,10 +4,10 @@ namespace CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use CoreBundle\Entity\Image;
+
 
 /**
  * MenuItem Entity class
@@ -18,6 +18,7 @@ use CoreBundle\Entity\Image;
  */
 class MenuItem 
 {
+    use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translatable;
     /**
      * @var integer
      *
@@ -26,14 +27,6 @@ class MenuItem
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private $name;
     
     /**
      * @var string
@@ -41,47 +34,6 @@ class MenuItem
      * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     private $icon;
-
-    /**
-     * @var string
-     *
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(length=255, unique=true)
-     */
-    private $slug;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="short_description", type="text")
-     * @Assert\NotBlank
-     */
-    private $shortDescription;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     * @Assert\NotBlank
-     */
-    private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="meta_title", type="string", length=255)
-     * @Assert\NotBlank
-     */
-    private $metaTitle;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="meta_description", type="text")
-     * @Assert\NotBlank
-     */
-    private $metaDescription;
-    
 
     /**
      * @var string
@@ -144,6 +96,11 @@ class MenuItem
      */
     private $order;
 
+    /**
+     * @Assert\Valid
+     */
+    protected $translations;
+
     
     /**
      * Constructor
@@ -153,6 +110,7 @@ class MenuItem
         $this->visible = false;
         $this->active = false;
         $this->subitems = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -160,7 +118,7 @@ class MenuItem
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->translations->first()->getName();
     }
     
     /**
@@ -172,32 +130,7 @@ class MenuItem
     {
         return $this->id;
     }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return MenuItem
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        if($this->metaTitle == '') $this->metaTitle = $this->name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-    
+   
     /**
      * Set icon
      *
@@ -220,129 +153,6 @@ class MenuItem
     public function getIcon()
     {
         return $this->icon;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return MenuItem
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-    
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set shortDescription
-     *
-     * @param string $shortDescription
-     *
-     * @return MenuItem
-     */
-    public function setShortDescription($shortDescription)
-    {
-        $this->shortDescription = $shortDescription;
-        if($this->shortDescription == '') $this->shortDescription = strip_tags(substr ($this->shortDescription, 0, 200));
-
-        return $this;
-    }
-
-    /**
-     * Get shortDescription
-     *
-     * @return string 
-     */
-    public function getShortDescription()
-    {
-        return $this->shortDescription;
-    }
-    
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return MenuItem
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-        if($this->metaDescription == '') $this->metaDescription = strip_tags(substr ($this->description, 0, 200));
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-
-    /**
-     * Set metaTitle
-     *
-     * @param string $metaTitle
-     *
-     * @return MenuItem
-     */
-    public function setMetaTitle($metaTitle)
-    {
-        $this->metaTitle = $metaTitle;
-
-        return $this;
-    }
-
-    /**
-     * Get metaTitle
-     *
-     * @return string 
-     */
-    public function getMetaTitle()
-    {
-        return $this->metaTitle;
-    }
-
-    /**
-     * Set metaDescription
-     *
-     * @param string $metaDescription
-     *
-     * @return MenuItem
-     */
-    public function setMetaDescription($metaDescription)
-    {
-        $this->metaDescription = $metaDescription;
-
-        return $this;
-    }
-
-    /**
-     * Get metaDescription
-     *
-     * @return string 
-     */
-    public function getMetaDescription()
-    {
-        return $this->metaDescription;
     }
 
     /**
@@ -405,8 +215,6 @@ class MenuItem
         return $this->removeImage;
     }
 
-    
-    
     /**
      * Set url
      *
@@ -572,6 +380,17 @@ class MenuItem
 //        if (!$this->parentMenuItem) {
 //            $context->addViolationAt('parentMenuItem', 'menuitem.missing.parent');
 //        } 
+    }
+    
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+        return $this;
     }
     
 }

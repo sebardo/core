@@ -32,17 +32,14 @@ class MenuItemType extends AbstractType
                 $icons[$value['id']] = $value['name'];
         }
         $builder
-            ->add('name')
-            ->add('shortDescription')
-            ->add('description')
+            ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType')
             ->add('visible', null, array('required' => false))
             ->add('active', null, array('required' => false))
             ->add('icon', ChoiceType::class, array(
                     'choices' => $icons,
                     'choices_as_values' => false,
                 ))
-            ->add('metaTitle')
-            ->add('metaDescription')
+             
             ->add('metaTags')
             ->add('parentMenuItem', EntityType::class, array(
                 'class' => 'CoreBundle:MenuItem',

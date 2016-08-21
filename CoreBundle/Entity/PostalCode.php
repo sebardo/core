@@ -20,7 +20,7 @@ class PostalCode
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=48, unique=false)
+     * @ORM\Column(name="postal_code", type="string", length=48, unique=false)
      */
     private $postalCode;
     
@@ -51,7 +51,7 @@ class PostalCode
     private $state;
     
     /**
-    * @ORM\Column(type="string", length=2)
+    * @ORM\Column(name="state_iso", type="string", length=2)
     */
     protected $stateIso;
 
