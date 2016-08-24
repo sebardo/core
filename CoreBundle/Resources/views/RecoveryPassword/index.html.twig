@@ -1,63 +1,52 @@
 {% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
 {% form_theme form 'CoreBundle:Form:base.fields.html.twig' %}
 
- 
 {% block content %}
  
     <div class="container">
-        <div class="col-sm-2"></div>  
-        <div class="col-md-8 container-revocery">
+        <div class="col-sm-4"></div>  
+        <div class="col-md-4 container-recovery">
             <div class="row">
-                <h2 class="center">{{ 'account.password.recovery.title' | trans }}</h2>
+                <h2 class="center">{{ 'recovery.title' | trans }}</h2>
                 <hr>
                 <div class="container-recovery-form">
-                    
                     {% include 'CoreBundle:Base:alert.messages.html.twig' %}
-                    
                     <span id="returnMessage" style="display: none">
                         <div class="alert alert-warning alert-recovery-password" >
                           <button type="button" class="close" data-dismiss="alert">&times;</button>
                           <strong></strong>
                         </div>
                     </span>
-                    
                     <!-- form start -->
                     {{ form_start(form, {
                                         'action': path('core_actor_recovery'), 
                                         'method': 'post', 
                                         'attr': {'class': 'form-horizontal form-row-seperated'}
                                         }) }}
-                                                 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">{{ 'account.email.singular' | trans }}</label>
+                                <label class="control-label hidden">{{ 'signup.email' | trans }}</label>
                                 <div class="">
-                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder':  'account.email.enter' | trans  } } ) }}
+                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder':  'recovery.placeholder' | trans  } } ) }}
                                     {{ form_errors(form.email) }}
                                 </div>
                             </div>
                         </div>  
-
-                        <input type="submit" id="recoverySubmit" class="btn pull-right" value="Recuperar" />
-                         
+                        <input type="submit" id="recoverySubmit" class="btn pull-right" value="{{ 'recovery.submit' | trans }}" />
                     {{ form_end(form) }}
-
-                    
                 </div>
             </div>
         </div>
-        <div class="col-sm-2"></div>     
+        <div class="col-sm-4"></div>     
     </div>
     
 {% endblock %}
 
 {% block javascripts %}
-        {{ parent() }}
+    {{ parent() }}
  
     <script type="text/javascript">
-
         $(document).ready(function(){
-
             $('form[name="recovery_email"]').submit(function(e){
                 e.preventDefault();
                 var email = $('#recovery_email_email').val();
@@ -84,12 +73,8 @@
                         }
                       });
                 }
-                
             });
-            
         });
-
     </script>
-    
     
 {% endblock %}

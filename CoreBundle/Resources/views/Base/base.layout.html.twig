@@ -40,17 +40,12 @@
     {% block body %}
     <body class="core-body">
         
-        {% block header %}
-              
-            <div class="login-header main-header-wrapper create-form-header">
-                <div class="main-header-inner">
-                    <a href="/" class="logo sandbox">_sandbox</a>
-                    <div class="header-register text-right"><a href="/register">Sign up</a></div>
-                    <div class="header-login text-right"><a href="/login">Login</a></div>
-                    {% include 'CoreBundle:Base:language.html.twig' %}
+        {% block contianer_header %}
+              <div class="container-fluid">
+                <div class="row core-row">
+                    {% block header %}{% include 'CoreBundle:Base:header.html.twig' %}{% endblock %}
                 </div>
             </div>
-      
         {% endblock %}
         
         {% block contianer_content %}

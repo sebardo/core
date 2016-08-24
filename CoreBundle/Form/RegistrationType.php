@@ -8,11 +8,13 @@ use CoreBundle\Form\ActorRegisterType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $translator = $options['translator'];
         $builder->add('actor', ActorRegisterType::class);
         $builder->add('city');
         $builder->add('state', EntityType::class, array(
@@ -21,7 +23,7 @@ class RegistrationType extends AbstractType
                     return $er->createQueryBuilder('c');
                 },
                 'required' => true,
-                'placeholder' => 'Selecciona una provincia',
+                'placeholder' => $translator->trans('signup.state'),
                 'empty_data'  => true,
             ));
         $builder->add('country', EntityType::class, array(
@@ -30,15 +32,25 @@ class RegistrationType extends AbstractType
                     return $er->createQueryBuilder('c');
                 },
                 'required' => true,
-                'placeholder' => 'Selecciona un país',
+                'placeholder' => $translator->trans('signup.country'),
                 'empty_data'  => true,
             ));
                 
         $builder->add(
             'terms',
              CheckboxType::class,
-            array('property_path' => 'termsAccepted','label' => 'Accept all terms')
+            array('property_path' => 'termsAccepted','label' => $translator->trans('signup.accept'))
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'translator' => null
+        ));
+    }
+    
 }

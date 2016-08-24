@@ -4,4 +4,51 @@ english: Englisch
 return: Zurück
 home: Home
 select.language: Wählen Sie Ihre Sprache
-signup: Regístrate
+signup: 
+    first: Registrieren
+    second: Begleiten Sie uns
+    title: Ich bin neu auf der Website
+    accept.privacy.policy: Sie müssen die Datenschutzerklärung akzeptieren registrieren
+    email: E-Mail
+    username: Benutzername
+    password: Passwort
+    password.repeat: Passwort wiederholen
+    names: Namen
+    lastnames: Nachnamen
+    city: Stadt
+    state: Wählen Sie Ihren Staat
+    country: Wählen Sie Ihren Land
+    news: Ich möchte den Newsletter erhalten
+    accept: Ich akzeptiere die Bedingungen und Konditionen
+    legal.advice: Legal advice
+    legal.close: Schließen
+    legal.content: | 
+        <p>&nbsp;</p>
+        <p>Handelsname: <strong>%company%</strong> 
+        <br/>CIF / NIF: <strong>%company_id%</strong> 
+        <br/>E-Mail: %company_email%
+        <br/>Domain Name: <strong>%base_url%</strong></p>
+        <p>&nbsp;</p>
+        <p>Der Anbieter, verantwortlich für die Website, bietet dem Anwender dieses Dokument, das die Verpflichtungen aus dem Gesetz 34/2002 von Dienstleistungen der Informationsgesellschaft und des elektronischen Handels zu erfüllen soll ( LSSI-CE) und informieren alle Nutzer der Website, was sind die Bedingungen für die Nutzung der Website.</p>
+        <p>Der Anbieter behält sich das Recht zu ändern, zu korrigieren, zu ergänzen oder alle Informationen zu löschen, die auf der Website oder deren Design, ohne vorherige Ankündigung oder zur Information der Nutzer dieser Verpflichtungen Bedeutung erscheinen könnte genug, um mit der Veröffentlichung auf der Website des Anbieters. </p>
+        <p>Der Anbieter übernimmt keinerlei Haftung für die Informationen auf ihrer Website veröffentlicht, sofern diese Information von einer Partei außerhalb sie manipuliert oder eingeführt worden ist. </ P>
+        <p>Von der Website des Kunden kann auf Inhalte Dritter Websites umgeleitet werden. Da der Anbieter die Inhalte nicht immer von Dritten auf ihren Internetseiten kontrollieren können, übernimmt sie keine Verantwortung für solche Inhalte. Auf jeden Fall, sagte der Kreditgeber, dass sofort gehen alle Inhalte zu entfernen, die nationale oder internationale Gesetze, die guten Sitten oder die öffentliche Ordnung verletzen könnte, ausgehend zu den sofortigen Rückzug der Umleitung auf die Website, die Anmelderin zuständigen Behörden der betreffenden Inhalte. </p>
+        <p>Diese Website wurde überprüft und getestet ordnungsgemäß funktioniert. Grundsätzlich kann es den korrekten Betrieb an 365 Tagen im Jahr, 24 Stunden am Tag zu gewährleisten. Allerdings ist der Anbieter nicht die Möglichkeit ausschließen, dass es bestimmte Programmierfehler, oder dass aufgrund von höherer Gewalt, Naturkatastrophen, Streiks oder ähnliche Umstände machen es unmöglich zufällig auf die Website zugreifen. </p>
+login:
+  short: Anmelden
+  account: Geben Sie Ihr Konto
+  remember: Angemeldet bleiben
+  recovery: Passwort vergessen?
+  email: E-Mail
+  password: Passwort
+logout: Abmelde
+recovery:
+    placeholder: Geben sie ihre E-Mail Adresse ein
+    title: Wiederherstellungskennwort
+    submit: Wiederherstellungs
+    change.success: Ihr Passwort wurde erfolgreich aktuallisiert
+    email:
+        title: Hallo %name%,
+        message: Um ein neues Passwort für Ihr Konto zu erstellen, folgen Sie bitte dem Link unten.
+        success: Recovery-Nachricht erfolgreich gesendet, prüfen Sie Ihre Mailbox.
+        error: Benutzer nicht gefunden.

@@ -293,7 +293,7 @@ class ActorController  extends Controller
     {
         
         $registration = new Registration();
-        $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration);
+        $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration, array('translator' => $this->get('translator')));
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -407,10 +407,10 @@ class ActorController  extends Controller
                     if ($user instanceof Actor) {
                         $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
                         $returnValues->status = 'success';
-                        $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
+                        $returnValues->message = $this->get('translator')->trans('recovery.email.success');
                     } else {
                         $returnValues->status = 'error';
-                        $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.error');;
+                        $returnValues->message = $this->get('translator')->trans('recovery.email.error');
                     }
                     $response = new Response();
                     $response->setContent(json_encode(array(
@@ -421,9 +421,9 @@ class ActorController  extends Controller
                 }else{
                     if ($user instanceof Actor) {
                         $this->get('core.mailer')->sendRecoveryPasswordMessage($user); 
-                        $this->get('session')->getFlashBag()->add('success', 'account.password.recovery.email.success');
+                        $this->get('session')->getFlashBag()->add('success', 'recovery.email.success');
                     } else {
-                        $this->get('session')->getFlashBag()->add('danger', 'account.password.recovery.email.error');
+                        $this->get('session')->getFlashBag()->add('danger', 'recovery.email.error');
                     }
                 }
             }
@@ -448,10 +448,10 @@ class ActorController  extends Controller
         if ($user instanceof Actor) {
             $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
             $returnValues->status = 'success';
-            $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.success');
+            $returnValues->message = $this->get('translator')->trans('recovery.email.success');
         } else {
             $returnValues->status = 'error';
-            $returnValues->message = $this->get('translator')->trans('account.password.recovery.email.error');;
+            $returnValues->message = $this->get('translator')->trans('recovery.email.error');;
         }
         $response = new Response();
         $response->setContent(json_encode(array(
@@ -503,7 +503,7 @@ class ActorController  extends Controller
 
                 $this->get('core.mailer')->sendRecoveryPasswordConfirmation($user);
 
-                $this->get('session')->getFlashBag()->add('success', 'account.password.recovery.change.success');
+                $this->get('session')->getFlashBag()->add('success', 'recovery.change.success');
 
             }
             

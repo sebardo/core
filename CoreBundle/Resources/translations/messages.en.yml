@@ -4,4 +4,60 @@ english: English
 return: Return
 home: Home
 select.language: Select your language
-signup: Entrar
+signup: 
+    first: Sign up
+    second: Join us
+    title: I'm new on the site
+    accept.privacy.policy: You must accept the privacy policy to register
+    email: E-Mail
+    username: Username
+    password: Password
+    password.repeat: Repeat passwort
+    names: Names
+    lastnames: Lastnames
+    city: City
+    state: Select your State
+    country: Select your Country
+    news: I want to receive the newsletter
+    accept: I accept the terms and conditions
+    legal.advice: Legal advice
+    legal.close: Close
+    legal.content: | 
+        <p>&nbsp;</p>
+        <p>Tradename: <strong>%company%</strong> 
+        <br/>CIF / NIF: <strong>%company_id%</strong> 
+        <br/>E-Mail: %company_email%
+        <br/>Domain name: <strong>%base_url%</strong></p>
+        <p> The provider, responsible for the website, offers users this document that aims to fulfill the obligations under the Law 34/2002 of Services Information Society and Electronic Commerce ( LSSI-CE) and inform all users of the website as to what are the conditions of use of the website. </ p>
+        <p> The provider reserves the right to modify, correct, add or delete any information that could appear on the website or its design, without any forewarning or to inform users such obligations, meaning enough with the publication on the website of the provider. </ p>
+        <p> The provider disclaims any liability for the information posted on its website, provided that this information has been manipulated or introduced by a party external to it. </p>
+        <p> From the client's website may be redirected to third party content websites. Since the provider can not always control the contents posted by third parties on their websites, it assumes no responsibility for such content. In any case, the lender said that immediately proceed to remove any content that could violate national or international law, morality or public order, proceeding to the immediate withdrawal of the redirect to the website, notifying the competent authorities the content in question. </ p>
+        <p> This website has been reviewed and tested to work properly. In principle, it can ensure the correct operation 365 days a year, 24 hours a day. However, the provider does not rule out the possibility that there are certain programming errors, or that happen due to force majeure, natural disasters, strikes or similar circumstances make it impossible to access the website. </p>
+        <p> &nbsp; </ p>
+        <h1 class = "title"> Privacy </h1>
+        <p> &nbsp; </ p>
+        <p> The provider offers users the Policy & nbsp; data from the controller.
+        <br/> File in which are stored.
+        <br/> Mandatory or not provided, as well as the consequences of not providing them.
+        <br/> Regardless of the purpose for which they were intended, total or partial reproduction, use, exploitation, distribution and marketing, in any case it requires the prior written authorization by the provider. Any use not previously authorized by the provider will be considered a serious breach of the rights of intellectual property of the author. </p>
+        <p> &nbsp; </ p>
+        <p> The provider <em> does not authorize </em> explicitly to third parties to redirect directly to the specific contents of the website, in any case must redirect to the main website of the provider. </p>
+        <p> To make any comments concerning possible breaches of the rights of intellectual property, as well as any of the contents of the website, you can do so via the following email. </p>
+login:
+    short: Login
+    account: Enter your account
+    remember: Remember me
+    recovery: Forgot password?
+    email: E-Mail
+    password: Password
+logout: Logout
+recovery:
+    placeholder: Enter your email
+    title: Recover password
+    submit: Recover
+    change.success: Your password has been updated successfully
+    email:
+        title: Hello %name%,
+        message: To create a new password for your account, please follow the link below.
+        success: Recovery message sent successfully, check your mailbox.
+        error: User not found.
