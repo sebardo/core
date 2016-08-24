@@ -16,3 +16,92 @@
         display: none
     }
 }
+
+.core-body{
+/*    font-family: "bt_mono", courier, monospace;*/
+    .main-header-wrapper {
+        font-family: "bt_mono", courier, monospace;
+        position: fixed;
+        z-index: 999;
+        top: 0;
+        left: 0;
+        width: 100%; 
+    }
+    .main-header-wrapper:hover .main-header-inner {
+    border-color: #dbdbdb; 
+    }
+
+    .main-header-inner {
+        -webkit-transition: border 222ms ease-out;
+        -moz-transition: border 222ms ease-out;
+        -o-transition: border 222ms ease-out;
+        transition: border 222ms ease-out;
+        *zoom: 1;
+        position: relative;
+        z-index: 999;
+        padding: 1.0625em 1.5em;
+        background: #FFF;
+        border-bottom: 1px solid transparent; 
+    }
+    .main-header-inner:before, .main-header-inner:after {
+      content: " ";
+      /* 1 */
+      display: table;
+      /* 2 */ 
+    }
+    .main-header-inner:after {
+      clear: both; 
+    }
+    .main-header-inner:hover {
+      border-bottom: 1px solid #dbdbdb; 
+    }
+    .header-login, .header-registe{
+        float: right;
+    }
+    .header-login a, .header-register a{
+        
+        float: right;
+        padding-right: 24px;
+        position: relative;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 2.4em;
+        color: #666869;
+        opacity: 0.5; 
+    }
+    .header-login a:hover, .header-register a:after{
+        color: #666869;
+        text-decoration: none;
+        opacity: 1; 
+    }
+    .header-login a:after{
+        background-color: #5B5A5C;
+        content: '';
+        display: block;
+        height: 2rem;
+        position: absolute;
+        right: 0;
+        top: 0.5em;
+        margin-right: 10px;
+        width: 1px;
+    }
+    
+    .login-header .logo {
+        color: #999;
+        text-decoration: underline;
+        
+        float: left;
+        width: 123px;
+        height: 33px;
+        top: 1px;
+        overflow: hidden;
+        font-size: 22px;
+        font-weight: 900;
+    }
+ 
+    
+    //login
+    .container-login{
+        padding: 6em 0;
+    }
+}

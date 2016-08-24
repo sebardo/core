@@ -463,4 +463,9 @@ class CoreManager
         return $lastPath;
     }
     
+    public function getLocales(){
+        return $this->container->getParameter('a2lix_translation_form.locales');
+    }
+    
+            
 }

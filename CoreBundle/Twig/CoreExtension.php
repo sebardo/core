@@ -45,6 +45,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
             new Twig_SimpleFunction('get_referer', array($this, 'getRefererPath')),
             new Twig_SimpleFunction('get_parameter', array($this, 'getParameter')),
+            new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
             
         );
     }
@@ -398,6 +399,19 @@ class CoreExtension extends \Twig_Extension
     public function getParameter($parameter)
     {
         return  $this->container->getParameter($parameter);
+    }
+    
+    /**
+    * Returns array locaes
+    *
+    */
+    public function getLocales()
+    {
+
+         /** @var FrontManager $coreManager */
+        $coreManager =  $this->container->get('core_manager');
+
+        return  $coreManager->getLocales();
     }
     
     /**

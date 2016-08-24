@@ -11,7 +11,6 @@ class SecurityController extends Controller
 {
     /**
      * @Route("/" , name="index")
-     * @Route("/{_locale}" , name="index2")
      * @Template("CoreBundle:Security:index.html.twig")
      */
     public function indexAction(Request $request)
@@ -19,6 +18,14 @@ class SecurityController extends Controller
         return array();
     }
 
+    /**
+     * @Route("/{_locale}" , name="locale", requirements={"_locale"="es|en|de"})
+     */
+    public function localeAction(Request $request)
+    {
+        return $this->redirect($this->get('core_manager')->getRefererPath($request));
+    }
+    
     /**
      * @Route("/login" , name="login")
      * @Template("CoreBundle:Security:login.html.twig")

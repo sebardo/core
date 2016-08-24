@@ -29,11 +29,16 @@ send: Enviar
 role: Rol
 dashboard: Panel de control
 
+spanish: Español
+deutsch: Alemán
+english: Inglés
+return: Volver
 home: Inicio
+select.language: Selecciona tu idioma
+signup: Entrar
+
 continue: Continuar
-completed: Meta ideal alcanzada
 total:
-  percent: Porcentaje total
   to.pay: Total a pagar
   
 analitycs: Google Analitycs

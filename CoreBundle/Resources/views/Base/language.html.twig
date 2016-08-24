@@ -1,0 +1,11 @@
+<form style="float: right">
+    <div class="form-group" style="margin-bottom: 0">
+       <div style="display: inline-block; width: 150px" id="select-language"
+             data-selected-country="{%if app.request.getLocale() == 'en'%}GB{%else%}{{ app.request.getLocale()|upper}}{%endif%}"
+             data-button-size="btn-md"
+             data-button-type="btn-default"
+             data-scrollable-height="250px"
+             data-scrollable="true">
+        </div>
+    </div>
+</form>
