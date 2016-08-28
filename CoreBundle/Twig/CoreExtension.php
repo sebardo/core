@@ -46,6 +46,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_referer', array($this, 'getRefererPath')),
             new Twig_SimpleFunction('get_parameter', array($this, 'getParameter')),
             new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
+            new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
             
         );
     }
@@ -412,6 +413,22 @@ class CoreExtension extends \Twig_Extension
         $coreManager =  $this->container->get('core_manager');
 
         return  $coreManager->getLocales();
+    }
+    
+     /**
+     * Returns all fonts.
+     *
+     */
+    public function getFonts()
+    {
+        $em = $this->container->get('doctrine')->getManager();
+         
+        $entities = $em->getRepository("CoreBundle:Font")->findBy(array('active'=>true), array('id' => 'ASC'));
+        $returnValues = array();
+        foreach ($entities as $entity) {
+            $returnValues[] = str_replace(' ', '+', $entity->getName());
+        }
+        return implode('|', $returnValues);
     }
     
     /**

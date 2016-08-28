@@ -1,3 +1,4 @@
+#Frontend clean code
 spanish: Spanish
 deutsch: German
 english: English
@@ -61,3 +62,9 @@ recovery:
         message: To create a new password for your account, please follow the link below.
         success: Recovery message sent successfully, check your mailbox.
         error: User not found.
+        
+#Backend clean code
+fonts: Fonts manager
+font:
+    singular: Font type
+    plural: Font types

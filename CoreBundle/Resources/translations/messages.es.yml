@@ -29,6 +29,7 @@ send: Enviar
 role: Rol
 dashboard: Panel de control
 
+#Frontend clean code
 spanish: Español
 deutsch: Alemán
 english: Inglés
@@ -93,7 +94,24 @@ recovery:
         message: Para crear una nueva contraseña para su cuenta, por favor siga el siguiente enlace.
         success: Mensaje de recuperación enviado con exito, revise su casilla de correo.
         error: Usuario no encontrado.
-
+        
+        
+#Backend clean code
+fonts: Gestion de tipografia
+fontadds: Agregar tipo de letra
+fontless: Variables de bootstrap
+font:
+    singular: Tipo de letra
+    plural: Tipos de letras
+    adds: Agregar tipo de letra
+    less: Variables de bootstrap
+    new: Nuevo tipo de letra
+    created: Se ha creado el tipo de letra satisfactoriamente
+    edited: Se ha editado el tipo de letra satisfactoriamente
+    deleted: Se ha eliminado el tipo de letra satisfactoriamente
+  
+  
+  
 
 continue: Continuar
 total:

@@ -52,3 +52,9 @@ recovery:
         message: Um ein neues Passwort für Ihr Konto zu erstellen, folgen Sie bitte dem Link unten.
         success: Recovery-Nachricht erfolgreich gesendet, prüfen Sie Ihre Mailbox.
         error: Benutzer nicht gefunden.
+        
+#Backend clean code
+fonts: Management-Schriften
+font:
+    singular: Schriftart
+    plural: Schrifttypen

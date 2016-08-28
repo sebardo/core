@@ -1,0 +1,88 @@
+{% extends "AdminBundle:Base:layout.html.twig" %}
+
+{% block section %}fontadds{% endblock %}
+
+{% block content %}
+    
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ entity.name }}
+        <small></small>
+      </h1>
+     <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
+        <li><a href="javascript:">{{ "dashboard" | trans }}</a></li>
+        <li><a href="{{ path('core_font_index') }}">{{ "font.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_font_show', { id: entity.id }) }}">{{ entity.name }}</a></li>
+      </ol>
+    </section>
+      
+    <section class="content">
+      <div class="row">
+          <div class="col-md-12">
+              
+              {% include 'CoreBundle:Base:alert.messages.html.twig' %}
+                            
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#info_tab" data-toggle="tab" aria-expanded="true">{{ "information" | trans }}</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active show-tables" id="info_tab">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>{{ "name" | trans }}</td>
+                            <td>{{ entity.name }}</td>
+                        </tr>
+                     
+                        <tr>
+                            <td>{{ "active" | trans }}</td>
+                            <td>
+                                {% if entity.active %}
+                                    <span class="label label-success">{{ "yes" | trans }}</span>
+                                {% else %}
+                                    <span class="label label-danger">{{ "no" | trans }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                    <div class="box-footer">
+                        <div class="col-sm-12"> 
+                            <a href="{{ path('core_font_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
+                            <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>    
+                            <form id="delete-entity" action="{{ path('core_font_delete', { id: entity.id }) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE" />
+                                {{ form_widget(delete_form) }}
+                            </form>
+                        </div>
+                    </div><!-- /.box-footer -->
+                </div><!-- /.tab-pane -->
+              </div><!-- /.tab-content -->
+            </div><!-- nav-tabs-custom -->
+          </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+ 
+        jQuery(document).ready(function() {
+            $('#delete-btn').on('click', function(e) {
+                e.preventDefault();
+
+                if (confirm('{{ "are.you.sure" | trans }}')) {
+                    $('#delete-entity').submit();
+                }
+            });
+
+        });
+    </script>
+{% endblock %}
