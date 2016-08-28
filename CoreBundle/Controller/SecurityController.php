@@ -23,7 +23,12 @@ class SecurityController extends Controller
      */
     public function localeAction(Request $request)
     {
-        return $this->redirect($this->get('core_manager')->getRefererPath($request));
+        if(!empty($this->get('core_manager')->getRefererPath($request))){
+            return $this->redirect($this->get('core_manager')->getRefererPath($request));
+        }else{
+            return $this->redirect($this->generateUrl('index'));
+        }
+        
     }
     
     /**
