@@ -118,7 +118,11 @@ class MenuItem
      */
     public function __toString()
     {
-        return $this->translations->first()->getName();
+        if(is_object($this->translations->first())){
+            return $this->translations->first()->getName();
+        }else{
+            return '';
+        }
     }
     
     /**
