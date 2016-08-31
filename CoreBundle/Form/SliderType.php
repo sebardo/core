@@ -19,8 +19,7 @@ class SliderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('caption', null, array('required' => false))
+            ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType')
             ->add('openInNewWindow', null, array('required' => false))
             ->add('url', UrlType::class, array('required' => false))
             ->add('active', null, array('required' => false))

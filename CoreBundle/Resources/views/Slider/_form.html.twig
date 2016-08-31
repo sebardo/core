@@ -1,10 +1,11 @@
 {{ form_errors(form) }}
 
-{{ form_row(form.title, { label: 'title' }) }}
-{{ form_row(form.caption, { label: 'caption' }) }}
+<div class="">
+    {{ form_errors(form.translations) }}
+    {{ form_widget(form.translations) }}
+</div>
 {{ form_widget(form.openInNewWindow, { name: 'open.new.window' }) }}
 {{ form_row(form.url, { label: 'URL' }) }}
-{{ form_row(form.title, { label: 'title' }) }}
 {{ form_widget(form.active, { name: 'active' }) }}
 
 {% if entity is defined and entity.image is not null %}

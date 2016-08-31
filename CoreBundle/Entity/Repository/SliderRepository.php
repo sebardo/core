@@ -36,11 +36,12 @@ class SliderRepository extends EntityRepository
     {
         // select
         $qb = $this->getQueryBuilder()
-            ->select('s.id, s.title, s.openInNewWindow, s.url, s.active, s.order');
+            ->select('s.id, t.title, s.openInNewWindow, s.url, s.active, s.order')
+            ->join('s.translations', 't');
 
         // search
         if (!empty($search)) {
-            $qb->where('s.title LIKE :search')
+            $qb->where('t.title LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
         }
 
@@ -50,7 +51,7 @@ class SliderRepository extends EntityRepository
                 $qb->orderBy('s.id', $sortDirection);
                 break;
             case 1:
-                $qb->orderBy('s.title', $sortDirection);
+                $qb->orderBy('t.title', $sortDirection);
                 break;
             case 2:
                 $qb->orderBy('s.openInNewWindow', $sortDirection);

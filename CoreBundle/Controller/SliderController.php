@@ -15,6 +15,7 @@ use CoreBundle\Entity\Slider;
 use CoreBundle\Form\SliderType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use A2lix\I18nDoctrineBundle\Annotation\I18nDoctrine;
 
 /**
  * Slider controller.
@@ -108,6 +109,7 @@ class SliderController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template()
+     * @I18nDoctrine
      */
     public function editAction(Request $request, Slider $slider)
     {

@@ -5,6 +5,7 @@ namespace CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Slider Entity class
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Slider extends Timestampable
 {
+    use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translatable;
     /**
      * @var integer
      *
@@ -22,21 +24,6 @@ class Slider extends Timestampable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=true)
-     * @Assert\NotBlank
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="caption", type="text", nullable=true)
-     */
-    private $caption;
 
     /**
      * @var boolean
@@ -83,8 +70,32 @@ class Slider extends Timestampable
     private $image;
     
     public $removeImage;
-
-
+    
+    /**
+     * @Assert\Valid
+     */
+    protected $translations;
+    
+     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        if(is_object($this->translations->first())){
+            return $this->translations->first()->getName();
+        }else{
+            return '';
+        }
+    }
+    
     /**
      * Get id
      *
@@ -107,40 +118,6 @@ class Slider extends Timestampable
         $this->title = $title;
 
         return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string 
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set caption
-     *
-     * @param string $caption
-     *
-     * @return Slider
-     */
-    public function setCaption($caption)
-    {
-        $this->caption = $caption;
-
-        return $this;
-    }
-
-    /**
-     * Get caption
-     *
-     * @return string 
-     */
-    public function getCaption()
-    {
-        return $this->caption;
     }
 
     /**
@@ -288,14 +265,6 @@ class Slider extends Timestampable
     {
         return $this->image;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->title;
-    }
     
     public function setRemoveImage($removeImage)
     {
@@ -307,5 +276,16 @@ class Slider extends Timestampable
     public function getRemoveImage()
     {
         return $this->removeImage;
+    }
+    
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations($translations)
+    {
+        $this->translations = $translations;
+        return $this;
     }
 }

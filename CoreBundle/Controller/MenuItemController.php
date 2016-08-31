@@ -101,7 +101,6 @@ class MenuItemController extends Controller
      * @Route("/{id}")
      * @Method("GET")
      * @Template()
-     * @I18nDoctrine
      */
     public function showAction(MenuItem $menuItem)
     {
