@@ -4,6 +4,8 @@ english: Englisch
 return: Zurück
 home: Home
 select.language: Wählen Sie Ihre Sprache
+name: Name
+email: E-Mail
 signup: 
     first: Registrieren
     second: Begleiten Sie uns
@@ -52,9 +54,62 @@ recovery:
         message: Um ein neues Passwort für Ihr Konto zu erstellen, folgen Sie bitte dem Link unten.
         success: Recovery-Nachricht erfolgreich gesendet, prüfen Sie Ihre Mailbox.
         error: Benutzer nicht gefunden.
-        
+contact:
+    singular: Kontakt
+    plural: Kontakte
+    send: Bitte senden Sie die Nachricht
+    sent: Nachricht gesendet korrekt
+    body: Nachricht
+    email:
+        valid: Bitte geben Sie eine gültige E-Mail-Adresse
+        subject: Nachricht Kontakt %app_name%
+        message: |
+                Nachricht über die Website gesendet %app_name%. 
+                Ihre Mitteilung an den Website-Administrator gesendet, eine Kopie an den Absender zu schicken.
+    web:
+        subject: Nachricht Kontakt %app_name%.
+        message: |
+                Nachricht über die Website gesendet %app_name%.
+                Senden Nachricht wurde gesendet, eine Kopie an den Absender.
+                
 #Backend clean code
 fonts: Management-Schriften
 font:
     singular: Schriftart
     plural: Schrifttypen
+    adds: In der Schrift
+    less: Variablen Bootstrap
+    new: Neue Schriftart
+    created: Es hat die Schriftart erfolgreich erstellt
+    edited: Es hat die Schriftart erfolgreich bearbeitet
+    deleted: Es wurde erfolgreich Schrift entfernt
+
+shippings: Versand
+subscriptions: Abonnenten
+newsletters: Newsletters
+newsletter:
+    singular: Newsletter
+    plural: Newsletters
+    created: Der Rekord wurde erfolgreich erstellt
+    edited: Die Registrierung wurde erfolgreich bearbeitet
+    deleted: Die Registrierung wurde erfolgreich entfernt
+    new: Neuen Newsletter
+    title: Titel
+    body: Corps Newsletter
+    email:
+        subject: Senden Newsletter [%app_name%]
+        valid: Bitte stellen Sie eine gültige E-Mail-Adresse
+        added: Nachricht gesendet korrekt
+    subscripts: 
+        singular: Abonnieren
+        plural: Abonnenten
+        disable:  Wurde erfolgreich unsubscribed
+    shipping:
+        singular: Versand
+        plural: Sendungen
+        date: Versanddatum
+        type: Verladungs
+        new: Neue Versand
+        total: Die Gesamtlieferungen
+        created: Der Rekord wurde erfolgreich erstellt
+        deleted: Die Registrierung wurde erfolgreich entfernt

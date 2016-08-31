@@ -5,6 +5,8 @@ english: English
 return: Return
 home: Home
 select.language: Select your language
+name: Name
+email: E-Mail
 signup: 
     first: Sign up
     second: Join us
@@ -62,9 +64,66 @@ recovery:
         message: To create a new password for your account, please follow the link below.
         success: Recovery message sent successfully, check your mailbox.
         error: User not found.
-        
+
+contact:
+    singular: Contact
+    plural: Contacts
+    sent: Message sent correctly
+    body: Message
+    send: Send message
+    email:
+        valid: Please enter a valid email address
+        subject: Contact message of %app_name%
+        message: |
+                Message sent through the website%app_name%. 
+                Message sent to the website administrator sending a copy to sender.
+    web:
+        subject: Contact message of  %app_name%.
+        message: |
+                Message sent through the website%app_name%.. 
+                Message sent sending a copy to sender.
+                
 #Backend clean code
 fonts: Fonts manager
 font:
     singular: Font type
     plural: Font types
+    adds: Add font type
+    less: Variables bootstrap
+    new: New font type
+    created: It has created the font successfully
+    edited: It has edited the font successfully
+    deleted: It has removed the font successfully
+ 
+shippings: Shipping
+subscriptions: Subscribers
+newsletters: Newsletters
+newsletter:
+    singular: Newsletter
+    plural: Newsletters
+    created: The record was created successfully
+    edited: Registration has been edited successfully
+    deleted: Registration has been removed successfully 
+    new: New newsletter
+    title: Title
+    body: "Newsletter's body"
+    email:
+        subject: Sending newsletter [%app_name%]
+        valid: Please introduce a valid email address
+        added: Mensaje enviado correctamente
+    subscripts: 
+        singular: Subscribed
+        plural: Subscribers
+        disable:  Has been successfully unsubscribed
+    shipping:
+        singular: Shipping
+        plural: Shipments
+        date: Shipping date
+        type: Shipping type
+        new: New shipping
+        total: Total shipments
+        created: The record was created successfully
+        deleted: Registration has been removed successfully
+  
+    
+ 

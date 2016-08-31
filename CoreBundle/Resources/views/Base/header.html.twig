@@ -3,6 +3,6 @@
         <a href="/" class="logo sandbox">_sandbox</a>
         <div class="header-register text-right"><a href="/register">{{ 'signup.first' | trans }}</a></div>
         <div class="header-login text-right"><a href="/login">{{ 'login.short' | trans }}</a></div>
-        {% include 'CoreBundle:Base:language.html.twig' %}
+        {{ get_languages() }}
     </div>
 </div>

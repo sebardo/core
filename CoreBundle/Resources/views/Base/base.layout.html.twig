@@ -82,27 +82,6 @@
                 
                 $(document).ready(function(){
                     
-                   //language selector
-                   $('#select-language').flagStrap({
-                        countries: {
-                            "ES": "{{ 'spanish' | trans }}",
-                            "GB": "{{ 'english' | trans }}",
-                            "DE": "{{ 'deutsch' | trans }}"
-                        },
-                        buttonSize: "btn-sm",
-                        buttonType: "btn-info",
-                        labelMargin: "10px",
-                        scrollable: false,
-                        scrollableHeight: "350px",
-                        placeholder: {
-                            value: "",
-                            text: "{{ 'select.language' | trans }}"
-                        },
-                        onSelect: function (value, element) {
-                            if(value == 'GB') value = 'EN';
-                            window.location = '/'+value.toLowerCase();
-                        }
-                    });  
                 });
             </script>
         {% endblock %}

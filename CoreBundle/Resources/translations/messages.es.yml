@@ -36,6 +36,8 @@ english: Inglés
 return: Volver
 home: Inicio
 select.language: Selecciona tu idioma
+name: Nombre
+email: E-Mail
 signup: 
     first: Regístrate
     second: Date de alta
@@ -94,7 +96,23 @@ recovery:
         message: Para crear una nueva contraseña para su cuenta, por favor siga el siguiente enlace.
         success: Mensaje de recuperación enviado con exito, revise su casilla de correo.
         error: Usuario no encontrado.
-        
+contact:
+    singular: Contacto
+    plural: Contactos
+    send: Enviar el mensaje
+    sent: Mensaje enviado correctamente
+    body: Mensaje
+    email:
+        valid: Por favor introduce un correo electrónico válido
+        subject: Mensaje de contacto de %app_name%
+        message: |
+                Mensaje enviado a travez del sitio web de %app_name%. 
+                Mensaje enviado al administrador del sitio web con envio de copia al remitente.
+    web:
+        subject: Mensaje de contacto de %app_name%.
+        message: |
+                Mensaje enviado a travez del sitio web de %app_name%.. 
+                Mensaje enviado con envio de copia al remitente.        
         
 #Backend clean code
 fonts: Gestion de tipografia
@@ -109,7 +127,34 @@ font:
     created: Se ha creado el tipo de letra satisfactoriamente
     edited: Se ha editado el tipo de letra satisfactoriamente
     deleted: Se ha eliminado el tipo de letra satisfactoriamente
-  
+ 
+shippings: Envios
+subscriptions: Subscriptores
+newsletters: Newsletters
+newsletter:
+    singular: Newsletter
+    plural: Newsletters
+    created: Se ha creado el registro satisfactoriamente
+    edited: Se ha editado el registro satisfactoriamente
+    deleted: Se ha eliminado el registro satisfactoriamente  
+    new: Nuevo newsletter
+    title: Titulo
+    body: Cuerpo del newsletter
+    email:
+        subject: Envio de newsletter [%app_name%]
+    subscripts: 
+        singular: Subscripto
+        plural: Subscriptores
+        disable:   Se ha cancelado la subscripción satisfactoriamente
+    shipping:
+        singular: Envío
+        plural: Envios
+        date: Fecha de envío
+        type: Tipo de envío
+        new: Nuevo envío
+        total: Total de envíos
+        created: Se ha creado el registro satisfactoriamente
+        deleted: Se ha eliminado el registro satisfactoriamente  
   
   
 
@@ -354,48 +399,6 @@ validate:
             message: |
                 Tu correo electrónico se ha validado correctamente. A partir de este momento podrás realizar vender de forma
                 rápida y fácil desde nuestra web.
-        
-contact:
-    email:
-        subject: Mensaje de contacto de %app_name%
-        message: |
-                Mensaje enviado a travez del sitio web de %app_name%. 
-                Mensaje enviado al administrador del sitio web con envio de copia al remitente.
-    web:
-        subject: Mensaje de contacto de %app_name%.
-        message: |
-                Mensaje enviado a travez del sitio web de %app_name%.. 
-                Mensaje enviado con envio de copia al remitente.
-  
-
-shippings: Envios
-subscriptions: Subscriptores
-newsletters: Newsletters
-newsletter:
-    singular: Newsletter
-    plural: Newsletters
-    created: Se ha creado el registro satisfactoriamente
-    edited: Se ha editado el registro satisfactoriamente
-    deleted: Se ha eliminado el registro satisfactoriamente  
-    new: Nuevo newsletter
-    title: Titulo
-    body: Cuerpo del newsletter
-    email.subject: Envio de newsletter [%app_name%]
-    subscripts: 
-        singular: Subscripto
-        plural: Subscriptores
-        disable:   Se ha cancelado la subscripción satisfactoriamente
-    shipping:
-        singular: Envío
-        plural: Envios
-        date: Fecha de envío
-        type: Tipo de envío
-        new: Nuevo envío
-        total: Total de envíos
-        created: Se ha creado el registro satisfactoriamente
-        deleted: Se ha eliminado el registro satisfactoriamente  
-        inactive: Solo a óptica inactivas
-inactive: Solo a óptica inactivas
     
 phone.abbr: Tel.
 fax.abbr: Fax.

@@ -47,6 +47,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_parameter', array($this, 'getParameter')),
             new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
             new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
+            new Twig_SimpleFunction('get_languages', array($this, 'getLanguages'), array('is_safe' => array('html'))),
             
         );
     }
@@ -429,6 +430,17 @@ class CoreExtension extends \Twig_Extension
             $returnValues[] = str_replace(' ', '+', $entity->getName());
         }
         return implode('|', $returnValues);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getLanguages()
+    {
+        $twig = $this->container->get('twig');
+        $content = $twig->render('CoreBundle:Base:language.html.twig');
+
+        return $content;
     }
     
     /**
