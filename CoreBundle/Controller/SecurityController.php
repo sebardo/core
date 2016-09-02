@@ -18,6 +18,7 @@ class SecurityController extends Controller
         return array();
     }
 
+    
     /**
      * @Route("/{_locale}" , name="locale", requirements={"_locale"="es|en|de"})
      */
@@ -30,6 +31,7 @@ class SecurityController extends Controller
         }
         
     }
+    
     
     /**
      * @Route("/login" , name="login")

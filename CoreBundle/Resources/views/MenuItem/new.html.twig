@@ -64,9 +64,9 @@
         $(function () {
             {% set locales = get_locales() %}
             {% for locale in locales %}
-                CKEDITOR.replace('menu_item_{{locale}}_shortDescription', {
+                CKEDITOR.replace('menu_item_translations_{{locale}}_shortDescription', {
                     allowedContent : true,
-                    extraPlugins: 'uploadimage,image2',
+                    extraPlugins: 'uploadimage,image2,panelbutton,colorbutton',
                     height: 100,
 
                     // Upload images to a CKFinder connector (note that the response type is set to JSON).
@@ -93,7 +93,7 @@
                     image2_disableResizer: true
                 });
                 CKEDITOR.replace('menu_item_{{locale}}_description', {
-                extraPlugins: 'uploadimage,image2',
+                extraPlugins: 'uploadimage,image2,panelbutton,colorbutton',
                 height: 300,
 
                 // Upload images to a CKFinder connector (note that the response type is set to JSON).

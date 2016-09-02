@@ -1,0 +1,39 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="col-sm-2"></div>  
+        <div class="col-md-8 container-padding container-menuitem">
+            <div class="row container-login-register">
+                <h2 class="center">{{ item.name}}</h2>
+                <hr>
+                {% set path = '' %}
+                {% if item.translatable.image|length > 0 %}
+                    {% set path = '/uploads/images/menu/'~item.id~'/'~item.translatable.image.path %}
+                {% endif %}
+                {% if path != ''%}
+                    <img src="{{path}}" class="img-responsive">
+                {%else%}
+                    <img src="http://placehold.it/900x300" class="img-responsive">
+                {% endif%}
+                <br/>
+                <div class="lead">{{ item.shortDescription  | raw}}</div>
+                <div>{{ item.description | raw }}</div>
+               
+            </div>
+        </div>
+        <div class="col-sm-2"></div>     
+    </div>
+  
+{% endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+            'bundles/core/less/pages/menuitem.less'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}

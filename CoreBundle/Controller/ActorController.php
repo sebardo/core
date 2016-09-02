@@ -21,6 +21,7 @@ use CoreBundle\Entity\Newsletter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use CoreBundle\Entity\Image;
 use stdClass;
 
 class ActorController  extends Controller

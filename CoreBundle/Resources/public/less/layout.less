@@ -60,6 +60,18 @@
         .main-header-inner:hover {
           border-bottom: 1px solid #dbdbdb; 
         }
+        .header-item{
+            padding-right: 24px;
+            position: relative;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 2.4em;
+            color: #666869;
+            opacity: 0.5;  
+            &>span{
+              padding-left: 5px;  
+            }
+        }
         .header-login, .header-register{
             float: right;
             &>a{
@@ -78,7 +90,7 @@
             text-decoration: none;
             opacity: 1; 
         }
-        .header-login a:after{
+        .header-login a:after, .header-item:after{
             background-color: #5B5A5C;
             content: '';
             display: block;
@@ -96,6 +108,9 @@
 
     //login
     .container-login, .container-register, .container-recovery{
+        padding: 6em 0;
+    }
+    .container-padding{
         padding: 6em 0;
     }
 }

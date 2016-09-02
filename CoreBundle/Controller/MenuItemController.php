@@ -18,20 +18,44 @@ use Symfony\Component\HttpFoundation\Response;
 use CoreBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use A2lix\I18nDoctrineBundle\Annotation\I18nDoctrine;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
-/**
- * MenuItem controller.
- *
- * @Route("/admin/menuitems")
- */
 class MenuItemController extends Controller
 {
+    
+    /**
+     * @Route("/menu/{slug}")
+     * @Template("CoreBundle:MenuItem:menu.item.html.twig")
+     */
+    public function menuAction($slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        try {
+            $qb = $em->getRepository('CoreBundle:MenuItem')->createQueryBuilder('p')
+                    ->join('p.translations', 't')
+                    ->where('t.slug = :slug')
+                    ->setParameter('slug', $slug)
+                    ->setMaxResults(1);
+            $entity = $qb->getQuery()->getSingleResult();
+        } catch (\Exception $exc) {
+            $entity =  $em->getRepository('CoreBundle:MenuItem')->getTranslateMenuItemBySlug($slug, $this->getRequest()->getLocale());
+            return $this->redirectToRoute('core_menuitem_menu', array('slug' => $entity->getSlug()));
+        }
+
+        return array(
+            'item' => $entity
+            );
+    }
+    
+    
+    
     /**
      * Lists all MenuItem entities.
      *
      * @return array
      *
-     * @Route("/")
+     * @Route("/admin/menuitems/")
      * @Method("GET")
      * @Template("CoreBundle:MenuItem:index.html.twig")
      */
@@ -45,7 +69,7 @@ class MenuItemController extends Controller
      *
      * @return JsonResponse
      *
-     * @Route("/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
+     * @Route("/admin/menuitems/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
      * @Method("GET")
      */
     public function listJsonAction()
@@ -55,6 +79,7 @@ class MenuItemController extends Controller
         /** @var \Kitchenit\AdminBundle\Services\DataTables\JsonList $jsonList */
         $jsonList = $this->get('json_list');
         $jsonList->setRepository($em->getRepository('CoreBundle:MenuItem'));
+        $jsonList->setLocale($this->getRequest()->getLocale());
         $response = $jsonList->get();
 
         return new JsonResponse($response);
@@ -63,7 +88,7 @@ class MenuItemController extends Controller
     /**
      * Creates a new MenuItem entity.
      *
-     * @Route("/new")
+     * @Route("/admin/menuitems/new")
      * @Method({"GET", "POST"})
      * @Template()
      */
@@ -98,7 +123,7 @@ class MenuItemController extends Controller
     /**
      * Finds and displays a MenuItem entity.
      *
-     * @Route("/{id}")
+     * @Route("/admin/menuitems/{id}")
      * @Method("GET")
      * @Template()
      */
@@ -117,7 +142,7 @@ class MenuItemController extends Controller
     /**
      * Displays a form to edit an existing MenuItem entity.
      *
-     * @Route("/{id}/edit")
+     * @Route("/admin/menuitems/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template()
      * @I18nDoctrine
@@ -163,7 +188,7 @@ class MenuItemController extends Controller
     /**
      * Deletes a MenuItem entity.
      *
-     * @Route("/{id}")
+     * @Route("/admin/menuitems/{id}")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, MenuItem $menuItem)
@@ -211,7 +236,7 @@ class MenuItemController extends Controller
      * @throws NotFoundHttpException
      * @return array|Response
      *
-     * @Route("/sort")
+     * @Route("/admin/menuitems/sort")
      * @Method({"GET", "POST"})
      * @Template
      */
