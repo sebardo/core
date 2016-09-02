@@ -44,11 +44,14 @@ class MenuItemControllerTest  extends CoreTest
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
         $uid = rand(999,9999);
-        $form['menu_item[name]'] = 'menuitem '.$uid;
-        $form['menu_item[shortDescription]'] = 'menuitem short description '.$uid;
-        $form['menu_item[description]'] = 'menuitem description '.$uid;
-        $form['menu_item[metaTitle]'] = 'meta title '.$uid;
-        $form['menu_item[metaDescription]'] = ' meta description '.$uid;
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['menu_item[translations]['.$locale.'][name]'] = 'menuitem '.$uid.' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][shortDescription]'] = 'shortDescription '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][description]'] = 'menuitem description '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][metaTitle]'] = 'meta title '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][metaDescription]'] = ' meta description '.$uid. ' ('.$locale.')';
+        }
         $form['menu_item[visible]']->tick();
         $form['menu_item[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
@@ -103,11 +106,14 @@ class MenuItemControllerTest  extends CoreTest
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['sub_menu_item[name]'] = 'menuitem '.$uid;
-        $form['sub_menu_item[shortDescription]'] = 'menuitem short description '.$uid;
-        $form['sub_menu_item[description]'] = 'menuitem description '.$uid;
-        $form['sub_menu_item[metaTitle]'] = 'meta title '.$uid;
-        $form['sub_menu_item[metaDescription]'] = ' meta description '.$uid;
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['sub_menu_item[translations]['.$locale.'][name]'] = 'menuitem '.$uid;
+            $form['sub_menu_item[translations]['.$locale.'][shortDescription]'] = 'menuitem short description '.$uid;
+            $form['sub_menu_item[translations]['.$locale.'][description]'] = 'menuitem description '.$uid;
+            $form['sub_menu_item[translations]['.$locale.'][metaTitle]'] = 'meta title '.$uid;
+            $form['sub_menu_item[translations]['.$locale.'][metaDescription]'] = ' meta description '.$uid;
+        }
         $form['sub_menu_item[visible]']->tick();
         $form['sub_menu_item[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
@@ -136,11 +142,16 @@ class MenuItemControllerTest  extends CoreTest
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
         $uid = rand(999,9999);
-        $form['menu_item[name]'] = 'menuitem '.$uid;
-        $form['menu_item[shortDescription]'] = 'menuitem short description '.$uid;
-        $form['menu_item[description]'] = 'menuitem description '.$uid;
-        $form['menu_item[metaTitle]'] = 'meta title '.$uid;
-        $form['menu_item[metaDescription]'] = ' meta description '.$uid;
+        
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['menu_item[translations]['.$locale.'][name]'] = 'menuitem '.$uid.' '.$locale;
+            $form['menu_item[translations]['.$locale.'][shortDescription]'] = 'menuitem short description '.$uid;
+            $form['menu_item[translations]['.$locale.'][description]'] = 'menuitem description '.$uid;
+            $form['menu_item[translations]['.$locale.'][metaTitle]'] = 'meta title '.$uid;
+            $form['menu_item[translations]['.$locale.'][metaDescription]'] = ' meta description '.$uid;
+        }
+
         $form['menu_item[visible]']->tick();
         $form['menu_item[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form

@@ -46,8 +46,11 @@ class SliderControllerTest  extends CoreTest
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
         $uid = rand(999,9999);
-         $form['slider[title]'] = 'slider '.$uid;
-        $form['slider[caption]'] = 'caption slider '.$uid;
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['slider[translations]['.$locale.'][title]'] = 'slider '.$uid.' ('.$locale.')';
+            $form['slider[translations]['.$locale.'][caption]'] = 'caption slider '.$uid. ' ('.$locale.')</p>';
+        }
         $form['slider[url]'] = 'http://www.google.es';
         $form['slider[openInNewWindow]']->tick();
         $form['slider[active]']->tick();

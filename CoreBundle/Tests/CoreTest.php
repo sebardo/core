@@ -181,8 +181,16 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->filter('form[name="post"]')->form();
-        $form['post[title]'] = 'post '.$uid;
-        $form['post[description]'] = '<p>post <b>description</b> '.$uid. '</p>';
+        
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['post[translations]['.$locale.'][title]'] = 'post '.$uid.' ('.$locale.')';
+            $form['post[translations]['.$locale.'][shortDescription]'] = 'post shot description'.$uid. ' ('.$locale.')</p>';
+            $form['post[translations]['.$locale.'][description]'] = '<p>post <b>description</b> '.$uid. ' ('.$locale.')</p>';
+            $form['post[translations]['.$locale.'][metaTitle]'] = 'meta title  ('.$locale.')'.$uid;
+            $form['post[translations]['.$locale.'][metaDescription]'] = 'meta description ('.$locale.')'.$uid;
+        }
+        
         $form['post[categories]']->setValue(array($category->getId()));
         $form['post[published]'] = date('d').'/'.date('m').'/'.date('Y');
         $form['post[highlighted]']->tick();
@@ -1001,8 +1009,11 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['slider[title]'] = 'slider '.$uid;
-        $form['slider[caption]'] = 'caption slider '.$uid;
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['slider[translations]['.$locale.'][title]'] = 'slider '.$uid.' ('.$locale.')';
+            $form['slider[translations]['.$locale.'][caption]'] = 'caption slider '.$uid. ' ('.$locale.')</p>';
+        }
         $form['slider[url]'] = 'http://www.google.es';
         $form['slider[openInNewWindow]']->tick();
         $form['slider[active]']->tick();
@@ -1052,11 +1063,14 @@ class CoreTest  extends WebTestCase
    
         //fill form
         $form = $crawler->selectButton('Guardar')->form();
-        $form['menu_item[name]'] = 'menuitem '.$uid;
-        $form['menu_item[shortDescription]'] = 'menuitem short description '.$uid;
-        $form['menu_item[description]'] = 'menuitem description '.$uid;
-        $form['menu_item[metaTitle]'] = 'meta title '.$uid;
-        $form['menu_item[metaDescription]'] = ' meta description '.$uid;
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['menu_item[translations]['.$locale.'][name]'] = 'menuitem '.$uid.' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][shortDescription]'] = 'shortDescription '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][description]'] = 'menuitem description '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][metaTitle]'] = 'meta title '.$uid. ' ('.$locale.')';
+            $form['menu_item[translations]['.$locale.'][metaDescription]'] = ' meta description '.$uid. ' ('.$locale.')';
+        }
         $form['menu_item[visible]']->tick();
         $form['menu_item[active]']->tick();
         $crawler = $this->client->submit($form);// submit the form
@@ -1074,12 +1088,22 @@ class CoreTest  extends WebTestCase
     public function getEntity($uid, $repository) {
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
+        $repo = $manager->getRepository($repository);
+        $all = $repo->findAll();
+
+        if(method_exists($all[0], 'getTranslations')){
+            $qb = $repo->createQueryBuilder('r')
+                        ->join('r.translations', 't')
+                        ->where('t.name LIKE :search')
+                        ->andWhere('t.locale = :locale')
+                        ->setParameter('locale', 'es')
+                        ->setParameter('search', '%'.$uid.'%');
+        }else{
+            $qb = $repo->createQueryBuilder('r')
+                    ->where('r.name LIKE :search')
+                    ->setParameter('search', '%'.$uid.'%');
+        }
         
-        $qb = $manager->getRepository($repository)
-            ->createQueryBuilder('r')
-            ->where('r.name LIKE :search')
-            ->setParameter('search', '%'.$uid.'%');
-            
         $query = $qb->getQuery();
         $entity = $query->getOneOrNullResult();
        

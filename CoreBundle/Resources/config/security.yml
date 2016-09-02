@@ -45,7 +45,6 @@ security:
                 target: /
 #                success_handler: authentication_handler
             anonymous: true
-            http_basic:
             remember_me:
                 secret:      "%secret%"
                 lifetime: 31536000 # 365 days in seconds

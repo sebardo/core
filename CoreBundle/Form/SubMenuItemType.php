@@ -18,11 +18,28 @@ class SubMenuItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')            
-            ->add('shortDescription')
-            ->add('metaTitle')
-            ->add('metaDescription')
+            ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType', array(
+                'fields' => array(                               
+                    'name' => array(                       
+                        'required' => true
+                    ),
+                    'slug' => array(                         
+                        'required' => false
+                    ),
+                    'shortDescription' => array(                         
+                        'required' => true
+                    ),
+                    'description' => array(                         
+                        'required' => true
+                    ),
+                    'metaTitle' => array(                         
+                        'required' => true
+                    ),
+                    'metaDescription' => array(                         
+                        'required' => true
+                    ),
+                ),
+            ))
             ->add('metaTags')
             ->add('image', ImageType::class, array(
                 'required' => false

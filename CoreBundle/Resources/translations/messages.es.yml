@@ -40,7 +40,7 @@ name: Nombre
 email: E-Mail
 signup: 
     first: Regístrate
-    second: Date de alta
+    second: Darme de alta
     title: Soy nuevo en el sitio
     accept.privacy.policy: Debes aceptar la política de privacidad para registrarte.
     email: E-Mail

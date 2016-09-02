@@ -29,15 +29,36 @@ class MenuItemType extends AbstractType
 
         $icons = array();
         foreach ($value['icons'] as $value) {
-                $icons[$value['id']] = $value['name'];
+                $icons[$value['name']] = $value['id'];
         }
         $builder
-            ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType')
+            ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType', array(
+                'fields' => array(                               
+                    'name' => array(                       
+                        'required' => true
+                    ),
+                    'slug' => array(                         
+                        'required' => false
+                    ),
+                    'shortDescription' => array(                         
+                        'required' => true
+                    ),
+                    'description' => array(                         
+                        'required' => true
+                    ),
+                    'metaTitle' => array(                         
+                        'required' => true
+                    ),
+                    'metaDescription' => array(                         
+                        'required' => true
+                    ),
+                ),
+            ))
             ->add('visible', null, array('required' => false))
             ->add('active', null, array('required' => false))
             ->add('icon', ChoiceType::class, array(
                     'choices' => $icons,
-                    'choices_as_values' => false,
+                    'choices_as_values' => true,
                 ))
              
             ->add('metaTags')
