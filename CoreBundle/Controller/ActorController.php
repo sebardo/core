@@ -538,7 +538,7 @@ class ActorController  extends Controller
         }
         
         if($user->isGranted('ROLE_ADMIN')) {
-            return $this->redirect( $this->generateUrl('core_admin_dashboard'));
+            return $this->redirect( $this->generateUrl('admin_default_dashboard'));
         }
 
         $form = $this->createForm('CoreBundle\Form\ProfileUserType', $user);

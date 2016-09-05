@@ -10,8 +10,9 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 
         <!-- Google fonts -->
+        {% if get_fonts() | length > 0%}
         <link href='http://fonts.googleapis.com/css?family={{get_fonts()}}' rel='stylesheet' type='text/css'>
-        
+        {% endif %}
         <!--  Bootstrap CSS file 
 	'bundles/core/less/custom.bootstrap.less'
         -->
@@ -44,9 +45,9 @@
     </head>
 
     {% block body %}
-    <body class="core-body">
+    <body class="core-body {% block body_class %}{% endblock %}">
         
-        {% block contianer_header %}
+        {% block container_header %}
               <div class="container-fluid">
                 <div class="row core-row">
                     {% block header %}{% include 'CoreBundle:Base:header.html.twig' %}{% endblock %}
@@ -54,7 +55,7 @@
             </div>
         {% endblock %}
         
-        {% block contianer_content %}
+        {% block container_content %}
         <div class="container">
             <div class="row core-row">
                 {% block content_header %}{% endblock %}
@@ -63,7 +64,7 @@
             </div>
         </div>
         {% endblock %}
-        {% block contianer_footer %}
+        {% block container_footer %}
             <div class="container">
                 <div class="row core-row">
                     {% block footer %}{% endblock %}

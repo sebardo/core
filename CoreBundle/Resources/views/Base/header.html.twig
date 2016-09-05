@@ -1,6 +1,14 @@
 <div class="login-header main-header-wrapper create-form-header">
     <div class="main-header-inner">
-        <a href="/" class="logo sandbox">_sandbox</a>
+        <a href="{{ path('index')}}" class="logo sandbox">_sandbox</a>
+        
+        {% if use_blog %}
+        <a href="{{ path('blog_blog_index')}}" class="header-item-left">{{ 'blog.singular' | trans }}</a>
+        {% endif %}
+        
+        {% if use_ecommerce %}
+        <a href="{{ path('ecommerce_checkout_index')}}" class="header-item-left">{{ 'ecommerce' | trans }}</a>
+        {% endif %}
         
         {% set items = get_menu_items() %}
         {% for item in items %}
@@ -12,7 +20,7 @@
             {% if item.subitems | length > 0 %}</ul>{% endif %}        
         {% endfor %}
         
-        
+        {{ get_languages() }}
         {% if app.user %}
             <div class="header-register text-right"><a href="/logout">{{ 'logout' | trans }}</a></div>
             <div class="header-login text-right"><a href="/profile">{{app.user.name ~' '~ app.user.surnames }}</a></div>
@@ -20,6 +28,6 @@
             <div class="header-register text-right"><a href="/register">{{ 'signup.first' | trans }}</a></div>
             <div class="header-login text-right"><a href="/login">{{ 'login.short' | trans }}</a></div>
         {% endif %}
-        {{ get_languages() }}
+        
     </div>
 </div>
