@@ -363,11 +363,22 @@ class CoreExtension extends \Twig_Extension
     public function getMenuItems($visible=null)
     {
         $em = $this->container->get('doctrine')->getManager();
-        if(is_null($visible)){
+        if(is_null($visible)){ //null
             $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true), array('order' => 'ASC'));
-        }elseif(!is_null($visible) && $visible){
-            $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true, 'visible' => true), array('order' => 'ASC'));
-        }else{
+        }elseif(!is_null($visible) && $visible){ //true
+            $qb =  $em->getRepository("CoreBundle:MenuItem")->createQueryBuilder('m');
+            $qb
+                ->where($qb->expr()->andx(
+                    $qb->expr()->isNull('m.parentMenuItem'),
+                    $qb->expr()->eq('m.active', ':active'),
+                    $qb->expr()->eq('m.visible', ':visible')
+                ))
+                ->setParameters(array('active'=> true, 'visible' => true));
+
+            $entities = $qb->getQuery()->getResult();
+    
+//            $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true, 'visible' => true), array('order' => 'ASC'));
+        }else{ //false
             $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true, 'visible' => false), array('order' => 'ASC'));
         }
         
