@@ -59,12 +59,12 @@
             { "mData": "id" },
             {
                 "mData": function (source) {
-                    return '<a href="/admin/submenuitems/' + source.id + '">' + source.name + '</a>';
+                    return '<a href="/admin/menuitems/' + source.id + '">' + source.name + '</a>';
                 }
             },
             {
                 "mData": function(source) {
-                    return '<a href="/admin/submenuitems/' + source.id + '/edit" class="btn bg-purple btn-xs btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
+                    return '<a href="/admin/menuitems/' + source.id + '/edit" class="btn bg-purple btn-xs btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
                 }
             }
         ];

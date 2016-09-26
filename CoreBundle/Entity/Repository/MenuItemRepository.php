@@ -45,6 +45,7 @@ class MenuItemRepository extends EntityRepository
      */
     public function findAllForDataTables($search, $sortColumn, $sortDirection, $entityId=null, $locale)
     {
+     
         $qb = $this->getQueryBuilder();
        
         // select
@@ -56,15 +57,12 @@ class MenuItemRepository extends EntityRepository
         if(is_null($entityId)){
             // where
             $qb->where('m.parentMenuItem IS NULL ')
-               ->andWhere('t.locale = :locale ')
-               ->setParameter('locale', $locale)
-                    ;
+            ;
         }else{
             // where
             $qb->where('m.parentMenuItem = :menuItem_id')
-                ->andWhere('t.locale = :locale ')     
                 ->setParameter('menuItem_id', $entityId)
-                ->setParameter('locale', $locale);
+                ;
         }
 
 
