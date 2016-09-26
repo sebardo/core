@@ -69,7 +69,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Lo
         } else {
             $referer = $this->getRefererPath($request);
             if ($referer == '/identification') {
-                return new RedirectResponse($this->container->get('router')->generate('ecommerce_checkout_detail'));
+                return new RedirectResponse($this->container->get('router')->generate('ecommerce_checkout_deliveryinfo'));
             }
             return new RedirectResponse($this->container->get('router')->generate('index'));
         }
