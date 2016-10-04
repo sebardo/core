@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Class MenuItemType
@@ -73,6 +74,7 @@ class MenuItemType extends AbstractType
                 'class' => 'remove-image'
                 )))
             ->add('url', UrlType::class, array('required' => false))
+            ->add('className', TextType::class, array('required' => false))
             ;
     }
 

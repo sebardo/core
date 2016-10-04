@@ -31,6 +31,13 @@ class MenuItem
     /**
      * @var string
      *
+     * @ORM\Column(name="class_name", type="string", length=255, nullable=true)
+     */
+    private $className;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     private $icon;
@@ -135,6 +142,30 @@ class MenuItem
         return $this->id;
     }
    
+    /**
+     * Set className
+     *
+     * @param string $className
+     *
+     * @return MenuItem
+     */
+    public function setClassName($className)
+    {
+        $this->className = $className;
+
+        return $this;
+    }
+
+    /**
+     * Get className
+     *
+     * @return string 
+     */
+    public function getClassName()
+    {
+        return $this->className;
+    }
+
     /**
      * Set icon
      *

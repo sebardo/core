@@ -194,6 +194,7 @@ menu:
   new: Nuevo item del menú
   short.description: Descripción corta
   short.description*: Descripción corta*
+  class.name: Nombre de la clase
 
 subitems:
   plural: Sub-menú items
