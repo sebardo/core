@@ -13,6 +13,7 @@
         {% if get_fonts() | length > 0%}
         <link href='http://fonts.googleapis.com/css?family={{get_fonts()}}' rel='stylesheet' type='text/css'>
         {% endif %}
+        
         <!--  Bootstrap CSS file 
 	'bundles/core/less/custom.bootstrap.less'
         -->
@@ -32,16 +33,18 @@
 
         {% endblock %}
 
-        {% javascripts
-            'bundles/core/js/jquery-1.11.1.min.js'
-            'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
-            'bundles/admin/plugins/iCheck/icheck.min.js'
-            'bundles/admin/plugins/flagstrap/dist/js/jquery.flagstrap.min.js'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
         
-        {% block head %}{% endblock %}
+        
+        {% block head %}
+            {% javascripts
+                'bundles/core/js/jquery-1.11.1.min.js'
+                'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
+                'bundles/admin/plugins/iCheck/icheck.min.js'
+                'bundles/admin/plugins/flagstrap/dist/js/jquery.flagstrap.min.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </head>
 
     {% block body %}
