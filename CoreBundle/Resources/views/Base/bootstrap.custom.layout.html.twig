@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <!-- Block meta_viewport -->
+        {% block meta_viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        {% endblock %}
+        
+        <!-- Block title -->
+        <title>{% block title %}{% if page_title is defined %} {{ page_title }} &raquo; {% endif %}{{ core.name}}{% endblock %}</title>
+            
+        <!-- Block head -->
+        {% block head %}
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
+        {% endblock %}
+        
+        <!-- Google fonts -->
+        {% if get_fonts() | length > 0%}
+        <link href='http://fonts.googleapis.com/css?family={{get_fonts()}}' rel='stylesheet' type='text/css'>
+        {% endif %}
+        
+        <!--  Bootstrap Custom -->
+        {% block stylesheets %}
+        {% stylesheets
+            'bundles/core/less/custom.bootstrap.less'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+        {% endblock %}
+        
+        {% block post_head %}
+            {% block javascripts_head %}
+                {% javascripts
+                    'bundles/core/js/jquery-1.11.1.min.js'
+                %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                <script>
+                    $(document).ready(function(){
+
+                    });
+                </script>
+            {% endblock %}
+        {% endblock %}
+    </head>
+
+    {% block body %}
+    <body class="core-body {% block body_class %}{% endblock %}">
+        
+        {% block container_header %}
+              <div class="container-fluid">
+                <div class="row core-row">
+                    {% block header %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+        
+        {% block container_content %}
+        <div class="container">
+            <div class="row core-row">
+                {% block content_header %}{% endblock %}
+                {% block content %}{% endblock %}
+                {% block content_footer %}{% endblock %}
+            </div>
+        </div>
+        {% endblock %}
+        {% block container_footer %}
+            <div class="container">
+                <div class="row core-row">
+                    {% block footer %}{% endblock %}
+                </div>
+            </div>     
+        {% endblock %}
+        
+        <!-- TODO: Move jquery to bottom -->
+        {% block javascripts %}
+            {% javascripts
+                'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            <script>
+                $(document).ready(function(){
+                    
+                });
+            </script>
+        {% endblock %}
+    </body>
+    {% endblock %}
+</html>
