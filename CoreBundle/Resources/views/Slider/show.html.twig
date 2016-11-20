@@ -7,13 +7,13 @@
      <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ entity.title }}
+        {{ entity.title | striptags }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
         <li><a href="{{ path('core_slider_index') }}">{{ "slider.plural" | trans }}</a></li>
-        <li><a href="{{ path('core_slider_show', { id: entity.id }) }}">{{ entity.title }}</a></li>
+        <li><a href="{{ path('core_slider_show', { id: entity.id }) }}">{{ entity.title | striptags }}</a></li>
       </ol>
     </section>
    
@@ -29,7 +29,7 @@
                         <tbody>
                         <tr>
                             <td>{{ "title" | trans }}</td>
-                            <td>{{ entity.title }}</td>
+                            <td>{{ entity.title | raw }}</td>
                         </tr>
                         <tr>
                             <td>{{ "caption" | trans }}</td>

@@ -15,7 +15,7 @@ class SliderTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=true)
+     * @ORM\Column(name="title", type="text", length=255, nullable=true)
      * @Assert\NotBlank
      */
     private $title;

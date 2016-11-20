@@ -20,8 +20,8 @@
             {% if item.url != '' %}</a>{% endif %}
             {% if item.title != '' and item.caption != ''%}
                 <div class="carousel-caption">
-                    <h2>{{item.title}}</h2>
-                    <p>{{item.caption | raw}}</p>
+                    <h2>{{item.title | raw }}</h2>
+                    <p>{{item.caption | raw }}</p>
                     <div class="link">
                         <a style="display: none" class="btn-core" href="{{ item.url }}">Ver mas</a>
                     </div>
