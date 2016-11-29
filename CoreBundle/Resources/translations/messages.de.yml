@@ -6,6 +6,7 @@ home: Home
 select.language: Wählen Sie Ihre Sprache
 name: Name
 email: E-Mail
+or: oder
 signup: 
     first: Registrieren
     second: Begleiten Sie uns

@@ -28,6 +28,7 @@ to: Para
 send: Enviar
 role: Rol
 dashboard: Panel de control
+or: o
 
 #Frontend clean code
 spanish: Español
@@ -79,7 +80,7 @@ signup:
         <p>El prestador <em>no autoriza</em> expresamente a que terceros puedan redirigir directamente a los contenidos concretos del sitio web, debiendo en todo caso redirigir al sitio web principal del prestador.</p>
         <p>Para realizar cualquier tipo de observación respecto a posibles incumplimientos de los derechos de propiedad intelectual o industrial, así como sobre cualquiera de los contenidos del sitio web, puede hacerlo a través del siguiente correo electrónico.</p>     
 login:
-    short: Entrar
+    short: Entra
     account: Entra en tu cuenta
     remember: Recordar mis datos
     recovery: ¿Olvidaste tu contraseña?

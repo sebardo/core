@@ -48,6 +48,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
             new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
             new Twig_SimpleFunction('get_languages', array($this, 'getLanguages'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('login_form', array($this, 'loginForm'), array('is_safe' => array('html'))),
             
         );
     }
@@ -446,10 +447,21 @@ class CoreExtension extends \Twig_Extension
     /**
      * {@inheritDoc}
      */
-    public function getLanguages()
+    public function getLanguages($params)
     {
         $twig = $this->container->get('twig');
-        $content = $twig->render('CoreBundle:Base:language.html.twig');
+        $content = $twig->render('CoreBundle:Base:language.html.twig', array('params' => $params));
+
+        return $content;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function loginForm($params=array())
+    {
+        $twig = $this->container->get('twig');
+        $content = $twig->render('CoreBundle:Security:login.form.html.twig', array('params' => $params));
 
         return $content;
     }

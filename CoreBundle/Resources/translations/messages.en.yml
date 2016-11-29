@@ -7,6 +7,7 @@ home: Home
 select.language: Select your language
 name: Name
 email: E-Mail
+or: or
 signup: 
     first: Sign up
     second: Join us

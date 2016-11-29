@@ -1,6 +1,6 @@
 <form style="float: right">
     <div class="form-group" style="margin-bottom: 0">
-        <div style="display: inline-block; width: 150px" id="select-language" class="select-language"
+        <div style="display: inline-block;" id="select-language" class="select-language"
              data-selected-country="{%if app.request.getLocale() == 'en'%}GB{%else%}{{ app.request.getLocale()|upper}}{%endif%}"
              data-button-size="btn-md"
              data-button-type="btn-default"
@@ -17,19 +17,31 @@
       //language selector
        setTimeout(function(){
            $('.select-language').flagStrap({
-            countries: {
-                "ES": "{{ 'spanish' | trans }}",
-                "GB": "{{ 'english' | trans }}",
-                "DE": "{{ 'deutsch' | trans }}"
-            },
+            {% if params.no_text is defined and params.no_text %}
+                countries: {
+                    "ES": "",
+                    "GB": "",
+                    "DE": ""
+                },       
+            {% else %}
+                countries: {
+                    "ES": "{{ 'spanish' | trans }}",
+                    "GB": "{{ 'english' | trans }}",
+                    "DE": "{{ 'deutsch' | trans }}"
+                },
+            {% endif %}
             buttonSize: "btn-sm",
             buttonType: "btn-info",
-            labelMargin: "10px",
+            //labelMargin: "10px",
             scrollable: false,
             scrollableHeight: "350px",
             placeholder: {
                 value: "",
-                text: "{{ 'select.language' | trans }}"
+                {% if params.no_text is defined and params.no_text %}
+                    text: ""
+                {% else %}
+                    text: "{{ 'select.language' | trans }}"
+                {% endif %}
             },
             onSelect: function (value, element) {
                 if(value == 'GB') value = 'EN';
