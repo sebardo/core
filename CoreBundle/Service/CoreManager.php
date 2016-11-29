@@ -6,6 +6,7 @@ use CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
 use CoreBundle\Entity\NewsletterShipping;
 use Symfony\Component\HttpFoundation\Request;
+use CoreBundle\Entity\Actor;
 
 class CoreManager 
 {

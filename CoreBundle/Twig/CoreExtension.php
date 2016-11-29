@@ -218,9 +218,9 @@ class CoreExtension extends \Twig_Extension
     public function getProfileImage($actor=null, $size=null)
     {
 
-         /** @var FrontManager $frontManager */
-        $frontManager =  $this->container->get('core_manager');
-        $profileImage = $frontManager->getProfileImage($actor, $size);
+         /** @var CoreManager $coreManager */
+        $coreManager =  $this->container->get('core_manager');
+        $profileImage = $coreManager->getProfileImage($actor, $size);
         
         return  $profileImage;
     }
