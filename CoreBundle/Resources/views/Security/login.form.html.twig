@@ -1,4 +1,4 @@
-<form id="login-form" action="{{ path('login_check') }}" method="post" {%if params.form_class is defined and params.form_class !=''%}class="{{params.form_class}}"{% endif %}>
+<form name="login" id="login-form" action="{{ path('login_check') }}" method="post" {%if params.form_class is defined and params.form_class !=''%}class="{{params.form_class}}"{% endif %}>
     <div class="form-group">
        <div>
            <input class="form-control {%if params.input_email_class is defined and params.input_email_class !=''%}{{params.input_email_class}}{% endif %}" type="text" name="_username" id="_username" placeholder="{{ 'login.email' | trans }}" required="required">
