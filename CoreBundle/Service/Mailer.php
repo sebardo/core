@@ -259,8 +259,8 @@ class Mailer
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-//            ->setFrom(array($fromEmail =>  $this->parameters['company']['name']))
-            ->setFrom(array('user@local.com' => 'Avisos'))
+            ->setFrom(array($fromEmail =>  $this->parameters['company']['name']))
+//            ->setFrom(array('user@local.com' => 'Avisos'))
             ->setTo($toEmail);
 
         if (!empty($htmlBody)) {
