@@ -12,31 +12,135 @@
 {% block content %}
     <div class="container">
         <div class="row core-row container-profile" >
-           
-                {% include 'CoreBundle:Profile/Block:_profile.header.html.twig' %}
-                {% include 'CoreBundle:Base:alert.messages.html.twig'%}
                 <div class="col-md-3 col-sm-3 col-xs-12 paddingForFloat"> <!-- required for floating -->
+                    <div class="profile-img ">
+                        <img  src="{{ get_profile_image() }}">
+                        {% include 'CoreBundle:Profile:_profile.image.upload.html.twig' %}
+                    </div>
                     {{ include('CoreBundle:Profile/Block:_sidebar.html.twig') }}
                 </div>
 
-                <div class="col-md-9 col-sm-9 col-xs-12 borderMenuProfile">
+                <div class="col-md-9 col-sm-9 col-xs-12 tabs-content">
+                    <h1 class="title">
+                        {{app.user.fullName}}
+                    </h1>
+                    <div class="subtitle-section">
+                        {% include 'CoreBundle:Base:alert.messages.html.twig'%}	
+                        {% if not app.user.isActive  %}
+                            <div class="alert alert-warning" role="alert">
+                                <i class="ion-alert-circled"></i> {{  'validate.message' | trans}}
+                            </div>
+                        {% endif  %}
+                    </div> 
                     <!-- Tab panes -->
                     <div class="tab-content col-xs-12">
-                        <div class="tab-pane active" id="profile_tab">
+                        <div class="tab-pane {{ not app.request.get('billing') and 
+                                                not app.request.get('delivery')? 'active' }}" id="profile_tab">
                             <div class="portlet box custom">
                                 <div class="portlet-body profile">
-                                    <div class="profile-content">
-                                        {% include "CoreBundle:Profile/Block:show_content.html.twig" with {user: app.user }%}
+                                    <div id="content" class="account profile-content">
+                                        <h3>{{ 'account.user.profile' | trans }}</h3>
+                                        <div>
+                                            <p><b>{{ 'account.email.singular' | trans }}</b>: {{ app.user.email }}</p>
+                                            <p><b>{{ 'account.name' | trans }}</b>: {{ app.user.name }} {{ app.user.surnames }}</p>
+                                        </div>
+                                        <div class="profile-buttons">
+                                            <a href="javascript:void(0);" id="edit-profile" class="btn btn-core"><span class="ion-edit"></span> {{ 'account.edit.profile' | trans }}</a>
+                                            <a href="javascript:void(0);" id="change-password" class="btn btn-core"><span class="ion-locked"></span> {{ 'account.password.change' | trans }}</a>
+                                        </div>            
                                     </div>
                                     <div id="edit_content" class="edit_account">
-                                        {% include "CoreBundle:Profile/Block:edit_content.html.twig" %}
+                                        {{ include ("CoreBundle:Profile/Block:_form.profile.html.twig" , { form: get_profile_form() }) }}
                                     </div>
                                     <div  id="pass_content"  class="edit_pass">
-                                        {% include 'CoreBundle:Profile/Block:pass_content.html.twig'%}
+                                        {{ include ('CoreBundle:Profile/Block:_form.password.html.twig', { form: get_password_form() }) }}
                                    </div>
                                 </div>
                             </div>
                         </div>
+                                   
+                        <div class="tab-pane {{ app.request.get('billing') ? 'active' }}" id="billing_tab">
+                            <div class="portlet box custom">
+                                <div class="portlet-body">
+                                     <div id="billing">
+                                        {% include 'CoreBundle:Base:alert.messages.html.twig'%}
+                                        <div class="container-table-billing">
+                                            <h3>{{ 'account.billing.info' | trans }}</h3>
+
+                                            <form class="form-horizontal delivery-form col-xs-12" method="post" action="{{ path('core_actor_editbilling') }}" {{ form_enctype(get_billing_form()) }}>
+                                                <div class="space-bottom">
+                                                    {{ include('EcommerceBundle:Profile:Delivery/_form.html.twig', { form: get_billing_form() }) }}
+                                                </div>
+                                                
+                                                <div class="profile-buttons">
+                                                    <button type="submit" class="btn btn-core pull-right menuUserButton"> <i class="ion-checkmark"></i> {{ 'save' | trans }}</button> 
+                                                </div>
+                                                
+                                            </form>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane {{ app.request.get('delivery') ? 'active' }}" id="delivery_tab">
+                            <div class="portlet box custom">
+                                <div class="portlet-body">
+                                    {% include 'CoreBundle:Base:alert.messages.html.twig'%}
+                                    <div class="delivery-content">
+                                        {% block devilery_content %}
+                                            {% include 'EcommerceBundle:Profile/Delivery:show.html.twig'%}
+                                        {% endblock %}
+                                    </div>
+                                    <div class="delivery-new" style="display: none">
+                                        <h3>{{ 'account.address.add' | trans }}</h3>
+                                        <form class="form-horizontal delivery-form col-xs-12" method="post" action="{{ path('core_actor_newdelivery') }}?delivery=1" {{ form_enctype(get_delivery_form()) }}>
+                                            <div class="space-bottom">
+                                                {{ include('EcommerceBundle:Profile:Delivery/_form.html.twig', { form: get_delivery_form() }) }}
+                                            </div>
+                                            <div class="profile-buttons">
+                                                <a href="javascript:void(0);"  class="btn btn-core delivery-back"><i class="ion-reply"></i> <span>{{ 'back' | trans }}</span></a>
+                                                <button class="btn btn-core pull-right save-address" type="submit"> <i class="ion-checkmark"></i> {{ 'save' | trans }}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <a id="new-delivery" href="javascript:void(0);" class="btn btn-core add-delivery" title="{{ 'account.address.add' | trans }}">
+                                        <i class="ion-plus"></i> {{ 'account.address.add' | trans }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane {{ app.request.get('transactions') ? 'active' }}" id="transactions_tab">
+                            <div class="portlet box custom">
+                                <div class="portlet-body">
+                                    <div class="container-table-transactions">
+                                        {% if get_transactions() is empty %}
+                                            {{ 'transaction.none' | trans }}
+                                        {% else %}
+                                            {% include 'EcommerceBundle:Profile/Transaction:_content.html.twig'%}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    
+                        <div class="tab-pane {{ app.request.get('adverts') ? 'active' }}" id="adverts_tab" style="padding-left: 0">
+                            <div class="portlet box custom">
+                                <div class="portlet-body">
+                                    <div class="container-table-adverts">
+                                        {% if get_actor_adverts() is empty %}
+                                            {{ 'advert.none' | trans }}
+                                        {% else %}
+                                            {% include 'EcommerceBundle:AdvertFront:_content.html.twig'%}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    
+                                    
                     </div>
                 </div>  
                 <!--END TABS-->

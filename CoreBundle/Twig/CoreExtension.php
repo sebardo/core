@@ -6,6 +6,7 @@ use Twig_SimpleFunction;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Form\ActorType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class CoreExtension
@@ -49,6 +50,9 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
             new Twig_SimpleFunction('get_languages', array($this, 'getLanguages'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('login_form', array($this, 'loginForm'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('get_profile_form', array($this, 'getProfileForm')),
+            new Twig_SimpleFunction('get_password_form', array($this, 'getPasswordForm')),
+            
             
         );
     }
@@ -464,6 +468,32 @@ class CoreExtension extends \Twig_Extension
         $content = $twig->render('CoreBundle:Security:login.form.html.twig', array('params' => $params));
 
         return $content;
+    }
+    
+    
+    public function getProfileForm() {
+
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new \Exception('This user does not have access to this section.');
+        }
+        
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\ProfileUserType', $user);
+        
+        return $form->createView();
+        
+    }
+    
+    public function getPasswordForm() {
+
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new \Exception('This user does not have access to this section.');
+        }
+        
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\PasswordType', $user);
+        
+        return $form->createView();
     }
     
     /**
