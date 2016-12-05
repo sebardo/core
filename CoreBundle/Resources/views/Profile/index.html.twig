@@ -300,13 +300,25 @@
                 
                 //BILLING
                 $('.billing-submit').click(function(e){
-                    ajaxCall(e, this, 'billing-submit');
+                    ajaxCall(e, this, 'billing-submit', function(){});
                 });
                 
                 //DELIVERY
                 $('.delivery-submit').click(function(e){
                     ajaxCall(e, this, 'delivery-submit', function(){
-                        
+                        $('.delivery-back').click(function(){
+                            $('.delivery-new').fadeOut('slow', function(){
+                                $('.delivery-content').fadeIn('slow');
+                            }); 
+                            $('#new-delivery').fadeIn('slow');
+                        });
+                        $('.delivery-edit-back').click(function(){
+                            var id = $(this).attr('data');
+                            $('#address-'+id).fadeOut('slow', function(){
+                                $('.address').fadeIn('slow');
+                            }); 
+                            $('#new-delivery').fadeIn('slow');
+                        });
                     });
                 });
             });
