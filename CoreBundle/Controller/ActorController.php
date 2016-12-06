@@ -349,7 +349,7 @@ class ActorController  extends Controller
      *
      * @Route("/validate/{email}/{hash}", name="register_validate")
      * @Method("GET")
-     * @Template("FrontBundle:Registration:validate.html.twig")
+     * @Template("CoreBundle:Registration:validate.html.twig")
      */
     public function validateAction($email, $hash)
     {
