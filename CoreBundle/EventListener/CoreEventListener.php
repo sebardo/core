@@ -27,6 +27,12 @@ class CoreEventListener
         //Add global twig var for core configuration//
         //////////////////////////////////////////////
         $bundles = $this->container->getParameter('kernel.bundles');
+        
+        $this->container->get('twig')->addGlobal('use_core', false);
+        $this->container->get('twig')->addGlobal('use_admin', false);
+        $this->container->get('twig')->addGlobal('use_blog', false);
+        $this->container->get('twig')->addGlobal('use_ecommerce', false);
+        
         if (isset($bundles['CoreBundle'])) {
             $this->container->get('twig')->addGlobal('use_core', true);
         }

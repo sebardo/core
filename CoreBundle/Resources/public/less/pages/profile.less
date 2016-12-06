@@ -1,15 +1,97 @@
-.container-profile{
-    padding: 3em 0;
+/*********************/
+/*******PROFILE*******/
+/*********************/
+.container-profile {
     .profile-img {
-        padding: 0 50px 20px;
         text-align: center;
-        img{
-            width: 100%;
+        padding: 15px 0 0!important;
+        img {
+            width: 65%;
             border-radius: 100px;
         }
+    }
+    .profile-desc h1{
+        font-size: 48px;
+    }   
+    .select-image-button{
+        color: #444;
+        font-size: 14px;
     }
     .edit_account, .edit_pass{
         display: none;
     }
+    .paddingForFloat{
+        padding-right: 0px;
+    }
+    .borderMenuProfile{
+        border-top: 1px solid #ddd;
+        padding: 20px 40px;
+    }
+    
+    .tabs-left{
+        background: white;
+        margin-right: 1px;
+        min-height: 300px;
+        border-right: none;
+        z-index: 9;
+        position: inherit;
+        li.active{
+            background: white;
+        }
+        li a{
+            padding: 15px 20px;
+        }  
+        li>a:hover {
+            background-color: transparent;
+            color: #000;
+            border-color: #eeeeee #ddd #eeeeee #eeeeee;
+        }
+    } 
+    .tabs-content{
+        padding-left: 0px;
+        h1{
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .tab-content{
+            padding: 20px 0 0 20px;
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            margin-left: -1px;
+            z-index: 0;
+            min-height: 350px;
+            h3{
+                margin-bottom: 30px
+            }
+            form{
+                label{
+                    padding: 23px 15px;
+                }
+                input, select{
+                    background: #29323b;
+                    color: #fff;
+                }
+            }
+            .delivery-form, .address{
+                padding: 0;
+            }
+            .add-delivery{
+                margin-top: 4px;
+            }
+        }  
+    }
+    
+    .profile,  {
+        
+        .account>div{
+            margin-bottom: 50px;
+        }
+        p{
+            //padding: 7px 20px 15px 0;
+        }
+    }
+    .profile-img>div{
+        padding: 10px 0;
+    }
+    
 }
- 

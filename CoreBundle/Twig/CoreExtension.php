@@ -7,6 +7,7 @@ use CoreBundle\Entity\Actor;
 use CoreBundle\Form\ActorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
+use CoreBundle\Form\Model\Registration;
 
 /**
  * Class CoreExtension
@@ -50,6 +51,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
             new Twig_SimpleFunction('get_languages', array($this, 'getLanguages'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('login_form', array($this, 'loginForm'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('register_form', array($this, 'registerForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('get_profile_form', array($this, 'getProfileForm')),
             new Twig_SimpleFunction('get_password_form', array($this, 'getPasswordForm')),
             
@@ -451,7 +453,7 @@ class CoreExtension extends \Twig_Extension
     /**
      * {@inheritDoc}
      */
-    public function getLanguages($params)
+    public function getLanguages($params=array())
     {
         $twig = $this->container->get('twig');
         $content = $twig->render('CoreBundle:Base:language.html.twig', array('params' => $params));
@@ -466,6 +468,22 @@ class CoreExtension extends \Twig_Extension
     {
         $twig = $this->container->get('twig');
         $content = $twig->render('CoreBundle:Security:login.form.html.twig', array('params' => $params));
+
+        return $content;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function registerForm($params=array())
+    {   
+        $registration = new Registration();
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\RegistrationType', $registration, array(
+            'translator' => $this->container->get('translator')
+        ));
+        
+        $twig = $this->container->get('twig');
+        $content = $twig->render('CoreBundle:Registration:_form.html.twig', array('params' => $params, 'form' => $form->createView()));
 
         return $content;
     }

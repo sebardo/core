@@ -2,15 +2,13 @@
 
 {% block  content %}
     <div class="col-sm-4"></div>        
-    <div class="col-sm-4">
-        <div class="container-login">
+    <div class="col-sm-4 container-login">
             <h2 class="center">{{ 'login.account' | trans }}</h2>
             <hr>
             {% if error is defined and error %}
                <div>{{ error.message }}</div>
             {% endif %}
             {{ login_form() }}
-        </div>
     </div>
     <div class="col-sm-4"></div>               
 {% endblock %}

@@ -293,7 +293,6 @@ class ActorController  extends Controller
      */
     public function registerAction(Request $request)
     {
-        
         $registration = new Registration();
         $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration, array('translator' => $this->get('translator')));
         $form->handleRequest($request);
@@ -544,9 +543,6 @@ class ActorController  extends Controller
 
         $form = $this->createForm('CoreBundle\Form\ProfileUserType', $user);
         $form_pass = $this->createForm('CoreBundle\Form\PasswordType', $user);
-        $addresses = $em->getRepository('EcommerceBundle:Address')->findBy(array(
-                    'actor' => $user,
-                ));
 
          if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
@@ -560,7 +556,6 @@ class ActorController  extends Controller
         return array(
             'form' => $form->createView(),
             'form_pass' => $form_pass->createView(),
-            'addresses' => $addresses
         );
     }
     

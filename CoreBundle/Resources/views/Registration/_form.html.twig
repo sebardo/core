@@ -1,9 +1,13 @@
 {% form_theme form 'CoreBundle:Form:base.fields.html.twig' %}
 
+{% set form_class = ''  %}
+{%if params.form_class is defined and params.form_class !=''%}
+    {% set form_class = params.form_class %}
+{% endif %}
 {{ form_start(form, {
                     'action': path('register'), 
                     'method': 'post', 
-                    'attr': {'class': 'register-form col-xs-12'}
+                    'attr': {'class': 'register-form '~form_class}
                     }) }}
     {{ form_errors(form) }}
     <div class="col-md-4">
