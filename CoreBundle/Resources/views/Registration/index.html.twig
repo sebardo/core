@@ -9,7 +9,8 @@
                 <h2 class="center">{{ 'signup.title' | trans }}</h2>
                 <hr>
                 <div class="container-register-form">
-                    {% include 'CoreBundle:Registration:_form.html.twig' %}
+                    
+                    {% include 'CoreBundle:Registration:'~form_template %}
                 </div>
             </div>
         </div>

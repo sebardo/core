@@ -163,6 +163,7 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
      */
     public function setEmail($email)
     {
+        if($this->username=='')$this->username=$email;
         $this->email = $email;
     }
 

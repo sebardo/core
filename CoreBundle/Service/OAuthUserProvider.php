@@ -31,7 +31,6 @@ class OAuthUserProvider extends EntityUserProvider
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-
         $sessionArr = $this->session->all();
         $resourceOwnerName = $response->getResourceOwner()->getName();
         $setter = 'set'.ucfirst($resourceOwnerName);
@@ -49,7 +48,7 @@ class OAuthUserProvider extends EntityUserProvider
             //when user already logged and connect with other social network
             $instance = unserialize($sessionArr['_security_secured_area']);
 
-            $user = $this->repository->findOneById($instance->getUser()->getId());
+            $user = $this->findUser(array('id' => $instance->getUser()->getId()));
 
             if (!$user instanceof Actor) {
                 throw new \RuntimeException("_security_secured_area key exist but any user have been stored ");
@@ -63,11 +62,11 @@ class OAuthUserProvider extends EntityUserProvider
         } else {
             
             //when user not logged and connect with other social network
-            $user = $this->repository->findOneBy(array($this->properties[$resourceOwnerName] => $username));
-            if (null === $user && $resourceOwnerName != 'twitter') $user = $this->repository->findOneBy(array('email' => $response->getEmail()));
+            $user = $this->findUser(array($this->properties[$resourceOwnerName] => $username));
+            if (null === $user && $resourceOwnerName != 'twitter') $user = $this->findUser(array('email' => $response->getEmail()));
              //when the user is registrating
             if (null === $user) {
-                
+
                 // create new user here
                 $user = new Actor();
                 $user->$setter_id($username);
@@ -90,7 +89,7 @@ class OAuthUserProvider extends EntityUserProvider
                 $user->setUsername($username);
                 if($resourceOwnerName == 'twitter')$user->setEmail($username);
                 else $user->setEmail($response->getEmail());
-                $user->setIsActive(true);
+                $user->setActive(true);
 
                 $this->em->persist($user);
                 $this->em->flush();

@@ -16,7 +16,7 @@
                     'attr': {'class': 'register-form '~form_class}
                     }) }}
     {{ form_errors(form) }}
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="form-group">
             <label class="control-label hidden">{{ 'signup.email' | trans }}</label>
             <div class="">
@@ -25,16 +25,8 @@
             </div>
         </div>
     </div>  
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.username' | trans }}</label>
-            <div class="">
-                {{ form_widget(form.actor.username, { 'attr': {'class': 'form-control '~input_class, 'placeholder': 'signup.username' | trans } }) }}
-                {{ form_errors(form.actor.username) }}
-            </div>
-        </div>    
-    </div>  
-    <div class="col-md-4 last">
+   
+    <div class="col-md-6 ">
         <div class="form-group">
             <label class="control-label hidden">{{ 'signup.names' | trans }}</label>
             <div class="">
@@ -44,30 +36,7 @@
             </div>
         </div>    
     </div>  
-
-    <div style="clear: both"></div>
-
-    <div class="col-md-4">
-
-        <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.password' | trans }}</label>
-            <div class="">
-                {{ form_widget(form.actor.password.first, { 'attr': {'class': 'form-control '~input_class, 'placeholder': 'signup.password' | trans } } ) }}</div>
-                {{ form_errors(form.actor.password.first) }}
-        </div>
-
-    </div>  
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.password.repeat' | trans }}</label>
-            <div class="">
-                {{ form_widget(form.actor.password.second, { 'attr': {'class': 'form-control '~input_class, 'placeholder': 'signup.password.repeat' | trans } }) }}
-                {{ form_errors(form.actor.password.second) }}
-            </div>
-        </div>
-    </div>    
-     
-    <div class="col-md-4 last">
+    <div class="col-md-6 last">
         <div class="form-group">
             <label class="control-label hidden">{{ 'signup.lastnames' | trans }}</label>
             <div class="">
@@ -76,39 +45,17 @@
             </div>
         </div>
     </div>  
-            
     <div style="clear: both"></div>
-             
-    <div class="col-md-4">
+    <div class="col-md-12">
 
         <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.city' | trans }}</label>
+            <label class="control-label hidden">{{ 'signup.password' | trans }}</label>
             <div class="">
-                {{ form_widget(form.city, { 'attr': {'class': 'form-control '~input_class, 'placeholder': 'signup.city' | trans } } ) }}
-                {{ form_errors(form.city) }}
-            </div>
+                {{ form_widget(form.actor.password, { 'attr': {'class': 'form-control '~input_class, 'placeholder': 'signup.password' | trans } } ) }}</div>
+                {{ form_errors(form.actor.password) }}
         </div>
-    </div>  
-    <div class="col-md-4">
 
-        <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.state' | trans }}</label>
-            <div class="">
-                {{ form_widget(form.state, { 'attr': {'class': 'form-control '~input_class} }) }}
-                {{ form_errors(form.state) }}
-            </div>
-        </div>
     </div>  
-    <div class="col-md-4 last">
-        <div class="form-group">
-            <label class="control-label hidden">{{ 'signup.country' | trans }}</label>
-            <div class="">
-                {{ form_widget(form.country, { 'attr': {'class': 'form-control '~input_class} }) }}
-                {{ form_errors(form.country) }}
-            </div>
-        </div>
-    </div>
-            
     <div class="col-md-12">
         <div class="checkboxes">
             {{ form_widget(form.actor.newsletter, {'attr': {'class':'minimal'} }) }} {{ 'signup.news' | trans }}<br/>

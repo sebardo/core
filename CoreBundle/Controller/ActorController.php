@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CoreBundle\Form\Model\Registration;
+use CoreBundle\Form\Model\RegistrationShort;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -293,8 +294,15 @@ class ActorController  extends Controller
      */
     public function registerAction(Request $request)
     {
-        $registration = new Registration();
-        $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration, array('translator' => $this->get('translator')));
+        if($request->request->get('registration_short')){
+            $formTemplate =  '_form.short.html.twig';
+            $registration = new RegistrationShort();
+            $form = $this->createForm('CoreBundle\Form\RegistrationShortType', $registration, array('translator' => $this->get('translator')));
+        }else{
+            $formTemplate = '_form.html.twig';
+            $registration = new Registration();
+            $form = $this->createForm('CoreBundle\Form\RegistrationType', $registration, array('translator' => $this->get('translator')));
+        }
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -340,6 +348,7 @@ class ActorController  extends Controller
         }
        
         return array(
+            'form_template' => $formTemplate,
             'form' => $form->createView()
             );
     }

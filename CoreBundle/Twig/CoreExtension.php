@@ -8,6 +8,7 @@ use CoreBundle\Form\ActorType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use CoreBundle\Form\Model\Registration;
+use CoreBundle\Form\Model\RegistrationShort;
 
 /**
  * Class CoreExtension
@@ -475,15 +476,27 @@ class CoreExtension extends \Twig_Extension
     /**
      * {@inheritDoc}
      */
-    public function registerForm($params=array())
+    public function registerForm($params=array(), $type=null)
     {   
-        $registration = new Registration();
-        $form = $this->container->get('form.factory')->create('CoreBundle\Form\RegistrationType', $registration, array(
+        $twig = $this->container->get('twig');
+        switch ($type) {
+            case 'short':
+                $registration = new RegistrationShort();
+                $template = '_form.short.html.twig';
+                $formType = 'RegistrationShortType';
+            break;
+            default:
+                $registration = new Registration();
+                $template = '_form.html.twig';
+                $formType = 'RegistrationType';
+            break;
+        }
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\\'.$formType, $registration, array(
             'translator' => $this->container->get('translator')
         ));
         
-        $twig = $this->container->get('twig');
-        $content = $twig->render('CoreBundle:Registration:_form.html.twig', array('params' => $params, 'form' => $form->createView()));
+        
+        $content = $twig->render('CoreBundle:Registration:'.$template, array('params' => $params, 'form' => $form->createView()));
 
         return $content;
     }
