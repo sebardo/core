@@ -11,6 +11,9 @@ google_login:
 facebook_login:
     path: /login/check-facebook
     
+instagram_login:
+    path: /login/check-instagram
+    
 security:
     resource: "@CoreBundle/Controller/"
     type:     annotation

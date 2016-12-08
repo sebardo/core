@@ -27,6 +27,7 @@ security:
                     twitter:           "/login/check-twitter"
                     google:           "/login/check-google"
                     facebook:           "/login/check-facebook"
+                    instagram:           "/login/check-instagram"
                 login_path:        /login
                 use_forward:       false
                 failure_path:      /login
