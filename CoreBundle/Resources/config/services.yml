@@ -44,7 +44,7 @@ services:
         class: "CoreBundle\\Service\\OAuthUserProvider"
         tags:
           - { name: user.provider }
-        arguments: ["@doctrine", "CoreBundle:BaseActor", {twitter: twitter_id, facebook: facebook_id, google: google_id}, null, "@security.encoder_factory", "@session"]
+        arguments: ["@doctrine", "CoreBundle:BaseActor", {twitter: twitter_id, facebook: facebook_id, google: google_id, instagram: instagram_id}, null, "@security.encoder_factory", "@session"]
 
     core_manager:
         class: "CoreBundle\\Service\\CoreManager"

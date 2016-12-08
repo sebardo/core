@@ -81,6 +81,12 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     /** @ORM\Column(name="twitter_access_token", type="string", length=255, nullable=true) */
     protected $twitter_access_token;
     
+    /** @ORM\Column(name="instagram_id", type="string", length=255, nullable=true) */
+    protected $instagram_id;
+
+    /** @ORM\Column(name="instagram_access_token", type="string", length=255, nullable=true) */
+    protected $instragram_access_token;
+    
     public function __construct()
     {
         $this->active = false;
@@ -361,6 +367,50 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     public function getGoogleAccessToken()
     {
         return $this->google_access_token;
+    }
+    
+    /**
+     * Set instagram_id
+     *
+     * @param integer $instagram_id
+     */
+    public function setInstagramId($instagram_id)
+    {
+        $this->instagram_id = $instagram_id;
+
+        return $this;
+    }
+
+    /**
+     * Get instagram_id
+     *
+     * @return integer
+     */
+    public function getInstagramId()
+    {
+        return $this->instagram_id;
+    }
+
+    /**
+     * Set instagram_access_token
+     *
+     * @param integer $instagram_access_token
+     */
+    public function setInstagramAccessToken($instagram_access_token)
+    {
+        $this->instagram_access_token = $instagram_access_token;
+
+        return $this;
+    }
+
+    /**
+     * Get instagram_access_token
+     *
+     * @return integer
+     */
+    public function getInstagramAccessToken()
+    {
+        return $this->instagram_access_token;
     }
     
     /**

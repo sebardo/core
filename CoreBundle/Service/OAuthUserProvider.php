@@ -40,33 +40,24 @@ class OAuthUserProvider extends EntityUserProvider
         if (!isset($this->properties[$resourceOwnerName])) {
             throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
         }
-
         $username = $response->getUsername();
-
-        if (isset($sessionArr['_security_secured_area'])) {
-            
+        if (isset($sessionArr['_security_secured_area'])) {  
             //when user already logged and connect with other social network
             $instance = unserialize($sessionArr['_security_secured_area']);
-
             $user = $this->findUser(array('id' => $instance->getUser()->getId()));
-
             if (!$user instanceof Actor) {
                 throw new \RuntimeException("_security_secured_area key exist but any user have been stored ");
             }
-
             $user->$setter_id($username);
             $user->$setter_token($response->getAccessToken());
             $this->em->flush();
-
             return $user;
         } else {
-            
             //when user not logged and connect with other social network
             $user = $this->findUser(array($this->properties[$resourceOwnerName] => $username));
             if (null === $user && $resourceOwnerName != 'twitter') $user = $this->findUser(array('email' => $response->getEmail()));
              //when the user is registrating
             if (null === $user) {
-
                 // create new user here
                 $user = new Actor();
                 $user->$setter_id($username);
@@ -87,8 +78,11 @@ class OAuthUserProvider extends EntityUserProvider
                     $user->setName($username);
                 }
                 $user->setUsername($username);
-                if($resourceOwnerName == 'twitter')$user->setEmail($username);
-                else $user->setEmail($response->getEmail());
+                if($resourceOwnerName == 'twitter' || $resourceOwnerName == 'instagram'){
+                    $user->setEmail($username);
+                }else {
+                    $user->setEmail($response->getEmail());
+                }
                 $user->setActive(true);
 
                 $this->em->persist($user);
@@ -122,6 +116,9 @@ class OAuthUserProvider extends EntityUserProvider
         if (isset($oauthData['profileImage']) && $oauthData['owner']=='google') {
             $profileImage = $oauthData['profileImage'];
         }
+        if (isset($oauthData['profileImage']) && $oauthData['owner']=='instagram') {
+            $profileImage = $oauthData['profileImage'];
+        }
         if(!is_null($profileImage)) {
             
              //save image
@@ -144,6 +141,43 @@ class OAuthUserProvider extends EntityUserProvider
         return true;
     }
 
+    public function instagramToken($code)
+    {     
+        # Sandbox
+        $clientId = 'dbd834deb2eb4a6e8bccd3d56c37c9cb';
+        $secret = 'f38e792e45ad4f7ebdf3be71572c18e8';
+        $redirectUrl = 'http://kundaliniwoman.dev/login/check-instagram';
+        $url = 'https://api.instagram.com/oauth/access_token';
+        $postdata = 'grant_type=authorization_code;redirect_uri='.$redirectUrl.';code='.$code;
+        
+        $curl = curl_init($url); 
+        curl_setopt($curl, CURLOPT_POST, true); 
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_USERPWD, $clientId. ":" . $secret);
+        curl_setopt($curl, CURLOPT_HEADER, false); 
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata); 
+        $response = curl_exec( $curl );
+        if (empty($response)) {
+            // some kind of an error happened
+            die(curl_error($curl));
+            curl_close($curl); // close cURL handler
+        } else {
+            $info = curl_getinfo($curl);
+            curl_close($curl); // close cURL handler
+                if($info['http_code'] != 200 && $info['http_code'] != 201 ) {
+                        echo "Received error: " . $info['http_code']. "\n";
+                        echo "Raw response:".$response."\n";
+                        die(curl_error($curl));
+            }
+        }
+        print_r($response);die();
+        // Convert the result from JSON format to a PHP array 
+        $jsonResponse = json_decode( $response );
+        $this->token = $jsonResponse->access_token;
+
+    }
+    
     public function getFacebookImage($facebookId)
     {
         $json = file_get_contents('https://graph.facebook.com/'.$facebookId.'/picture?width=140&height=140&redirect=false');
