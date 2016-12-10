@@ -28,7 +28,7 @@
                     {% include 'CoreBundle:Base:alert.messages.html.twig'%}	
                     {% if not app.user.isActive  %}
                         <div class="alert alert-warning" role="alert">
-                            <i class="ion-alert-circled"></i> {{  'validate.message' | trans}}
+                            <i class="ion-alert-circled"></i> {{ 'profile.email_valid_message' | trans }}
                         </div>
                     {% endif  %}
                 </div> 
@@ -40,14 +40,14 @@
                         <div class="portlet box custom">
                             <div class="portlet-body profile">
                                 <div id="content" class="account profile-content">
-                                    <h3>{{ 'account.user.profile' | trans }}</h3>
+                                    <h3>{{ 'profile.title' | trans }}</h3>
                                     <div>
-                                        <p><b>{{ 'account.email.singular' | trans }}</b>: {{ app.user.email }}</p>
-                                        <p><b>{{ 'account.name' | trans }}</b>: {{ app.user.name }} {{ app.user.surnames }}</p>
+                                        <p><b>{{ 'profile.email' | trans }}</b>: {{ app.user.email }}</p>
+                                        <p><b>{{ 'profile.name' | trans }}</b>: {{ app.user.name }} {{ app.user.surnames }}</p>
                                     </div>
                                     <div class="profile-buttons">
-                                        <a href="javascript:void(0);" id="edit-profile" class="btn btn-core"><span class="ion-edit"></span> {{ 'account.edit.profile' | trans }}</a>
-                                        <a href="javascript:void(0);" id="change-password" class="btn btn-core"><span class="ion-locked"></span> {{ 'account.password.change' | trans }}</a>
+                                        <a href="javascript:void(0);" id="edit-profile" class="btn btn-core"><span class="ion-edit"></span> {{ 'profile.edit' | trans }}</a>
+                                        <a href="javascript:void(0);" id="change-password" class="btn btn-core"><span class="ion-locked"></span> {{ 'profile.change_password' | trans }}</a>
                                     </div>            
                                 </div>
                                 <div id="edit_content" class="edit_account">

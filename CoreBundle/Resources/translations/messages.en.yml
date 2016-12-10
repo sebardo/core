@@ -8,6 +8,8 @@ select.language: Select your language
 name: Name
 email: E-Mail
 or: or
+back: Back
+save: Save
 signup: 
     first: Sign up
     second: Join us
@@ -83,7 +85,29 @@ contact:
         message: |
                 Message sent through the website%app_name%.. 
                 Message sent sending a copy to sender.
-                
+profile:
+    email_valid_message: We have sent you an email to validate it.
+    image_upload:  Edit avatar 
+    title: User profile
+    name: Name
+    surnames: Lastnames
+    email: Email
+    edit: Edit profile
+    change_password: Change password
+    password:
+        repeat: Repeat password
+        current: Current password
+        new: New password
+        new.repeat: Repeat new password
+        saved: The password has been updated, you can use it at your next login
+        error: Your current password or new passwords do not match, please try again.
+    billing:
+        title: Billing details
+    delivery:
+        title: Delivery details
+    transaction:
+        title: Transactions
+    
 #Backend clean code
 fonts: Fonts manager
 font:

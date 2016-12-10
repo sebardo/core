@@ -7,6 +7,8 @@ select.language: Wählen Sie Ihre Sprache
 name: Name
 email: E-Mail
 or: oder
+back: Zurück
+save: Sparen
 signup: 
     first: Registrieren
     second: Begleiten Sie uns
@@ -72,6 +74,28 @@ contact:
         message: |
                 Nachricht über die Website gesendet %app_name%.
                 Senden Nachricht wurde gesendet, eine Kopie an den Absender.
+profile:
+    email_valid_message: Haben wir Sie eine EMail geschickt, es zu validieren.
+    image_upload:  Bearbeiten Avatar
+    title: Benutzerprofil
+    name: Name
+    surnames: Nachnamen
+    email: Email
+    edit: Profil bearbeiten
+    change_password: Passwort ändern
+    password:
+        repeat: Wiederholen Sie Passwort
+        current: aktuelles Passwort
+        new: neues Passwort
+        new.repeat: Wiederholen Sie das neue Passwort
+        saved: Die Passwort wurde aktualisiert, in der nächsten Anmeldung können Sie es verwenden.
+        error: Ihr aktuelles Passwort oder die neuen Passwörter nicht übereinstimmen, bitte versuchen Sie es erneut.
+    billing:
+        title: Rechnungsdetails
+    delivery:
+        title: Lieferdetails
+    transaction:
+        title: Transaktionen  
                 
 #Backend clean code
 fonts: Management-Schriften

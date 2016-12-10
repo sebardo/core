@@ -39,6 +39,8 @@ home: Inicio
 select.language: Selecciona tu idioma
 name: Nombre
 email: E-Mail
+back: Volver
+save: Guardar
 signup: 
     first: Regístrate
     second: Darme de alta
@@ -114,7 +116,30 @@ contact:
         message: |
                 Mensaje enviado a travez del sitio web de %app_name%.. 
                 Mensaje enviado con envio de copia al remitente.        
-        
+         
+profile:
+    email_valid_message: Te hemos enviado un correo electrónico para que lo validez.
+    image_upload:  Editar avatar 
+    title: Perfil de usuario
+    name: Nombre
+    surnames: Apellidos
+    email: Email
+    edit: Editar perfil
+    change_password: Cambiar contraseña
+    password:
+        repeat: Repite la contraseña
+        current: Contraseña actual
+        new: Nueva contraseña
+        new.repeat: Repite la nueva contraseña
+        saved: La contraseña se ha actualizado, en su próximo inicio de sesión podrá utilizarla.
+        error: Su contraseña actual o las nuevas contraseñas no coinciden, por favor vuelva a intentarlo.
+    billing:
+        title: Datos para la facturación
+    delivery:
+        title: Datos para el envío
+    transaction:
+        title: Transacciones
+    
 #Backend clean code
 fonts: Gestion de tipografia
 fontadds: Agregar tipo de letra

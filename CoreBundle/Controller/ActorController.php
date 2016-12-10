@@ -656,12 +656,12 @@ class ActorController  extends Controller
                     $encodePassword = $encoder->encodePassword($data['password']['first'], $user->getSalt());
                     $user->setPassword($encodePassword);
                     $em->flush();
-                    $this->container->get('session')->getFlashBag()->add('success', 'account.password.saved');
+                    $this->container->get('session')->getFlashBag()->add('success', 'profile.password.saved');
                 }else{
-                    $this->container->get('session')->getFlashBag()->add('warning', 'account.password.error');
+                    $this->container->get('session')->getFlashBag()->add('warning', 'profile.password.error');
                 }
             }else{
-                 $this->container->get('session')->getFlashBag()->add('warning', 'account.password.error');
+                 $this->container->get('session')->getFlashBag()->add('warning', 'profile.password.error');
             }
         }
         

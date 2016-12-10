@@ -43,11 +43,11 @@
     <li class="{{ not app.request.get('billing') and
         not app.request.get('delivery') and
         not app.request.get('transactions') and
-        not app.request.get('adverts')  ? 'active'}}"><a href="#profile_tab" data-toggle="tab">{{ "account.user.profile" | trans }}</a></li>
+        not app.request.get('adverts')  ? 'active'}}"><a href="#profile_tab" data-toggle="tab">{{ "profile.title" | trans }}</a></li>
     {% if use_ecommerce %}
-        <li class="{{ app.request.get('billing') ? 'active' }}"><a href="#billing_tab" data-toggle="tab">{{ "account.billing.info" | trans }}</a></li>
-        <li class="{{ app.request.get('delivery') ? 'active' }}"><a href="#delivery_tab" data-toggle="tab">{{ "account.delivery.info" | trans }}</a></li>
-        <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
+        <li class="{{ app.request.get('billing') ? 'active' }}"><a href="#billing_tab" data-toggle="tab">{{ "profile.billing.title" | trans }}</a></li>
+        <li class="{{ app.request.get('delivery') ? 'active' }}"><a href="#delivery_tab" data-toggle="tab">{{ "profile.delivery.title" | trans }}</a></li>
+        <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "profile.transaction.title" | trans }}</a></li>
         {#<li class="{{ app.request.get('adverts') ? 'active' }}"><a href="#adverts_tab" data-toggle="tab">{{ "advert.plural" | trans }}</a></li>#}
     {% endif %}
 </ul>
