@@ -31,7 +31,6 @@ class CoreExtension extends \Twig_Extension
         return array(
             new Twig_SimpleFunction('addSufix', array($this, 'addSufix')),
             new Twig_SimpleFunction('changePage', array($this, 'changePage')),
-            new Twig_SimpleFunction('userForm', array($this, 'userForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('get_profile_image', array($this, 'getProfileImage')),
             new Twig_SimpleFunction('json_encode', array($this, 'jsonEncode')),
             new Twig_SimpleFunction('get_menu_items', array($this, 'getMenuItems')),
@@ -51,25 +50,25 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
             new Twig_SimpleFunction('get_fonts', array($this, 'getFonts')),
             new Twig_SimpleFunction('get_languages', array($this, 'getLanguages'), array('is_safe' => array('html'))),
+            
+            new Twig_SimpleFunction('userForm', array($this, 'userForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('login_form', array($this, 'loginForm'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('login_modal_form', array($this, 'loginModalForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('register_form', array($this, 'registerForm'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('register_modal_form', array($this, 'registerModalForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('get_profile_form', array($this, 'getProfileForm')),
             new Twig_SimpleFunction('get_password_form', array($this, 'getPasswordForm')),
             
-            
+            new Twig_SimpleFunction('oauth_buttons', array($this, 'oauthButtons'), array('is_safe' => array('html'))),
+
         );
     }
     
     public function jsonEncode($array)
     {
         return json_encode($array);
-//       if(isset($array['page'])){
-//           $array['page'] = $value;
-//       }
-//       return $array;
     }
     
-  
     public function changePage($array, $value)
     {
        if(isset($array['page'])){
@@ -81,41 +80,12 @@ class CoreExtension extends \Twig_Extension
     public function addSufix($string)
     {
         $pos = strpos($string, '_pager');
-
         if ($pos === false) {
             return $string.'_pager';
         } else {
             return $string;
         }
     }
-    
-    /**
-    * Returns the part of a feedID
-    *
-    * @param string $feedID  ID of the feed to load
-    */
-    public function userForm($uri)
-    {
-        
-        $entity  = new Actor();
-
-        $form =$this->container->get('form.factory')->create(new ActorType(), $entity, array(
-            'action' => $this->container->get('router')->generate('itnube_core_actor_create').'?referer='.$uri,
-            'method' => 'POST',
-            'attr' => array('class' => 'form-horizontal form-row-seperated')
-        ));
-         
-        $twig = $this->container->get('twig');
-        
-        $content = $twig->render('CoreBundle:Actor:_form.popup.html.twig', array(
-                    'form' => $form->createView()
-                    ));
-
-        return $content;
-            
-    }
-    
-  
     
     public function getFirstImage($imageName) {
         $arr = explode(',', $imageName);
@@ -292,9 +262,7 @@ class CoreExtension extends \Twig_Extension
     
     
     /**
-     * Returns all items.
-     *
-     * @return ArrayCollection
+     * {@inheritDoc}
      */
     public function getCarouselItems()
     {
@@ -305,9 +273,7 @@ class CoreExtension extends \Twig_Extension
    
 
     /**
-     * Returns all items.
-     *
-     * @return ArrayCollection
+     * {@inheritDoc}
      */
     public function getRandomHeader()
     {
@@ -323,12 +289,8 @@ class CoreExtension extends \Twig_Extension
     }
 
     
-     /**
-     * Search filter
-     *
-     * @param string $text
-     *
-     * @return string
+    /**
+     * {@inheritDoc}
      */
     public function searchWrap($text, $search)
     {
@@ -338,11 +300,17 @@ class CoreExtension extends \Twig_Extension
         return str_ireplace($search, '<span class="yellow">'.$search.'</span>', $text);
     }
     
+    /**
+     * {@inheritDoc}
+     */
     function starts_with_upper($str) {
         $chr = mb_substr ($str, 0, 1, "UTF-8");
         return mb_strtolower($chr, "UTF-8") != $chr;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function getNotification($type, $count=true)
     {
         $notificationManager = $this->container->get('notification_manager');
@@ -353,6 +321,9 @@ class CoreExtension extends \Twig_Extension
         return $notif;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public function getNotificationUrl(Notification $notification)
     {
 
@@ -364,9 +335,7 @@ class CoreExtension extends \Twig_Extension
     }
     
     /**
-     * Returns all menuitems.
-     *
-     * @return ArrayCollection
+     * {@inheritDoc}
      */
     public function getMenuItems($visible=null)
     {
@@ -400,9 +369,8 @@ class CoreExtension extends \Twig_Extension
     }
     
     /**
-    * Returns treferer path
-    *
-    */
+     * {@inheritDoc}
+     */
     public function getRefererPath(Request $request)
     {
 
@@ -414,18 +382,16 @@ class CoreExtension extends \Twig_Extension
     }
     
     /**
-    * Returns parameter config
-    *
-    */
+     * {@inheritDoc}
+     */
     public function getParameter($parameter)
     {
         return  $this->container->getParameter($parameter);
     }
     
     /**
-    * Returns array locaes
-    *
-    */
+     * {@inheritDoc}
+     */
     public function getLocales()
     {
 
@@ -435,9 +401,8 @@ class CoreExtension extends \Twig_Extension
         return  $coreManager->getLocales();
     }
     
-     /**
-     * Returns all fonts.
-     *
+    /**
+     * {@inheritDoc}
      */
     public function getFonts()
     {
@@ -465,11 +430,47 @@ class CoreExtension extends \Twig_Extension
     /**
      * {@inheritDoc}
      */
+    public function userForm($uri)
+    {
+        
+        $entity  = new Actor();
+
+        $form =$this->container->get('form.factory')->create(new ActorType(), $entity, array(
+            'action' => $this->container->get('router')->generate('itnube_core_actor_create').'?referer='.$uri,
+            'method' => 'POST',
+            'attr' => array('class' => 'form-horizontal form-row-seperated')
+        ));
+         
+        $twig = $this->container->get('twig');
+        
+        $content = $twig->render('CoreBundle:Actor:_form.popup.html.twig', array(
+                    'form' => $form->createView()
+                    ));
+
+        return $content;
+            
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
     public function loginForm($params=array())
     {
         $twig = $this->container->get('twig');
         $content = $twig->render('CoreBundle:Security:login.form.html.twig', array('params' => $params));
 
+        return $content;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function loginModalForm($params=array())
+    {
+       
+        $twig = $this->container->get('twig');
+        if(count($params)==0)$params=array('oauth' => array(),'form_attr'  => array());
+        $content = $twig->render('CoreBundle:Security:login.modal.html.twig', array('params' => $params));
         return $content;
     }
     
@@ -501,6 +502,16 @@ class CoreExtension extends \Twig_Extension
         return $content;
     }
     
+    /**
+     * {@inheritDoc}
+     */
+    public function registerModalForm($params=array())
+    {
+        $twig = $this->container->get('twig');
+        $content = $twig->render('CoreBundle:Regitration/Block:login.modal.html.twig', array('params' => $params));
+
+        return $content;
+    }
     
     public function getProfileForm() {
 
@@ -525,6 +536,40 @@ class CoreExtension extends \Twig_Extension
         $form = $this->container->get('form.factory')->create('CoreBundle\Form\PasswordType', $user);
         
         return $form->createView();
+    }
+    
+    public function oauthButtons($params=array()) 
+    {
+        $twig = $this->container->get('twig');
+        
+        $content = $twig->render('CoreBundle:Base:oauth.html.twig', array('params' => $params));
+
+        return $content;
+        
+    }
+    
+    public function first($param=array()) {
+        $twig = $this->container->get('twig');
+        
+        $content = $twig->render('CoreBundle:Base:first.html.twig', array('param' => $param));
+        
+        return $content;
+    }
+    
+    public function second($param=array()) {
+        $twig = $this->container->get('twig');
+        
+        $content = $twig->render('CoreBundle:Base:second.html.twig', array('param' => $param));
+        
+        return $content;
+    }
+    
+    public function third($param=array()) {
+        $twig = $this->container->get('twig');
+        
+        $content = $twig->render('CoreBundle:Base:third.html.twig', array('param' => $param));
+        
+        return $content;
     }
     
     /**
