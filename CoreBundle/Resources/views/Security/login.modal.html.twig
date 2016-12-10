@@ -1,0 +1,10 @@
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-popup">
+            <a href="#" class="close-link"><span class="glyphicon glyphicon-remove-sign"></span></a>
+            <h3 class="white">{{ 'login.account' | trans }}</h3>
+            <div class="oauth-buttons">{{ oauth_buttons() }}</div>
+            {{ login_form() }}
+        </div>
+    </div>
+</div>
