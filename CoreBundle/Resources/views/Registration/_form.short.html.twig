@@ -58,8 +58,9 @@
     </div>  
     <div class="col-md-12">
         <div class="checkboxes">
-            {{ form_widget(form.actor.newsletter, {'attr': {'class':'minimal'} }) }} {{ 'signup.news' | trans }}<br/>
-            {{ form_widget(form.terms, { 'attr': {'class':'minimal'} }) }}
+            {%if params.icheck_class is defined and params.icheck_class !=''%}{% set icheck_class = params.icheck_class %}{% else %}{% set icheck_class = 'minimal' %}{% endif %}
+            {{ form_widget(form.actor.newsletter, {'attr': {'class': icheck_class} }) }} {{ 'signup.news' | trans }}<br/>
+            {{ form_widget(form.terms, { 'attr': {'class': icheck_class} }) }}
             {% include 'CoreBundle:Registration/Block:terms.modal.html.twig' %}
         </div>
         <input id="register-button-submit" type="submit" value="{{ 'signup.second' | trans }}" class="btn btn-core pull-right {%if params.button_submit_class is defined and params.button_submit_class !=''%}{{params.button_submit_class}}{% endif %}"/> 
