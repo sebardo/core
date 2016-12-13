@@ -1,0 +1,46 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name: dev_sasturain
+    database_name_test: test_sasturain
+    database_user: sasturain
+    database_password: sasturain
+    # You should uncomment this if you want use pdo_sqlite
+    # database_path: "%kernel.root_dir%/data.db3"
+
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    #Core configuration
+    node_path: /usr/bin/nodejs
+    node_modules_path: /usr/local/lib/node_modules
+    core:
+        name: Sasturain
+        extended_layout: 'CoreBundle:Base:base.layout.html.twig'
+        extended_layout_admin: 'AdminBundle:Base:layout.html.twig'
+        upload_directory: uploads
+        server_base_url: 'http://localhost.dev'
+        fixtures_test: false
+        admin_email: admin@admin.com
+        company:
+            id: XXX123123
+            name: Company Name
+            address: 'Address str. 12'
+            postal_code: '14199'
+            city: City Name
+            country: Country
+            telephone: '0157 557 58150'
+            email: company@email.com
+            sales_email: sales@email.com
+            website_url: www.localhost.com
+            support_phone: '93 589 44 95'
+            sales_phone: '93 589 44 95'
+            sales_fax: '93 589 44 95'

@@ -22,6 +22,18 @@ security:
 
         secured_area:
             anonymous: ~
+            oauth:
+                resource_owners:
+                    twitter:           "/login/check-twitter"
+                    google:           "/login/check-google"
+                    facebook:           "/login/check-facebook"
+                    instagram:           "/login/check-instagram"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: oauth.user_provider
             pattern:    ^/
             form_login:
                 login_path:  /login

@@ -1,0 +1,13 @@
+{% extends core['extended_layout'] ? core['extended_layout'] : 'CoreBundle:Base:base.layout.html.twig' %}
+
+{% block  content %}
+    <div class="col-sm-4"></div>        
+    <div class="col-sm-4">
+        <div class="row">
+            {% if app.user %}
+                <h2 class="center" style="margin-top: 80px">Login success</h2>
+            {% endif %}
+       </div>
+   </div>
+    <div class="col-sm-4"></div>               
+{% endblock %}
