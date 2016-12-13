@@ -32,7 +32,7 @@ class Country
     protected $currency;
 
    /**
-     * @ORM\Column(type="boolean", options={"default" = false})
+     * @ORM\Column(name="is_active", type="boolean", options={"default" = false})
      */
     protected $isActive;
 
