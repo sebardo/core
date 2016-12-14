@@ -71,11 +71,19 @@ Requeriments:
 	    type:     annotation
 	    prefix:   /
 
+4- Add this line on AppKernel.php
+    new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+    new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+    new A2lix\I18nDoctrineBundle\A2lixI18nDoctrineBundle(),
+    new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 
-4- Create data base and edit parameters.yml from next file
+    new CoreBundle\CoreBundle(),
+    new AdminBundle\AdminBundle(),
+
+5- Create data base and edit parameters.yml from next file
 @CoreBundle/Resources/config/parameters.yml.dist
 
-5- And run
+6- And run
 composer update
 
 7- Create schema and load fixtures
