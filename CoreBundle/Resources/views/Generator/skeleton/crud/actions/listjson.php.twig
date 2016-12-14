@@ -1,0 +1,32 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity_singularized }} entities.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/list.{_format}", name="{{ route_name_prefix }}_listjson", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
+     * @Method("GET")     
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function listJsonAction(Request $request)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var \AdminBundle\Services\DataTables\JsonList $jsonList */
+        $jsonList = $this->get('json_list');
+        $jsonList->setRepository($em->getRepository('{{ bundle }}:{{ entity }}'));
+        $jsonList->setLocale($request->getLocale());
+        $response = $jsonList->get();
+        
+{% endblock method_body %}
+
+{% block method_return %}
+        return new JsonResponse($response);
+{% endblock method_return %}
+    }
