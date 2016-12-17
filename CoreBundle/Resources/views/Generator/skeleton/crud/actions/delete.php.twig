@@ -23,6 +23,8 @@
             $em = $this->getDoctrine()->getManager();
             $em->remove(${{ entity_singularized }});
             $em->flush(${{ entity_singularized }});
+            
+            $this->get('session')->getFlashBag()->add('success', '{{ entity_singularized }}.deleted');
         }
 {% endblock method_body %}
 
