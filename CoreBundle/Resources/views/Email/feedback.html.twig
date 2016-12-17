@@ -1,0 +1,16 @@
+
+{% block subject %}{{ 'feedback.email.subject' | trans({ '%place_name%': place_name }) }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+    {{body | raw}}
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% spaceless %}
+
+    {{body | raw}}
+    
+{% endspaceless %}
+{% endblock %}

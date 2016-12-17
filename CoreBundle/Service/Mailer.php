@@ -194,6 +194,29 @@ class Mailer
      * 
      * @param Transaction $transaction
      */
+    public function sendFeedback($emails, $body, $placeName)
+    {
+        $templateName = 'CoreBundle:Email:newsletter.html.twig';
+  
+        $context = array(
+            'place_name' => $placeName,
+            'body' => $body
+        );
+        
+         $this->sendMessage(
+                $templateName, 
+                $context,  
+                $this->parameters['company']['email'], 
+                $emails
+                );
+
+    }
+    
+    /**
+     * Send bank newsletter email
+     * 
+     * @param Transaction $transaction
+     */
     public function sendActorEmail($email, $title, $body)
     {
         $templateName = 'CoreBundle:Email:actor.html.twig';
