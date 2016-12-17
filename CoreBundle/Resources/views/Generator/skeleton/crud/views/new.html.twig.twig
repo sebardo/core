@@ -1,5 +1,5 @@
 {% block extends %}
-{{ "{% extends 'AdminBundle:Base:layout.html.twig' %}" }}
+{{ "{% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}" }}
 {{ "{% form_theme form 'AdminBundle:Form:fields.html.twig' %}" }}
 {% endblock extends %}
 
@@ -21,6 +21,7 @@
       </ol>
     </section>
       
+    <!-- Main content -->
     <section class="content">
       <div class="row">
         <div class="col-xs-12">

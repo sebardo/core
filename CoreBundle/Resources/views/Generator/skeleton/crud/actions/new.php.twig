@@ -29,6 +29,14 @@
             $em->persist(${{ entity_singularized }});
             $em->flush(${{ entity_singularized }});
 
+            //if come from popup
+            if ($request->isXMLHttpRequest()) {         
+                return new JsonResponse(array(
+                            'id' => ${{ entity_singularized }}->getId(), 
+                        ));
+            }
+            $this->get('session')->getFlashBag()->add('success', '{{ route_name_prefix }}.created');
+            
             {% if 'show' in actions -%}
                 return $this->redirectToRoute('{{ route_name_prefix }}_show', array('id' => ${{ entity_singularized }}->getId()));
             {%- else -%}

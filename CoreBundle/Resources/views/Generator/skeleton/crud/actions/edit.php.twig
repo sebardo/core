@@ -27,6 +27,14 @@
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            //if come from popup
+            if ($request->isXMLHttpRequest()) {         
+                return new JsonResponse(array(
+                            'id' => $visit->getId(), 
+                        ));
+            }
+            $this->get('session')->getFlashBag()->add('success', 'visit.edited');
+            
             return $this->redirectToRoute('{{ route_name_prefix }}_edit', array('id' => ${{ entity_singularized }}->getId()));
         }
 {% endblock method_body %}

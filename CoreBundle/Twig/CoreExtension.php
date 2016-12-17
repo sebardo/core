@@ -29,6 +29,7 @@ class CoreExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            new Twig_SimpleFunction('uniqid', array($this, 'uniqid')),
             new Twig_SimpleFunction('addSufix', array($this, 'addSufix')),
             new Twig_SimpleFunction('changePage', array($this, 'changePage')),
             new Twig_SimpleFunction('get_profile_image', array($this, 'getProfileImage')),
@@ -62,6 +63,11 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('oauth_buttons', array($this, 'oauthButtons'), array('is_safe' => array('html'))),
 
         );
+    }
+    
+    public function uniqid()
+    {
+        return uniqid();
     }
     
     public function jsonEncode($array)

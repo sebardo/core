@@ -1,5 +1,5 @@
 {% block extends %}
-{{ "{% extends 'AdminBundle:Base:layout.html.twig' %}" }}
+{{ "{% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}" }}
 {% endblock extends %}
 
 {% block body %}
@@ -15,7 +15,7 @@
         <li><a href="{{ "{{ path('admin_default_index') }}" }}"> <i class="ion-home"></i>  {{ "{{ 'home' | trans }}" }}</a></li>
         <li><a href="javascript:">{{ "{{ 'dashboard' | trans }}" }}</a></li>
         <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_index') }}" }}">{{ "{{ '"~entity_singularized|capitalize~"' | trans }}" }}</a></li>
-        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', {'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ "{{ '"~entity_singularized|capitalize~"'  }}" }}</a></li>
+        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', {'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ "{{ "~entity_singularized~"  }}" }}</a></li>
       </ol>
     </section>
    
@@ -47,7 +47,7 @@
                             {%- elseif metadata.type in ['array'] %}
                                 <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
                             {%- elseif metadata.type in ['boolean'] %}
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}<span class="label label-success">{{ "yes" | trans }}</span>{% else %}<span class="label label-warning">{{ "no" | trans }}</span>{% endif %}' }}</td>
                             {%- else %}
                                 <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
                             {%- endif %}
