@@ -196,7 +196,7 @@ class Mailer
      */
     public function sendFeedback($emails, $body, $placeName)
     {
-        $templateName = 'CoreBundle:Email:newsletter.html.twig';
+        $templateName = 'CoreBundle:Email:feedback.html.twig';
   
         $context = array(
             'place_name' => $placeName,
