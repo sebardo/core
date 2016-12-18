@@ -79,7 +79,7 @@ class MenuItemController extends Controller
         /** @var \Kitchenit\AdminBundle\Services\DataTables\JsonList $jsonList */
         $jsonList = $this->get('json_list');
         $jsonList->setRepository($em->getRepository('CoreBundle:MenuItem'));
-        $jsonList->setLocale($this->getRequest()->getLocale());
+        $jsonList->setLocale($this->get('request_stack')->getCurrentRequest()->getLocale());
         $response = $jsonList->get();
 
         return new JsonResponse($response);

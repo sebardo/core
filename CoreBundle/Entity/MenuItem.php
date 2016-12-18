@@ -14,10 +14,11 @@ use CoreBundle\Entity\Image;
  *
  * @ORM\Table(name="menuitem")
  * @ORM\Entity(repositoryClass="CoreBundle\Entity\Repository\MenuItemRepository")
- * @Assert\Callback(methods={"validateParentMenuItem"})
+ * 
  */
 class MenuItem 
 {
+    //@Assert\Callback(methods={"validateParentMenuItem"})
     use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translatable;
     /**
      * @var integer
