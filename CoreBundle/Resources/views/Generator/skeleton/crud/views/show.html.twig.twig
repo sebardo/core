@@ -3,12 +3,12 @@
 {% endblock extends %}
 
 {% block body %}
+{{ "{% block section %}" }}{{ entity_pluralized }}{{ "{% endblock %}" }}
 {{ "{% block content %}" }}
-
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ "{{ '"~entity_singularized|capitalize~"' | trans }}" }}
+        {{ "{{ '"~entity_singularized~"' | trans }}" }}
         <small></small>
       </h1>
       <ol class="breadcrumb">

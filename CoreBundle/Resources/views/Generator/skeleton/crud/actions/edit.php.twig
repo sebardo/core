@@ -30,10 +30,10 @@
             //if come from popup
             if ($request->isXMLHttpRequest()) {         
                 return new JsonResponse(array(
-                            'id' => $visit->getId(), 
+                            'id' => ${{ entity_singularized }}->getId(), 
                         ));
             }
-            $this->get('session')->getFlashBag()->add('success', 'visit.edited');
+            $this->get('session')->getFlashBag()->add('success', '{{ entity_singularized }}.edited');
             
             return $this->redirectToRoute('{{ route_name_prefix }}_edit', array('id' => ${{ entity_singularized }}->getId()));
         }

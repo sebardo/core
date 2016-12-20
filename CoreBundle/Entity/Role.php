@@ -6,12 +6,13 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CoreBundle\Entity\Repository\RoleRepository")
  * @ORM\Table(name="role");
  */
 class Role implements RoleInterface
 {
     const USER = 'ROLE_USER';
+    const MANAGER = 'ROLE_MANAGER';
     const COMPANY = 'ROLE_COMPANY';
     const ADMIN = 'ROLE_ADMIN';
     const SUPER_ADMIN = 'ROLE_SUPER_ADMIN';

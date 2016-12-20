@@ -26,7 +26,6 @@ Email already taken: Email en uso por favor elija otro.
 disable: Cancelar suscripción 
 to: Para
 send: Enviar
-role: Rol
 dashboard: Panel de control
 or: o
 
@@ -141,7 +140,7 @@ profile:
         title: Transacciones
     
 #Backend clean code
-fonts: Gestion de tipografia
+fonts: Tipografía
 fontadds: Agregar tipo de letra
 fontless: Variables de bootstrap
 font:
@@ -181,9 +180,22 @@ newsletter:
         total: Total de envíos
         created: Se ha creado el registro satisfactoriamente
         deleted: Se ha eliminado el registro satisfactoriamente  
-  
-  
 
+roles: Permisos
+role:
+  singular: Permiso
+  plural: Permisos
+  created: Se ha creado el rol satisfactoriamente
+  edited: Se ha editado el rol satisfactoriamente
+  deleted: Se ha eliminado el rol satisfactoriamente 
+  new: Nuevo rol
+  duplicate: El usuario ya posee este rol
+  notsubmit: El formulario no se ha enviado correctamente
+  
+marketing: Marketing
+design.font: Diseño y tipografía
+reputation.onlie: Reputación Online
+    
 continue: Continuar
 total:
   to.pay: Total a pagar

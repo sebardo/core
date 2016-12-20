@@ -86,7 +86,7 @@ class ActorRepository extends EntityRepository
             ->select('u.id, u.email, u.name, u.surnames, i.path actorImage');
 
         // join
-        $qb->join('u.roles', 'r');
+        $qb->leftJoin('u.roles', 'r');
         $qb->leftJoin('u.image', 'i');
                 
         // search

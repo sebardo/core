@@ -52,6 +52,81 @@ Requeriments:
 	    ...
 	    globals:
 		core: %core%
+                
+        # Assetic Configuration
+        assetic:
+            debug:          "%kernel.debug%"
+            use_controller: '%kernel.debug%'
+            bundles:
+                [ CoreBundle, AdminBundle, BlogBundle, FrontBundle ]
+            node: "%node_path%"
+            filters:
+                cssrewrite:
+                    apply_to: ".css$"
+                less:
+                    node: "%node_path%"
+                    node_paths: ["%node_modules_path%"]
+                    apply_to: ".less$"
+
+        # OAuth login social networks  
+        hwi_oauth:
+             #name of the firewall in which this bundle is active, this setting MUST be set
+            firewall_names: [secured_area]
+            target_path_parameter: /
+            resource_owners:
+                twitter:
+                    type:                twitter
+                    client_id:           MIltvA3m2QpM5vp388DsYTThl
+                    client_secret:       7KJoY105ka0TvHGmmy1bFPNoAnDlTOWcRpUV1pCnZurf3z8N3B
+                google:
+                    type:                google
+                    client_id:           922040783377-rbn2lvna5qpogv95pm4aa1vc9010lr4l.apps.googleusercontent.com
+                    client_secret:       bDLGMfYprPcJnozGu4kFQwlt
+                    scope:               "email profile"
+                    options:
+                        access_type:     offline
+                        approval_prompt: force
+                        display:         popup
+                        login_hint:      sub
+                facebook:
+                    type:                facebook
+                    client_id:           1521991217899046
+                    client_secret:       2cca8eb109a4a37ebac22231683af257
+                    scope:               "email"
+                    options:
+                        display: popup 
+                instagram:
+                    type:                instagram
+                    client_id:           dbd834deb2eb4a6e8bccd3d56c37c9cb
+                    client_secret:       f38e792e45ad4f7ebdf3be71572c18e8
+                    scope:               basic
+
+        a2lix_i18n_doctrine:
+            manager_registry: doctrine       # [1]
+        a2lix_translation_form:
+            locale_provider: default       # [1]
+            locales: [es, en, de]      # [1-a]
+            default_locale: es             # [1-b]
+            required_locales: [es, en, de]         # [1-c]
+            manager_registry: doctrine     # [2]
+            templating: "CoreBundle:Base:default.tabs.html.twig"      # [3]
+        # If you want add item in admin menu use this example
+        # dashboard:
+        #    icon_class: 'fa fa-dashboard'
+        #    label: 'dashboard'
+        #    options:
+        #        menuitems: core_menuitem_index
+        #        sliders: core_slider_index
+        admin:
+            admin_menus:  ~
+            apis:
+                google_analytics:
+                    options:
+                        application_name: Analitycs integración
+                        oauth2_client_id: 43533348693-s4rafifpr1o07gja2kgnfbhf4tjq2g0f.apps.googleusercontent.com
+                        oauth2_client_secret: lo04F5hvUi_gPaAxyucY70jy
+                        oauth2_redirect_uri: 'http://sasturain.dev/admin/analytics'
+                        developer_key: AIzaSyCda_bsJ-kEa1M1DJenwKfUfyLVlVKuC6I
 
 3- Add routes on routing.yml
 	core:
@@ -66,14 +141,11 @@ Requeriments:
 	ecommerce:
 	    resource: "@EcommerceBundle/Resources/config/routing.yml"
 	    prefix:   /
-	front:
-	    resource: "@FrontBundle/Controller/"
-	    type:     annotation
-	    prefix:   /
 
 4- Add this line on AppKernel.php
     new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
     new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+    //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
     new A2lix\I18nDoctrineBundle\A2lixI18nDoctrineBundle(),
     new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
 

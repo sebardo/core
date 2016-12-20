@@ -669,4 +669,5 @@ class ActorController  extends Controller
         return new RedirectResponse($url);
 
     }
+    
 }

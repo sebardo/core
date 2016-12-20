@@ -32,6 +32,7 @@ class CoreEventListener
         $this->container->get('twig')->addGlobal('use_admin', false);
         $this->container->get('twig')->addGlobal('use_blog', false);
         $this->container->get('twig')->addGlobal('use_ecommerce', false);
+        $this->container->get('twig')->addGlobal('use_elearning', false);
         
         if (isset($bundles['CoreBundle'])) {
             $this->container->get('twig')->addGlobal('use_core', true);
@@ -44,6 +45,9 @@ class CoreEventListener
         }
         if (isset($bundles['EcommerceBundle'])) {
             $this->container->get('twig')->addGlobal('use_ecommerce', true);
+        }
+        if (isset($bundles['ElearningBundle'])) {
+            $this->container->get('twig')->addGlobal('use_elearning', true);
         }
     }
 

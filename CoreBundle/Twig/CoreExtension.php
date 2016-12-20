@@ -61,6 +61,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_password_form', array($this, 'getPasswordForm')),
             
             new Twig_SimpleFunction('oauth_buttons', array($this, 'oauthButtons'), array('is_safe' => array('html'))),
+            new Twig_SimpleFunction('get_actorrole_form', array($this, 'getActorRoleForm')),
 
         );
     }
@@ -544,6 +545,13 @@ class CoreExtension extends \Twig_Extension
         return $form->createView();
     }
     
+    public function getActorRoleForm() 
+    {
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\ActorRoleType');
+        return $form->createView();
+    }
+    
+    
     public function oauthButtons($params=array()) 
     {
         $twig = $this->container->get('twig');
@@ -552,30 +560,6 @@ class CoreExtension extends \Twig_Extension
 
         return $content;
         
-    }
-    
-    public function first($param=array()) {
-        $twig = $this->container->get('twig');
-        
-        $content = $twig->render('CoreBundle:Base:first.html.twig', array('param' => $param));
-        
-        return $content;
-    }
-    
-    public function second($param=array()) {
-        $twig = $this->container->get('twig');
-        
-        $content = $twig->render('CoreBundle:Base:second.html.twig', array('param' => $param));
-        
-        return $content;
-    }
-    
-    public function third($param=array()) {
-        $twig = $this->container->get('twig');
-        
-        $content = $twig->render('CoreBundle:Base:third.html.twig', array('param' => $param));
-        
-        return $content;
     }
     
     /**

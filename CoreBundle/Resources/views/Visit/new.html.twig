@@ -1,0 +1,47 @@
+{% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}
+{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+
+{% block section %}visit{% endblock %}
+{% block content %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        {{ 'visit.new' | trans }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
+        <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
+        <li><a href="{{ path('core_visit_index') }}">{{ 'visit' | trans }}</a></li>
+        <li><a href="{{ path('core_visit_new') }}">{{ 'new.singular' | trans }}</a></li>
+      </ol>
+    </section>
+      
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-info">
+                <!-- form start -->
+                {{ form_start(form, {
+                        'action': path('core_visit_new'), 
+                        'method': 'post', 
+                        'attr': {'class': 'form-horizontal form-row-seperated'}
+                    }) }}
+                    <div class="box-body">
+                        {{ form_widget(form) }}
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary btn-flat"><i class="ion-checkmark"></i> {{ 'save' | trans }}</button>
+                            <a href="{{ path('core_visit_index') }}" class="btn btn-default btn-flat">{{ 'cancel.singular' | trans }}</a>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

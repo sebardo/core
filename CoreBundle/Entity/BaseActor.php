@@ -61,7 +61,7 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      * @ORM\JoinTable(name="role_actorrole")
      */
-    protected $roles;
+    public $roles;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
     protected $facebook_id;
@@ -218,15 +218,25 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     }
 
     /**
-     * Add roles
+     * Add role
      *
      * @param CoreBundle\Entity\Role $roles
      */
-    public function addRole(\CoreBundle\Entity\Role $roles)
+    public function addRole(\CoreBundle\Entity\Role $role)
     {
-        $this->roles[] = $roles;
+        $this->roles[] = $role;
     }
 
+    /**
+     * Remove role
+     *
+     * @param Role $role
+     */
+    public function removeRole(Role $role)
+    {
+        $this->roles->removeElement($role);
+    }
+    
     /**
      * Get roles
      *
@@ -235,6 +245,16 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     public function getRoles()
     {
         return $this->roles->toArray();
+    }
+    
+    /**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getRolesCollection()
+    {
+        return $this->roles;
     }
 
     /**
