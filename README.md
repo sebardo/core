@@ -1,5 +1,6 @@
 # core
 #Intalation Core tools
+This file explain how can install all tools for Sandbox.
 
 Requeriments:
 1- Need install nodejs and less
@@ -24,7 +25,10 @@ Requeriments:
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         
-        "sebardo/admin": "dev-master"
+        "sebardo/admin": "dev-master",
+        "sebardo/blog": "dev-master",
+        "sebardo/ecommerce": "dev-master",
+        "sebardo/elearning": "dev-master"
     },
 
 2- Edit config.yml
@@ -33,6 +37,19 @@ Requeriments:
 	    - { resource: "@CoreBundle/Resources/config/security.yml" }
 	    - { resource: "@CoreBundle/Resources/config/services.yml" }
 	    - { resource: "@AdminBundle/Resources/config/services.yml" }
+            - { resource: "@EcommerceBundle/Resources/config/services.yml" }
+            - { resource: "@ElearningBundle/Resources/config/services.yml" }
+
+        #Uncomment
+        translator:      { fallbacks: ["%locale%"] }
+
+        # Session Configuration
+        session:
+            # handler_id set to null will use default session handler from php.ini
+            handler_id:  ~
+
+        # Comment this line
+        #    assets: ~
 
 	# Doctrine Configuration
 	doctrine:
@@ -140,6 +157,9 @@ Requeriments:
 	    prefix:   /
 	ecommerce:
 	    resource: "@EcommerceBundle/Resources/config/routing.yml"
+	    prefix:   /
+        elearning:
+	    resource: "@ElearningBundle/Resources/config/routing.yml"
 	    prefix:   /
 
 4- Add this line on AppKernel.php
