@@ -10,6 +10,10 @@
         <a href="{{ path('ecommerce_checkout_index')}}" class="header-item-left">{{ 'ecommerce' | trans }}</a>
         {% endif %}
         
+        {% if use_ecommerce %}
+        <a href="{{ path('elearning_front_elearning')}}" class="header-item-left">{{ 'elearning' | trans }}</a>
+        {% endif %}
+        
         {% set items = get_menu_items() %}
         {% for item in items %}
             <a class="fa fa-{{item.icon}} header-item" href="{{ path('core_menuitem_menu', {slug: item.slug} ) }}"><span>{{item.name}}</span></a>
