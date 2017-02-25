@@ -112,7 +112,7 @@
                         </div>
                     </div>
                             
-                    {% if use_ecommerce %}        
+                    {% if twig_global.checkUse('EcommerceBundle') %}        
                         <div class="tab-pane  {{ app.request.get('address') ? 'active' }}" id="address_tab">
                             <div class="box-body show-tables">
                                 <div class="clearfix">
@@ -228,7 +228,7 @@
       </div>
      </section>
 
-{% if use_ecommerce %}
+{% if twig_global.checkUse('EcommerceBundle') %}
 <!-- Modal Address -->
 <div class="modal fade" id="modalAddress" tabindex="-1" role="dialog" aria-labelledby="modalAddressLabel">
   <div class="modal-dialog" role="document">
@@ -339,7 +339,7 @@
                 }
             }
         ];
-        {% if use_ecommerce %}
+        {% if twig_global.checkUse('EcommerceBundle') %}
             var addresses_table_columns = [
                 { "mData": "address" },
                 { "mData": "phone" },
@@ -494,7 +494,7 @@
                 }
             });
 
-            {% if use_ecommerce %}
+            {% if twig_global.checkUse('EcommerceBundle') %}
                 TableManaged.init(
                     '#addresses-table',
                     '{{ url('ecommerce_address_listjson', { actorId: entity.id }) }}',
@@ -565,7 +565,7 @@
                
             });
             
-            {% if use_ecommerce %}
+            {% if twig_global.checkUse('EcommerceBundle') %}
              $("#create-address").submit(function(e){
                 e.preventDefault();
                 var formSerialize = $(this).serialize();

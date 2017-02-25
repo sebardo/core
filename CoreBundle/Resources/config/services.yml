@@ -41,6 +41,11 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
+      
+    twig.global:
+        class: "CoreBundle\\Service\\TwigGlobal"
+        calls:
+            - [setContainer, ["@service_container"] ] 
             
     oauth.user_provider:
         class: "CoreBundle\\Service\\OAuthUserProvider"

@@ -2,15 +2,15 @@
     <div class="main-header-inner">
         <a href="{{ path('index')}}" class="logo sandbox">_sandbox</a>
         
-        {% if use_blog %}
+        {% if twig_global.checkUse('BlogBundle') %}
         <a href="{{ path('blog_blog_index')}}" class="header-item-left">{{ 'blog.singular' | trans }}</a>
         {% endif %}
         
-        {% if use_ecommerce %}
+        {% if twig_global.checkUse('EcommerceBundle') %}
         <a href="{{ path('ecommerce_checkout_index')}}" class="header-item-left">{{ 'ecommerce' | trans }}</a>
         {% endif %}
         
-        {% if use_ecommerce %}
+        {% if twig_global.checkUse('ElearningBundle') %}
         <a href="{{ path('elearning_front_elearning')}}" class="header-item-left">{{ 'elearning' | trans }}</a>
         {% endif %}
         

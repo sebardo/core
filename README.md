@@ -1,14 +1,17 @@
 # core
 #Intalation Core tools
+
 This file explain how can install all tools for Sandbox.
 
 Requeriments:
+
 1- Need install nodejs and less
 2- Composer
 3- Virtual host for youur website (apache:@CoreBundle/Resources/config/vhost.txt)
 
 #Instalation
 1- Edit composer.json
+
     ...
     "minimum-stability": "dev", 
     "prefer-stable": true,
@@ -32,6 +35,7 @@ Requeriments:
     },
 
 2- Edit config.yml
+
 	imports:
 	    - { resource: parameters.yml }
 	    - { resource: "@CoreBundle/Resources/config/security.yml" }
@@ -75,7 +79,7 @@ Requeriments:
             debug:          "%kernel.debug%"
             use_controller: '%kernel.debug%'
             bundles:
-                [ CoreBundle, AdminBundle, BlogBundle, FrontBundle ]
+                [ CoreBundle, AdminBundle, BlogBundle, EcommerceBundle, ElearningBundle ]
             node: "%node_path%"
             filters:
                 cssrewrite:
@@ -146,23 +150,25 @@ Requeriments:
                         developer_key: AIzaSyCda_bsJ-kEa1M1DJenwKfUfyLVlVKuC6I
 
 3- Add routes on routing.yml
-	core:
-	    resource: "@CoreBundle/Resources/config/routing.yml"
-	    prefix:   /
-	admin:
-	    resource: "@AdminBundle/Resources/config/routing.yml"
-	    prefix:   /
-	blog:
-	    resource: "@BlogBundle/Resources/config/routing.yml"
-	    prefix:   /
-	ecommerce:
-	    resource: "@EcommerceBundle/Resources/config/routing.yml"
-	    prefix:   /
-        elearning:
-	    resource: "@ElearningBundle/Resources/config/routing.yml"
-	    prefix:   /
+	
+    core:
+        resource: "@CoreBundle/Resources/config/routing.yml"
+        prefix:   /
+    admin:
+        resource: "@AdminBundle/Resources/config/routing.yml"
+        prefix:   /
+    blog:
+        resource: "@BlogBundle/Resources/config/routing.yml"
+        prefix:   /
+    ecommerce:
+        resource: "@EcommerceBundle/Resources/config/routing.yml"
+        prefix:   /
+    elearning:
+        resource: "@ElearningBundle/Resources/config/routing.yml"
+        prefix:   /
 
 4- Add this line on AppKernel.php
+
     new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
     new Symfony\Bundle\AsseticBundle\AsseticBundle(),
     //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
@@ -173,14 +179,17 @@ Requeriments:
     new AdminBundle\AdminBundle(),
 
 5- Create data base and edit parameters.yml from next file
-@CoreBundle/Resources/config/parameters.yml.dist
+
+    @CoreBundle/Resources/config/parameters.yml.dist
 
 6- And run
-composer update
+
+    composer update
 
 7- Create schema and load fixtures
-php bin/console doctrine:schema:create
-php bin/console doctrine:fixtures:load --append
+
+    php bin/console doctrine:schema:create
+    php bin/console doctrine:fixtures:load --append
 
 
 

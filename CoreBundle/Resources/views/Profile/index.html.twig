@@ -59,7 +59,7 @@
                             </div>
                         </div>
                     </div>
-                    {% if use_ecommerce %}
+                    {% if twig_global.checkUse('EcommerceBundle') %}
                         {{ include ('EcommerceBundle:Profile:tabs.content.html.twig') }}
                     {% endif %}        
 

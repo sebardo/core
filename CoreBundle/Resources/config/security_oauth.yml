@@ -10,7 +10,7 @@ security:
     providers:
         main:
             entity: { class: CoreBundle:BaseActor }
-#        my_custom_hwi_provider: { id: oauth.user_provider }
+            #custom_hwi_provider: { id: oauth.user_provider }
 
     firewalls:
         login_firewall:
@@ -22,12 +22,14 @@ security:
 
         secured_area:
             anonymous: ~
+            context: test_connect
             oauth:
                 resource_owners:
-                    twitter:           "/login/check-twitter"
+                    test_connect:     "/login/check-test_connect"
+                    twitter:          "/login/check-twitter"
                     google:           "/login/check-google"
-                    facebook:           "/login/check-facebook"
-                    instagram:           "/login/check-instagram"
+                    facebook:         "/login/check-facebook"
+                    instagram:        "/login/check-instagram"
                 login_path:        /login
                 use_forward:       false
                 failure_path:      /login

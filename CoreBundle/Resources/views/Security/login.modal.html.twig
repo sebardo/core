@@ -3,7 +3,7 @@
         <div class="modal-content modal-popup">
             <a href="#" class="close-link"><span class="glyphicon glyphicon-remove-sign"></span></a>
             <h3 class="white">{{ 'login.account' | trans }}</h3>
-            <div class="oauth-buttons">{{ oauth_buttons() }}</div>
+            <div class="oauth-buttons">{#{ oauth_buttons() }#}</div>
             {{ login_form() }}
         </div>
     </div>

@@ -44,7 +44,7 @@
         not app.request.get('delivery') and
         not app.request.get('transactions') and
         not app.request.get('adverts')  ? 'active'}}"><a href="#profile_tab" data-toggle="tab">{{ "profile.title" | trans }}</a></li>
-    {% if use_ecommerce %}
+    {% if twig_global.checkUse('EcommerceBundle') %}
         <li class="{{ app.request.get('billing') ? 'active' }}"><a href="#billing_tab" data-toggle="tab">{{ "profile.billing.title" | trans }}</a></li>
         <li class="{{ app.request.get('delivery') ? 'active' }}"><a href="#delivery_tab" data-toggle="tab">{{ "profile.delivery.title" | trans }}</a></li>
         <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "profile.transaction.title" | trans }}</a></li>

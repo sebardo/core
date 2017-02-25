@@ -353,7 +353,7 @@ class Mailer
             'order_number'    => $invoice->getTransaction()->getTransactionKey(),
             'invoice_date'      => $invoice->getCreated(),
             'user_email'        => $email,
-            'order_details_url' => $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
+            'order_details_url' => $this->router->generate('ecommerce_checkout_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
         );
 
         $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
@@ -415,7 +415,7 @@ class Mailer
             'invoice_date'      => $invoice->getCreated(),
             'user_email'        => $invoice->getTransaction()->getActor()->getEmail(),
             'seller_email'        => implode(',', $sellerEmails),
-            'order_details_url' => $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
+            'order_details_url' => $this->router->generate('ecommerce_checkout_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
         );
 
         $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
@@ -433,7 +433,7 @@ class Mailer
         $toEmail = $invoice->getTransaction()->getActor()->getEmail();
 
       
-        $orderUrl = $this->router->generate('core_actor_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL);
+        $orderUrl = $this->router->generate('ecommerce_checkout_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $context = array(
             'order_number' => $invoice->getTransaction()->getTransactionKey(),
