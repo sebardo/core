@@ -87,6 +87,12 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     /** @ORM\Column(name="instagram_access_token", type="string", length=255, nullable=true) */
     protected $instragram_access_token;
     
+    /** @ORM\Column(name="test_connect_id", type="string", length=255, nullable=true) */
+    protected $test_connect_id;
+
+    /** @ORM\Column(name="test_connect_access_token", type="string", length=255, nullable=true) */
+    protected $test_connect_access_token;
+    
     public function __construct()
     {
         $this->active = false;
@@ -431,6 +437,50 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     public function getInstagramAccessToken()
     {
         return $this->instagram_access_token;
+    }
+    
+    /**
+     * Set test_connect_id
+     *
+     * @param integer $test_connect_id
+     */
+    public function setTestConnectId($test_connect_id)
+    {
+        $this->test_connect_id = $test_connect_id;
+
+        return $this;
+    }
+
+    /**
+     * Get test_connect_id
+     *
+     * @return integer
+     */
+    public function getTestConnectId()
+    {
+        return $this->test_connect_id;
+    }
+    
+    /**
+     * Set test_connect_access_token
+     *
+     * @param integer $test_connect_access_token
+     */
+    public function setTestConnectAccessToken($test_connect_access_token)
+    {
+        $this->test_connect_access_token = $test_connect_access_token;
+
+        return $this;
+    }
+
+    /**
+     * Get test_connect_access_token
+     *
+     * @return integer
+     */
+    public function getTestConnectAccessToken()
+    {
+        return $this->test_connect_access_token;
     }
     
     /**

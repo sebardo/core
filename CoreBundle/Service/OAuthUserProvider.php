@@ -33,14 +33,30 @@ class OAuthUserProvider extends EntityUserProvider
     {
         $sessionArr = $this->session->all();
         $resourceOwnerName = $response->getResourceOwner()->getName();
-        $setter = 'set'.ucfirst($resourceOwnerName);
+        $setter = 'set'.$this->dashesToCamelCase($resourceOwnerName, true);
         $setter_id = $setter.'Id';
         $setter_token = $setter.'AccessToken';
 
+        
         if (!isset($this->properties[$resourceOwnerName])) {
             throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
         }
-        $username = $response->getUsername();
+        //hack for oauth test_connect
+        if($resourceOwnerName == 'test_connect'){
+            $response = (object) $response->getResponse();
+            $username = $response->username;
+            $email = $response->email;
+            $realName = $response->username;
+            $profilePicture = null;
+        }else{
+            $username = $response->getUsername();
+            $email = $response->getEmail();
+            $realName = $response->getRealName();
+            $profilePicture = $response->getProfilePicture();
+        }
+        
+        
+        
         if (isset($sessionArr['_security_secured_area'])) {  
             //when user already logged and connect with other social network
             $instance = unserialize($sessionArr['_security_secured_area']);
@@ -55,7 +71,7 @@ class OAuthUserProvider extends EntityUserProvider
         } else {
             //when user not logged and connect with other social network
             $user = $this->findUser(array($this->properties[$resourceOwnerName] => $username));
-            if (null === $user && $resourceOwnerName != 'twitter') $user = $this->findUser(array('email' => $response->getEmail()));
+            if (null === $user && $resourceOwnerName != 'twitter') $user = $this->findUser(array('email' => $email));
              //when the user is registrating
             if (null === $user) {
                 // create new user here
@@ -71,20 +87,18 @@ class OAuthUserProvider extends EntityUserProvider
                 $user->addRole($role);
 
                 //I have set all requested data with the user's username
-                //modify here with relevant data
+                $user->setUsername($username);
                 if(isset($oauthData['name'])) {
                     $user->setName($oauthData['name']);
                 }else{
                     $user->setName($username);
                 }
-                $user->setUsername($username);
                 if($resourceOwnerName == 'twitter' || $resourceOwnerName == 'instagram'){
                     $user->setEmail($username);
                 }else {
-                    $user->setEmail($response->getEmail());
+                    $user->setEmail($email);
                 }
                 $user->setActive(true);
-
                 $this->em->persist($user);
                 $this->em->flush();
                 
@@ -94,8 +108,8 @@ class OAuthUserProvider extends EntityUserProvider
             $this->updateOAuthData($user, array(
                 'owner' => $resourceOwnerName,
                 'id' => $username,
-                'name'=> $response->getRealName(),
-                'profileImage'=> $response->getProfilePicture()
+                'name'=> $realName,
+                'profileImage'=> $profilePicture
                 ));
                 
             return $user;
@@ -103,6 +117,19 @@ class OAuthUserProvider extends EntityUserProvider
 
 //        return $user;
     }
+
+    function dashesToCamelCase($string, $capitalizeFirstCharacter = false) 
+    {
+
+        $str = str_replace('_', '', ucwords($string, '_'));
+
+        if (!$capitalizeFirstCharacter) {
+            $str = lcfirst($str);
+        }
+
+        return $str;
+    }
+
 
     public function updateOAuthData($user, $oauthData)
     {
