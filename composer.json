@@ -19,7 +19,7 @@
         "symfony/assetic-bundle": "^2.8",
         "twig/extensions": "~1.0",
         "gedmo/doctrine-extensions":  "dev-master",
-        "hwi/oauth-bundle": "0.4.*@dev",
+        "hwi/oauth-bundle": "0.5.*@dev",
         "a2lix/i18n-doctrine-bundle": "^0.1.0",
         "a2lix/translation-form-bundle": "^2.1"
     },
