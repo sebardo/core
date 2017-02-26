@@ -555,11 +555,12 @@ class CoreExtension extends \Twig_Extension
     public function oauthButtons($params=array()) 
     {
         $twig = $this->container->get('twig');
+        $content = null;
+        if($this->container->get('twig.global')->checkUse('HWIOAuthBundle')){
+            $content = $twig->render('CoreBundle:Base:oauth.html.twig', array('params' => $params));
+        }
         
-        $content = $twig->render('CoreBundle:Base:oauth.html.twig', array('params' => $params));
-
         return $content;
-        
     }
     
     /**

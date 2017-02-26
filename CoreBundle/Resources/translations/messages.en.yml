@@ -109,6 +109,14 @@ profile:
         title: Transactions
     
 #Backend clean code
+dashboard: Control panel
+analitycs: Google Analitycs
+marketing: Marketing
+design.font: Design and typography
+reputation.onlie: Online Reputation
+fontadds: Add font type
+fontless: Bootstrap variables
+
 fonts: Fonts manager
 font:
     singular: Font type
@@ -149,6 +157,118 @@ newsletter:
         total: Total shipments
         created: The record was created successfully
         deleted: Registration has been removed successfully
-  
-    
+roles: Permissions
+role:
+    singular: Permission
+    plural: Permisos
+    created: The role was successfully created
+    edited: The role has been successfully edited
+    deleted: Successfully deleted role
+    new: New role
+    duplicate: The user already has this role
+    notsubmit: The form was not submitted correctly
+notification:
+    sigular: Notification
+    plural: Notifications
+    none: You have no notifications so far.
+image:
+    singular: Image
+    plural: Images
+    of.entity: %entity% image
+    manage: Manage images
+    select: Select an image
+
+video:
+    singular: Video
+    plural: Videos
+    manage: Video manager
+
+menuitems: Menu items
+menu:
+    singular: Menu
+    plural: Menu items
+    choose: Choose a menu item
+    parent: Parent menu item
+    created: The menu item was successfully created
+    edited: The menu item has been successfully edited
+    deleted: The menu item has been successfully deleted
+    sort: Sort menu
+    new: New menu item
+    short.description: Short Description
+    short.description*: Short Description*
+    class.name: Name of the class
+
+subitems:
+    plural: Sub-menu items
+    from_menuitem: Sub-menu items from %menuitem%
+    new: New sub-menu item
  
+meta:
+    title: Meta title
+    title*: Meta title*
+    description: Meta description
+    description*: Meta description*
+    tags: Meta tags
+  
+actors: Users
+actor:
+    singular: User
+    plural: Users
+    edited: User successfully edited
+    deleted: Successfully deleted user
+    choose: Select user
+    new: New user
+    email: Sending messages
+    email.new: New message
+    email.created: Message successfully sent
+
+sliders: Carousel of images
+slider:
+    singular: Slider (carousel of images)
+    plural: Carousel of images
+    created: Slider item successfully created
+    edited: The Slider item has been successfully edited
+    deleted: Successfully removed Slider item
+
+# Registration
+registration:
+    email:
+        subject: Welcome to %app_name%
+        welcome: Welcome to %app_name%!
+        message: |
+            Your registration was successful. Please validate your email via the following link in order to perform Shopping on our website.
+        thanks: Thanks for trusting %app_name%!
+        optic:
+            message: |
+                Your registration was successful. Please validate your email via the following link in order to perform Sales on our website.
+subscription:
+    email:
+        subject: Subscribe to the %app_name% newsletter
+        welcome: Welcome to %app_name%!
+        message: Your subscription to the website newsletter has been completed successfully.
+        thanks: Thanks for trusting %app_name%!
+ 
+validate:
+    message: We have sent you an email to validate it.
+    email:
+        subject: Email validation in %app_name%
+        welcome: Welcome to %app_name% !
+        message: |
+            Your email has been successfully validated. From this moment you will be able to make purchases of quick and easy from our website.
+        text: Validate
+        valid24hs: The link is only valid the next 24 hours after receipt.
+        thanks: Thanks for trusting %app_name%!
+
+new:
+    singular: New
+    singular.2: New
+    value:
+        attribute: New value of %attribute%
+        feature: New value of %feature%
+add:
+    singular: Add
+    new: Add new
+    new.2: Add new
+edit:
+    singular: Edit
+  

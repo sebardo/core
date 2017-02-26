@@ -3,12 +3,25 @@
 {% block  content %}
     <div class="col-sm-4"></div>        
     <div class="col-sm-4 container-login">
+            
+        {% if twig_global.checkUse('HWIOAuthBundle')%}
+            <h2 class="center">{{ 'login.social' | trans }}</h2>
+            <hr>
+            <div class="col-md-12 oauth-button-container">
+                {{ oauth_buttons() }}
+            </div>
+            <h2 class="center">{{ 'or' | trans }} {{ 'login.account' | trans }}</h2>
+            <hr>
+        {% else %}
             <h2 class="center">{{ 'login.account' | trans }}</h2>
             <hr>
-            {% if error is defined and error %}
-               <div>{{ error.message }}</div>
-            {% endif %}
-            {{ login_form() }}
+        {% endif %}
+
+        {% if error is defined and error %}
+           <div>{{ error.message }}</div>
+        {% endif %}
+        {{ login_form() }}
+        
     </div>
     <div class="col-sm-4"></div>               
 {% endblock %}

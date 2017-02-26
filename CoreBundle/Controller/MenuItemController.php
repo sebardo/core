@@ -27,7 +27,7 @@ class MenuItemController extends Controller
      * @Route("/menu/{slug}")
      * @Template("CoreBundle:MenuItem:menu.item.html.twig")
      */
-    public function menuAction($slug)
+    public function menuAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -39,7 +39,7 @@ class MenuItemController extends Controller
                     ->setMaxResults(1);
             $entity = $qb->getQuery()->getSingleResult();
         } catch (\Exception $exc) {
-            $entity =  $em->getRepository('CoreBundle:MenuItem')->getTranslateMenuItemBySlug($slug, $this->getRequest()->getLocale());
+            $entity =  $em->getRepository('CoreBundle:MenuItem')->getTranslateMenuItemBySlug($slug, $request->getLocale());
             return $this->redirectToRoute('core_menuitem_menu', array('slug' => $entity->getSlug()));
         }
 

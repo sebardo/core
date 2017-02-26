@@ -1,3 +1,4 @@
+#Frontend clean code
 spanish: Spanisch
 deutsch: Deutsch
 english: Englisch
@@ -46,6 +47,7 @@ login:
   recovery: Passwort vergessen?
   email: E-Mail
   password: Passwort
+  social: Geben Sie Ihr social Konto
 logout: Abmelde
 recovery:
     placeholder: Geben sie ihre E-Mail Adresse ein
@@ -98,6 +100,14 @@ profile:
         title: Transaktionen  
                 
 #Backend clean code
+dashboard: Schalttafel
+analitycs: Google Analitycs
+marketing: Marketing
+design.font: Design und Typografie
+reputation.onlie: Online Reputation
+fontadds: Fügen Sie eine Schriftart
+fontless: Variablen de bootstrap
+
 fonts: Management-Schriften
 font:
     singular: Schriftart
@@ -138,3 +148,119 @@ newsletter:
         total: Die Gesamtlieferungen
         created: Der Rekord wurde erfolgreich erstellt
         deleted: Die Registrierung wurde erfolgreich entfernt
+
+roles: Permissions
+role:
+    singular: Permission
+    plural: Permisos
+    created: The role was successfully created
+    edited: The role has been successfully edited
+    deleted: Successfully deleted role
+    new: New role
+    duplicate: The user already has this role
+    notsubmit: The form was not submitted correctly
+
+notification:
+    sigular: Notification
+    plural: Notifications
+    none: You have no notifications so far.
+
+image:
+    singular: Image
+    plural: Images
+    of.entity: %entity% image
+    manage: Manage images
+    select: Select an image
+
+video:
+    singular: Video
+    plural: Videos
+    manage: Manage video
+
+menuitems: Menú Items
+menu:
+    singular: Menú
+    plural: Menú Items
+    choose: Elige un menú item
+    parent: Menú item padre
+    created: Se ha creado el item del menú satisfactoriamente
+    edited: Se ha editado el item del menú satisfactoriamente
+    deleted: Se ha eliminado el item del menú satisfactoriamente
+    sort: Ordenar menú
+    new: Nuevo item del menú
+    short.description: Descripción corta
+    short.description*: Descripción corta*
+    class.name: Nombre de la clase
+
+subitems:
+    plural: Sub-menú items
+    from_menuitem: Sub-menú items de %menuitem%
+    new: Nuevo sub-menú item
+ 
+meta:
+    title: Meta título
+    title*: Meta título*
+    description: Meta descripción
+    description*: Meta descripción*
+    tags: Meta etiquetas
+  
+actors: Usuarios
+actor:
+    singular: Usuario
+    plural: Usuarios
+    edited: Se ha editado el usuario satisfactoriamente
+    deleted: Se ha eliminado el usuario satisfactoriamente
+    choose: Seleccionar usuario
+    new: Nuevo usuario
+    email: Envio de mensajes
+    email.new: Nuevo mensaje
+    email.created: El mensaje se ha enviado satisfactoriamente
+
+# Registration
+registration:
+    email:
+        subject: Willkommen in %app_name%
+        welcome: Willkommen in %app_name%!
+        message: |
+            Ihre Anmeldung war erfolgreich. 
+            Bitte bestätigen Sie Ihre E-Mail über den folgenden Link Einkäufe auf unserer Website zu machen.
+        thanks: Vielen Dank für Ihr Vertrauen %app_name%!
+        optic:
+            message: |
+                Ihre Anmeldung war erfolgreich. Bitte bestätigen Sie Ihre E-Mail über den folgenden Link Verkauf auf unserer Website zu machen.
+
+subscription:
+    email:
+        subject: Anmeldung für den Newsletter von% app_name%
+        welcome: Willkommen in %app_name%!
+        message: Ihr Abonnement für den Newsletter war erfolgreich Webseite.
+        thanks: Vielen Dank für Ihr Vertrauen %app_name%!
+
+validate:
+    message: Wir haben eine E-Mail an die Gültigkeit versendet.
+    email:
+        subject: E-Mail-Validierung in %app_name%
+        welcome: Willkommen in %app_name%!
+        message: |
+            Ihre E-Mail wurde erfolgreich validiert. Ab diesem Zeitpunkt können Sie Einkäufe schnell und einfach auf unserer Website zu machen.
+        text: Bestätigen
+        valid24hs: Der Link ist nur gültig kommenden 24 Stunden nach der Quittung.
+        thanks: Vielen Dank für Ihr Vertrauen %app_name%!
+        optic: 
+            message: |
+                Ihre E-Mail wurde erfolgreich validiert. Von diesem Punkt können Sie den Verkauf schnell und einfach von unserer Website zu machen.
+
+new:
+    singular: Neu
+    singular.2: Neu
+    value:
+        attribute: Neuer Wert der %attribute%
+        feature: Neuer Wert der %feature%
+
+add:
+    singular: Hinzufügen
+    new: Neue hinzufügen
+    new.2: Neue hinzufügen
+
+edit:
+    singular: bearbeiten
