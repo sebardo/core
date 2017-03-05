@@ -44,10 +44,13 @@ class TranslationLabelRepository extends EntityRepository
         $qb = $this->getQueryBuilder();
        
         // select
-        $qb->select('tl.id, tl.visible, tl.active, tl.key ')
-           ->join('tl.translations', 't')
+        $qb->select('tl.transKey, tl.transLocale, tl.messageDomain, tl.translation ')
+//           ->join('tl.translations', 't')
             ;
        
+        //where
+        $qb->where('tl.transLocale = :locale')
+           ->setParameter('locale', $locale);
         // search
         if (!empty($search)) {
             $qb->andWhere('t.key LIKE :search')
@@ -57,19 +60,16 @@ class TranslationLabelRepository extends EntityRepository
         // sort by column
         switch($sortColumn) {
             case 0:
-                $qb->orderBy('tl.id', $sortDirection);
-                break;
-            case 1:
-                $qb->orderBy('tl.key', $sortDirection);
+                $qb->orderBy('tl.transKey', $sortDirection);
                 break;
             case 2:
-                $qb->orderBy('t.value', $sortDirection);
+                $qb->orderBy('t.transLocale', $sortDirection);
                 break;
             case 3:
-                $qb->orderBy('tl.visible', $sortDirection);
+                $qb->orderBy('tl.messageDomain', $sortDirection);
                 break;
             case 4:
-                $qb->orderBy('tl.active', $sortDirection);
+                $qb->orderBy('tl.translation', $sortDirection);
                 break;
         }
 
@@ -128,7 +128,7 @@ class TranslationLabelRepository extends EntityRepository
     {
         $em = $this->getEntityManager();
 
-        $qb = $em->getRepository('CoreBundle:TranslationLabel')
+        $qb = $em->getRepository('AsmTranslationLoaderBundle:Translation')
             ->createQueryBuilder('tl');
 
         return $qb;

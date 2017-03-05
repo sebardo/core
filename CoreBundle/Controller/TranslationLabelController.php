@@ -5,7 +5,10 @@ namespace CoreBundle\Controller;
 use CoreBundle\Entity\TranslationLabel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Translationlabel controller.
@@ -19,6 +22,7 @@ class TranslationLabelController extends Controller
      *
      * @Route("/", name="translation-label_index")
      * @Method("GET")
+     * @Template()
      */
     public function indexAction()
     {
@@ -26,7 +30,7 @@ class TranslationLabelController extends Controller
 
         $translationLabels = $em->getRepository('CoreBundle:TranslationLabel')->findAll();
 
-        return $this->render('translationlabel/index.html.twig', array(
+        return $this->render('CoreBundle:TranslationLabel:index.html.twig', array(
             'translationLabels' => $translationLabels,
         ));
     }
@@ -56,6 +60,7 @@ class TranslationLabelController extends Controller
      *
      * @Route("/new", name="translation-label_new")
      * @Method({"GET", "POST"})
+     * @Template()
      */
     public function newAction(Request $request)
     {
@@ -79,7 +84,7 @@ class TranslationLabelController extends Controller
             return $this->redirectToRoute('translation-label_show', array('id' => $translationLabel->getId()));
         }
 
-        return $this->render('translationlabel/new.html.twig', array(
+        return $this->render('CoreBundle:TranslationLabel:new.html.twig', array(
             'translationLabel' => $translationLabel,
             'form' => $form->createView(),
         ));
