@@ -1,32 +1,40 @@
 <?php
-namespace CoreBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+namespace CoreBundle\Model;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="translation_label_translation")
+ * TranslationLabel item Model class
  */
 class TranslationLabelTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\OneLocaleInterface
 {
-    use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translation;
+    
+    protected $locale;
+    
+    protected $translatable;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     * @Assert\NotBlank
-     */
     private $value;
 
-
-    public function getId()
+    public function getTranslatable()
     {
-        return $this->id;
+        return $this->translatable;
     }
 
+    public function setTranslatable($translatable)
+    {
+        $this->translatable = $translatable;
+        return $this;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+    
      /**
      * Set $value
      *

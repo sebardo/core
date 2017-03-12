@@ -26,6 +26,7 @@ class LoadCoreData extends SqlScriptFixture
         $this->runSqlScript('Country.sql');
         $this->runSqlScript('State.sql');
         $this->runSqlScript('PostalCode.sql');
+        $this->runSqlScript('Translation.sql');
         
         //Roles
         $userRole = new Role();

@@ -29,7 +29,7 @@ class TranslationLabelType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\TranslationLabel'
+            'data_class' => 'CoreBundle\Model\TranslationLabel'
         ));
     }
 

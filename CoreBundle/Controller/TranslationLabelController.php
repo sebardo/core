@@ -2,7 +2,7 @@
 
 namespace CoreBundle\Controller;
 
-use CoreBundle\Entity\TranslationLabel;
+use CoreBundle\Model\TranslationLabel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\Common\Collections\ArrayCollection;
+use CoreBundle\Model\TranslationLabelTranslation;
 
 /**
  * Translationlabel controller.
@@ -24,17 +25,11 @@ class TranslationLabelController extends Controller
      *
      * @Route("/", name="translation-label_index")
      * @Method("GET")
-     * @Template()
+     * @Template("CoreBundle:TranslationLabel:index.html.twig")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $translationLabels = $em->getRepository('CoreBundle:TranslationLabel')->findAll();
-
-        return $this->render('CoreBundle:TranslationLabel:index.html.twig', array(
-            'translationLabels' => $translationLabels,
-        ));
+        return array();
     }
 
     /**
@@ -45,18 +40,106 @@ class TranslationLabelController extends Controller
      */
     public function listJsonAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $totalEntities = $this->countTotal();
+                
+        $offset = intval($request->get('iDisplayStart'));
+        $limit = intval($request->get('iDisplayLength'));
+        $sortColumn = intval($request->get('iSortCol_0'));
+        $sortDirection = $request->get('sSortDir_0');
+        $search = $request->get('sSearch');
+        $echo = intval($request->get('sEcho'));
+        
+        $entities = $this->findAllForDataTables($search, $sortColumn, $sortDirection, null, $request->getLocale());
+        
+        $totalFilteredEntities = count($entities->getScalarResult());
 
-        /** @var \AdminBundle\Services\DataTables\JsonList $jsonList */
-        $jsonList = $this->get('json_list');
-        $jsonList->setRepository($em->getRepository('CoreBundle:TranslationLabel'));
-        $jsonList->setLocale($request->getLocale());
-        $response = $jsonList->get();
+        // paginate
+        $entities->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $data = $entities->getResult();
+
+
+        $response = array(
+            'iTotalRecords'         => $totalEntities,
+            'iTotalDisplayRecords'  => $totalFilteredEntities,
+            'sEcho'                 => $echo,
+            'aaData'                => $data
+        );
         
 
         return new JsonResponse($response);
     }
 
+    /**
+     * Count the total of rows
+     *
+     * @param int|null $menuItemId The menuItem ID
+     *
+     * @return int
+     */
+    public function countTotal()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->getRepository('AsmTranslationLoaderBundle:Translation')
+            ->createQueryBuilder('tl')
+            ->select('COUNT(tl)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+    
+    /**
+     * Find all rows filtered for DataTables
+     *
+     * @param string   $search        The search string
+     * @param int      $sortColumn    The column to sort by
+     * @param string   $sortDirection The direction to sort the column
+     * @param int|null $menuItemId    The menuItem ID
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function findAllForDataTables($search, $sortColumn, $sortDirection, $entityId=null, $locale)
+    {
+     
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->getRepository('AsmTranslationLoaderBundle:Translation')
+            ->createQueryBuilder('tl');
+       
+        // select
+        $qb->select('tl.transKey, tl.transLocale, tl.messageDomain, tl.translation ')
+//           ->join('tl.translations', 't')
+            ;
+       
+        //where
+        $qb->where('tl.transLocale = :locale')
+           ->setParameter('locale', $locale);
+        // search
+        if (!empty($search)) {
+            $qb->andWhere('tl.transKey LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        // sort by column
+        switch($sortColumn) {
+            case 0:
+                $qb->orderBy('tl.transKey', $sortDirection);
+                break;
+            case 2:
+                $qb->orderBy('t.transLocale', $sortDirection);
+                break;
+            case 3:
+                $qb->orderBy('tl.messageDomain', $sortDirection);
+                break;
+            case 4:
+                $qb->orderBy('tl.translation', $sortDirection);
+                break;
+        }
+
+        return $qb->getQuery();
+    }
+    
     /**
      * Creates a new translationLabel entity.
      *
@@ -142,7 +225,7 @@ class TranslationLabelController extends Controller
                         'messageDomain' => $domain,
                     )
                 );
-            $transLabel = new \CoreBundle\Entity\TranslationLabelTranslation();
+            $transLabel = new TranslationLabelTranslation();
             $transLabel->setLocale($loc);
             $transLabel->setValue($translation->getTranslation());
             $entity->addTranslation($transLabel);
