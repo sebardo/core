@@ -13,11 +13,14 @@ class TranslationLabelType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('key')->add('visible')->add('active')
-                 
-                ->add('visible', null, array('required' => false))
-                ->add('active', null, array('required' => false))
-                ;
+        $builder->add('key')
+                ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType', array(
+                'fields' => array(                               
+                    'value' => array(                       
+                        'required' => true
+                    )
+                ),
+            ));
     }
     
     /**

@@ -12,7 +12,7 @@
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
         <li><a href="{{ path('translation-label_index') }}">{{ 'Translationlabel' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_show', {'id': translationLabel.id }) }}">{{ translationLabel  }}</a></li>
+        <li><a href="{{ path('translation-label_show', {'key': entity.transKey, 'domain': entity.messageDomain }) }}">{{ entity.transKey  }}</a></li>
       </ol>
     </section>
    
@@ -31,8 +31,8 @@
                 <div class="tab-pane active show-tables" id="info_tab">
                    
                     <table class="table">
-                        <tbody>                            <tr>
-                                <td>Id</td>                                <td>{{ translationLabel.id }}</td>                            </tr>                            <tr>
+                        <tbody>                            
+                            <tr>
                                 <td>Key</td>                                <td>{{ translationLabel.key }}</td>                            </tr>                            <tr>
                                 <td>Visible</td>                                <td>{% if translationLabel.visible %}<span class="label label-success">{{ "yes" | trans }}</span>{% else %}<span class="label label-warning">{{ "no" | trans }}</span>{% endif %}</td>                            </tr>                            <tr>
                                 <td>Active</td>                                <td>{% if translationLabel.active %}<span class="label label-success">{{ "yes" | trans }}</span>{% else %}<span class="label label-warning">{{ "no" | trans }}</span>{% endif %}</td>                            </tr>                        </tbody>

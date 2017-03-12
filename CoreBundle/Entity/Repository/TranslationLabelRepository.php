@@ -53,8 +53,8 @@ class TranslationLabelRepository extends EntityRepository
            ->setParameter('locale', $locale);
         // search
         if (!empty($search)) {
-            $qb->andWhere('t.key LIKE :search')
-                ->setParameter('key', '%'.$search.'%');
+            $qb->andWhere('tl.transKey LIKE :search')
+                ->setParameter('search', '%'.$search.'%');
         }
 
         // sort by column

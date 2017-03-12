@@ -32,15 +32,8 @@ class TranslationLabel
      * @ORM\Column(name="key", type="string", length=255, nullable=false)
      */
     private $key;
-    
-    
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="visible", type="boolean")
-     */
-    private $visible;
-    
+        
+    private $domain;
     
     /**
      * @var boolean
@@ -111,25 +104,25 @@ class TranslationLabel
     }
     
     /**
-     * Is visible?
+     * Get domain
      *
-     * @return boolean
+     * @return string
      */
-    public function isVisible()
+    public function getDomain()
     {
-        return $this->visible;
+        return $this->domain;
     }
 
     /**
-     * Set visible
+     * Set domain
      *
-     * @param boolean $visible
+     * @param boolean $domain
      *
      * @return TranslationLabel
      */
-    public function setVisible($visible)
+    public function setDomain($domain)
     {
-        $this->visible = $visible;
+        $this->domain = $domain;
 
         return $this;
     }
