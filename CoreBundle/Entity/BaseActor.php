@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity(fields="email", message="Email already taken")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"Actor" = "CoreBundle\Entity\Actor"})
+ * @ORM\DiscriminatorMap({"baseactor" = "BaseActor"})
  *
  */
 

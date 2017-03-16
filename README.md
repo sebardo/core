@@ -148,6 +148,13 @@ Requeriments:
                         oauth2_client_secret: lo04F5hvUi_gPaAxyucY70jy
                         oauth2_redirect_uri: 'http://sasturain.dev/admin/analytics'
                         developer_key: AIzaSyCda_bsJ-kEa1M1DJenwKfUfyLVlVKuC6I
+        
+        dcs_dynamic_discriminator_map:
+            mapping:
+                baseactor:
+                    entity: CoreBundle\Entity\BaseActor
+                    map:
+                        Actor: CoreBundle\Entity\Actor 
 
 3- Add routes on routing.yml
 	
@@ -171,9 +178,11 @@ Requeriments:
 
     new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
     new Symfony\Bundle\AsseticBundle\AsseticBundle(),
-    //new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+    new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
     new A2lix\I18nDoctrineBundle\A2lixI18nDoctrineBundle(),
     new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
+    new Asm\TranslationLoaderBundle\AsmTranslationLoaderBundle(),
+    new DCS\DynamicDiscriminatorMapBundle\DCSDynamicDiscriminatorMapBundle(),
 
     new CoreBundle\CoreBundle(),
     new AdminBundle\AdminBundle(),

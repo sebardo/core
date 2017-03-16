@@ -5,11 +5,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use CoreBundle\Entity\NewsletterShipping;
-use BlogBundle\Entity\Post;
-use BlogBundle\Entity\Comment;
-//use EcommerceBundle\Entity\Address;
-//use EcommerceBundle\Entity\Transaction;
-//use EcommerceBundle\Entity\Advert;
 
 
 /**
