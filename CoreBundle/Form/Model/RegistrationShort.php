@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class RegistrationShort
 {
     /**
-     * @Assert\Type(type="\CoreBundle\Entity\Actor")
+     * @Assert\Type(type="\CoreBundle\Entity\BaseActor")
      * @Assert\Valid()
      */
     protected $actor;
@@ -20,7 +20,7 @@ class RegistrationShort
    
   
     
-    public function setActor(\CoreBundle\Entity\Actor $actor)
+    public function setActor(\CoreBundle\Entity\BaseActor $actor)
     {
         $this->actor = $actor;
     }

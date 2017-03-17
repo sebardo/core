@@ -50,7 +50,7 @@ class ActorControllerTest  extends CoreTest
         $form['actor_edit[username]'] = 'actor'.$uid;
         $form['actor_edit[password]'] = $uid;
         $form['actor_edit[name]'] = 'Name_'.$uid;
-        $form['actor_edit[surnames]'] = 'Surname_'.$uid;
+        $form['actor_edit[lastname]'] = 'Surname_'.$uid;
         $form['actor_edit[active]']->tick();
         $form['actor_edit[newsletter]']->tick();
         $crawler = $this->client->submit($form);// submit the form
@@ -98,7 +98,7 @@ class ActorControllerTest  extends CoreTest
         $form['registration[actor][name]'] = 'Name_'.$uid;
         $form['registration[actor][password][first]'] = $uid;
         $form['registration[actor][password][second]'] = $uid;
-        $form['registration[actor][surnames]'] = 'Surname_'.$uid;
+        $form['registration[actor][lastname]'] = 'Surname_'.$uid;
         $form['registration[city]'] = 'City'.$uid;
         $form['registration[state]']->select(10);
         $form['registration[country]']->select('es');
@@ -119,7 +119,7 @@ class ActorControllerTest  extends CoreTest
         $form = $crawler->filter('form[name="profile_user"]')->form();
         $uid = rand(999,9999);
         $form['profile_user[name]'] = 'Name_'.$uid;
-        $form['profile_user[surnames]'] = 'Surname_'.$uid;
+        $form['profile_user[lastname]'] = 'Surname_'.$uid;
         $form['profile_user[email]'] = 'actor+'.$uid.'@email.com';
         $crawler = $this->client->submit($form);
         

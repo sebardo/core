@@ -32,7 +32,7 @@ class LoadCoreTestData extends SqlScriptFixture
             $encodePassword = $encoder->encodePassword($password, $user->getSalt());
             $user->setPassword($encodePassword);
             $user->setName('Admin 1');
-            $user->setSurnames('Surnames Admin');
+            $user->setLastname('Surnames Admin');
             $user->setNewsletter(true);
             $this->getManager()->persist($user);
             $this->getManager()->flush();

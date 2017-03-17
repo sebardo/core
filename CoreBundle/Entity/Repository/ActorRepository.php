@@ -34,9 +34,6 @@ class ActorRepository extends EntityRepository
      */
     public function findNewsletterSubscription($search, $sortColumn, $sortDirection)
     {
-        
-            
-        
         $em = $this->getEntityManager();
         $repository = $em->getRepository('CoreBundle:NewsletterSubscription');
         $qb = $repository->createQueryBuilder('n');
@@ -83,7 +80,7 @@ class ActorRepository extends EntityRepository
     {
         // select
         $qb = $this->getQueryBuilder()
-            ->select('u.id, u.email, u.name, u.surnames, i.path actorImage');
+            ->select('u.id, u.email, u.name, u.lastname, i.path actorImage');
 
         // join
         $qb->leftJoin('u.roles', 'r');
@@ -94,7 +91,7 @@ class ActorRepository extends EntityRepository
             // where('u.email LIKE :search')
             $qb->where('u.email LIKE :search')
                 ->orWhere('u.name LIKE :search')
-                ->orWhere('u.surnames LIKE :search')
+                ->orWhere('u.lastname LIKE :search')
                 ->andWhere('r.role = :role')
                 ->setParameter('role', 'ROLE_USER')
                 ->setParameter('search', '%'.$search.'%');
@@ -112,7 +109,7 @@ class ActorRepository extends EntityRepository
                 $qb->orderBy('u.name', $sortDirection);
                 break;
             case 4:
-                $qb->orderBy('u.surnames', $sortDirection);
+                $qb->orderBy('u.lastname', $sortDirection);
                 break;
         }
 

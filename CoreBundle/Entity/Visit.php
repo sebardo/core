@@ -68,7 +68,7 @@ class Visit
      /**
      * @var Actor
      *
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\Actor")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\BaseActor")
      * @ORM\JoinColumn(nullable=true)
      */
     private $actor;

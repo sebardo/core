@@ -1,6 +1,6 @@
 security:
     encoders:
-        CoreBundle\Entity\Actor:
+        CoreBundle\Entity\BaseActor:
             algorithm: sha512
 
     role_hierarchy:

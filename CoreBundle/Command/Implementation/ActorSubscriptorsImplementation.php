@@ -54,7 +54,7 @@ class ActorSubscriptorsImplementation extends AbstractImplementation implements 
                     $actor->setEmail($email);
                     $actor->setPassword($email);
                     $actor->setName($firstname);
-                    $actor->setSurnames($lastname);
+                    $actor->setLastname($lastname);
                     $actor->setIsActive(true);
                     $actor->setNewsletter(true);
                      try {

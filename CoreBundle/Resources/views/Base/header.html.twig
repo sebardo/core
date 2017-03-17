@@ -1,6 +1,6 @@
 <div class="login-header main-header-wrapper create-form-header">
     <div class="main-header-inner">
-        <a href="{{ path('index')}}" class="logo sandbox">_sandbox</a>
+        <a href="{{ path('index')}}" class="logo sandbox">{{ core.name }}</a>
         
         {% if twig_global.checkUse('BlogBundle') %}
         <a href="{{ path('blog_blog_index')}}" class="header-item-left">{{ 'blog.singular' | trans }}</a>
@@ -27,7 +27,7 @@
         {{ get_languages() }}
         {% if app.user %}
             <div class="header-register text-right"><a href="/logout">{{ 'logout' | trans }}</a></div>
-            <div class="header-login text-right"><a href="/profile">{{app.user.name ~' '~ app.user.surnames }}</a></div>
+            <div class="header-login text-right"><a href="/profile">{{app.user.name ~' '~ app.user.lastname }}</a></div>
         {% else %}
             <div class="header-register text-right"><a href="/register">{{ 'signup.first' | trans }}</a></div>
             <div class="header-login text-right"><a href="/login">{{ 'login.short' | trans }}</a></div>

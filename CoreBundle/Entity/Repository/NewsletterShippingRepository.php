@@ -36,7 +36,7 @@ class NewsletterShippingRepository extends EntityRepository
     {
         // select
         $qb = $this->getQueryBuilder()
-            ->select('m.id, n.title as newsletter, n.body as body, m.totalSent, m.type, m.created, a.name name, a.surnames userSurnames')
+            ->select('m.id, n.title as newsletter, n.body as body, m.totalSent, m.type, m.created, a.name name, a.lastname')
             ->join('m.newsletter', 'n')
             ->leftJoin('m.actor', 'a');
     

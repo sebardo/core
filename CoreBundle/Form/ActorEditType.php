@@ -21,7 +21,7 @@ class ActorEditType extends AbstractType
     {
         $builder
               ->add('name')
-            ->add('surnames')
+            ->add('lastname')
             ->add('username')
             ->add('password', PasswordType::class, array('required' => false))
             ->add('email')

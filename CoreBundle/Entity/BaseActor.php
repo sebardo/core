@@ -5,7 +5,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use CoreBundle\Entity\NewsletterShipping;
 
 /**
  * @ORM\Table(name="baseactor");
@@ -18,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  */
 
-abstract class BaseActor implements UserInterface, EquatableInterface , \Serializable
+class BaseActor implements UserInterface, EquatableInterface , \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -48,6 +50,38 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     protected $email;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
+     */
+    private $lastname;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="newsletter", type="boolean")
+     */
+    private $newsletter;
+
+    /**
+     * @var Image
+     *
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete="set null")
+     */
+    private $image;
+
+    public $removeImage;
+    
+    /**
      * @ORM\Column(name="active", type="boolean")
      */
     protected $active;
@@ -62,6 +96,13 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
      * @ORM\JoinTable(name="role_actorrole")
      */
     public $roles;
+    
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="\CoreBundle\Entity\NewsletterShipping", mappedBy="actor", cascade={"remove"})
+     */
+    private $shippings;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
     protected $facebook_id;
@@ -99,6 +140,8 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
         $this->salt = md5(uniqid(null, true));
         $this->setCreated(new \DateTime());
         $this->roles = new ArrayCollection();
+        $this->shippings = new ArrayCollection();
+        $this->newsletter = false;
     }
 
     /**
@@ -188,6 +231,125 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
     }
 
     /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Actor
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return BaseActor
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * Get full name
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->name . ' ' . $this->lastname;
+    }
+
+     /**
+     * Set image
+     *
+     * @param Image $image
+     *
+     * @return Category
+     */
+    public function setImage(Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+     
+    
+    public function setRemoveImage($removeImage)
+    {
+        $this->removeImage = $removeImage;
+
+        return $this->removeImage;
+    }
+
+    public function getRemoveImage()
+    {
+        return $this->removeImage;
+    }
+    
+    /**
+     * Set newsletter
+     *
+     * @param boolean $newsletter
+     *
+     * @return User
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    /**
+     * Is subscribed to newsletter?
+     *
+     * @return boolean
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+    
+    /**
      * @inheritDoc
      */
     public function setActive($active)
@@ -263,6 +425,41 @@ abstract class BaseActor implements UserInterface, EquatableInterface , \Seriali
         return $this->roles;
     }
 
+    /**
+     * Add shipping
+     *
+     * @param Shipping $shipping
+     *
+     * @return BaseActor
+     */
+    public function addShipping(NewsletterShipping $shipping)
+    {
+        $shipping->setActor($this);
+        $this->shippings->add($shipping);
+
+        return $this;
+    }
+
+    /**
+     * Remove shipping
+     *
+     * @param Shipping $shipping
+     */
+    public function removeShipping(NewsletterShipping $shipping)
+    {
+        $this->shippings->removeElement($shipping);
+    }
+
+    /**
+     * Get shipping
+     *
+     * @return ArrayCollection
+     */
+    public function getShippings()
+    {
+        return $this->shippings;
+    }
+    
     /**
      * Set twitter_id
      *

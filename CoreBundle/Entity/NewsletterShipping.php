@@ -58,7 +58,7 @@ class NewsletterShipping
     /**
      * @var Actor
      *
-     * @ORM\ManyToOne(targetEntity="Actor", inversedBy="shippings")
+     * @ORM\ManyToOne(targetEntity="BaseActor", inversedBy="shippings")
      * @ORM\JoinColumn(nullable=true)
      */
     private $actor;
@@ -167,7 +167,7 @@ class NewsletterShipping
      *
      * @return NewsletterShipping
      */
-    public function setActor(Actor $actor)
+    public function setActor($actor)
     {
         $this->actor = $actor;
 

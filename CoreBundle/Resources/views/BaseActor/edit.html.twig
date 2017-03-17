@@ -1,7 +1,7 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
 {% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}
 
-{% block section %}actors{% endblock %}
+{% block section %}baseactors{% endblock %}
 
 {% block content %}
     
@@ -14,9 +14,9 @@
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
         <li><a href="javascript:">{{ "users" | trans }}</a></li>
-        <li><a href="{{ path('core_actor_index') }}">{{ "actor.plural" | trans }}</a></li>
-        <li><a href="{{ path('core_actor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.lastname}}</a></li>
-        <li><a href="{{ path('core_actor_edit', { id: entity.id }) }}">{{ "edit.singular" | trans }} </a></li>
+        <li><a href="{{ path('core_baseactor_index') }}">{{ "actor.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_baseactor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.lastname}}</a></li>
+        <li><a href="{{ path('core_baseactor_edit', { id: entity.id }) }}">{{ "edit.singular" | trans }} </a></li>
       </ol>
     </section>
     
@@ -25,23 +25,23 @@
         <div class="col-xs-12">
             <div class="box box-info">
                 {{ form_start(edit_form, {
-                                    'action': path('core_actor_edit', { id: entity.id }), 
+                                    'action': path('core_baseactor_edit', { id: entity.id }), 
                                     'method': 'post',
                                     'attr': {'class': 'form-horizontal form-row-seperated'}
                                     }) }}
                     <div class="box-body">
-                        {{ include('CoreBundle:Actor:_form.html.twig', { form: edit_form, edit: true }) }}
+                        {{ include('CoreBundle:BaseActor:_form.html.twig', { form: edit_form, edit: true }) }}
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "save" | trans }}</button>
-                            <a href="{{ path('core_actor_show', { id: entity.id }) }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
+                            <a href="{{ path('core_baseactor_show', { id: entity.id }) }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
                         </div>
                     </div>
                 {{ form_end(edit_form) }}
-                <form id="delete-entity" action="{{ path('core_actor_delete', { id: entity.id }) }}" method="post">
+                <form id="delete-entity" action="{{ path('core_baseactor_delete', { id: entity.id }) }}" method="post">
                     <input type="hidden" name="_method" value="DELETE" />
                     {{ form_widget(delete_form) }}
                 </form>

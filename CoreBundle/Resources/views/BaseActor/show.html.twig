@@ -4,7 +4,7 @@
 {% set actorrole_form = get_actorrole_form() %}
 {% form_theme actorrole_form 'AdminBundle:Form:fields.html.twig' %}
 
-{% block section %}actors{% endblock %}
+{% block section %}baseactors{% endblock %}
 
 {% block content %}
     
@@ -12,13 +12,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ entity.name }}
+        {{ entity.email }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
         <li><a href="javascript:">{{ "users" | trans }}</a></li>
-        <li><a href="{{ path('core_actor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.lastname }}</a></li>
+        <li><a href="{{ path('core_baseactor_show', { id: entity.id }) }}">{{ entity.email }}</a></li>
       </ol>
     </section>
       
@@ -36,7 +36,7 @@
                                 not app.request.get('roles') ? 'active' }}"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
                     <li class="{{ app.request.get('roles') ? 'active' }}"><a href="#roles_tab" data-toggle="tab">{{ "role.plural" | trans }}</a></li>
                     <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "actor.email" | trans }}</a></li>
-                    {% if twig_global.checkUse('EcommerceBundle') %} 
+                    {% if twig_global.checkUse('EcommerceBundle') %}
                         <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>
                         <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
                     {% endif %}
@@ -53,7 +53,7 @@
                                     <td>{{ entity.email }}</td>
                                 </tr>
                                 <tr>
-                                    <td>{{ "actor.singular" | trans }}</td>
+                                    <td>{{ "username" | trans }}</td>
                                     <td>{{ entity.username }}</td>
                                 </tr>
                                 <tr>
@@ -73,6 +73,16 @@
                                             -
                                         {% endif %}
                                     </td>
+                                </tr> 
+                                <tr>
+                                    <td>{{ "newsletter.singular" | trans }}</td>
+                                    <td>
+                                        {% if entity.newsletter %}
+                                            <span class="label label-success">{{ "yes" | trans }}</span>
+                                        {% else %}
+                                            <span class="label label-danger">{{ "no" | trans }}</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>{{ "active" | trans }}</td>
@@ -84,25 +94,15 @@
                                         {% endif %}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>{{ "newsletter.singular" | trans }}</td>
-                                    <td>
-                                        {% if entity.newsletter %}
-                                            <span class="label label-success">{{ "yes" | trans }}</span>
-                                        {% else %}
-                                            <span class="label label-danger">{{ "no" | trans }}</span>
-                                        {% endif %}
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="box-footer">
-                            <a href="{{ path('core_actor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
+                            <a href="{{ path('core_baseactor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
                                                         
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn"><i class="ion-trash-a"></i> {{ "delete" | trans }}</button>
                             {{ form_start(delete_form, {
-                                    'action': path('core_actor_delete', {id: entity.id }), 
+                                    'action': path('core_baseactor_delete', {id: entity.id }), 
                                     'method': 'post', 
                                     'attr': {'id': 'delete-entity'}
                                     }) }}
@@ -253,7 +253,7 @@
             <div class="box-footer">
                 <div class="col-sm-12">
                     <button id="send-actor-address" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
-                <a href="{{ path('core_actor_show', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                <a href="{{ path('core_baseactor_show', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
                 </div>
             </div>
         {{ form_end(addressForm) }}
@@ -276,7 +276,7 @@
       {#######################################}
        <!-- BEGIN FORM-->
        {{ form_start(shippingForm, {
-                            'action': path('core_actor_email', {id: entity.id }), 
+                            'action': path('core_baseactor_email', {id: entity.id }), 
                             'method': 'post', 
                             'attr': {'id': 'create-shipping', 'class': 'form-horizontal form-row-seperated'}
                             }) }}
@@ -288,7 +288,7 @@
             <div class="box-footer">
                 <div class="col-sm-12">
                     <button id="send-actor-email" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
-                <a href="{{ path('core_actor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                <a href="{{ path('core_baseactor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
                 </div>
             </div>
         {{ form_end(shippingForm) }}
@@ -529,7 +529,7 @@
                 $('#email_body').val(data);
                 var formSerialize = $(this).serialize();
                 console.log(formSerialize);
-                $.post('{{ path('core_actor_email', {id: entity.id })  }}', formSerialize, function(response){
+                $.post('{{ path('core_baseactor_email', {id: entity.id })  }}', formSerialize, function(response){
                      TableManaged.reload(
                     '#shippings-table',
                     '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',

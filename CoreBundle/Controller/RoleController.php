@@ -87,8 +87,11 @@ class RoleController extends Controller
      * @Route("/{id}/role/add")
      * @Method("POST")
      */
-    public function addAction(Request $request, Actor $actor) 
+    public function addAction(Request $request, $id) 
     {
+        $em = $this->getDoctrine()->getManager();
+        $actor = $em->getRepository($this->get('core_manager')->getActorBundleName().':Actor')->findOneById($id);
+        
         $trans = $this->get('translator');
         $form = $this->container->get('form.factory')->create('CoreBundle\Form\ActorRoleType');
         $form->handleRequest($request);
@@ -222,9 +225,11 @@ class RoleController extends Controller
      *
      * @Route("/{actor}/{role}/delete")
      */
-    public function deleteRoleActorAction(Request $request, Role $role, Actor $actor)
+    public function deleteRoleActorAction(Request $request, Role $role, $actor)
     {
         $em = $this->getDoctrine()->getManager();
+        $actor = $em->getRepository($this->get('core_manager')->getActorBundleName().':Actor')->findOneById($actor);
+        
         $actor->getRolesCollection()->removeElement($role);
        
         $em->flush();

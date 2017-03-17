@@ -1,19 +1,19 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
 
-{% block section %}actors{% endblock %}
+{% block section %}baseactors{% endblock %}
 
 {% block content %}
     
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ "actor.plural" | trans }}
+        {{ "baseactor.plural" | trans }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
         <li><a href="javascript:">{{ "users" | trans }}</a></li>
-        <li><a href="{{ path('core_actor_index') }}">{{ "actor.plural" | trans }}</a></li>
+        <li><a href="{{ path('core_baseactor_index') }}">{{ "baseactor.plural" | trans }}</a></li>
       </ol>
     </section>
       
@@ -28,7 +28,7 @@
             <div class="box-body">
                 <div class="clearfix">
                         <div class="btn-group">
-                            <a href="{{ path('core_actor_new') }}" class="btn btn-success btn-flat">
+                            <a href="{{ path('core_baseactor_new') }}" class="btn btn-success btn-flat">
                                 {{ "add.new" | trans }} <i class="ion-plus"></i>
                             </a>
                         </div>
@@ -64,7 +64,7 @@
         var table_columns = [
             {
                 "mData": function (source) {
-                    return '<a href="/admin/actor/' + source.id + '">' + source.id + '</a>';
+                    return '<a href="/admin/baseactor/' + source.id + '">' + source.id + '</a>';
                 }
             },
             { "mData": "email" },
@@ -79,7 +79,7 @@
             },
             {
                 "mData": function(source) {
-                    return '<a href="/admin/actor/' + source.id + '/edit" class="btn btn-xs btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
+                    return '<a href="/admin/baseactor/' + source.id + '/edit" class="btn btn-xs btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
                 }
             }
         ];
@@ -87,7 +87,7 @@
         jQuery(document).ready(function() {
             TableManaged.init(
                 '#users-table',
-                '{{ url('core_actor_listjson', { actorId: app.user.id }) }}',
+                '{{ url('core_baseactor_listjson', { actorId: app.user.id }) }}',
                 [],
                 table_columns,
                 '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');

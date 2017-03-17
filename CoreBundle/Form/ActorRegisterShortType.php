@@ -19,7 +19,7 @@ class ActorRegisterShortType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('surnames')
+            ->add('lastname')
             ->add('password', SymfonyPassworType::class, array(
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,

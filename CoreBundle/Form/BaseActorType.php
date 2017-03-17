@@ -9,7 +9,7 @@ use CoreBundle\Form\ImageType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class ActorType extends AbstractType
+class BaseActorType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -29,8 +29,8 @@ class ActorType extends AbstractType
             ->add('removeImage', HiddenType::class, array( 'attr' => array(
                 'class' => 'remove-image'
                 )))
-            ->add('active', null, array('required' => false))
             ->add('newsletter', null, array('required' => false))
+            ->add('active', null, array('required' => false))
             
                 
         ;
@@ -42,7 +42,7 @@ class ActorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\Actor'
+            'data_class' => 'CoreBundle\Entity\BaseActor'
         ));
     }
 

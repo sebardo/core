@@ -18,8 +18,6 @@ class ActorRegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('surnames')
             ->add('username')
             ->add('password', RepeatedType::class, array(
                 'type' => Pass::class,
@@ -30,6 +28,8 @@ class ActorRegisterType extends AbstractType
                 'second_options' => array('label' => 'Repeat Password'),
             ))
             ->add('email')
+            ->add('name')
+            ->add('lastname')
             ->add('newsletter', null, array('required' => false))    
         ;
     }

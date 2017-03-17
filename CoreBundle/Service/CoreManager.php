@@ -468,5 +468,37 @@ class CoreManager
         return $this->container->getParameter('a2lix_translation_form.locales');
     }
     
+    public function getActorClass()
+    {
+        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
+            $actorClass = $mapping['baseactor']['map']['Actor'];
+        }else{
+            $actorClass = 'CoreBundle\Entity\Actor';
+        }
+        return $actorClass;
+    }
             
+    public function getActorBundleName() {
+        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
+            $actorClass = $mapping['baseactor']['map']['Actor'];
+            $bundleName = explode('\\', $actorClass);
+            return $bundleName[0];
+        }else{
+            $bundleName = 'CoreBundle';
+        }
+        return $bundleName;
+    }
+    
+    public function getActorFormClass()
+    {
+        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
+            $actorClass = $mapping['baseactor']['map']['Actor'];
+        }else{
+            $actorClass = 'CoreBundle\Entity\Actor';
+        }
+        return $actorClass;
+    }
 }

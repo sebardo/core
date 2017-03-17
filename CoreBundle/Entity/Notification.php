@@ -30,14 +30,14 @@ class Notification
 
     /**
      * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\Actor")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\BaseActor")
      * @ORM\JoinColumn(name="actor_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     protected $actor;
     
     /**
      * @Assert\NotBlank()
-     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\Actor")
+     * @ORM\ManyToOne(targetEntity="CoreBundle\Entity\BaseActor")
      * @ORM\JoinColumn(name="actordest_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     protected $actorDest;

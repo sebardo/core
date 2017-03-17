@@ -71,7 +71,7 @@ class CoreTest  extends WebTestCase
                 $form['actor[username]'] = 'actor'.$uid;
                 $form['actor[password]'] = $uid;
                 $form['actor[name]'] = 'Name_'.$uid;
-                $form['actor[surnames]'] = 'Surname_'.$uid;
+                $form['actor[lastname]'] = 'Surname_'.$uid;
                 $form['actor[active]']->tick();
                 $form['actor[newsletter]']->tick();
                 $crawler = $this->client->submit($form);// submit the form
@@ -554,7 +554,7 @@ class CoreTest  extends WebTestCase
         $form['registration[actor][name]'] = 'Name_'.$uid;
         $form['registration[actor][password][first]'] = $uid;
         $form['registration[actor][password][second]'] = $uid;
-        $form['registration[actor][surnames]'] = 'Surname_'.$uid;
+        $form['registration[actor][lastname]'] = 'Surname_'.$uid;
         $form['registration[city]'] = 'City'.$uid;
         $form['registration[state]']->select(10);
         $form['registration[country]']->select('es');

@@ -202,3 +202,19 @@ Requeriments:
 
 
 
+===============================================================================
+
+Dinamyc discriminator map
+
+If we want use a different Actor entity for users and we want this entity live in own new bundle we just edir config.yml 
+
+    dcs_dynamic_discriminator_map:
+        mapping:
+            baseactor:
+                entity: CoreBundle\Entity\BaseActor
+                map:
+                    Actor: MyBundle\Entity\Actor #or just leave CoreBundle\Entity\Actor
+
+IMPORTANT: run command php "app/console core:actor remove" if we edit map with a new own class (avoid exception when create schema)
+
+And to create this Actor entity again just run "app/console core:actor create"

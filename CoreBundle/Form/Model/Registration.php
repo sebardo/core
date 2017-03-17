@@ -9,7 +9,7 @@ use CoreBundle\Entity\Country;
 class Registration
 {
     /**
-     * @Assert\Type(type="\CoreBundle\Entity\Actor")
+     * @Assert\Type(type="\CoreBundle\Entity\BaseActor")
      * @Assert\Valid()
      */
     protected $actor;
@@ -35,7 +35,7 @@ class Registration
      */
     private $country; 
     
-    public function setActor(\CoreBundle\Entity\Actor $actor)
+    public function setActor(\CoreBundle\Entity\BaseActor $actor)
     {
         $this->actor = $actor;
     }

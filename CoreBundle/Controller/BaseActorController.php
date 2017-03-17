@@ -26,16 +26,16 @@ use CoreBundle\Entity\Image;
 use EcommerceBundle\Entity\Address;
 use stdClass;
 
-class ActorController  extends Controller
+class BaseActorController  extends Controller
 {
     /**
-     * Lists all Actor entities.
+     * Lists all BaseActor entities.
      *
      * @return array
      *
-     * @Route("/admin/actor")
+     * @Route("/admin/baseactor")
      * @Method("GET")
-     * @Template("CoreBundle:Actor:index.html.twig")
+     * @Template("CoreBundle:BaseActor:index.html.twig")
      */
     public function indexAction()
     {
@@ -47,7 +47,7 @@ class ActorController  extends Controller
      *
      * @return JsonResponse
      *
-     * @Route("/admin/actor/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
+     * @Route("/admin/baseactor/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
      * @Method("GET")
      */
     public function listJsonAction()
@@ -56,7 +56,7 @@ class ActorController  extends Controller
 
         /** @var \Kitchenit\AdminBundle\Services\DataTables\JsonList $jsonList */
         $jsonList = $this->get('json_list');
-        $jsonList->setRepository($em->getRepository($this->get('core_manager')->getActorBundleName().':Actor'));
+        $jsonList->setRepository($em->getRepository('CoreBundle:BaseActor'));
         $response = $jsonList->get();
 
         return new JsonResponse($response);
@@ -65,15 +65,14 @@ class ActorController  extends Controller
     /**
      * Creates a new Actor entity.
      *
-     * @Route("/admin/actor/new")
+     * @Route("/admin/baseactor/new")
      * @Method({"GET", "POST"})
      * @Template()
      */
     public function newAction(Request $request)
     {
-        $actorClass = $this->container->get('core_manager')->getActorClass();
-        $actor = new $actorClass();
-        $form = $this->createForm($this->get('core_manager')->getActorBundleName().'\Form\ActorType', $actor);
+        $actor = new BaseActor();
+        $form = $this->createForm('CoreBundle\Form\BaseActorType', $actor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,14 +88,14 @@ class ActorController  extends Controller
             $em->persist($actor);
             $em->flush();
 
-            $filesData = $request->files->get('actor');
+            $filesData = $request->files->get('baseactor');
             if (isset($filesData['image']['file']) && $filesData['image']['file'] instanceof UploadedFile) {            
                 $this->get('core_manager')->uploadProfileImage($actor);
             }
             
             $this->get('session')->getFlashBag()->add('success', 'actor.created');
             
-            return $this->redirectToRoute('core_actor_show', array('id' => $actor->getId()));
+            return $this->redirectToRoute('core_baseactor_show', array('id' => $actor->getId()));
         }
 
         return array(
@@ -108,15 +107,12 @@ class ActorController  extends Controller
     /**
      * Finds and displays a Actor entity.
      *
-     * @Route("/admin/actor/{id}")
+     * @Route("/admin/baseactor/{id}")
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(BaseActor $actor)
     {
-        $em = $this->getDoctrine()->getManager();
-        $actor = $em->getRepository($this->get('core_manager')->getActorBundleName().':Actor')->findOneById($id);
-        
         $returnValues = array();
         $deleteForm = $this->createDeleteForm($actor);
         $shippingForm = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
@@ -135,15 +131,15 @@ class ActorController  extends Controller
    /**
      * Displays a form to edit an existing Actor entity.
      *
-     * @Route("/admin/actor/{id}/edit")
+     * @Route("/admin/baseactor/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction(Request $request, Actor $actor)
+    public function editAction(Request $request, BaseActor $actor)
     {
         $oldPassword = $actor->getPassword();
         $deleteForm = $this->createDeleteForm($actor);
-        $editForm = $this->createForm('CoreBundle\Form\ActorEditType', $actor);
+        $editForm = $this->createForm('CoreBundle\Form\BaseActorEditType', $actor);
         $editForm->handleRequest($request);
         
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -158,7 +154,7 @@ class ActorController  extends Controller
             if($password != ''){
                  
                 $factory = $this->get('security.encoder_factory');
-                $encoder = $factory->getEncoder(new Actor());
+                $encoder = $factory->getEncoder(new BaseActor());
                 $encodePassword = $encoder->encodePassword($password, $actor->getSalt());
                 $actor->setPassword($encodePassword);
             }else{
@@ -168,14 +164,14 @@ class ActorController  extends Controller
             $em->flush();
             
             //image
-            $filesData = $request->files->get('actor_edit');
+            $filesData = $request->files->get('base_actor_edit');
             if (isset($filesData['image']['file']) && $filesData['image']['file'] instanceof UploadedFile) {            
                 $this->get('core_manager')->uploadProfileImage($actor);
             }
 
             $this->get('session')->getFlashBag()->add('success', 'actor.edited');
             
-            return $this->redirectToRoute('core_actor_show', array('id' => $actor->getId()));
+            return $this->redirectToRoute('core_baseactor_show', array('id' => $actor->getId()));
         }
 
         return array(
@@ -191,7 +187,7 @@ class ActorController  extends Controller
      * @Route("/admin/actor/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Actor $actor)
+    public function deleteAction(Request $request, BaseActor $actor)
     {
         $form = $this->createDeleteForm($actor);
         $form->handleRequest($request);
@@ -214,10 +210,10 @@ class ActorController  extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($actor)
+    private function createDeleteForm(BaseActor $actor)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('core_actor_delete', array('id' => $actor->getId())))
+            ->setAction($this->generateUrl('core_baseactor_delete', array('id' => $actor->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
@@ -230,14 +226,14 @@ class ActorController  extends Controller
      *
      * @return array|RedirectResponse
      *
-     * @Route("/admin/actor/{id}/email")
-     * @Template("CoreBundle:Actor:email.html.twig")
+     * @Route("/admin/baseactor/{id}/email")
+     * @Template("CoreBundle:BaseActor:email.html.twig")
      */
     public function emailAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        /** @var Actor $entity */
-        $entity = $em->getRepository($this->get('core_manager')->getActorBundleName().':Actor')->find($id);
+        /** @var Newsletter $entity */
+        $entity = $em->getRepository('CoreBundle:BaseActor')->find($id);
         
         $form = $this->createForm(ActorEmailType::class, null, array('email' => $entity->getEmail()));
        
@@ -274,7 +270,7 @@ class ActorController  extends Controller
                     }
 
                     $this->get('session')->getFlashBag()->add('success', 'user.email.created');
-                    return $this->redirect($this->generateUrl('core_actor_show', array('id' => $entity->getId())));
+                    return $this->redirect($this->generateUrl('core_baseactor_show', array('id' => $entity->getId())));
                 }
 
             }
@@ -414,11 +410,11 @@ class ActorController  extends Controller
             $data = $form->getNormData();
             if(isset($data['email'])){
                 $em = $this->getDoctrine()->getManager();
-                $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($data['email']);
+                $user = $em->getRepository('CoreBundle:BaseActor')->findOneByEmail($data['email']);
                 
                 if ($request->isXmlHttpRequest()) {
                     $returnValues = new stdClass();
-                    if ($user instanceof Actor) {
+                    if ($user instanceof BaseActor) {
                         $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
                         $returnValues->status = 'success';
                         $returnValues->message = $this->get('translator')->trans('recovery.email.success');
@@ -433,7 +429,7 @@ class ActorController  extends Controller
                     $response->headers->set('Content-Type', 'application/json');
                     return $response;
                 }else{
-                    if ($user instanceof Actor) {
+                    if ($user instanceof BaseActor) {
                         $this->get('core.mailer')->sendRecoveryPasswordMessage($user); 
                         $this->get('session')->getFlashBag()->add('success', 'recovery.email.success');
                     } else {
@@ -457,9 +453,9 @@ class ActorController  extends Controller
     public function recoveryPasswordAction($email)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($email);
+        $user = $em->getRepository('CoreBundle:BaseActor')->findOneByEmail($email);
         $returnValues = new stdClass();
-        if ($user instanceof Actor) {
+        if ($user instanceof BaseActor) {
             $this->get('core.mailer')->sendRecoveryPasswordMessage($user);
             $returnValues->status = 'success';
             $returnValues->message = $this->get('translator')->trans('recovery.email.success');
@@ -486,13 +482,13 @@ class ActorController  extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('CoreBundle:Actor')->findOneByEmail($email);
+        $user = $em->getRepository('CoreBundle:BaseActor')->findOneByEmail($email);
 
         if (!$user) {
             throw $this->createNotFoundException('Unable to find user.');
         }
 
-        if ($user instanceof Actor && $user->getSalt() == $hash) {
+        if ($user instanceof BaseActor && $user->getSalt() == $hash) {
             $options = array('hash'=>$hash);
             $form = $this->createForm('CoreBundle\Form\RecoveryPasswordType', null, $options);
             $form->handleRequest($request);
