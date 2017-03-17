@@ -77,7 +77,7 @@ class NotificationManager
             $notifications = $em->getRepository('CoreBundle:Notification')->findBy(array('actorDest' => $actorDest, 'type' => $type));
         }
         foreach ($notifications as $notification) {
-            $notification->setIsActive(false);
+            $notification->setActive(false);
             $em->flush();
         }
     }
@@ -94,7 +94,7 @@ class NotificationManager
                 );
        
         if(!is_null($notification)){
-            $notification->setIsActive(false);
+            $notification->setActive(false);
             $em->flush();
         }
     }

@@ -65,7 +65,7 @@ class CronCommand extends ContainerAwareCommand
         $now = new \DateTime();
         foreach ($optics as $optic) {
             //send report only to the active optics
-            if($optic->getIsActive()){
+            if($optic->isActive()){
                 $dateInit = $optic->getCreated();
                 $day = $dateInit->format('d');
                 $month = $dateInit->format('m');

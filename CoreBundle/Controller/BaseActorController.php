@@ -378,7 +378,7 @@ class BaseActorController  extends Controller
              $diff = $now->getTimestamp() - $user->getCreated()->getTimestamp();
              $core = $this->container->getParameter('core');
              if ($diff < $core['validate_time']) {
-                 $user->setIsActive(true);
+                 $user->setActive(true);
                  $em->persist($user);
                  $em->flush();
 

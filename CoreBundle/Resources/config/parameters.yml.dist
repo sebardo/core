@@ -30,6 +30,7 @@ parameters:
         server_base_url: 'http://localhost.dev'
         fixtures_test: false
         admin_email: admin@admin.com
+        validate_time: 86400
         company:
             id: XXX123123
             name: Company Name

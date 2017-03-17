@@ -55,7 +55,7 @@ class ActorSubscriptorsImplementation extends AbstractImplementation implements 
                     $actor->setPassword($email);
                     $actor->setName($firstname);
                     $actor->setLastname($lastname);
-                    $actor->setIsActive(true);
+                    $actor->setActive(true);
                     $actor->setNewsletter(true);
                      try {
                          $this->manager->persist($actor);
