@@ -15,12 +15,19 @@ class OAuthUserProvider extends EntityUserProvider
 
     public function __construct(
             ManagerRegistry $registry, 
-            $class, array $properties, 
+            $class, 
+            array $properties, 
             $managerName = null, 
             $encoderFactory, 
-            $session 
+            $session
             )
     {
+        //this "_id" have relation with user field on entity and table 
+        //move this to database configuration
+        foreach ($properties as $key => $owner) {
+            $properties[$key] = $owner.'_id';
+        }
+
         parent::__construct($registry, $class, $properties, $managerName);
         $this->encoderFactory = $encoderFactory;
         $this->session = $session;
