@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 05-03-2017 a las 18:40:18
+-- Tiempo de generación: 19-03-2017 a las 14:51:18
 -- Versión del servidor: 10.0.29-MariaDB-0ubuntu0.16.04.1
--- Versión de PHP: 7.0.15-0ubuntu0.16.04.4
+-- Versión de PHP: 7.0.16-4+deb.sury.org~xenial+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -84,6 +84,7 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('analitycs', 'de', 'messages', 'Google Analitycs', '2017-02-26 17:38:21', '2017-02-26 17:38:21'),
 ('analitycs', 'en', 'messages', 'Google Analitycs', '2017-02-26 17:38:33', '2017-02-26 17:38:33'),
 ('analitycs', 'es', 'messages', 'Google Analitycs', '2017-02-26 17:38:10', '2017-02-26 17:38:10'),
+('asd_asd', 'es', 'messages', 'sadsda', '2017-03-12 11:36:13', '2017-03-12 11:36:13'),
 ('back', 'de', 'messages', 'Zurück', '2017-02-26 17:38:21', '2017-02-26 17:38:21'),
 ('back', 'en', 'messages', 'Back', '2017-02-26 17:38:33', '2017-02-26 17:38:33'),
 ('back', 'es', 'messages', 'Volver', '2017-02-26 17:38:10', '2017-02-26 17:38:10'),
@@ -317,6 +318,9 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('image.singular', 'de', 'messages', 'Image', '2017-02-26 17:38:27', '2017-02-26 17:38:27'),
 ('image.singular', 'en', 'messages', 'Image', '2017-02-26 17:38:40', '2017-02-26 17:38:40'),
 ('image.singular', 'es', 'messages', 'Imagen', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('key_name', 'de', 'messages', 'asdasdasdasd', '2017-03-12 12:12:52', '2017-03-12 17:45:26'),
+('key_name', 'en', 'messages', 'asdasdasd', '2017-03-12 12:12:52', '2017-03-12 17:45:26'),
+('key_name', 'es', 'messages', 'xxxxxxxxxxxxxx', '2017-03-12 12:12:52', '2017-03-12 17:45:26'),
 ('login.account', 'de', 'messages', 'Geben Sie Ihr Konto', '2017-02-26 17:38:23', '2017-02-26 17:38:23'),
 ('login.account', 'en', 'messages', 'Enter your account', '2017-02-26 17:38:36', '2017-02-26 17:38:36'),
 ('login.account', 'es', 'messages', 'Entra en tu cuenta', '2017-02-26 17:38:11', '2017-02-26 17:38:11'),
@@ -466,11 +470,11 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('newsletter.singular', 'de', 'messages', 'Newsletter', '2017-02-26 17:38:26', '2017-02-26 17:38:26'),
 ('newsletter.singular', 'en', 'messages', 'Newsletter', '2017-02-26 17:38:39', '2017-02-26 17:38:39'),
 ('newsletter.singular', 'es', 'messages', 'Newsletter', '2017-02-26 17:38:14', '2017-02-26 17:38:14'),
-('newsletter.subscripts.disable', 'de', 'messages', 'Wurde erfolgreich unsubscribed', '2017-02-26 17:38:27', '2017-02-26 17:38:27'),
+('newsletter.subscripts.disable', 'de', 'messages', 'Wurde erfolgreich unsubscribed', '2017-02-26 17:38:27', '2017-02-26 17:38:27');
+INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `translation`, `date_created`, `date_updated`) VALUES
 ('newsletter.subscripts.disable', 'en', 'messages', 'Has been successfully unsubscribed', '2017-02-26 17:38:39', '2017-02-26 17:38:39'),
 ('newsletter.subscripts.disable', 'es', 'messages', 'Se ha cancelado la subscripción satisfactoriamente', '2017-02-26 17:38:14', '2017-02-26 17:38:14'),
-('newsletter.subscripts.plural', 'de', 'messages', 'Abonnenten', '2017-02-26 17:38:27', '2017-02-26 17:38:27');
-INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `translation`, `date_created`, `date_updated`) VALUES
+('newsletter.subscripts.plural', 'de', 'messages', 'Abonnenten', '2017-02-26 17:38:27', '2017-02-26 17:38:27'),
 ('newsletter.subscripts.plural', 'en', 'messages', 'Subscribers', '2017-02-26 17:38:39', '2017-02-26 17:38:39'),
 ('newsletter.subscripts.plural', 'es', 'messages', 'Subscriptores', '2017-02-26 17:38:14', '2017-02-26 17:38:14'),
 ('newsletter.subscripts.singular', 'de', 'messages', 'Abonnieren', '2017-02-26 17:38:27', '2017-02-26 17:38:27'),
@@ -493,6 +497,9 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('or', 'de', 'messages', 'oder', '2017-02-26 17:38:21', '2017-02-26 17:38:21'),
 ('or', 'en', 'messages', 'or', '2017-02-26 17:38:33', '2017-02-26 17:38:33'),
 ('or', 'es', 'messages', 'o', '2017-02-26 17:38:10', '2017-02-26 17:38:10'),
+('other_key', 'de', 'messages', 'alemanaaa', '2017-03-12 17:48:59', '2017-03-12 19:16:38'),
+('other_key', 'en', 'messages', 'ingles', '2017-03-12 17:48:59', '2017-03-12 19:16:38'),
+('other_key', 'es', 'messages', 'español', '2017-03-12 17:48:59', '2017-03-12 19:16:38'),
 ('Overview', 'de_DE', 'messages', 'Übersicht', '2017-02-26 17:38:45', '2017-02-26 17:38:45'),
 ('Overview', 'en_US', 'messages', 'Overview', '2017-02-26 17:38:45', '2017-02-26 17:38:45'),
 ('profile.billing.title', 'de', 'messages', 'Rechnungsdetails', '2017-02-26 17:38:26', '2017-02-26 17:38:26'),
@@ -537,9 +544,9 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('profile.password.saved', 'de', 'messages', 'Die Passwort wurde aktualisiert, in der nächsten Anmeldung können Sie es verwenden.', '2017-02-26 17:38:26', '2017-02-26 17:38:26'),
 ('profile.password.saved', 'en', 'messages', 'The password has been updated, you can use it at your next login', '2017-02-26 17:38:38', '2017-02-26 17:38:38'),
 ('profile.password.saved', 'es', 'messages', 'La contraseña se ha actualizado, en su próximo inicio de sesión podrá utilizarla.', '2017-02-26 17:38:14', '2017-02-26 17:38:14'),
-('profile.lastname', 'de', 'messages', 'Nachnamen', '2017-02-26 17:38:25', '2017-02-26 17:38:25'),
-('profile.lastname', 'en', 'messages', 'Lastnames', '2017-02-26 17:38:38', '2017-02-26 17:38:38'),
-('profile.lastname', 'es', 'messages', 'Apellidos', '2017-02-26 17:38:13', '2017-02-26 17:38:13'),
+('profile.surnames', 'de', 'messages', 'Nachnamen', '2017-02-26 17:38:25', '2017-02-26 17:38:25'),
+('profile.surnames', 'en', 'messages', 'Lastnames', '2017-02-26 17:38:38', '2017-02-26 17:38:38'),
+('profile.surnames', 'es', 'messages', 'Apellidos', '2017-02-26 17:38:13', '2017-02-26 17:38:13'),
 ('profile.title', 'de', 'messages', 'Benutzerprofil', '2017-02-26 17:38:25', '2017-02-26 17:38:25'),
 ('profile.title', 'en', 'messages', 'User profile', '2017-02-26 17:38:38', '2017-02-26 17:38:38'),
 ('profile.title', 'es', 'messages', 'Perfil de usuario', '2017-02-26 17:38:13', '2017-02-26 17:38:13'),
