@@ -28,6 +28,7 @@ parameters:
         extended_layout_admin: 'AdminBundle:Base:layout.html.twig'
         upload_directory: uploads
         server_base_url: 'http://localhost.dev'
+        fixtures_dev: true
         fixtures_test: false
         admin_email: admin@admin.com
         validate_time: 86400

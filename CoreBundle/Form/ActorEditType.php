@@ -42,7 +42,7 @@ class ActorEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\Actor',
+            'data_class' => 'CoreBundle\Entity\BaseActor',
             'use_ecommerce' => null,
             'token_storage' => null
         ));

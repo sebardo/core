@@ -16,7 +16,7 @@ use CoreBundle\Model\TranslationLabelTranslation;
 /**
  * Translationlabel controller.
  *
- * @Route("translation-label")
+ * @Route("/admin/translation-label")
  */
 class TranslationLabelController extends Controller
 {

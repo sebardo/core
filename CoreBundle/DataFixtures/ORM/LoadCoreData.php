@@ -5,7 +5,6 @@ use CoreBundle\DataFixtures\SqlScriptFixture;
 use CoreBundle\Entity\Slider;
 use CoreBundle\Entity\Image;
 use CoreBundle\Entity\Role;
-use CoreBundle\Entity\Actor;
 
 /*
  * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/LoadCoreData.php
@@ -15,90 +14,92 @@ class LoadCoreData extends SqlScriptFixture
 
     public function createFixtures()
     {
-        //get dinamic actor class
-        $actorClass = $this->container->get('core_manager')->getActorClass();
-
         $core = $this->container->getParameter('core');
-        $factory = $this->get('security.encoder_factory');
-        $encoder = $factory->getEncoder(new $actorClass());
+        
+        if(isset($core['fixtures_dev']) && $core['fixtures_dev']){
+            //get dinamic actor class
+            $actorClass = $this->container->get('core_manager')->getActorClass();
 
-        $this->runSqlScript('Country.sql');
-        $this->runSqlScript('State.sql');
-        $this->runSqlScript('PostalCode.sql');
-        $this->runSqlScript('Translation.sql');
-        
-        //Roles
-        $userRole = new Role();
-        $userRole->setName('user');
-        $userRole->setRole(Role::USER);
-        $this->getManager()->persist($userRole);
-        
-        $managerRole = new Role();
-        $managerRole->setName('manager');
-        $managerRole->setRole(Role::MANAGER);
-        $this->getManager()->persist($managerRole);
-        
-        $companyRole = new Role();
-        $companyRole->setName('company');
-        $companyRole->setRole(Role::COMPANY);
-        $this->getManager()->persist($companyRole);
-        
-        $adminRole = new Role();
-        $adminRole->setName('admin');
-        $adminRole->setRole(Role::ADMIN);
-        $this->getManager()->persist($adminRole);
-        
-        $superRole = new Role();
-        $superRole->setName('root');
-        $superRole->setRole(Role::SUPER_ADMIN);
-        $this->getManager()->persist($superRole);
-        
-        $this->getManager()->flush();
-        
-        //User admin
-        $password = 'admin';
-        $admin = new $actorClass();
-        $admin->setUsername('admin');
-        $admin->setEmail('admin@admin.com');
-        $admin->addRole($adminRole);
-        $encodePassword = $encoder->encodePassword($password, $admin->getSalt());
-        $admin->setPassword($encodePassword);
-        $admin->setName('Admin');
-        $admin->setLastname('Lastname');
-        $this->getManager()->persist($admin);
-        
-        $password = 'user';
-        $user = new $actorClass();
-        $user->setUsername('user');
-        $user->setEmail('user@user.com');
-        $user->addRole($userRole);
-        $encodePassword = $encoder->encodePassword($password, $user->getSalt());
-        $user->setPassword($encodePassword);
-        $user->setName('User');
-        $user->setLastname('Lastname');
-        $this->getManager()->persist($user);
-        
-        $password2 = 'user2';
-        $user2 = new $actorClass();
-        $user2->setUsername('user2');
-        $user2->setEmail('user2@user2.com');
-        $user2->addRole($userRole);
-        $encodePassword2 = $encoder->encodePassword($password2, $user2->getSalt());
-        $user2->setPassword($encodePassword2);
-        $user2->setName('User2');
-        $user2->setLastname('Lastname2');
-        $this->getManager()->persist($user2);
 
-        $this->getManager()->flush();
-        //copy profile imges
-        //self::recurseCopy(__DIR__.'/images', __DIR__.'/../../../../../../web/uploads/images/');
-        //self::recurseCopy(__DIR__.'/images/profile', __DIR__.'/../../../../../../web/uploads/images/profile');
-        //self::recurseCopy(__DIR__.'/images/product', __DIR__.'/../../../../../../web/uploads/images/product');
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder(new $actorClass());
 
-        //slider 
-        //$this->createSliderFixtures();
- 
+            $this->runSqlScript('Country.sql');
+            $this->runSqlScript('State.sql');
+            $this->runSqlScript('PostalCode.sql');
+            $this->runSqlScript('Translation.sql');
 
+            //Roles
+            $userRole = new Role();
+            $userRole->setName('user');
+            $userRole->setRole(Role::USER);
+            $this->getManager()->persist($userRole);
+
+            $managerRole = new Role();
+            $managerRole->setName('manager');
+            $managerRole->setRole(Role::MANAGER);
+            $this->getManager()->persist($managerRole);
+
+            $companyRole = new Role();
+            $companyRole->setName('company');
+            $companyRole->setRole(Role::COMPANY);
+            $this->getManager()->persist($companyRole);
+
+            $adminRole = new Role();
+            $adminRole->setName('admin');
+            $adminRole->setRole(Role::ADMIN);
+            $this->getManager()->persist($adminRole);
+
+            $superRole = new Role();
+            $superRole->setName('root');
+            $superRole->setRole(Role::SUPER_ADMIN);
+            $this->getManager()->persist($superRole);
+
+            $this->getManager()->flush();
+
+            //User admin
+            $password = 'admin';
+            $admin = new $actorClass();
+            $admin->setUsername('admin');
+            $admin->setEmail('admin@admin.com');
+            $admin->addRole($adminRole);
+            $encodePassword = $encoder->encodePassword($password, $admin->getSalt());
+            $admin->setPassword($encodePassword);
+            $admin->setName('Admin');
+            $admin->setLastname('Lastname');
+            $this->getManager()->persist($admin);
+
+            $password = 'user';
+            $user = new $actorClass();
+            $user->setUsername('user');
+            $user->setEmail('user@user.com');
+            $user->addRole($userRole);
+            $encodePassword = $encoder->encodePassword($password, $user->getSalt());
+            $user->setPassword($encodePassword);
+            $user->setName('User');
+            $user->setLastname('Lastname');
+            $this->getManager()->persist($user);
+
+            $password2 = 'user2';
+            $user2 = new $actorClass();
+            $user2->setUsername('user2');
+            $user2->setEmail('user2@user2.com');
+            $user2->addRole($userRole);
+            $encodePassword2 = $encoder->encodePassword($password2, $user2->getSalt());
+            $user2->setPassword($encodePassword2);
+            $user2->setName('User2');
+            $user2->setLastname('Lastname2');
+            $this->getManager()->persist($user2);
+
+            $this->getManager()->flush();
+            //copy profile imges
+            //self::recurseCopy(__DIR__.'/images', __DIR__.'/../../../../../../web/uploads/images/');
+            //self::recurseCopy(__DIR__.'/images/profile', __DIR__.'/../../../../../../web/uploads/images/profile');
+            //self::recurseCopy(__DIR__.'/images/product', __DIR__.'/../../../../../../web/uploads/images/product');
+
+            //slider 
+            //$this->createSliderFixtures();
+        }
     }
 
     public function createSliderFixtures()
