@@ -59,6 +59,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('register_modal_form', array($this, 'registerModalForm'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('get_profile_form', array($this, 'getProfileForm')),
             new Twig_SimpleFunction('get_password_form', array($this, 'getPasswordForm')),
+            new Twig_SimpleFunction('recovery_form', array($this, 'recoveryForm'), array('is_safe' => array('html'))),
             
             new Twig_SimpleFunction('oauth_buttons', array($this, 'oauthButtons'), array('is_safe' => array('html'))),
             new Twig_SimpleFunction('get_actorrole_form', array($this, 'getActorRoleForm')),
@@ -549,6 +550,20 @@ class CoreExtension extends \Twig_Extension
     {
         $form = $this->container->get('form.factory')->create('CoreBundle\Form\ActorRoleType');
         return $form->createView();
+    }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function recoveryForm($params=array())
+    {
+        $form = $this->container->get('form.factory')->create('CoreBundle\Form\RecoveryEmailType');
+        
+        $twig = $this->container->get('twig');
+        $content = $twig->render('CoreBundle:RecoveryPassword:_form.html.twig', array('params' => $params, 'form' => $form->createView()));
+
+        return $content;
     }
     
     

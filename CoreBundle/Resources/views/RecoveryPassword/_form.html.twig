@@ -1,0 +1,23 @@
+<span id="returnMessage" style="display: none">
+    <div class="alert alert-warning alert-recovery-password" >
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong></strong>
+    </div>
+</span>
+<!-- form start -->
+{{ form_start(form, {
+                    'action': path('core_actor_recovery'), 
+                    'method': 'post', 
+                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                    }) }}
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label hidden">{{ 'signup.email' | trans }}</label>
+            <div class="">
+                {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder':  'recovery.placeholder' | trans  } } ) }}
+                {{ form_errors(form.email) }}
+            </div>
+        </div>
+    </div>  
+    <input type="submit" id="recoverySubmit" class="btn btn-core pull-right" value="{{ 'recovery.submit' | trans }}" />
+{{ form_end(form) }}

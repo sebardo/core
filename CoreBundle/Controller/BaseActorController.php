@@ -499,8 +499,8 @@ class BaseActorController  extends Controller
                 $recovery = $form->getData();
                 $newPassword = $recovery['password'];
                 $hash = $recovery['hash'];
-                $user = $em->getRepository('CoreBundle:Actor')->findOneBySalt($hash);
-                $encoder = $factory->getEncoder(new Actor());
+                $user = $em->getRepository('CoreBundle:BaseActor')->findOneBySalt($hash);
+                $encoder = $factory->getEncoder(new BaseActor());
 
                 if (!$user) {
                     throw $this->createNotFoundException('Unable to find user.');
