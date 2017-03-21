@@ -48,13 +48,26 @@ class SecurityController extends Controller
     }
     
     /**
+     * @Route("/company/login" , name="company_login")
+     * @Template("AdminBundle:Security:login.html.twig")
+     */
+    public function companyLoginAction(Request $request)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
+                return $this->redirect($this->get('router')->generate('admin_default_dashboard'));
+        }
+        
+        return $this->login($request);
+    }
+    
+    /**
      * @Route("/admin/login" , name="admin_login")
      * @Template("AdminBundle:Security:login.html.twig")
      */
     public function adminLoginAction(Request $request)
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
-                return $this->redirect($this->get('router')->generate('index'));
+                return $this->redirect($this->get('router')->generate('admin_default_dashboard'));
         }
         
         return $this->login($request);

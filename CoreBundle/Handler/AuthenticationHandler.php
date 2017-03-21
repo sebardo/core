@@ -66,6 +66,8 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Lo
         } 
         if ($this->hasRole('ROLE_ADMIN', $token->getUser())) {
             return new RedirectResponse($this->container->get('router')->generate('admin_default_dashboard'));
+        } elseif ($this->hasRole('ROLE_COMPANY', $token->getUser())) {
+            return new RedirectResponse($this->container->get('router')->generate('company_default_dashboard'));
         } else {
             $referer = $this->getRefererPath($request);
             if ($referer == '/identification') {

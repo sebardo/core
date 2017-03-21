@@ -13,52 +13,49 @@ security:
             #custom_hwi_provider: { id: oauth.user_provider }
 
     firewalls:
-        login_firewall:
-            pattern:    ^/login$
-            anonymous:  ~
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-#        admin:
-#            anonymous: ~
-#            pattern:    ^/admin/.*
-#            form_login:
-#                provider: main
-#                login_path:  /admin/login
-#                check_path:  /admin/login_check
-#                use_referer: true
-#                success_handler: authentication_handler
-#                #failure_handler: authentication_handler
-#                default_target_path: /admin
-#            logout:
-#                path: admin_logout   
-#                target: /admin/login
-#            switch_user:
-#                role: ROLE_ADMIN
-#            context: website
-#        company:
-#            anonymous: ~
-#            pattern:    ^/company/.*
-#            form_login:
-#                provider: main
-#                login_path:  /company/login
-#                check_path:  /company/login_check
-#                use_referer: true
-#                success_handler: authentication_handler
-#                #failure_handler: authentication_handler
-#                default_target_path: /company
-#            logout:
-#                path: company_logout
-#                target: /company/login
-#            switch_user:
-#                role: ROLE_ADMIN
-#                provider: main
-#            context: website
+        admin:
+            anonymous: ~
+            pattern:    ^/admin/.*
+            form_login:
+                provider: main
+                login_path:  /admin/login
+                check_path:  /admin/login_check
+                use_referer: true
+                success_handler: authentication_handler
+                #failure_handler: authentication_handler
+                default_target_path: /admin
+            logout:
+                path: admin_logout   
+                target: /admin/login
+            switch_user:
+                role: ROLE_ADMIN
+            context: website
+        company:
+            anonymous: ~
+            pattern:    ^/company/.*
+            form_login:
+                provider: main
+                login_path:  /company/login
+                check_path:  /company/login_check
+                use_referer: true
+                success_handler: authentication_handler
+                #failure_handler: authentication_handler
+                default_target_path: /company
+            logout:
+                path: company_logout
+                target: /company/login
+            switch_user:
+                role: ROLE_ADMIN
+                provider: main
+            context: website
             
             
             
-        secured_area:
+        user:
             anonymous: ~
             context: test_connect
             oauth:
@@ -98,10 +95,12 @@ security:
         - { path: ^/admin/newsletter, roles: [ROLE_ADMIN] }
         - { path: ^/admin/shipping, roles: [ROLE_ADMIN] }
         - { path: ^/admin/sliders, roles: [ROLE_ADMIN] }
-        - { path: ^/admin/dashboard, roles: [ROLE_ADMIN] }
+        - { path: ^/admin/dashboard, roles: [ROLE_ADMIN, ROLE_COMPANY] }
         - { path: ^/admin/analitycs, roles: [ROLE_ADMIN] }
         - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_COMPANY, ROLE_USER] }
+        - { path: ^/company/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/company, roles: [ROLE_COMPANY] }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
