@@ -161,7 +161,7 @@ class TranslationLabelController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'translation-label.created');
             
-            return $this->redirectToRoute('translation-label_show', array('key' => $key, 'domain' => $domain));
+            return $this->redirectToRoute('translation-label_show', array('key' => $entity->getKey(), 'domain' => 'messages'));
         }
 
         return $this->render('CoreBundle:TranslationLabel:new.html.twig', array(
@@ -175,6 +175,7 @@ class TranslationLabelController extends Controller
      *
      * @Route("/{key}/{domain}", name="translation-label_show")
      * @Method("GET")
+     * @Template()
      */
     public function showAction(Request $request, $key, $domain)
     {
@@ -189,10 +190,10 @@ class TranslationLabelController extends Controller
                 )
             );
         
-        return $this->render('translationlabel/show.html.twig', array(
+        return array(
             'entity' => $entity,
 //            'delete_form' => $deleteForm->createView(),
-        ));
+        );
     }
 
     /**
@@ -242,7 +243,7 @@ class TranslationLabelController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'translationLabel.edited');
             
-            return $this->redirectToRoute('translation-label_edit', array('key' => $key, 'domain' => $domain));
+            return $this->redirectToRoute('translation-label_edit', array('key' => $key, 'domain' => 'messages'));
         }
 
         return $this->render('CoreBundle:TranslationLabel:edit.html.twig', array(
@@ -252,6 +253,7 @@ class TranslationLabelController extends Controller
         ));
     }
 
+   
     /**
      * Deletes a translationLabel entity.
      *
@@ -298,7 +300,7 @@ class TranslationLabelController extends Controller
         $translation = $translationManager->findTranslationBy(
             array(
                 'transKey'      => $entity->getKey(),
-                'transLocale'   => 'es',
+                'transLocale'   => 'en',
                 'messageDomain' => 'messages',
             )
         );
@@ -306,7 +308,7 @@ class TranslationLabelController extends Controller
         if (!$translation) {
             $translation = $translationManager->createTranslation();
             $translation->setTransKey($entity->getKey());
-            $translation->setTransLocale('es');
+            $translation->setTransLocale('en');
             $translation->setMessageDomain('messages');
         }
 

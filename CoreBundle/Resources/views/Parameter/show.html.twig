@@ -1,18 +1,18 @@
 {% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}
 
-{% block section %} {% endblock %}
+{% block section %}{% endblock %}
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ 'translation' | trans }} {{entity.transKey}}
+        {{ 'parameter' | trans }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_index') }}">{{ 'translation' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_show', {'key': entity.transKey, 'domain': entity.messageDomain }) }}">{{ entity.transKey  }}</a></li>
+        <li><a href="{{ path('core_parameter_index') }}">{{ 'Parameter' | trans }}</a></li>
+        <li><a href="{{ path('core_parameter_show', {'id': parameter.id }) }}">{{ parameter  }}</a></li>
       </ol>
     </section>
    
@@ -33,27 +33,27 @@
                     <table class="table">
                         <tbody>                            
                             <tr>
-                                <td>{{ 'translation.key' | trans }}</td>                                
-                                <td>{{ entity.transKey }}</td>                            
-                            </tr>                           
+                                <td>Id</td>                                
+                                <td>{{ parameter.id }}</td>                            
+                            </tr>                            
                             <tr>
-                                <td>{{ 'translation.singular' | trans }}</td>                                
-                                <td>
-                                    {{entity.translation}}
-                                    
-                                </ul>
-                                </td>                            
-                            </tr>              
+                                <td>{{ 'parameter.singular' | trans }}</td>                                
+                                <td>{{ parameter.parameter }}</td>                            
+                            </tr>                            
+                            <tr>
+                                <td>{{ 'parameter.value' | trans }}</td>                                
+                                <td>{{ parameter.value }}</td>                            
+                            </tr>                        
                         </tbody>
                     </table>
                     
                     <div class="box-footer">
                         <div class="col-sm-12"> 
-                            <a href="{{ path('translation-label_edit', {'key': entity.transKey, 'domain': 'messages' }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
+                            <a href="{{ path('core_parameter_edit', {'id': parameter.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>    
-                            <form id="delete-entity" action="{{ path('translation-label_delete', { 'key': entity.transKey, 'domain': 'messages' }) }}" method="post">
+                            <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': parameter.id  }) }}" method="post">
                                 <input type="hidden" name="_method" value="DELETE" />
-                                {#{ form_widget(delete_form) }#}
+                                {{ form_widget(delete_form) }}
                             </form>
                         </div>
                     </div><!-- /.box-footer -->
