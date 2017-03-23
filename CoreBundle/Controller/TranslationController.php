@@ -10,8 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
-use CoreBundle\Model\Translation;
-use CoreBundle\Model\TranslationTranslation;
+use CoreBundle\Form\Model\Translation;
+use CoreBundle\Form\Model\TranslationTranslation;
 
 /**
  * Translation controller.

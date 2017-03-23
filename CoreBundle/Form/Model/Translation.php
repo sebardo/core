@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreBundle\Model;
+namespace CoreBundle\Form\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

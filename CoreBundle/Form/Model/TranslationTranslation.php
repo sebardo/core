@@ -1,5 +1,5 @@
 <?php
-namespace CoreBundle\Model;
+namespace CoreBundle\Form\Model;
 
 /**
  * TranslationLabel item Model class
