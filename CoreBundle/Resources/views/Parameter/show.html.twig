@@ -12,7 +12,7 @@
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
         <li><a href="{{ path('core_parameter_index') }}">{{ 'Parameter' | trans }}</a></li>
-        <li><a href="{{ path('core_parameter_show', {'id': parameter.id }) }}">{{ parameter  }}</a></li>
+        <li><a href="{{ path('core_parameter_show', {'id': entity.id }) }}">{{ entity.parameter  }}</a></li>
       </ol>
     </section>
    
@@ -34,24 +34,24 @@
                         <tbody>                            
                             <tr>
                                 <td>Id</td>                                
-                                <td>{{ parameter.id }}</td>                            
+                                <td>{{ entity.id }}</td>                            
                             </tr>                            
                             <tr>
                                 <td>{{ 'parameter.singular' | trans }}</td>                                
-                                <td>{{ parameter.parameter }}</td>                            
+                                <td>{{ entity.parameter }}</td>                            
                             </tr>                            
                             <tr>
                                 <td>{{ 'parameter.value' | trans }}</td>                                
-                                <td>{{ parameter.value }}</td>                            
+                                <td>{{ entity.value }}</td>                            
                             </tr>                        
                         </tbody>
                     </table>
                     
                     <div class="box-footer">
                         <div class="col-sm-12"> 
-                            <a href="{{ path('core_parameter_edit', {'id': parameter.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
+                            <a href="{{ path('core_parameter_edit', {'id': entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>    
-                            <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': parameter.id  }) }}" method="post">
+                            <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': entity.id  }) }}" method="post">
                                 <input type="hidden" name="_method" value="DELETE" />
                                 {{ form_widget(delete_form) }}
                             </form>

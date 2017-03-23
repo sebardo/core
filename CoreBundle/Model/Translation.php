@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * TranslationLabel Model class
  *
  */
-class TranslationLabel
+class Translation
 {
     use \A2lix\I18nDoctrineBundle\Doctrine\ORM\Util\Translatable;
     

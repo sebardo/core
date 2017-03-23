@@ -26,13 +26,5 @@ class ParameterType extends AbstractType
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'corebundle_parameter';
-    }
-
 
 }

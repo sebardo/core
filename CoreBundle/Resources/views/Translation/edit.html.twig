@@ -6,15 +6,15 @@
 
     <section class="content-header">
       <h1>
-        {{ 'translationLabel' | trans }}
+        {{ 'edit.singular' | trans }} {{ entity.key }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_index') }}">{{ 'Translationlabel' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_show', {'key': entity.key, 'domain': entity.domain }) }}">{{ entity.key  }}</a></li>
-        <li><a href="{{ path('translation-label_edit',  { 'key': entity.key, 'domain': entity.domain  }) }}">{{ 'edit.singular' | trans }} {% if entity.key is defined %} {{ entity.key }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
+        <li><a href="{{ path('core_translation_index') }}">{{ 'Translationlabel' | trans }}</a></li>
+        <li><a href="{{ path('core_translation_show', {'key': entity.key, 'domain': entity.domain }) }}">{{ entity.key  }}</a></li>
+        <li><a href="{{ path('core_translation_edit',  { 'key': entity.key, 'domain': entity.domain  }) }}">{{ 'edit.singular' | trans }} {% if entity.key is defined %} {{ entity.key }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
       </ol>
     </section>
       
@@ -26,7 +26,7 @@
             <div class="box box-info">
                 
                 {{ form_start(edit_form, {
-                                    'action': path('translation-label_edit', { 'key': entity.key, 'domain': entity.domain  }), 
+                                    'action': path('core_translation_edit', { 'key': entity.key, 'domain': entity.domain  }), 
                                     'method': 'post', 
                                     'attr': {'class': 'form-horizontal form-row-seperated'}
                                     }) }}
@@ -37,16 +37,16 @@
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i>  {{ 'save' | trans }}</button>
-                        <a href="{{ path('translation-label_show', { 'key': entity.key, 'domain': entity.domain  }) }}" class="btn btn-flat btn-default">{{ 'cancel.singular' | trans }}</a>
+                        <a href="{{ path('core_translation_show', { 'key': entity.key, 'domain': entity.domain  }) }}" class="btn btn-flat btn-default">{{ 'cancel.singular' | trans }}</a>
                         <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>
                     </div>
                 </div>
                     
                 {{ form_end(edit_form) }}
-                {#<form id="delete-entity" action="{{ path('translation-label_delete', { 'key': entity.key, 'domain': entity.domain  }) }}" method="post">
+                <form id="delete-entity" action="{{ path('core_translation_delete', { 'key': entity.key, 'domain': entity.domain  }) }}" method="post">
                     <input type="hidden" name="_method" value="DELETE" />
                     {{ form_widget(delete_form) }}
-                </form>#}
+                </form>
             </div>
         </div>
       </div>

@@ -11,8 +11,8 @@
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_index') }}">{{ 'translation' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_show', {'key': entity.transKey, 'domain': entity.messageDomain }) }}">{{ entity.transKey  }}</a></li>
+        <li><a href="{{ path('core_translation_index') }}">{{ 'translation' | trans }}</a></li>
+        <li><a href="{{ path('core_translation_show', {'key': entity.transKey, 'domain': entity.messageDomain }) }}">{{ entity.transKey  }}</a></li>
       </ol>
     </section>
    
@@ -38,22 +38,28 @@
                             </tr>                           
                             <tr>
                                 <td>{{ 'translation.singular' | trans }}</td>                                
-                                <td>
-                                    {{entity.translation}}
-                                    
-                                </ul>
-                                </td>                            
-                            </tr>              
+                                <td>{{entity.translation}}</td>                            
+                            </tr> 
+                            <tr>
+                                <td>{{ 'translation.locale' | trans }}</td>                                
+                                <td>{{entity.transLocale}}</td>                            
+                            </tr> 
+                            <tr>
+                                <td>{{ 'translation.domain' | trans }}</td>                                
+                                <td>{{entity.messageDomain}}</td>                            
+                            </tr> 
                         </tbody>
                     </table>
                     
                     <div class="box-footer">
                         <div class="col-sm-12"> 
-                            <a href="{{ path('translation-label_edit', {'key': entity.transKey, 'domain': 'messages' }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
+                            <a href="{{ path('core_translation_edit', {'key': entity.transKey, 'domain': 'messages' }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
+                            <a href="{{ path('core_translation_index') }}" class="btn btn-default btn-flat">{{ "back" | trans }}</a>
+
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>    
-                            <form id="delete-entity" action="{{ path('translation-label_delete', { 'key': entity.transKey, 'domain': 'messages' }) }}" method="post">
+                            <form id="delete-entity" action="{{ path('core_translation_delete', { 'key': entity.transKey, 'domain': 'messages' }) }}" method="post">
                                 <input type="hidden" name="_method" value="DELETE" />
-                                {#{ form_widget(delete_form) }#}
+                                {{ form_widget(delete_form) }}
                             </form>
                         </div>
                     </div><!-- /.box-footer -->

@@ -25,7 +25,8 @@ class CoreTest  extends WebTestCase
 
     public function setUp()
     {
-        $this->client = static::createClient();
+        $this->client = static::createClient(array(), array('HTTP_HOST' => 'latinotype.dev'));
+//        $this->client->followRedirects(true);
     }
     
     protected function logIn()
@@ -1134,5 +1135,85 @@ class CoreTest  extends WebTestCase
         
         $manager->persist($address);
         $manager->flush();
+    }
+    
+    public function createTranslation($uid)
+    {
+        //Tax index
+        $crawler = $this->client->request('GET', '/admin/translations', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        $crawler = $this->client->followRedirect();
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Translations")')->count());
+
+        //Click new
+        $link = $crawler
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New translation")')->count());
+
+        //fill form
+        $form = $crawler->selectButton('Save')->form();
+        $form['translation[key]'] = $uid;
+        $form['translation[translations][en][value]'] = $uid;
+        $crawler = $this->client->submit($form);// submit the form
+
+       //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Translation has been created successfully")')->count());
+        
+        return $crawler;
+    }
+    
+    public function createParameter($uid)
+    {
+        //Tax index
+        $crawler = $this->client->request('GET', '/admin/parameters', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        $crawler = $this->client->followRedirect();
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Parameters")')->count());
+
+        //Click new
+        $link = $crawler
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New parameter")')->count());
+
+        //fill form
+        $form = $crawler->selectButton('Save')->form();
+        $form['parameter[parameter]'] = $uid;
+        $form['parameter[value]'] = $uid;
+        $crawler = $this->client->submit($form);// submit the form
+        //
+       //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Parameter has been created successfully")')->count());
+        
+        return $crawler;
     }
 }

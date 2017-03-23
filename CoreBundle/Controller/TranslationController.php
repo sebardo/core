@@ -2,7 +2,7 @@
 
 namespace CoreBundle\Controller;
 
-use CoreBundle\Model\TranslationLabel;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -10,22 +10,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
-use Doctrine\Common\Collections\ArrayCollection;
-use CoreBundle\Model\TranslationLabelTranslation;
+use CoreBundle\Model\Translation;
+use CoreBundle\Model\TranslationTranslation;
 
 /**
- * Translationlabel controller.
+ * Translation controller.
  *
- * @Route("/admin/translation-label")
+ * @Route("/admin/translations")
  */
-class TranslationLabelController extends Controller
+class TranslationController extends Controller
 {
     /**
-     * Lists all translationLabel entities.
+     * Lists all translation entities.
      *
-     * @Route("/", name="translation-label_index")
+     * @Route("/")
      * @Method("GET")
-     * @Template("CoreBundle:TranslationLabel:index.html.twig")
+     * @Template("CoreBundle:Translation:index.html.twig")
      */
     public function indexAction()
     {
@@ -33,9 +33,9 @@ class TranslationLabelController extends Controller
     }
 
     /**
-     * Lists all translationLabel entities.
+     * Lists all translation entities.
      *
-     * @Route("/list.{_format}", name="translation-label_listjson", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
+     * @Route("/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
      * @Method("GET")     
      */
     public function listJsonAction(Request $request)
@@ -141,16 +141,16 @@ class TranslationLabelController extends Controller
     }
     
     /**
-     * Creates a new translationLabel entity.
+     * Creates a new translation entity.
      *
-     * @Route("/new", name="translation-label_new")
+     * @Route("/new")
      * @Method({"GET", "POST"})
      * @Template()
      */
     public function newAction(Request $request)
     {
-        $entity = new Translationlabel();
-        $form = $this->createForm('CoreBundle\Form\TranslationLabelType', $entity);
+        $entity = new Translation();
+        $form = $this->createForm('CoreBundle\Form\TranslationType', $entity);
         
         $form->handleRequest($request);
 
@@ -159,27 +159,27 @@ class TranslationLabelController extends Controller
             //Create entry in DB
             $this->updateTranslation($entity);
             
-            $this->get('session')->getFlashBag()->add('success', 'translation-label.created');
+            $this->get('session')->getFlashBag()->add('success', 'translation.created');
             
-            return $this->redirectToRoute('translation-label_show', array('key' => $entity->getKey(), 'domain' => 'messages'));
+            return $this->redirectToRoute('core_translation_show', array('key' => $entity->getKey(), 'domain' => 'messages'));
         }
 
-        return $this->render('CoreBundle:TranslationLabel:new.html.twig', array(
-            'translationLabel' => $entity,
+        return $this->render('CoreBundle:Translation:new.html.twig', array(
+            'translation' => $entity,
             'form' => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a translationLabel entity.
+     * Finds and displays a translation entity.
      *
-     * @Route("/{key}/{domain}", name="translation-label_show")
+     * @Route("/{key}/{domain}")
      * @Method("GET")
      * @Template()
      */
     public function showAction(Request $request, $key, $domain)
     {
-//        $deleteForm = $this->createDeleteForm($translationLabel);
+        $deleteForm = $this->createDeleteForm($key, $domain);
 
         $entity = $this->get('asm_translation_loader.translation_manager')
             ->findTranslationBy(
@@ -192,14 +192,14 @@ class TranslationLabelController extends Controller
         
         return array(
             'entity' => $entity,
-//            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Displays a form to edit an existing translationLabel entity.
+     * Displays a form to edit an existing translation entity.
      *
-     * @Route("/{key}/{domain}/edit", name="translation-label_edit")
+     * @Route("/{key}/{domain}/edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, $key, $domain)
@@ -213,7 +213,7 @@ class TranslationLabelController extends Controller
                 )
             );
                 
-        $entity = new Translationlabel();
+        $entity = new Translation();
         $entity->setKey($translation->getTransKey());
         $entity->setDomain($domain);
         foreach ($this->getParameter('a2lix_translation_form.locales') as $k => $loc) {
@@ -226,14 +226,14 @@ class TranslationLabelController extends Controller
                         'messageDomain' => $domain,
                     )
                 );
-            $transLabel = new TranslationLabelTranslation();
-            $transLabel->setLocale($loc);
-            $transLabel->setValue($translation->getTranslation());
-            $entity->addTranslation($transLabel);
+            $trans = new TranslationTranslation();
+            $trans->setLocale($loc);
+            $trans->setValue($translation->getTranslation());
+            $entity->addTranslation($trans);
         }
         
-        //$deleteForm = $this->createDeleteForm($translation);
-        $editForm = $this->createForm('CoreBundle\Form\TranslationLabelType', $entity);
+        $deleteForm = $this->createDeleteForm($key, $domain);
+        $editForm = $this->createForm('CoreBundle\Form\TranslationType', $entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -241,52 +241,58 @@ class TranslationLabelController extends Controller
             //Create entry in DB
             $this->updateTranslation($entity);
             
-            $this->get('session')->getFlashBag()->add('success', 'translationLabel.edited');
+            $this->get('session')->getFlashBag()->add('success', 'translation.edited');
             
-            return $this->redirectToRoute('translation-label_edit', array('key' => $key, 'domain' => 'messages'));
+            return $this->redirectToRoute('core_translation_show', array('key' => $key, 'domain' => 'messages'));
         }
 
-        return $this->render('CoreBundle:TranslationLabel:edit.html.twig', array(
+        return $this->render('CoreBundle:Translation:edit.html.twig', array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
    
     /**
-     * Deletes a translationLabel entity.
+     * Deletes a translation entity.
      *
-     * @Route("/{key}/{domain}", name="translation-label_delete")
+     * @Route("/{key}/{domain}")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $key, $domain)
     {
-//        $form = $this->createDeleteForm($translationLabel);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->remove($translationLabel);
-//            $em->flush($translationLabel);
-//            
-//            $this->get('session')->getFlashBag()->add('success', 'translationLabel.deleted');
-//        }
 
-        return $this->redirectToRoute('translation-label_index');
+        $form = $this->createDeleteForm($key, $domain);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $translation = $this->get('asm_translation_loader.translation_manager')
+                ->findTranslationBy(
+                    array(
+                        'transKey' => $key,
+                        'transLocale' => $request->getLocale(),
+                        'messageDomain' => $domain,
+                    )
+                );
+            $this->get('asm_translation_loader.translation_manager')->removeTranslation($translation);
+            $this->get('session')->getFlashBag()->add('success', 'translation.deleted');
+        }
+
+        return $this->redirectToRoute('core_translation_index');
     }
 
     /**
-     * Creates a form to delete a translationLabel entity.
+     * Creates a form to delete a translation entity.
      *
-     * @param TranslationLabel $translationLabel The translationLabel entity
+     * @param Translation $translation The translation entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(TranslationLabel $translationLabel)
+    private function createDeleteForm($key, $domain)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('translation-label_delete', array('id' => $translationLabel->getId())))
+            ->setAction($this->generateUrl('core_translation_delete', array('key' => $key, 'domain' => $domain)))
             ->setMethod('DELETE')
             ->getForm()
         ;

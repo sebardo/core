@@ -64,28 +64,28 @@ class ParameterController extends Controller
      */
     public function newAction(Request $request)
     {
-        $parameter = new Parameter();
-        $form = $this->createForm('CoreBundle\Form\ParameterType', $parameter);
+        $entity = new Parameter();
+        $form = $this->createForm('CoreBundle\Form\ParameterType', $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($parameter);
-            $em->flush($parameter);
+            $em->persist($entity);
+            $em->flush($entity);
 
             //if come from popup
             if ($request->isXMLHttpRequest()) {         
                 return new JsonResponse(array(
-                            'id' => $parameter->getId(), 
+                            'id' => $entity->getId(), 
                         ));
             }
             $this->get('session')->getFlashBag()->add('success', 'parameter.created');
             
-            return $this->redirectToRoute('core_parameter_show', array('id' => $parameter->getId()));
+            return $this->redirectToRoute('core_parameter_show', array('id' => $entity->getId()));
         }
 
         return array(
-            'parameter' => $parameter,
+            'entity' => $entity,
             'form' => $form->createView(),
         );
     }
@@ -97,12 +97,12 @@ class ParameterController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction(Parameter $parameter)
+    public function showAction(Parameter $entity)
     {
-        $deleteForm = $this->createDeleteForm($parameter);
+        $deleteForm = $this->createDeleteForm($entity);
 
         return array(
-            'parameter' => $parameter,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -114,10 +114,10 @@ class ParameterController extends Controller
      * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction(Request $request, Parameter $parameter)
+    public function editAction(Request $request, Parameter $entity)
     {
-        $deleteForm = $this->createDeleteForm($parameter);
-        $editForm = $this->createForm('CoreBundle\Form\ParameterType', $parameter);
+        $deleteForm = $this->createDeleteForm($entity);
+        $editForm = $this->createForm('CoreBundle\Form\ParameterType', $entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -126,16 +126,16 @@ class ParameterController extends Controller
             //if come from popup
             if ($request->isXMLHttpRequest()) {         
                 return new JsonResponse(array(
-                            'id' => $parameter->getId(), 
+                            'id' => $entity->getId(), 
                         ));
             }
             $this->get('session')->getFlashBag()->add('success', 'parameter.edited');
             
-            return $this->redirectToRoute('core_parameter_edit', array('id' => $parameter->getId()));
+            return $this->redirectToRoute('core_parameter_show', array('id' => $entity->getId()));
         }
 
         return array(
-            'parameter' => $parameter,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -147,15 +147,15 @@ class ParameterController extends Controller
      * @Route("/{id}")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Parameter $parameter)
+    public function deleteAction(Request $request, Parameter $entity)
     {
-        $form = $this->createDeleteForm($parameter);
+        $form = $this->createDeleteForm($entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($parameter);
-            $em->flush($parameter);
+            $em->remove($entity);
+            $em->flush($entity);
             
             $this->get('session')->getFlashBag()->add('success', 'parameter.deleted');
         }
@@ -170,10 +170,10 @@ class ParameterController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Parameter $parameter)
+    private function createDeleteForm(Parameter $entity)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('core_parameter_delete', array('id' => $parameter->getId())))
+            ->setAction($this->generateUrl('core_parameter_delete', array('id' => $entity->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;

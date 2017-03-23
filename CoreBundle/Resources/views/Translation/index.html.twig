@@ -1,18 +1,18 @@
 {% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}
 {% set uniqid = uniqid() %}
-{% block section %} {% endblock %}
+{% block section %}translations{% endblock %}
 {% block content %}
 
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        
+        {{ "translation.plural" | trans }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
-        <li><a href="{{ path('translation-label_index') }}"> </a></li>
+        <li><a href="{{ path('core_translation_index') }}"> </a></li>
       </ol>
     </section>
       
@@ -28,7 +28,7 @@
             <div class="box-body">
                 <div class="clearfix">
                     <div class="btn-group">
-                        <a href="{{ path('translation-label_new') }}" class="btn btn-success btn-flat">
+                        <a href="{{ path('core_translation_new') }}" class="btn btn-success btn-flat">
                                 {{ 'add.new'| trans }}<i class="ion-plus"></i>
                         </a>
                     </div>
@@ -60,7 +60,7 @@
     <script>
         var table_columns = [                        {
                             "mData": function (source) {
-                                return '<a href="' + source.transKey + '">' + source.transKey + '</a>';
+                                return '<a href="' + source.transKey + '/' + source.messageDomain + '">' + source.transKey + '</a>';
                             }
                         },                        
                         { "mData": "translation" },  
@@ -75,7 +75,7 @@
         jQuery(document).ready(function() {
             TableManaged.init(
                 '#{{ uniqid }}-table',
-                '{{ url('translation-label_listjson') }}',
+                '{{ url('core_translation_listjson') }}',
                 [],
                 table_columns,
                 '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');

@@ -18,6 +18,7 @@ security:
             security: false
 
         admin:
+            http_basic: ~
             anonymous: ~
             pattern:    ^/admin/.*
             form_login:
@@ -35,6 +36,7 @@ security:
                 role: ROLE_ADMIN
             context: website
         company:
+            http_basic: ~
             anonymous: ~
             pattern:    ^/company/.*
             form_login:
@@ -56,6 +58,7 @@ security:
             
             
         user:
+            http_basic: ~
             anonymous: ~
             context: test_connect
             oauth:

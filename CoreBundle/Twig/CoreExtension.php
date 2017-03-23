@@ -145,7 +145,8 @@ class CoreExtension extends \Twig_Extension
     }
     
     public function getMaxFileSize(){
-        return ini_get("upload_max_filesize")*1024*1024;
+        return 2024;
+//        return ini_get("upload_max_filesize")*1024*1024;
     }
     /**
      * {@inheritDoc}

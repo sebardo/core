@@ -6,15 +6,15 @@
 
     <section class="content-header">
       <h1>
-        {{ 'parameter.singular' | trans }}
+        {{ 'edit.singular' | trans }} {{ entity.parameter }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
         <li><a href="{{ path('core_parameter_index') }}">{{ 'Parameter' | trans }}</a></li>
-        <li><a href="{{ path('core_parameter_show', {'id': parameter.id }) }}">{{ parameter  }}</a></li>
-        <li><a href="{{ path('core_parameter_edit', {'id': parameter.id }) }}">{{ 'edit.singular' | trans }} {% if entity.title is defined %} {{ entity.title }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
+        <li><a href="{{ path('core_parameter_show', {'id': entity.id }) }}">{{ entity.parameter  }}</a></li>
+        <li><a href="{{ path('core_parameter_edit', {'id': entity.id }) }}">{{ 'edit.singular' | trans }} {% if entity.title is defined %} {{ entity.title }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
       </ol>
     </section>
       
@@ -26,7 +26,7 @@
             <div class="box box-info">
                 
                 {{ form_start(edit_form, {
-                                    'action': path('core_parameter_edit', { 'id': parameter.id  }), 
+                                    'action': path('core_parameter_edit', { 'id': entity.id  }), 
                                     'method': 'post', 
                                     'attr': {'class': 'form-horizontal form-row-seperated'}
                                     }) }}
@@ -37,13 +37,13 @@
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i>  {{ 'save' | trans }}</button>
-                        <a href="{{ path('core_parameter_show', { id: parameter.id }) }}" class="btn btn-flat btn-default">{{ 'cancel.singular' | trans }}</a>
+                        <a href="{{ path('core_parameter_show', { id: entity.id }) }}" class="btn btn-flat btn-default">{{ 'cancel.singular' | trans }}</a>
                         <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>
                     </div>
                 </div>
                     
                 {{ form_end(edit_form) }}
-                <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': parameter.id  }) }}" method="post">
+                <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': entity.id  }) }}" method="post">
                     <input type="hidden" name="_method" value="DELETE" />
                     {{ form_widget(delete_form) }}
                 </form>

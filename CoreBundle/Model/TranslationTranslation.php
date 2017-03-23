@@ -4,7 +4,7 @@ namespace CoreBundle\Model;
 /**
  * TranslationLabel item Model class
  */
-class TranslationLabelTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\OneLocaleInterface
+class TranslationTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\OneLocaleInterface
 {
     
     protected $locale;
