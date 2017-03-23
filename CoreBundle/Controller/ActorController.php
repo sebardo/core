@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use CoreBundle\Entity\BaseActor;
 use Symfony\Component\HttpFoundation\Response;
 use CoreBundle\Form\RecoveryPasswordType;
-use CoreBundle\Form\EmailType as ActorEmailType;
-use CoreBundle\Entity\NewsletterShipping;
-use CoreBundle\Entity\Newsletter;
+use CoreExtraBundle\Form\EmailType as ActorEmailType;
+use CoreExtraBundle\Entity\NewsletterShipping;
+use CoreExtraBundle\Entity\Newsletter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -119,7 +119,7 @@ class ActorController  extends Controller
         
         $returnValues = array();
         $deleteForm = $this->createDeleteForm($actor);
-        $shippingForm = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
+        $shippingForm = $this->createForm('CoreExtraBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
         if($this->get('core_manager')->useEcommerce()){
             $addressForm = $this->createForm('EcommerceBundle\Form\AddressType', null, array('token_storage' => $this->container->get('security.token_storage')));
             $returnValues['addressForm'] = $addressForm->createView();
@@ -158,7 +158,7 @@ class ActorController  extends Controller
             if($password != ''){
                  
                 $factory = $this->get('security.encoder_factory');
-                $encoder = $factory->getEncoder(new Actor());
+                $encoder = $factory->getEncoder(new BaseActor());
                 $encodePassword = $encoder->encodePassword($password, $actor->getSalt());
                 $actor->setPassword($encodePassword);
             }else{

@@ -145,8 +145,8 @@ class CoreExtension extends \Twig_Extension
     }
     
     public function getMaxFileSize(){
-        return 2024;
-//        return ini_get("upload_max_filesize")*1024*1024;
+//        return 2024;
+        return 2*1024*1024;
     }
     /**
      * {@inheritDoc}
@@ -276,7 +276,7 @@ class CoreExtension extends \Twig_Extension
     public function getCarouselItems()
     {
         $em = $this->container->get('doctrine')->getManager();
-        $headers = $em->getRepository("CoreBundle:Slider")->findBy(array(), array('order' => 'ASC'));
+        $headers = $em->getRepository("CoreExtraBundle:Slider")->findBy(array(), array('order' => 'ASC'));
         return $headers;
     }
    
@@ -287,7 +287,7 @@ class CoreExtension extends \Twig_Extension
     public function getRandomHeader()
     {
         $em = $this->container->get('doctrine')->getManager();
-        $headers = $em->getRepository("CoreBundle:Slider")->findBy(array());
+        $headers = $em->getRepository("CoreExtraBundle:Slider")->findBy(array());
         $arr = new \Doctrine\Common\Collections\ArrayCollection();
         foreach ($headers as $header) {
             $arr->add($header);
@@ -350,9 +350,9 @@ class CoreExtension extends \Twig_Extension
     {
         $em = $this->container->get('doctrine')->getManager();
         if(is_null($visible)){ //null
-            $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true), array('order' => 'ASC'));
+            $entities = $em->getRepository("CoreExtraBundle:MenuItem")->findBy(array('active'=>true), array('order' => 'ASC'));
         }elseif(!is_null($visible) && $visible){ //true
-            $qb =  $em->getRepository("CoreBundle:MenuItem")->createQueryBuilder('m');
+            $qb =  $em->getRepository("CoreExtraBundle:MenuItem")->createQueryBuilder('m');
             $qb
                 ->where($qb->expr()->andx(
                     $qb->expr()->isNull('m.parentMenuItem'),
@@ -363,9 +363,9 @@ class CoreExtension extends \Twig_Extension
 
             $entities = $qb->getQuery()->getResult();
     
-//            $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true, 'visible' => true), array('order' => 'ASC'));
+//            $entities = $em->getRepository("CoreExtraBundle:MenuItem")->findBy(array('active'=>true, 'visible' => true), array('order' => 'ASC'));
         }else{ //false
-            $entities = $em->getRepository("CoreBundle:MenuItem")->findBy(array('active'=>true, 'visible' => false), array('order' => 'ASC'));
+            $entities = $em->getRepository("CoreExtraBundle:MenuItem")->findBy(array('active'=>true, 'visible' => false), array('order' => 'ASC'));
         }
         
         return $entities;
@@ -417,7 +417,7 @@ class CoreExtension extends \Twig_Extension
     {
         $em = $this->container->get('doctrine')->getManager();
          
-        $entities = $em->getRepository("CoreBundle:Font")->findBy(array('active'=>true), array('id' => 'ASC'));
+        $entities = $em->getRepository("CoreExtraBundle:Font")->findBy(array('active'=>true), array('id' => 'ASC'));
         $returnValues = array();
         foreach ($entities as $entity) {
             $returnValues[] = str_replace(' ', '+', $entity->getName());

@@ -9,9 +9,8 @@
         <title>{% block title %}{% if page_title is defined %} {{ page_title }} &raquo; {% endif %}{{ core.name}}{% endblock %}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
 
-        <!-- Google fonts -->
-        {% if get_fonts() | length > 0%}
-        <link href='http://fonts.googleapis.com/css?family={{get_fonts()}}' rel='stylesheet' type='text/css'>
+        {% if twig_global.checkUse('CoreExtraBundle')%}
+            {% include 'CoreExtraBundle:Font:header.layout.html.twig' %}
         {% endif %}
         
         <!--  Bootstrap CSS file 

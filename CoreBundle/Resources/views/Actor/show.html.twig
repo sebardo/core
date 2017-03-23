@@ -511,7 +511,7 @@
             {% endif %}            
             TableManaged.init(
                 '#shippings-table',
-                '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                '{{ url('coreextra_newsletter_listforuserjson', { actorId: entity.id }) }}',
                 [2],
                 shippings_table_columns,
                 '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
@@ -532,7 +532,7 @@
                 $.post('{{ path('core_actor_email', {id: entity.id })  }}', formSerialize, function(response){
                      TableManaged.reload(
                     '#shippings-table',
-                    '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                    '{{ url('coreextra_newsletter_listforuserjson', { actorId: entity.id }) }}',
                     [],
                     shippings_table_columns,
                     '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');

@@ -32,11 +32,6 @@ services:
         tags:
             - { name: twig.extension }
             
-    notification_manager:
-        class: "CoreBundle\\Service\\NotificationManager"
-        calls:
-            - [setContainer, ["@service_container"] ] 
-            
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
