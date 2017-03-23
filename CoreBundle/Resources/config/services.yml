@@ -10,7 +10,6 @@ services:
             - "@router"
             - "@templating"
             - "@kernel"
-            - "@notification_manager"
             - "@doctrine.orm.entity_manager"
 
     authentication_handler:

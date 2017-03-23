@@ -21,7 +21,6 @@ class Mailer
     private $router;
     private $templating;
     private $kernel;
-    private $notificationManager;
     private $manager;
 
     /**
@@ -36,7 +35,6 @@ class Mailer
             $router,
             $templating,
             $kernel,
-            $notificationManager,
             $manager
             )
     {
@@ -46,7 +44,6 @@ class Mailer
         $this->router = $router;
         $this->templating = $templating;
         $this->kernel = $kernel;
-        $this->notificationManager = $notificationManager;
         $this->manager = $manager;
     }
 
@@ -324,15 +321,15 @@ class Mailer
         $this->sendMessage($templateName, $context, $fromEmail, $toEmail);
        
          //add notification
-        $user = $this->manager->getRepository('CoreBundle:Actor')->findOneByUsername('admin');
-        $detail = new stdClass();
-        $detail->product = $product->getId();
-        $this->notificationManager->setNotification(
-                $user,
-                $user,
-                Notification::TYPE_NEW_PRODUCT,
-                $detail
-                );
+        //$user = $this->manager->getRepository('CoreBundle:Actor')->findOneByUsername('admin');
+        //$detail = new stdClass();
+        //$detail->product = $product->getId();
+        //$this->notificationManager->setNotification(
+        //        $user,
+        //        $user,
+        //        Notification::TYPE_NEW_PRODUCT,
+        //        $detail
+        //        );
         
     }
     /**

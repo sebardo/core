@@ -29,7 +29,7 @@ class TranslationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Model\Translation'
+            'data_class' => 'CoreBundle\Form\Model\Translation'
         ));
     }
 
