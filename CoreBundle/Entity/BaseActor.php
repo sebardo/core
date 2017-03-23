@@ -97,12 +97,6 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      */
     public $roles;
     
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="\CoreBundle\Entity\NewsletterShipping", mappedBy="actor", cascade={"remove"})
-     */
-    private $shippings;
 
     /** @ORM\Column(name="facebook_id", type="string", length=255, nullable=true) */
     protected $facebook_id;
@@ -140,7 +134,6 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         $this->salt = md5(uniqid(null, true));
         $this->setCreated(new \DateTime());
         $this->roles = new ArrayCollection();
-        $this->shippings = new ArrayCollection();
         $this->newsletter = false;
     }
 
@@ -425,41 +418,6 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         return $this->roles;
     }
 
-    /**
-     * Add shipping
-     *
-     * @param Shipping $shipping
-     *
-     * @return BaseActor
-     */
-    public function addShipping(NewsletterShipping $shipping)
-    {
-        $shipping->setActor($this);
-        $this->shippings->add($shipping);
-
-        return $this;
-    }
-
-    /**
-     * Remove shipping
-     *
-     * @param Shipping $shipping
-     */
-    public function removeShipping(NewsletterShipping $shipping)
-    {
-        $this->shippings->removeElement($shipping);
-    }
-
-    /**
-     * Get shipping
-     *
-     * @return ArrayCollection
-     */
-    public function getShippings()
-    {
-        return $this->shippings;
-    }
-    
     /**
      * Set twitter_id
      *
