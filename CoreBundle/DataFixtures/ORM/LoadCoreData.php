@@ -57,6 +57,17 @@ class LoadCoreData extends SqlScriptFixture
 
             $this->getManager()->flush();
 
+             //User root
+            $password = 'root';
+            $root = new BaseUser();
+            $root->setUsername('root');
+            $root->setEmail('root@latinotype.com');
+            $root->addRole($superRole);
+            $encodePassword = $encoder->encodePassword($password, $root->getSalt());
+            $root->setPassword($encodePassword);
+            $root->setName('Root');
+            $this->getManager()->persist($root);
+
             //User admin
             $password = 'admin';
             $admin = new $actorClass();
@@ -68,6 +79,17 @@ class LoadCoreData extends SqlScriptFixture
             $admin->setName('Admin');
             $admin->setLastname('Lastname');
             $this->getManager()->persist($admin);
+
+            $password2 = 'company';
+            $company = new $actorClass();
+            $company->setUsername('company');
+            $company->setEmail('company@latinotype.com');
+            $company->addRole($companyRole);
+            $encodePassword2 = $encoder->encodePassword($password2, $company->getSalt());
+            $company->setPassword($encodePassword2);
+            $company->setName('Company');
+            $company->setLastname('Lastname');
+            $this->getManager()->persist($company);
 
             $password = 'user';
             $user = new $actorClass();

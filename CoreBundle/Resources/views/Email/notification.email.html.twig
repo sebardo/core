@@ -1,0 +1,20 @@
+{% block subject %}{{ mail.subject | trans }}{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+
+{{mail.body | raw}}
+
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% spaceless %}
+    {{ include('CoreBundle:Email:_header.html.twig') }}
+
+    {{mail.body | raw}}
+
+    {{ include('CoreBundle:Email:_footer.html.twig') }}
+{% endspaceless %}
+{% endblock %}
+

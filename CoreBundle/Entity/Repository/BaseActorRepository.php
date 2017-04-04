@@ -120,6 +120,28 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
         return $qb->getQuery();
     }
     
+    
+    /**
+     * Find all rows filtered for DataTables
+     *
+     * @param string $search        The search string
+     * @param int    $sortColumn    The column to sort by
+     * @param string $sortDirection The direction to sort the column
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function findOneByRole($role)
+    {
+        $query = ' SELECT a'
+                . ' FROM CoreBundle:BaseActor a'
+                . " JOIN a.roles r  "
+                . " WHERE r.role =  'ROLE_SUPER_ADMIN' "
+                ;
+        $q = $this->getEntityManager()->createQuery($query);
+        return  $q->getOneOrNullResult();
+        
+    }
+    
     private function getQueryBuilder()
     {
         $em = $this->getEntityManager();

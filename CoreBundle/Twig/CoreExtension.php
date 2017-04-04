@@ -46,6 +46,7 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_address_form', array($this, 'getAddressForm')),
             new Twig_SimpleFunction('get_first_image', array($this, 'getFirstImage')),
             new Twig_SimpleFunction('get_admin_menu', array($this, 'getAdminMenu')),
+            new Twig_SimpleFunction('get_company_menu', array($this, 'getCompanyMenu')),
             new Twig_SimpleFunction('get_referer', array($this, 'getRefererPath')),
             new Twig_SimpleFunction('get_parameter', array($this, 'getParameter')),
             new Twig_SimpleFunction('get_locales', array($this, 'getLocales')),
@@ -375,6 +376,12 @@ class CoreExtension extends \Twig_Extension
     {
         $adminMenu = $this->container->getParameter('core.admin_menus');
         return $adminMenu['admin_menus'];
+    }
+    
+    public function getCompanyMenu()
+    {
+        $companyMenu = $this->container->getParameter('core.company_menus');
+        return $companyMenu;
     }
     
     /**

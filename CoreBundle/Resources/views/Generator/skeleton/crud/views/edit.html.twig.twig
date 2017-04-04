@@ -1,0 +1,58 @@
+{% block extends %}
+{{ "{% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}" }}
+{{ "{% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% block section %}" }}{{ "{% endblock %}" }}
+{{ "{% block content %}" }}
+
+    <section class="content-header">
+      <h1>
+        {{ "{{ '"~entity_singularized~"' | trans }}" }}
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{{ "{{ path('admin_default_index') }}" }}"> <i class="ion-home"></i>  {{ "{{ 'home' | trans }}" }}</a></li>
+        <li><a href="javascript:">{{ "{{ 'dashboard' | trans }}" }}</a></li>
+        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_index') }}" }}">{{ "{{ '"~entity_singularized|capitalize~"' | trans }}" }}</a></li>
+        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', {'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ "{{ "~entity_singularized~"  }}" }}</a></li>
+        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_edit', {'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ "{{ 'edit.singular' | trans }} {% if entity.title is defined %} {{ entity.title }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}" }}</a></li>
+      </ol>
+    </section>
+      
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            
+            {{ "{% include 'CoreBundle:Base:alert.messages.html.twig' %}" }}
+            <div class="box box-info">
+                
+                {{ "{{ form_start(edit_form, {
+                                    'action': path('" ~ route_name_prefix ~ "_edit', { 'id': " ~ entity_singularized ~ "."~ identifier ~"  }), 
+                                    'method': 'post', 
+                                    'attr': {'class': 'form-horizontal form-row-seperated'}
+                                    }) }}" }}
+                <div class="box-body">
+                    {{ '{{ form_widget(edit_form) }}' }}
+                </div>
+                <div class="box-footer">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i>  {{ "{{ 'save' | trans }}" }}</button>
+                        <a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { id: " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}" class="btn btn-flat btn-default">{{ "{{ 'cancel.singular' | trans }}" }}</a>
+                        <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "{{ 'delete' | trans }}" }}</button>
+                    </div>
+                </div>
+                    
+                {{ '{{ form_end(edit_form) }}' }}
+                <form id="delete-entity" action="{{ "{{ path('" ~ route_name_prefix ~ "_delete', { 'id': " ~ entity_singularized ~ "."~ identifier ~"  }) }}" }}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ '{{ form_widget(delete_form) }}' }}
+                </form>
+            </div>
+        </div>
+      </div>
+    </section>
+{{ "{% endblock %}" }}
+{% endblock body %}

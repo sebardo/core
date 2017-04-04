@@ -7,6 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use CoreBundle\Entity\NewsletterShipping;
 use Symfony\Component\HttpFoundation\Request;
 use CoreBundle\Entity\Actor;
+use CoreBundle\Entity\Role;
 
 class CoreManager 
 {
@@ -500,5 +501,13 @@ class CoreManager
             $actorClass = 'CoreBundle\Entity\Actor';
         }
         return $actorClass;
+    }
+    
+    public function getSuperAdmin()
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $superAdmin = $em->getRepository('CoreBundle:BaseActor')->findOneByRole(Role::SUPER_ADMIN);
+        
+        return $superAdmin;
     }
 }

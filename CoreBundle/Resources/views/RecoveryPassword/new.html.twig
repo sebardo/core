@@ -6,26 +6,24 @@
     <div class="container">
         <div class="col-sm-4"></div>  
         <div class="col-md-4 core-row">
-             
-            
-            
+
             <div class="row container-recovery">
-                <h2 class="center">{{ 'account.password.recovery.title' | trans }}</h2>
+                <h2 class="center">{{ 'recovery.title' | trans }}</h2>
                 <hr>
                 {% include 'CoreBundle:Base:alert.messages.html.twig' %}
                 {{ form_start(form, {'method': 'post', 'action': path('recovery_password_form', {'email': app.request.get('email'), 'hash': app.request.get('hash')} )}) }}
                     {{ form_errors(form)}}
                     <div class="form-group">
-                        <label>Nueva contraseña</label>
+                        <label>{{ 'password.new' | trans }}</label>
                         {{ form_widget(form.password.first, {'attr': {'class': 'form-control'} } ) }}
                     </div>
                     <div class="form-group">
-                         <label>Repite la contraseña</label>
+                         <label>{{ 'password.repeat' | trans }}</label>
                         {{ form_widget(form.password.second, {'attr': {'class': 'form-control'} } ) }}
                     </div>
                     {{ form_rest(form)}}
 
-                    <input type="submit" value="{{ 'account.password.recovery.submit' | trans }}" class="btn btn-flat btn-core pull-right"/>
+                    <input type="submit" value="{{ 'recovery.submit' | trans }}" class="btn btn-flat btn-core pull-right"/>
                 {{ form_end(form) }}
             </div>
         </div>

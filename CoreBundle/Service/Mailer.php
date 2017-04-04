@@ -264,6 +264,30 @@ class Mailer
     }
     
     /**
+     * Send an email from notification
+     *
+     * @param MailLog $mail
+     *
+     * @return void
+     */
+    public function sendNotificationEmail($mail)
+    {
+        $templateName = 'CoreBundle:Email:notification.email.html.twig';
+
+        $context = array(
+            'mail' => $mail
+        );
+        
+        $this->sendMessage(
+                $templateName, 
+                $context,  
+                $mail->getSender(),
+                $mail->getRecipient(),
+                $mail->getAttachment()
+                );
+    }
+    
+    /**
      * @param string $templateName
      * @param array  $context
      * @param string $fromEmail

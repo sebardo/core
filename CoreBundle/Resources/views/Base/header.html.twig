@@ -14,15 +14,9 @@
         <a href="{{ path('elearning_front_elearning')}}" class="header-item-left">{{ 'elearning' | trans }}</a>
         {% endif %}
         
-        {% set items = get_menu_items() %}
-        {% for item in items %}
-            <a class="fa fa-{{item.icon}} header-item" href="{{ path('core_menuitem_menu', {slug: item.slug} ) }}"><span>{{item.name}}</span></a>
-            {% if item.subitems | length > 0 %}<ul class="" >{% endif %}
-            {% for sub in item.subitems %}
-                    <a href="/{{sub.slug}}" style="display: block;">{{item.name}}</a>
-            {% endfor %}
-            {% if item.subitems | length > 0 %}</ul>{% endif %}        
-        {% endfor %}
+        {% if twig_global.checkUse('CoreExtraBundle') %}
+            {% include 'CoreExtraBundle:MenuItem:front.header.html.twig' %}
+        {% endif %}
         
         {{ get_languages() }}
         {% if app.user %}
