@@ -38,8 +38,6 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_carousel_items', array($this, 'getCarouselItems')),
             new Twig_SimpleFunction('get_random_header', array($this, 'getRandomHeader')),
             new Twig_SimpleFunction('created_ago', array($this, 'createdAgo')),
-            new Twig_SimpleFunction('get_notification', array($this, 'getNotification')),
-            new Twig_SimpleFunction('get_notification_url', array($this, 'getNotificationUrl')),
             new Twig_SimpleFunction('get_max_size_file', array($this, 'getMaxFileSize')),
             new Twig_SimpleFunction('get_thumb_image', array($this, 'getThumbImage')),
             new Twig_SimpleFunction('check_slider_image', array($this, 'checkSliderImage')),
@@ -318,32 +316,7 @@ class CoreExtension extends \Twig_Extension
         return mb_strtolower($chr, "UTF-8") != $chr;
     }
     
-    /**
-     * {@inheritDoc}
-     */
-    public function getNotification($type, $count=true)
-    {
-        $notificationManager = $this->container->get('notification_manager');
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-        
-        $notif = $notificationManager->getNotification($user, $type, $count);
-        
-        return $notif;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getNotificationUrl(Notification $notification)
-    {
-
-        return $this->container->get('router')->generate('notification_show', array(
-                'slug' => $notification->getProject()->getSlug(),
-                $notification->getType() => true
-            ));
-
-    }
-    
+  
     /**
      * {@inheritDoc}
      */
