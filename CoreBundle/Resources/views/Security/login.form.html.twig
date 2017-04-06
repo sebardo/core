@@ -14,7 +14,7 @@
             <input type="checkbox" class="{%if params.icheck_class is defined and params.icheck_class !=''%}{{params.icheck_class}}{% else %}minimal{% endif %}" value=""> {{ 'login.remember' | trans }}
         </div>
         <div class="col-md-6">  
-            <a class="pull-right" href="{{ path('core_actor_recovery') }}" title="{{ 'login.recovery' | trans }}">{{ 'login.recovery' | trans }}</a>
+            <a class="pull-right" href="{{ path('core_baseactor_recovery') }}" title="{{ 'login.recovery' | trans }}">{{ 'login.recovery' | trans }}</a>
         </div>   
     </div>
     <button type="submit" class="btn-core btn btn-block {%if params.button_submit_class is defined and params.button_submit_class !=''%}{{params.button_submit_class}}{% endif %}">{{ 'login.short' | trans }}</button>

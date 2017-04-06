@@ -446,7 +446,7 @@ class BaseActorController  extends Controller
     /**
      * Validate registration.
      *
-     * @Route("/recovery/{email}", name="recovery_password", defaults={"email" = ""})
+     * @Route("/recovery/{email}", defaults={"email" = ""})
      * @Method("POST")
      * @Template("CoreBundle:RecoveryPassword:recovery.password.html.twig")
      */
@@ -474,13 +474,12 @@ class BaseActorController  extends Controller
     /**
      * Validate registration.
      *
-     * @Route("/recovery/{email}/{hash}", name="recovery_password_form")
+     * @Route("/recovery/{email}/{hash}")
      * @Method({"GET", "POST"})
      * @Template("CoreBundle:RecoveryPassword:new.html.twig")
      */
     public function recoveryPasswordFormAction(Request $request, $email, $hash)
     {
-
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('CoreBundle:BaseActor')->findOneByEmail($email);
 

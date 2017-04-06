@@ -33,7 +33,7 @@
                 if(email != ''){
                     $.ajax({
                         type: "POST",
-                        url: "{{ path('recovery_password') }}/"+email,
+                        url: "{{ path('core_baseactor_recoverypassword') }}/"+email,
                       }).done(function( data ) {
                         $('#returnMessage').show();
                         if($('#returnMessage div').length == 0){

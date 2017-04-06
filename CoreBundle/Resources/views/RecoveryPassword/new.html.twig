@@ -11,7 +11,7 @@
                 <h2 class="center">{{ 'recovery.title' | trans }}</h2>
                 <hr>
                 {% include 'CoreBundle:Base:alert.messages.html.twig' %}
-                {{ form_start(form, {'method': 'post', 'action': path('recovery_password_form', {'email': app.request.get('email'), 'hash': app.request.get('hash')} )}) }}
+                {{ form_start(form, {'method': 'post', 'action': path('core_baseactor_recoverypasswordform', {'email': app.request.get('email'), 'hash': app.request.get('hash')} )}) }}
                     {{ form_errors(form)}}
                     <div class="form-group">
                         <label>{{ 'password.new' | trans }}</label>

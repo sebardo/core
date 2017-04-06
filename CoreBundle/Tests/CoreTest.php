@@ -10,6 +10,10 @@ use EcommerceBundle\Entity\Brand;
 use CoreBundle\Entity\Pack;
 use EcommerceBundle\Entity\Address;
 use CoreBundle\Entity\Actor;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 
 class CoreTest  extends WebTestCase
@@ -27,6 +31,30 @@ class CoreTest  extends WebTestCase
     {
         $this->client = static::createClient(array(), array('HTTP_HOST' => 'latinotype.dev'));
 //        $this->client->followRedirects(true);
+    }
+    
+     /**
+     * Runs a command and returns it output
+     */
+    public function runCommand(Client $client, $command)
+    {
+        $application = new Application($client->getKernel());
+        $application->setAutoExit(false);
+
+        $fp = tmpfile();
+        $input = new StringInput($command);
+        $output = new StreamOutput($fp);
+
+        $application->run($input, $output);
+
+        fseek($fp, 0);
+        $output = '';
+        while (!feof($fp)) {
+            $output = fread($fp, 4096);
+        }
+        fclose($fp);
+
+        return $output;
     }
     
     protected function logIn()
