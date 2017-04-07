@@ -12,7 +12,9 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
 {
     public function loadUserByUsername($username)
     {
-
+        //fix to replate space for +
+        $username = str_replace(' ', '+', $username);
+        
         $q = $this
             ->createQueryBuilder('u')
             ->select('u, r')
@@ -27,6 +29,8 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
             // if there is no record matching the criteria.
             $user = $q->getSingleResult();
         } catch (NoResultException $e) {
+            
+            
             $message = sprintf(
                 'Unable to find an active admin CoreBundle:Actor object identified by "%s".',
                 $username
