@@ -26,6 +26,7 @@ parameters:
         name: Sasturain
         extended_layout: 'CoreBundle:Base:base.layout.html.twig'
         extended_layout_admin: 'AdminBundle:Base:layout.html.twig'
+        notification_navbar_template: 'CoreExtraBundle:Notification:navbar.top.html.twig'
         upload_directory: uploads
         server_base_url: 'http://localhost.dev'
         fixtures_dev: true

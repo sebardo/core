@@ -15,7 +15,7 @@
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ "home" | trans }}</a></li>
         <li><a href="{{ path('core_actor_index') }}">{{ "user.plural" | trans }}</a></li>
         <li><a href="{{ path('core_actor_show', {'id': entity.id } ) }}">{{ entity.name }}</a></li>
-        <li><a href="{{ path('core_actor_email', {'id': entity.id }) }}">{{ "user.email.new" | trans }}</a></li>
+        <li><a href="{{ path('core_baseactor_email', {'id': entity.id }) }}">{{ "user.email.new" | trans }}</a></li>
       </ol>
     </section>
 
@@ -25,7 +25,7 @@
             <div class="box box-info">
                 <!-- BEGIN FORM-->
                 {{ form_start(form, {
-                                    'action': path('core_actor_email', {id: entity.id }), 
+                                    'action': path('core_baseactor_email', {id: entity.id }), 
                                     'method': 'post', 
                                     'attr': {'class': 'form-horizontal form-row-seperated'}
                                     }) }}
@@ -37,7 +37,7 @@
                     <div class="box-footer">
                         <div class="col-sm-12">
                             <button id="send-actor-email" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
-                        <a href="{{ path('core_actor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                        <a href="{{ path('core_baseactor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
                         </div>
                     </div>
                 {{ form_end(form) }}
