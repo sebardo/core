@@ -343,7 +343,7 @@ class BaseActorController  extends Controller
                 return $response;
             }
 
-            return $this->redirect($this->generateUrl('core_actor_profile'));
+            return $this->redirect($this->generateUrl('core_baseactor_profile'));
 
         }
        
@@ -664,7 +664,7 @@ class BaseActorController  extends Controller
             }
         }
         
-        $url = $this->container->get('router')->generate('core_actor_profile');
+        $url = $this->container->get('router')->generate('core_baseactor_profile');
         return new RedirectResponse($url);
 
     }
