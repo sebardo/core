@@ -5,8 +5,9 @@
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/", name="{{ route_name_prefix }}_index")
+     * @Route("/")
      * @Method("GET")
+     * @Template()
 {% endif %}
 {% endblock phpdoc_method_annotations %}
      */
@@ -21,8 +22,8 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ entity|lower|replace({'\\': '/'}) }}/index.html.twig', array(
+        return array(
             '{{ entity_pluralized }}' => ${{ entity_pluralized }},
-        ));
+        );
 {% endblock method_return %}
     }

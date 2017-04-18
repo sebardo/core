@@ -6,8 +6,9 @@
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/{id}", name="{{ route_name_prefix }}_show")
+     * @Route("/{id}")
      * @Method("GET")
+     * @Template()
 {% endif %}
 {% endblock phpdoc_method_annotations %}
      */
@@ -22,11 +23,11 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ entity|lower|replace({'\\': '/'}) }}/show.html.twig', array(
+        return array(
             '{{ entity_singularized }}' => ${{ entity_singularized }},
 {% if 'delete' in actions %}
             'delete_form' => $deleteForm->createView(),
 {% endif %}
-        ));
+        );
 {% endblock method_return %}
     }

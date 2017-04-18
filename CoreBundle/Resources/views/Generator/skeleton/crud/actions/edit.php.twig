@@ -6,8 +6,9 @@
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/{id}/edit", name="{{ route_name_prefix }}_edit")
+     * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
+     * @Template()
 {% endif %}
 {% endblock phpdoc_method_annotations %}
      */
@@ -40,10 +41,10 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ entity|lower|replace({'\\': '/'}) }}/edit.html.twig', array(
+        return array(
             '{{ entity_singularized }}' => ${{ entity_singularized }},
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        );
 {% endblock method_return %}
     }

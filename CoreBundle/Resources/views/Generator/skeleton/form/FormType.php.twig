@@ -39,24 +39,6 @@ class {{ form_class }} extends AbstractType
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return '{{ form_type_name }}';
-    }
-
-{# BC with Symfony 2.7 #}
-{%- if get_name_required %}
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return $this->getBlockPrefix();
-    }
-{% endif %}
 
 {% endblock class_body %}
 }

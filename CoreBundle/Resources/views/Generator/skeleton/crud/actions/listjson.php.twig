@@ -6,7 +6,7 @@
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/list.{_format}", name="{{ route_name_prefix }}_listjson", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
+     * @Route("/list.{_format}", requirements={ "_format" = "json" }, defaults={ "_format" = "json" })
      * @Method("GET")     
 {% endif %}
 {% endblock phpdoc_method_annotations %}

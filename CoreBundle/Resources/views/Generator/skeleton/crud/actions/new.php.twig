@@ -6,8 +6,9 @@
      *
 {% block phpdoc_method_annotations %}
 {% if 'annotation' == format %}
-     * @Route("/new", name="{{ route_name_prefix }}_new")
+     * @Route("/new")
      * @Method({"GET", "POST"})
+     * @Template()
 {% endif %}
 {% endblock phpdoc_method_annotations %}
      */
@@ -35,7 +36,7 @@
                             'id' => ${{ entity_singularized }}->getId(), 
                         ));
             }
-            $this->get('session')->getFlashBag()->add('success', '{{ route_name_prefix }}.created');
+            $this->get('session')->getFlashBag()->add('success', '{{ entity_singularized }}.created');
             
             {% if 'show' in actions -%}
                 return $this->redirectToRoute('{{ route_name_prefix }}_show', array('id' => ${{ entity_singularized }}->getId()));
@@ -47,9 +48,9 @@
 {% endblock method_body %}
 
 {% block method_return %}
-        return $this->render('{{ entity|lower|replace({'\\': '/'}) }}/new.html.twig', array(
+        return array(
             '{{ entity_singularized }}' => ${{ entity_singularized }},
             'form' => $form->createView(),
-        ));
+        );
 {% endblock method_return %}
     }
