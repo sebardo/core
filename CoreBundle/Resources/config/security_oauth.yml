@@ -10,7 +10,6 @@ security:
     providers:
         main:
             entity: { class: CoreBundle:BaseActor }
-            #custom_hwi_provider: { id: oauth.user_provider }
 
     firewalls:
         dev:

@@ -8,3 +8,15 @@ login_check:
 
 logout:
     path:   /logout
+    
+admin_login_check:
+    path:   /admin/login_check
+
+admin_logout:
+    path:   /admin/logout
+    
+company_login_check:
+    path:   /company/login_check
+
+company_logout:
+    path:   /company/logout

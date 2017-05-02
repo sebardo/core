@@ -41,6 +41,12 @@ services:
         calls:
             - [setContainer, ["@service_container"] ] 
             
+    oauth.user_provider:
+        class: "CoreBundle\\Service\\OAuthUserProvider"
+        tags:
+          - { name: user.provider }
+        arguments: ["@doctrine", "CoreBundle:BaseActor", "%hwi_oauth.resource_owners%", null, "@security.encoder_factory", "@session"]
+
     core_manager:
         class: "CoreBundle\\Service\\CoreManager"
         calls:

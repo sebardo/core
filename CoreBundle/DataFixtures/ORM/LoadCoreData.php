@@ -5,6 +5,7 @@ use CoreBundle\DataFixtures\SqlScriptFixture;
 use CoreBundle\Entity\Slider;
 use CoreBundle\Entity\Image;
 use CoreBundle\Entity\Role;
+use CoreBundle\Entity\BaseActor as BaseUser;
 
 /*
  * php app/console doctrine:fixtures:load --fixtures=vendor/sebardo/core/CoreBundle/DataFixtures/ORM/LoadCoreData.php
@@ -26,7 +27,7 @@ class LoadCoreData extends SqlScriptFixture
 
             $this->runSqlScript('Country.sql');
             $this->runSqlScript('State.sql');
-            $this->runSqlScript('PostalCode.sql');
+            //$this->runSqlScript('PostalCode.sql');
             $this->runSqlScript('Translation.sql');
 
             //Roles
