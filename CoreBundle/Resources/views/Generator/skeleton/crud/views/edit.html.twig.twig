@@ -1,5 +1,5 @@
 {% block extends %}
-{{ "{% extends core['extended_layout_admin'] ? core['extended_layout_admin'] : 'AdminBundle:Base:layout.html.twig' %}" }}
+{{ "{% extends twig_global.getParameter('extended_layout_admin') ? twig_global.getParameter('extended_layout_admin') : 'AdminBundle:Base:layout.html.twig' %}" }}
 {{ "{% form_theme edit_form 'AdminBundle:Form:fields.html.twig' %}" }}
 {% endblock extends %}
 

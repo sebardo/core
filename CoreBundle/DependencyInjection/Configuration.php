@@ -22,6 +22,40 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('core');
 
+        $rootNode
+            ->children()
+            ->scalarNode('extended_layout')
+                 ->defaultValue('CoreBundle:Base:layout.html.twig')
+            ->end()
+            ->scalarNode('extended_layout_admin')
+                ->defaultValue('AdminBundle:Base:layout.html.twig')
+            ->end() 
+            ->scalarNode('notification_navbar_template')
+                ->defaultValue('CoreExtraBundle:Notification:navbar.top.html.twig')
+            ->end() 
+            ->scalarNode('authentication_handler_class')
+                ->defaultValue('CoreBundle\Handler\AuthenticationHandler')
+            ->end() 
+            ->scalarNode('upload_directory')
+                ->defaultValue('uoloads')
+            ->end() 
+            ->scalarNode('server_base_url')
+                ->defaultValue('http://localhost')
+            ->end() 
+            ->scalarNode('fixtures_dev')
+                ->defaultTrue()
+            ->end() 
+            ->scalarNode('fixtures_test')
+                ->defaultFalse()
+            ->end() 
+            ->scalarNode('admin_email')
+                ->defaultValue('admin@admin.com')
+            ->end()
+            ->scalarNode('validate_time')
+                ->defaultValue('86400')
+            ->end()
+             ;
+                
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.

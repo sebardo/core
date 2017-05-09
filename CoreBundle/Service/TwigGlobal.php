@@ -47,4 +47,12 @@ class TwigGlobal
     public function getLocales() {
         return $this->container->getParameter('a2lix_translation_form.locales');
     }
+    
+    public function getParameter($parameter) {
+        
+        $parameter = $this->container->getParameter('core.'.$parameter);
+
+        return $parameter;
+        
+    }
 }
