@@ -98,7 +98,7 @@
                             </table>
                         </div>
                         <div class="box-footer">
-                            <a href="{{ path('core_baseactor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a>
+                            <a href="{{ path('core_baseactor_edit', { id: entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ "edit" | trans }}</a>
                                                         
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn"><i class="ion-trash-a"></i> {{ "delete" | trans }}</button>
                             {{ form_start(delete_form, {
@@ -253,7 +253,7 @@
             <div class="box-footer">
                 <div class="col-sm-12">
                     <button id="send-actor-address" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
-                <a href="{{ path('core_baseactor_show', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                <a href="{{ path('core_baseactor_show', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel" | trans }}</a>
                 </div>
             </div>
         {{ form_end(addressForm) }}
@@ -288,7 +288,7 @@
             <div class="box-footer">
                 <div class="col-sm-12">
                     <button id="send-actor-email" type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "send" | trans }}</button>
-                <a href="{{ path('core_baseactor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel.singular" | trans }}</a>
+                <a href="{{ path('core_baseactor_email', {id: entity.id }) }}" class="btn btn-flat btn-default">{{ "cancel" | trans }}</a>
                 </div>
             </div>
         {{ form_end(shippingForm) }}
@@ -364,7 +364,7 @@
                 },
                 {
                     "mData": function(source) {
-                        return '<a href="/admin/actor/' + source.actorId + '/addresses/' + source.id + '/getinfo.json" class="btn btn-primary btn-xs btn-flat address-edit"><i class="ion-compose"></i> {{ "edit.singular" | trans }}</a> ';
+                        return '<a href="/admin/actor/' + source.actorId + '/addresses/' + source.id + '/getinfo.json" class="btn btn-primary btn-xs btn-flat address-edit"><i class="ion-compose"></i> {{ "edit" | trans }}</a> ';
                     }
                 }
             ];

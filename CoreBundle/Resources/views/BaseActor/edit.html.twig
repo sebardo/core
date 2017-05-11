@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ "edit.singular" | trans }} {{ entity.name }}
+        {{ "edit" | trans }} {{ entity.name }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -16,7 +16,7 @@
         <li><a href="javascript:">{{ "users" | trans }}</a></li>
         <li><a href="{{ path('core_baseactor_index') }}">{{ "actor.plural" | trans }}</a></li>
         <li><a href="{{ path('core_baseactor_show', { id: entity.id }) }}">{{ entity.name ~ ' ' ~ entity.lastname}}</a></li>
-        <li><a href="{{ path('core_baseactor_edit', { id: entity.id }) }}">{{ "edit.singular" | trans }} </a></li>
+        <li><a href="{{ path('core_baseactor_edit', { id: entity.id }) }}">{{ "edit" | trans }} </a></li>
       </ol>
     </section>
     
@@ -36,7 +36,7 @@
                     <div class="box-footer">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i> {{ "save" | trans }}</button>
-                            <a href="{{ path('core_baseactor_show', { id: entity.id }) }}" class="btn btn-default btn-flat">{{ "cancel.singular" | trans }}</a>
+                            <a href="{{ path('core_baseactor_show', { id: entity.id }) }}" class="btn btn-default btn-flat">{{ "cancel" | trans }}</a>
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ "delete" | trans }}</button>
                         </div>
                     </div>

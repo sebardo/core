@@ -6,7 +6,7 @@
 
     <section class="content-header">
       <h1>
-        {{ 'edit.singular' | trans }} {{ entity.parameter }}
+        {{ 'edit' | trans }} {{ entity.parameter }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -14,7 +14,7 @@
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
         <li><a href="{{ path('core_parameter_index') }}">{{ 'Parameter' | trans }}</a></li>
         <li><a href="{{ path('core_parameter_show', {'id': entity.id }) }}">{{ entity.parameter  }}</a></li>
-        <li><a href="{{ path('core_parameter_edit', {'id': entity.id }) }}">{{ 'edit.singular' | trans }} {% if entity.title is defined %} {{ entity.title }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
+        <li><a href="{{ path('core_parameter_edit', {'id': entity.id }) }}">{{ 'edit' | trans }} {% if entity.title is defined %} {{ entity.title }} {% elseif entity.name is defined %} {{ entity.name }} {% endif %}</a></li>
       </ol>
     </section>
       
@@ -37,7 +37,7 @@
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary btn-flat"><i class="icon-ok"></i>  {{ 'save' | trans }}</button>
-                        <a href="{{ path('core_parameter_show', { id: entity.id }) }}" class="btn btn-flat btn-default">{{ 'cancel.singular' | trans }}</a>
+                        <a href="{{ path('core_parameter_show', { id: entity.id }) }}" class="btn btn-flat btn-default">{{ 'cancel' | trans }}</a>
                         <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>
                     </div>
                 </div>

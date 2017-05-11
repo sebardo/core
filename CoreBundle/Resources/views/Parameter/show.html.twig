@@ -49,7 +49,7 @@
                     
                     <div class="box-footer">
                         <div class="col-sm-12"> 
-                            <a href="{{ path('core_parameter_edit', {'id': entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit.singular' | trans }}</a>
+                            <a href="{{ path('core_parameter_edit', {'id': entity.id }) }}" class="btn btn-primary btn-flat"><i class="ion-compose"></i> {{ 'edit' | trans }}</a>
                             <button type="submit" class="btn btn-danger btn-flat pull-right" id="delete-btn">{{ 'delete' | trans }}</button>    
                             <form id="delete-entity" action="{{ path('core_parameter_delete', { 'id': entity.id  }) }}" method="post">
                                 <input type="hidden" name="_method" value="DELETE" />
