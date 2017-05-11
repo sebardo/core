@@ -18,20 +18,20 @@ class SecurityController extends Controller
         return array();
     }
 
-    
-    /**
-     * @Route("/{_locale}" , name="locale", requirements={"_locale"="es|en|de"})
-     */
-    public function localeAction(Request $request)
-    {
-        if(!empty($this->get('core_manager')->getRefererPath($request))){
-            return $this->redirect($this->get('core_manager')->getRefererPath($request));
-        }else{
-            return $this->redirect($this->generateUrl('index'));
-        }
-        
-    }
-    
+//    
+//    /**
+//     * @Route("/{_locale}" , name="locale", requirements={"_locale"="es|en|de"})
+//     */
+//    public function localeAction(Request $request)
+//    {
+//        if(!empty($this->get('core_manager')->getRefererPath($request))){
+//            return $this->redirect($this->get('core_manager')->getRefererPath($request));
+//        }else{
+//            return $this->redirect($this->generateUrl('index'));
+//        }
+//        
+//    }
+//    
     
     /**
      * @Route("/login" , name="login")
