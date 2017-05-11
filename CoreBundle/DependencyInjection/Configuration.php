@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
                 ->defaultValue('CoreBundle\Handler\AuthenticationHandler')
             ->end() 
             ->scalarNode('upload_directory')
-                ->defaultValue('uoloads')
+                ->defaultValue('uploads')
             ->end() 
             ->scalarNode('server_base_url')
                 ->defaultValue('http://localhost')

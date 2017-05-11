@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <!-- Block meta_viewport -->
+        {% block meta_viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        {% endblock %}
+        
+        <!-- Block head -->
+        {% block head %}
+        <!-- Block title -->
+        <title>{% block title %}{% if page_title is defined %} {{ page_title }} &raquo; {% endif %}{{ core.name}}{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
+        {% endblock %}
+        
+        {% if twig_global.checkUse('CoreExtraBundle')%}
+            {% include 'CoreExtraBundle:Font:header.layout.html.twig' %}
+        {% endif %}
+        
+        <!--  Block Style -->
+        {% block stylesheets %}{% endblock %}
+        
+        <!--  Block Js Head -->
+        {% block post_head %}
+            {% block javascripts_head %}
+                {% javascripts
+                    'bundles/core/js/jquery-1.11.1.min.js'
+                %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+                <script>
+                    $(document).ready(function(){
+
+                    });
+                </script>
+            {% endblock %}
+        {% endblock %}
+    </head>
+
+    <!--  Block Body -->
+    {% block body %}
+    <body class="core-body {% block body_class %}{% endblock %}">
+        
+        {% block container_header %}
+              <div class="container-fluid">
+                <div class="row core-row">
+                    {% block header %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+        
+        {% block container_content %}
+        <div class="container">
+            <div class="row core-row">
+                {% block content_header %}{% endblock %}
+                {% block content %}{% endblock %}
+                {% block content_footer %}{% endblock %}
+            </div>
+        </div>
+        {% endblock %}
+        {% block container_footer %}
+            <div class="container">
+                <div class="row core-row">
+                    {% block footer %}{% endblock %}
+                </div>
+            </div>     
+        {% endblock %}
+        
+        <!-- TODO: Move jquery to bottom -->
+        {% block javascripts %}
+            {% javascripts
+                'bundles/admin/plugins/bootstrap-3.3.6/js/bootstrap.min.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            <script>
+                $(document).ready(function(){
+                    
+                });
+            </script>
+        {% endblock %}
+    </body>
+    {% endblock %}
+</html>

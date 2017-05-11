@@ -15,9 +15,7 @@ class LoadCoreData extends SqlScriptFixture
 
     public function createFixtures()
     {
-        $core = $this->container->getParameter('core');
-        
-        if(isset($core['fixtures_dev']) && $core['fixtures_dev']){
+        if($this->container->getParameter('core.fixtures_dev')){
             //get dinamic actor class
             $actorClass = $this->container->get('core_manager')->getActorClass();
 

@@ -131,6 +131,14 @@ Requeriments:
             required_locales: [es, en, de]         # [1-c]
             manager_registry: doctrine     # [2]
             templating: "CoreBundle:Base:default.tabs.html.twig"      # [3]
+
+        #core:
+        #    extended_layout: 'FrontBundle:Base:layout.html.twig'
+        #    extended_layout_admin: 'FrontBundle:Admin:layout.html.twig'
+        #    authentication_handler_class: 'CoreBundle\Handler\AuthenticationHandler'
+        #    server_base_url: 'http://ebikes.dev'
+        core: ~
+
         # If you want add item in admin menu use this example
         # dashboard:
         #    icon_class: 'fa fa-dashboard'
