@@ -226,10 +226,13 @@ class TranslationController extends Controller
                         'messageDomain' => $domain,
                     )
                 );
-            $trans = new TranslationTranslation();
-            $trans->setLocale($loc);
-            $trans->setValue($translation->getTranslation());
-            $entity->addTranslation($trans);
+            if($translation){
+                $trans = new TranslationTranslation();
+                $trans->setLocale($loc);
+                $trans->setValue($translation->getTranslation());
+                $entity->addTranslation($trans);
+            }
+            
         }
         
         $deleteForm = $this->createDeleteForm($key, $domain);
