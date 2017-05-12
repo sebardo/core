@@ -118,6 +118,7 @@ class TranslationController extends Controller
         // search
         if (!empty($search)) {
             $qb->andWhere('tl.transKey LIKE :search')
+               ->orWhere('tl.translation LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
         }
 
