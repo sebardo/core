@@ -130,10 +130,10 @@ class TranslationController extends Controller
             case 2:
                 $qb->orderBy('t.transLocale', $sortDirection);
                 break;
+//            case 3:
+//                $qb->orderBy('tl.messageDomain', $sortDirection);
+//                break;
             case 3:
-                $qb->orderBy('tl.messageDomain', $sortDirection);
-                break;
-            case 4:
                 $qb->orderBy('tl.translation', $sortDirection);
                 break;
         }

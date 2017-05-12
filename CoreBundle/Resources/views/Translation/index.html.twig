@@ -39,7 +39,7 @@
                         <th>Key</th>   
                         <th>Value</th>   
                         <th>locale</th>
-                        <th>Domain</th>                        
+                        <!--<th>Domain</th>-->                        
                         <th></th>
                     </tr>
                     </thead>
@@ -65,7 +65,7 @@
                         },                        
                         { "mData": "translation" },  
                         { "mData": "transLocale" },                       
-                        { "mData": "messageDomain" }, 
+                        //{ "mData": "messageDomain" }, 
                         {
                             "mData": function(source) {
                                 return '<a href="' + source.transKey + '/' + source.messageDomain + '/edit" class="btn btn-primary btn-xs btn-flat"><i class="ion-compose"></i> {{ 'edit' | trans }}</a> ';
