@@ -132,8 +132,8 @@ class CoreExtension extends \Twig_Extension
             $returnPath =  $path.'/'.$name.'.'.$arr[1];
             
             $frontManager =  $this->container->get('core_manager');
-            $core = $this->container->getParameter('core');
-            if(!$frontManager->checkRemoteFile($core['server_base_url'].$returnPath)){
+            $baseUrl = $this->container->getParameter('core.server_base_url');
+            if(!$frontManager->checkRemoteFile($baseUrl.$returnPath)){
                 return  $path.'/'.$name.'.'.$arr[1];
             }
             
