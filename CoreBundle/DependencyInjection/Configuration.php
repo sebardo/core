@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('extended_layout')
-                 ->defaultValue('CoreBundle:Base:layout.html.twig')
+                 ->defaultValue('CoreBundle:Base:base.layout.html.twig')
             ->end()
             ->scalarNode('extended_layout_admin')
                 ->defaultValue('AdminBundle:Base:layout.html.twig')
