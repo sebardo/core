@@ -1140,6 +1140,33 @@ class CoreTest  extends WebTestCase
 
     }
     
+    public function removeEntity($uid, $repository) {
+        $container = $this->client->getContainer();
+        $manager = $container->get('doctrine')->getManager();
+        $repo = $manager->getRepository($repository);
+        $all = $repo->findAll();
+
+        if(method_exists($all[0], 'getTranslations')){
+            $qb = $repo->createQueryBuilder('r')
+                        ->join('r.translations', 't')
+                        ->where('t.name LIKE :search')
+                        ->andWhere('t.locale = :locale')
+                        ->setParameter('locale', 'es')
+                        ->setParameter('search', '%'.$uid.'%');
+        }else{
+            $qb = $repo->createQueryBuilder('r')
+                    ->where('r.name LIKE :search')
+                    ->setParameter('search', '%'.$uid.'%');
+        }
+        
+        $query = $qb->getQuery();
+        $entity = $query->getOneOrNullResult();
+        $manager->remove($entity);
+        $manager->flush();
+       
+
+    }
+    
     public function addTestAddress($actor)
     {
         $container = $this->client->getContainer();
