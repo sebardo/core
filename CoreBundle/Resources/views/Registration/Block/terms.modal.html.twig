@@ -7,7 +7,7 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                      <h1 class="modal-title title" id="myModalLabel" >{{ 'signup.legal.advice' | trans }}</h1>
                 </div>
-                <div class="modal-body"> {{ 'signup.legal.content' | trans({ '%company%': core.name, '%company_id%': core.company.id, '%company_email%': core.company.email, '%base_url%': twig_global.getParameter('server_base_url') }) | raw }} </div>
+                <div class="modal-body"> {{ 'signup.legal.content' | trans({ '%company%': twig_global.getParameter('company.name', 'ecommerce'), '%company_id%': twig_global.getParameter('company.id', 'ecommerce'), '%company_email%': twig_global.getParameter('company.email', 'ecommerce'), '%base_url%': twig_global.getParameter('server_base_url') }) | raw }} </div>
                 <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">{{ 'signup.legal.close' | trans }}</button></div>
             </div>
         </div>

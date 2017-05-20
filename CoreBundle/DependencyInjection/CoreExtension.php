@@ -22,7 +22,8 @@ class CoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
               
-       
+        $core = $container->getParameter('core');
+        $container->setParameter('core.name', $core['name']);
         $container->setParameter('core.extended_layout', $config['extended_layout']);
         $container->setParameter('core.extended_layout_admin', $config['extended_layout_admin']);
         $container->setParameter('core.authentication_handler_class', $config['authentication_handler_class']);

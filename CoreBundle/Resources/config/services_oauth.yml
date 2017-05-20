@@ -1,17 +1,6 @@
 
 
 services:
-    core.mailer:
-        class: "CoreBundle\\Service\\Mailer"
-        arguments:
-            - "@mailer"
-            - "@twig"
-            - { parameters: %core% }
-            - "@router"
-            - "@templating"
-            - "@kernel"
-            - "@doctrine.orm.entity_manager"
-
     authentication_handler:
         class: "CoreBundle\\Handler\\AuthenticationHandler"
         arguments: ["@service_container"]
@@ -40,6 +29,18 @@ services:
         class: "CoreBundle\\Service\\TwigGlobal"
         calls:
             - [setContainer, ["@service_container"] ] 
+    
+    core.mailer:
+        class: "CoreBundle\\Service\\Mailer"
+        arguments:
+            - "@mailer"
+            - "@twig"
+            - "@twig.global"
+            - "@router"
+            - "@templating"
+            - "@kernel"
+            - "@doctrine.orm.entity_manager"
+
             
     oauth.user_provider:
         class: "CoreBundle\\Service\\OAuthUserProvider"

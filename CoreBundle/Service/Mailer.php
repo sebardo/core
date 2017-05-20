@@ -17,21 +17,21 @@ class Mailer
 {
     private $mailer;
     private $twig;
-    private $parameters;
+    private $twigGlobal;
     private $router;
     private $templating;
     private $kernel;
     private $manager;
 
     /**
-     * @param \Swift_Mailer     $mailer
-     * @param \Twig_Environment $twig
-     * @param array             $parameters
+     * @param \Swift_Mailer                  $mailer
+     * @param \Twig_Environment              $twig
+     * @param CoreBundle\Service\TwigGlobal  $twigGlobal
      */
     public function __construct(
             \Swift_Mailer $mailer, 
             \Twig_Environment $twig, 
-            array $parameters, 
+            $twigGlobal, 
             $router,
             $templating,
             $kernel,
@@ -40,7 +40,7 @@ class Mailer
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
-        $this->parameters = $parameters['parameters'];
+        $this->twigGlobal = $twigGlobal;
         $this->router = $router;
         $this->templating = $templating;
         $this->kernel = $kernel;
@@ -65,7 +65,7 @@ class Mailer
         $this->sendMessage(
                     $templateName, 
                     $context, 
-                    $this->parameters['company']['email'], 
+                    $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                     $user->getEmail()
 //                    $contractPath
                     );
@@ -84,7 +84,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context, 
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $user->getEmail()
                 );
             
@@ -110,7 +110,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $user->getEmail()
                 );
 
@@ -134,7 +134,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $user->getEmail()
                 );
         
@@ -158,7 +158,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $user->getEmail()
                 );
     }
@@ -180,7 +180,7 @@ class Mailer
          $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $emails
                 );
 
@@ -203,7 +203,7 @@ class Mailer
          $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $emails
                 );
 
@@ -226,7 +226,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $email
                 );
         
@@ -250,7 +250,7 @@ class Mailer
         $this->sendMessage(
                 $templateName, 
                 $context,  
-                $this->parameters['company']['email'], 
+                $this->twigGlobal->getParameter('company.email', 'ecommerce'), 
                 $params['email']
                 );
         
@@ -258,7 +258,7 @@ class Mailer
                 $templateName, 
                 $context,  
                 $params['email'], 
-                $this->parameters['company']['email']
+                $this->twigGlobal->getParameter('company.email', 'ecommerce')
                 );
 
     }
@@ -303,7 +303,7 @@ class Mailer
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($fromEmail =>  $this->parameters['company']['name']))
+            ->setFrom(array($fromEmail =>  $this->twigGlobal->getParameter('company.name', 'ecommerce')))
 //            ->setFrom(array('user@local.com' => 'Avisos'))
             ->setTo($toEmail);
 
@@ -326,8 +326,8 @@ class Mailer
         
         $actor = $product->getActor();
         //send message to admin
-        $fromEmail =  $this->parameters['company']['email'];
-        $toEmail = $this->parameters['company']['email'];
+        $fromEmail =  $this->twigGlobal->getParameter('company.email', 'ecommerce');
+        $toEmail = $this->twigGlobal->getParameter('admin_email');
         $templateName = 'CoreBundle:Email:new_product.html.twig';
         $route = $this->router->generate('ecommerce_product_edit',array('id'=>$product->getId()));
         $context = array(
@@ -335,8 +335,8 @@ class Mailer
         );
         $this->sendMessage($templateName, $context, $fromEmail, $toEmail);
         
-        //send email to optic, product will be active after moderation
-        $fromEmail =  $this->parameters['company']['email'];
+        //send email to company, product will be active after moderation
+        $fromEmail =  $this->twigGlobal->getParameter('company.email');
         $toEmail = $actor->getEmail();
         $templateName = 'Ecommerce:Email:new_product.html.twig';
         $context = array(
@@ -377,7 +377,7 @@ class Mailer
             'order_details_url' => $this->router->generate('ecommerce_checkout_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
         );
 
-        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
+        $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce'), $this->twigGlobal->getParameter('company.sales_email', 'ecommerce'));
     }
     
     /**
@@ -409,7 +409,7 @@ class Mailer
             'token' => $token
         );
         
-        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+        $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce') , $toEmail);
         
     }
     
@@ -439,7 +439,7 @@ class Mailer
             'order_details_url' => $this->router->generate('ecommerce_checkout_showinvoice', array('number' => $invoice->getInvoiceNumber()), UrlGeneratorInterface::ABSOLUTE_URL),
         );
 
-        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $this->parameters['company']['sales_email']);
+        $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce'), $this->twigGlobal->getParameter('company.sales_email', 'ecommerce'));
     }
     
     /**
@@ -463,7 +463,7 @@ class Mailer
             'order_url'      => $orderUrl,
         );
 
-        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+        $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce') , $toEmail);
         
         //send email to optic to confirm purchase
         //check empty bank number account
@@ -488,7 +488,7 @@ class Mailer
                 'actor' => $actor
             );
 
-            $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'] , $toEmail);
+            $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce') , $toEmail);
         }
         
     }
@@ -509,7 +509,7 @@ class Mailer
             'carrier_name'  => 'Transporte'//$transaction->getDelivery()->getCarrier()->getName()
         );
 
-        $this->sendMessage($templateName, $context, $this->parameters['company']['sales_email'], $toEmail);
+        $this->sendMessage($templateName, $context, $this->twigGlobal->getParameter('company.sales_email', 'ecommerce'), $toEmail);
     }
     
 }
