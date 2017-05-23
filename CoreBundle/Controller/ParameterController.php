@@ -26,13 +26,8 @@ class ParameterController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $parameters = $em->getRepository('CoreBundle:Parameter')->findAll();
-
-        return array(
-            'parameters' => $parameters,
-        );
+        $form = $this->createDeleteListForm();
+        return array('delete_form' => $form->createView());
     }
 
     /**
@@ -174,6 +169,22 @@ class ParameterController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('core_parameter_delete', array('id' => $entity->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+    
+    /**
+     * Creates a form to delete a route entity.
+     *
+     * @param Route $route The route entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteListForm()
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_parameter_delete', array('id' => 0)))
             ->setMethod('DELETE')
             ->getForm()
         ;

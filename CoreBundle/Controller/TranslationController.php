@@ -29,7 +29,8 @@ class TranslationController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $form = $this->createDeleteListForm();
+        return array('delete_form' => $form->createView());
     }
 
     /**
@@ -354,5 +355,21 @@ class TranslationController extends Controller
         $fs = new Filesystem();
         $fs->remove($this->container->getParameter('kernel.cache_dir').'/translations');
 
+    }
+    
+    /**
+     * Creates a form to delete a route entity.
+     *
+     * @param Route $route The route entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteListForm()
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('core_translation_delete', array('key' => 'key', 'domain' => 'domain')))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
     }
 }

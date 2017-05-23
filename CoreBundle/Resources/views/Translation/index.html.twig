@@ -46,6 +46,13 @@
                     <tbody>
                     </tbody>
                 </table>
+                {{ form_start(delete_form, {
+                        'method': 'post', 
+                        'attr': {'id': 'delete-entity'}
+                    }) }}
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ form_widget(delete_form) }}
+                {{ form_end(delete_form) }}
               </div>
           </div>
         </div>
@@ -58,19 +65,21 @@
     {{ parent() }}
     
     <script>
-        var table_columns = [                        {
-                            "mData": function (source) {
-                                return '<a href="' + source.transKey + '/' + source.messageDomain + '">' + source.transKey + '</a>';
-                            }
-                        },                        
-                        { "mData": "translation" },  
-                        { "mData": "transLocale" },                       
-                        //{ "mData": "messageDomain" }, 
-                        {
-                            "mData": function(source) {
-                                return '<a href="' + source.transKey + '/' + source.messageDomain + '/edit" class="btn btn-primary btn-xs btn-flat"><i class="ion-compose"></i> {{ 'edit' | trans }}</a> ';
-                            }
-                        }        ];
+        var table_columns = [                        
+            {
+                "mData": function (source) {
+                    return '<a href="' + source.transKey + '/' + source.messageDomain + '">' + source.transKey + '</a>';
+                }
+            },                        
+            { "mData": "translation" },  
+            { "mData": "transLocale" },                       
+            {
+                "mData": function(source) {
+                    return '<a href="' + source.transKey + '/' + source.messageDomain + '/edit" class="btn btn-primary btn-xs btn-flat"><i class="ion-compose"></i> {{ 'edit' | trans }}</a>  \n\
+                            <a href="/admin/translations/' + source.transKey + '/' + source.messageDomain + '" class="btn btn-danger btn-xs btn-flat delete"><i class="ion-trash-a"></i> {{ 'delete' | trans }}</a> ';
+                }
+            }        
+        ];
 
         jQuery(document).ready(function() {
             TableManaged.init(
@@ -78,7 +87,18 @@
                 '{{ url('core_translation_listjson') }}',
                 [],
                 table_columns,
-                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}',
+                function() {
+                    $('.delete').on('click', function(e) {
+                        e.preventDefault();
+                        if (confirm('{{ "are.you.sure" | trans }}')) {
+                            var href = $(this).attr('href');
+                            $('#delete-entity').attr('action', href);
+                            $('#delete-entity').submit();
+                        }
+                    })
+                }
+            );
         });
     </script>
     
