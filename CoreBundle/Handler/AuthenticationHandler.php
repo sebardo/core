@@ -69,9 +69,19 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Lo
         } elseif ($this->hasRole('ROLE_COMPANY', $token->getUser())) {
             return new RedirectResponse($this->container->get('router')->generate('company_default_dashboard'));
         } else {
+            // set context with GET method of the previous ajax call
+            $context = $this->container->get('router')->getContext();
+            $currentMethod = $context->getMethod();
+            $context->setMethod('GET');
+
+            // match route
             $referer = $this->getRefererPath($request);
-            if ($referer == '/identification') {
-                return new RedirectResponse($this->container->get('router')->generate('ecommerce_checkout_deliveryinfo'));
+            $match = $this->container->get('router')->match($referer);
+            // set back original http method
+            $context->setMethod($currentMethod);
+            
+            if (isset($match['_route']) && $match['_route'] == 'ecommerce_checkout_identification' && isset($match['_locale'])) {
+                return new RedirectResponse($this->container->get('router')->generate('ecommerce_checkout_deliveryinfo', array('_locale' => $match['_locale'])));
             }
             return new RedirectResponse($this->container->get('router')->generate('index'));
         }
