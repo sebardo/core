@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use A2lix\I18nDoctrineBundle\Annotation\I18nDoctrine;
 
 /**
  * Page controller.
@@ -66,7 +67,7 @@ class PageController extends Controller
     public function newAction(Request $request)
     {
         $page = new Page();
-        $form = $this->createForm('CoreBundle\Form\PageType', $page);
+        $form = $this->createForm('CoreBundle\Form\PageType', $page, array('translator'=>$this->get('translator')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -114,11 +115,12 @@ class PageController extends Controller
      * @Route("/{id}/edit")
      * @Method({"GET", "POST"})
      * @Template()
+     * @I18nDoctrine
      */
     public function editAction(Request $request, Page $page)
     {
         $deleteForm = $this->createDeleteForm($page);
-        $editForm = $this->createForm('CoreBundle\Form\PageType', $page);
+        $editForm = $this->createForm('CoreBundle\Form\PageType', $page, array('translator'=>$this->get('translator')));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

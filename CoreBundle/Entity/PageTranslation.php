@@ -40,16 +40,14 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_title", type="string", length=255)
-     * @Assert\NotBlank
+     * @ORM\Column(name="meta_title", type="string", length=255, nullable=true)
      */
     private $metaTitle;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_description", type="text")
-     * @Assert\NotBlank
+     * @ORM\Column(name="meta_description", type="text", nullable=true)
      */
     private $metaDescription;
     
@@ -75,6 +73,7 @@ class PageTranslation implements \A2lix\I18nDoctrineBundle\Doctrine\Interfaces\O
     public function setTitle($title)
     {
         $this->title = $title;
+        if($this->metaTitle == '') $this->metaTitle = $this->title;
 
         return $this;
     }

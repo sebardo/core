@@ -1,6 +1,6 @@
 {% extends twig_global.getParameter('extended_layout_admin') ? twig_global.getParameter('extended_layout_admin') : 'AdminBundle:Base:layout.html.twig' %}
 
-{% block section %}{% endblock %}
+{% block section %}pages{% endblock %}
 {% block content %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -12,7 +12,7 @@
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
         <li><a href="{{ path('core_page_index') }}">{{ 'Page' | trans }}</a></li>
-        <li><a href="{{ path('core_page_show', {'id': page.id }) }}">{{ page  }}</a></li>
+        <li><a href="{{ path('core_page_show', {'id': page.id }) }}">{{ page.title  }}</a></li>
       </ol>
     </section>
    
@@ -31,9 +31,26 @@
                 <div class="tab-pane active show-tables" id="info_tab">
                    
                     <table class="table">
-                        <tbody>                            <tr>
-                                <td>Id</td>                                <td>{{ page.id }}</td>                            </tr>                            <tr>
-                                <td>Active</td>                                <td>{% if page.active %}<span class="label label-success">{{ "yes" | trans }}</span>{% else %}<span class="label label-warning">{{ "no" | trans }}</span>{% endif %}</td>                            </tr>                        </tbody>
+                        <tbody>                            
+                            <tr>
+                                <td>Id</td>                                
+                                <td>{{ page.id }}</td>                            
+                            </tr>
+                            <tr>
+                                <td>Title</td>                                
+                                <td>{{ page.title }}</td>                            
+                            </tr> 
+                            <tr>
+                                <td>Description</td>                                
+                                <td>{{ page.description | raw }}</td>                            
+                            </tr>
+                            <tr>
+                                <td>Active</td>                                
+                                <td>
+                                    {% if page.active %}<span class="label label-success">{{ "yes" | trans }}</span>{% else %}<span class="label label-warning">{{ "no" | trans }}</span>{% endif %}
+                                </td>                            
+                            </tr>                        
+                        </tbody>
                     </table>
                     
                     <div class="box-footer">

@@ -13,26 +13,74 @@ class PageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if(isset($options['translator'])){
+            $this->translator = $options['translator'];
+        }
+        
         $builder
             ->add('translations', 'A2lix\TranslationFormBundle\Form\Type\TranslationsType', array(
                 'fields' => array(                               
                     'title' => array(                       
-                        'required' => true
+                        'label' => $this->translator->trans('title'),
                     ),
                     'slug' => array(                         
                         'required' => false
                     ),
-                    'description' => array(                         
-                        'required' => true
+                    'description' => array( 
+                        'label' => $this->translator->trans('description'),
+                        'locale_options' => array(
+                            'ca' => array(
+                                'required' => false,
+                            ),
+                            'en' => array(
+                                'required' => false,
+                            ),
+                            'es' => array(
+                                'required' => false,
+                            ),
+                        ),
                     ),
                     'metaTitle' => array(                         
-                        'required' => true
+                        'label' => $this->translator->trans('metaTitle'),
+                        'locale_options' => array(
+                            'ca' => array(
+                                'required' => false,
+                            ),
+                            'en' => array(
+                                'required' => false,
+                            ),
+                            'es' => array(
+                                'required' => false,
+                            ),
+                        ),
                     ),
                     'metaDescription' => array(                         
-                        'required' => true
+                        'label' => $this->translator->trans('metaDescription'),
+                        'locale_options' => array(
+                            'ca' => array(
+                                'required' => false,
+                            ),
+                            'en' => array(
+                                'required' => false,
+                            ),
+                            'es' => array(
+                                'required' => false,
+                            ),
+                        ),
                     ),
                     'metaTags' => array(                         
-                        'required' => false
+                        'label' => $this->translator->trans('metaTags'),
+                        'locale_options' => array(
+                            'ca' => array(
+                                'required' => false,
+                            ),
+                            'en' => array(
+                                'required' => false,
+                            ),
+                            'es' => array(
+                                'required' => false,
+                            ),
+                        ),
                     ),
                 ),
             ))
@@ -46,7 +94,8 @@ class PageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\Page'
+            'data_class' => 'CoreBundle\Entity\Page',
+            'translator' => null
         ));
     }
 
