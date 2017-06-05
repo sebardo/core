@@ -1,0 +1,11 @@
+{{ form_errors(form) }}
+    
+<div class="">
+    {{ form_errors(form.translations) }}
+    {{ form_widget(form.translations) }}
+</div>
+
+{{ form_row(form.active, { label: 'active' }) }}
+ 
+
+{{ form_rest(form) }}
