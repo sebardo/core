@@ -115,16 +115,17 @@ class BaseActorController  extends Controller
     {
         $returnValues = array();
         $deleteForm = $this->createDeleteForm($actor);
-        $shippingForm = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
-        if($this->get('core_manager')->useEcommerce()){
+        if($this->get('twig.global')->checkUse('CoreExtraBundle')){
+            $returnValues['shippingForm'] = $this->createForm('CoreBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
+        }
+        if($this->get('twig.global')->checkUse('EcommerceBundle')){
             $addressForm = $this->createForm('EcommerceBundle\Form\AddressType', null, array('token_storage' => $this->container->get('security.token_storage')));
             $returnValues['addressForm'] = $addressForm->createView();
         }
         
         return array_merge($returnValues, array(
             'entity' => $actor,
-            'delete_form' => $deleteForm->createView(),
-            'shippingForm' => $shippingForm->createView()
+            'delete_form' => $deleteForm->createView()
         ));
     }
     

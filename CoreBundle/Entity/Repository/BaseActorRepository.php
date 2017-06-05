@@ -84,7 +84,7 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
      *
      * @return \Doctrine\ORM\Query
      */
-    public function findAllForDataTables($search, $sortColumn, $sortDirection)
+    public function findAllForDataTables($search, $sortColumn, $sortDirection, $roles)
     {
         // select
         $qb = $this->getQueryBuilder()
@@ -94,14 +94,28 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
         $qb->leftJoin('u.roles', 'r');
         $qb->leftJoin('u.image', 'i');
                 
+        $x=0;
+        if(count($roles)>0){
+            foreach ($roles as $role) {
+                $x++;
+                if($x == 1){
+                    $qb->where('r.role = :role'.$x)
+                        ->setParameter('role'.$x, $role);
+                }else{
+                    $qb->orWhere('r.role = :role'.$x)
+                        ->setParameter('role'.$x, $role);
+                }
+                
+            }
+        }
+                
         // search
         if (!empty($search)) {
             // where('u.email LIKE :search')
             $qb->where('u.email LIKE :search')
                 ->orWhere('u.name LIKE :search')
                 ->orWhere('u.lastname LIKE :search')
-                ->andWhere('r.role = :role')
-                ->setParameter('role', 'ROLE_USER')
+                
                 ->setParameter('search', '%'.$search.'%');
         }
 

@@ -1,6 +1,6 @@
 {% extends "AdminBundle:Base:layout.html.twig" %}
 
-{% form_theme shippingForm 'AdminBundle:Form:fields.html.twig' %}
+
 {% set actorrole_form = get_actorrole_form() %}
 {% form_theme actorrole_form 'AdminBundle:Form:fields.html.twig' %}
 
@@ -35,7 +35,9 @@
                                 not app.request.get('shippings') and
                                 not app.request.get('roles') ? 'active' }}"><a href="#info_tab" data-toggle="tab">{{ "information" | trans }}</a></li>
                     <li class="{{ app.request.get('roles') ? 'active' }}"><a href="#roles_tab" data-toggle="tab">{{ "role.plural" | trans }}</a></li>
-                    <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "actor.email" | trans }}</a></li>
+                    {% if twig_global.checkUse('CoreExtraBundle') %}
+                        <li class="{{ app.request.get('shippings') ? 'active' }}"><a href="#shippings_tab" data-toggle="tab">{{ "actor.email" | trans }}</a></li>
+                    {% endif %}
                     {% if twig_global.checkUse('EcommerceBundle') %}
                         <li class="{{ app.request.get('address') ? 'active' }}"><a href="#address_tab" data-toggle="tab">{{ "address.plural" | trans }}</a></li>
                         <li class="{{ app.request.get('transactions') ? 'active' }}"><a href="#transactions_tab" data-toggle="tab">{{ "transaction.plural" | trans }}</a></li>
@@ -197,7 +199,9 @@
                         </div>
                         <div class="box-footer"></div>
                     </div>
-                    <div class="tab-pane  {{ app.request.get('shippings') ? 'active' }}" id="shippings_tab">
+                                        
+                    {% if twig_global.checkUse('CoreExtraBundle') %}
+                        <div class="tab-pane  {{ app.request.get('shippings') ? 'active' }}" id="shippings_tab">
                         <div class="box-body show-tables">
                             <div class="clearfix">
                                 <div class="btn-group">
@@ -221,7 +225,8 @@
                             </table>
                         </div>
                         <div class="box-footer"></div>
-                    </div>        
+                    </div> 
+                    {% endif %}
                 </div>
           </div>
         </div>
@@ -262,7 +267,8 @@
   </div>
 </div>
 {% endif %} 
-
+{% if twig_global.checkUse('CoreExtraBundle') %}
+{% form_theme shippingForm 'AdminBundle:Form:fields.html.twig' %}
 <!-- Modal Shipping -->
 <div class="modal fade" id="modalShipping" tabindex="-1" role="dialog" aria-labelledby="modalShippingLabel">
   <div class="modal-dialog" role="document">
@@ -296,7 +302,7 @@
     </div>
   </div>
 </div>
-                
+{% endif %}             
 {% endblock %}
 
 {% block javascripts %}
@@ -323,6 +329,8 @@
                 }
             }
         ];    
+        
+        {% if twig_global.checkUse('CoreExtraBundle') %}
         var shippings_table_columns = [
             { "mData": "id" },
             {
@@ -339,6 +347,40 @@
                 }
             }
         ];
+         $(function () {
+            CKEDITOR.replace('email_body', {
+                extraPlugins: 'uploadimage,image2',
+                height: 100,
+
+                // Upload images to a CKFinder connector (note that the response type is set to JSON).
+                uploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+
+                // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+                filebrowserBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html',
+                filebrowserImageBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html?type=Images',
+                filebrowserUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                filebrowserImageUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+
+                // The following options are not necessary and are used here for presentation purposes only.
+                // They configure the Styles drop-down list and widgets to use classes.
+
+                stylesSet: [
+                        { name: 'Narrow image', type: 'widget', widget: 'image', attributes: { 'class': 'image-narrow' } },
+                        { name: 'Wide image', type: 'widget', widget: 'image', attributes: { 'class': 'image-wide' } }
+                ],
+
+                // Load the default contents.css file plus customizations for this sample.
+                // contentsCss: [ CKEDITOR.basePath + 'contents.css', 'assets/css/widgetstyles.css' ],
+
+                // Configure the Enhanced Image plugin to use classes instead of styles and to disable the
+                // resizer (because image size is controlled by widget styles or the image takes maximum
+                // 100% of the editor width).
+                image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
+                image2_disableResizer: true
+            });
+        });
+        {% endif %} 
+        
         {% if twig_global.checkUse('EcommerceBundle') %}
             var addresses_table_columns = [
                 { "mData": "address" },
@@ -414,38 +456,8 @@
                 }
             ];
         {% endif %}
-         $(function () {
-            CKEDITOR.replace('email_body', {
-                extraPlugins: 'uploadimage,image2',
-                height: 100,
 
-                // Upload images to a CKFinder connector (note that the response type is set to JSON).
-                uploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
-
-                // Configure your file manager integration. This example uses CKFinder 3 for PHP.
-                filebrowserBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html',
-                filebrowserImageBrowseUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/ckfinder.html?type=Images',
-                filebrowserUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-                filebrowserImageUploadUrl: '{{ core.server_base_url}}/bundles/admin/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-
-                // The following options are not necessary and are used here for presentation purposes only.
-                // They configure the Styles drop-down list and widgets to use classes.
-
-                stylesSet: [
-                        { name: 'Narrow image', type: 'widget', widget: 'image', attributes: { 'class': 'image-narrow' } },
-                        { name: 'Wide image', type: 'widget', widget: 'image', attributes: { 'class': 'image-wide' } }
-                ],
-
-                // Load the default contents.css file plus customizations for this sample.
-                // contentsCss: [ CKEDITOR.basePath + 'contents.css', 'assets/css/widgetstyles.css' ],
-
-                // Configure the Enhanced Image plugin to use classes instead of styles and to disable the
-                // resizer (because image size is controlled by widget styles or the image takes maximum
-                // 100% of the editor width).
-                image2_alignClasses: [ 'image-align-left', 'image-align-center', 'image-align-right' ],
-                image2_disableResizer: true
-            });
-        });
+        
         
         function cleanForm(id) {
             $(id+" input").each(function( index ) {
@@ -508,13 +520,37 @@
                     [],
                     transactions_table_columns,
                     '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
-            {% endif %}            
-            TableManaged.init(
-                '#shippings-table',
-                '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
-                [2],
-                shippings_table_columns,
-                '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+            {% endif %}      
+            {% if twig_global.checkUse('CoreExtraBundle') %}
+                TableManaged.init(
+                    '#shippings-table',
+                    '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                    [2],
+                    shippings_table_columns,
+                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}'
+                );
+        
+                $("#create-shipping").submit(function(e){
+
+                    e.preventDefault();
+                    var data = CKEDITOR.instances.email_body.getData();
+                    $('#email_body').val(data);
+                    var formSerialize = $(this).serialize();
+                    console.log(formSerialize);
+                    $.post('{{ path('core_baseactor_email', {id: entity.id })  }}', formSerialize, function(response){
+                         TableManaged.reload(
+                        '#shippings-table',
+                        '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
+                        [],
+                        shippings_table_columns,
+                        '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
+                        $('#close').click();
+
+                   },'JSON');
+
+                });
+            
+            {% endif %}   
             TableManaged.init(
                 '#roles-table',
                 '{{ url('core_role_listforuserjson', { actorId: entity.id }) }}',
@@ -522,25 +558,7 @@
                 roles_table_columns,
                 '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
         
-            $("#create-shipping").submit(function(e){
-
-                e.preventDefault();
-                var data = CKEDITOR.instances.email_body.getData();
-                $('#email_body').val(data);
-                var formSerialize = $(this).serialize();
-                console.log(formSerialize);
-                $.post('{{ path('core_baseactor_email', {id: entity.id })  }}', formSerialize, function(response){
-                     TableManaged.reload(
-                    '#shippings-table',
-                    '{{ url('core_newsletter_listforuserjson', { actorId: entity.id }) }}',
-                    [],
-                    shippings_table_columns,
-                    '{{ url('admin_default_getdatatablesi18n', { language: app.request.locale }) }}');
-                    $('#close').click();
-                    
-               },'JSON');
-               
-            });
+            
             
             $("#create-role").submit(function(e){
                 e.preventDefault();
