@@ -117,9 +117,18 @@ class ActorController  extends Controller
         $em = $this->getDoctrine()->getManager();
         $actor = $em->getRepository($this->get('core_manager')->getActorBundleName().':Actor')->findOneById($id);
         
-        $returnValues = array();
         $deleteForm = $this->createDeleteForm($actor);
-        $shippingForm = $this->createForm('CoreExtraBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
+        
+        $returnValues = array(
+            'entity' => $actor,
+            'delete_form' => $deleteForm->createView(),
+        );
+                
+        $twigGlobal = $this->get('twig.global');
+        if($twigGlobal->checkUse('CoreExtraBundle')){
+            $shippingForm = $this->createForm('CoreExtraBundle\Form\EmailType', null, array('email' => $actor->getEmail()));
+            $returnValues['shippingForm'] = $shippingForm->createView();
+        }
         if($this->get('core_manager')->useEcommerce()){
             $addressForm = $this->createForm('EcommerceBundle\Form\AddressType', null, array('token_storage' => $this->container->get('security.token_storage')));
             $returnValues['addressForm'] = $addressForm->createView();
@@ -128,7 +137,6 @@ class ActorController  extends Controller
         return array_merge($returnValues, array(
             'entity' => $actor,
             'delete_form' => $deleteForm->createView(),
-            'shippingForm' => $shippingForm->createView()
         ));
     }
     
