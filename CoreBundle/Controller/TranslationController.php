@@ -109,10 +109,8 @@ class TranslationController extends Controller
             ->createQueryBuilder('tl');
        
         // select
-        $qb->select('tl.transKey, tl.transLocale, tl.messageDomain, tl.translation ')
-//           ->join('tl.translations', 't')
-            ;
-       
+        $qb->select('tl.transKey, tl.transLocale, tl.messageDomain, tl.translation ');
+        
         //where
         $qb->where('tl.transLocale = :locale')
            ->setParameter('locale', $locale);
@@ -122,6 +120,13 @@ class TranslationController extends Controller
                ->orWhere('tl.translation LIKE :search')
                 ->setParameter('search', '%'.$search.'%');
         }
+        
+        //show "route." keys only for root user
+        if(!$this->getUser()->isGranted('ROLE_SUPER_ADMIN')){
+            $qb->andWhere('tl.transKey NOT LIKE :routes')
+                ->setParameter('routes', '%route.%');
+        }
+        
 
         // sort by column
         switch($sortColumn) {
