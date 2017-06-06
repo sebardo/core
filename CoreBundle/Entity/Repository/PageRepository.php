@@ -68,6 +68,32 @@ class PageRepository  extends EntityRepository
         return $qb->getQuery();
     }
     
+    /**
+     * Find all rows filtered for DataTables
+     *
+     * @param string $search        The search string
+     * @param int    $sortColumn    The column to sort by
+     * @param string $sortDirection The direction to sort the column
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    public function findOneBySlug($slug)
+    {
+        // select
+        $qb = $this->getQueryBuilder()
+            ->select('p.id, t.title, t.description, t.metaTitle, t.metaDescription, t.metaTags, p.active');
+
+        //join
+        $qb->leftJoin('p.translations', 't');
+        
+        $qb->where('t.slug LIKE :slug')
+           ->andWhere('p.active LIKE :active')
+            ->setParameter('slug', '%'.$slug.'%')
+            ->setParameter('active', true);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+    
     private function getQueryBuilder()
     {
         $em = $this->getEntityManager();

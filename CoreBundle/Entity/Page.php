@@ -10,7 +10,7 @@ use CoreBundle\Entity\Image;
 
 
 /**
- * MenuItem Entity class
+ * Page Entity class
  *
  * @ORM\Table(name="page")
  * @ORM\Entity(repositoryClass="CoreBundle\Entity\Repository\PageRepository")
@@ -32,10 +32,23 @@ class Page
     /**
      * @var boolean
      *
+     * @ORM\Column(name="legal", type="boolean")
+     */
+    private $legal;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cookie", type="boolean")
+     */
+    private $cookie;
+    
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="active", type="boolean")
      */
     private $active;
-
 
     /**
      * @Assert\Valid
@@ -74,6 +87,53 @@ class Page
         return $this->id;
     }
 
+    /**
+     * Is legal?
+     *
+     * @return boolean
+     */
+    public function isLegal()
+    {
+        return $this->legal;
+    }
+
+    /**
+     * Set legal
+     *
+     * @param boolean $legal
+     *
+     * @return Page
+     */
+    public function setLegal($legal)
+    {
+        $this->legal = $legal;
+
+        return $this;
+    }
+       
+    /**
+     * Is cookie?
+     *
+     * @return boolean
+     */
+    public function isCookie()
+    {
+        return $this->cookie;
+    }
+
+    /**
+     * Set cookie
+     *
+     * @param boolean $cookie
+     *
+     * @return Page
+     */
+    public function setCookie($cookie)
+    {
+        $this->cookie = $cookie;
+
+        return $this;
+    }
     
     /**
      * Is active?
@@ -90,7 +150,7 @@ class Page
      *
      * @param boolean $active
      *
-     * @return MenuItem
+     * @return Page
      */
     public function setActive($active)
     {
@@ -98,7 +158,7 @@ class Page
 
         return $this;
     }
-        
+    
     public function getTranslations()
     {
         return $this->translations;

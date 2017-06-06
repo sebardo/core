@@ -84,7 +84,9 @@ class PageType extends AbstractType
                     ),
                 ),
             ))
-            ->add('active')        
+            ->add('cookie')
+            ->add('legal')
+            ->add('active')
             ;
     }
     
