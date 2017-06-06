@@ -76,7 +76,7 @@ class ParameterController extends Controller
             }
             $this->get('session')->getFlashBag()->add('success', 'parameter.created');
             
-            return $this->redirectToRoute('core_parameter_show', array('id' => $entity->getId()));
+            return $this->redirectToRoute('core_parameter_index');
         }
 
         return array(
@@ -126,7 +126,7 @@ class ParameterController extends Controller
             }
             $this->get('session')->getFlashBag()->add('success', 'parameter.edited');
             
-            return $this->redirectToRoute('core_parameter_show', array('id' => $entity->getId()));
+            return $this->redirectToRoute('core_parameter_index');
         }
 
         return array(

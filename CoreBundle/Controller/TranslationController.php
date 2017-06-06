@@ -168,7 +168,7 @@ class TranslationController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'translation.created');
             
-            return $this->redirectToRoute('core_translation_show', array('key' => $entity->getKey(), 'domain' => 'messages'));
+            return $this->redirectToRoute('core_translation_index');
         }
 
         return $this->render('CoreBundle:Translation:new.html.twig', array(
@@ -253,7 +253,7 @@ class TranslationController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'translation.edited');
             
-            return $this->redirectToRoute('core_translation_show', array('key' => $key, 'domain' => 'messages'));
+            return $this->redirectToRoute('core_translation_index');
         }
 
         return $this->render('CoreBundle:Translation:edit.html.twig', array(

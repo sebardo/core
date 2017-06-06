@@ -83,7 +83,7 @@ class PageController extends Controller
             }
             $this->get('session')->getFlashBag()->add('success', 'page.created');
             
-            return $this->redirectToRoute('core_page_show', array('id' => $page->getId()));
+            return $this->redirectToRoute('core_page_index');
         }
 
         return array(
@@ -134,7 +134,7 @@ class PageController extends Controller
             }
             $this->get('session')->getFlashBag()->add('success', 'page.edited');
             
-            return $this->redirectToRoute('core_page_edit', array('id' => $page->getId()));
+            return $this->redirectToRoute('core_page_index');
         }
 
         return array(
