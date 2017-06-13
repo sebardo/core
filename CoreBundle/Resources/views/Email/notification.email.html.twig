@@ -10,11 +10,11 @@
 
 {% block body_html %}
 {% spaceless %}
-    {{ include('CoreBundle:Email:_header.html.twig') }}
+    {{ include(twig_global.getParameter('email_header_template')) }}
 
     {{mail.body | raw}}
 
-    {{ include('CoreBundle:Email:_footer.html.twig') }}
+    {{ include(twig_global.getParameter('email_footer_template')) }}
 {% endspaceless %}
 {% endblock %}
 

@@ -1113,7 +1113,7 @@ class CoreTest  extends WebTestCase
         return $crawler;
     }
     
-    public function getEntity($uid, $repository, $key) {
+    public function getEntity($uid, $repository, $key=null) {
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
         $repo = $manager->getRepository($repository);
@@ -1130,7 +1130,7 @@ class CoreTest  extends WebTestCase
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.name LIKE :search')
                     ->setParameter('search', '%'.$uid.'%');
-        }elseif(method_exists($all[0], 'get'. ucfirst($key))){
+        }elseif(!is_null($key) && method_exists($all[0], 'get'. ucfirst($key))){
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.'.$key.' LIKE :search')
                     ->setParameter('search', '%'.$uid.'%');

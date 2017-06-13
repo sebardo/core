@@ -303,7 +303,7 @@ class Mailer
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($fromEmail =>  $this->twigGlobal->getParameter('company.name', 'ecommerce')))
+            ->setFrom(array($fromEmail =>  $this->twigGlobal->getParameter('name')))
 //            ->setFrom(array('user@local.com' => 'Avisos'))
             ->setTo($toEmail);
 

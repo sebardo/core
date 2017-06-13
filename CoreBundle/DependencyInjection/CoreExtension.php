@@ -27,6 +27,8 @@ class CoreExtension extends Extension
         $container->setParameter('core.extended_layout', $config['extended_layout']);
         $container->setParameter('core.extended_layout_admin', $config['extended_layout_admin']);
         $container->setParameter('core.authentication_handler_class', $config['authentication_handler_class']);
+        $container->setParameter('core.email_header_template', $config['email_header_template']);
+        $container->setParameter('core.email_footer_template', $config['email_footer_template']);
         $container->setParameter('core.notification_navbar_template', $config['notification_navbar_template']);
         $container->setParameter('core.upload_directory', $config['upload_directory']);
         $container->setParameter('core.server_base_url', $config['server_base_url']);
