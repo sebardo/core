@@ -29,8 +29,7 @@ class CoreTest  extends WebTestCase
 
     public function setUp()
     {
-        $this->client = static::createClient(array(), array('HTTP_HOST' => 'latinotype.dev'));
-//        $this->client->followRedirects(true);
+        $this->client = static::createClient(array(), array('HTTP_HOST' => 'localhost.dev'));
     }
     
      /**
@@ -1114,7 +1113,7 @@ class CoreTest  extends WebTestCase
         return $crawler;
     }
     
-    public function getEntity($uid, $repository) {
+    public function getEntity($uid, $repository, $key) {
         $container = $this->client->getContainer();
         $manager = $container->get('doctrine')->getManager();
         $repo = $manager->getRepository($repository);
@@ -1127,9 +1126,13 @@ class CoreTest  extends WebTestCase
                         ->andWhere('t.locale = :locale')
                         ->setParameter('locale', 'es')
                         ->setParameter('search', '%'.$uid.'%');
-        }else{
+        }elseif(method_exists($all[0], 'getName')){
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.name LIKE :search')
+                    ->setParameter('search', '%'.$uid.'%');
+        }elseif(method_exists($all[0], 'get'. ucfirst($key))){
+            $qb = $repo->createQueryBuilder('r')
+                    ->where('r.'.$key.' LIKE :search')
                     ->setParameter('search', '%'.$uid.'%');
         }
         
@@ -1266,9 +1269,17 @@ class CoreTest  extends WebTestCase
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Parameter has been created successfully")')->count());
         
+        $entity = $this->getEntity($uid, 'CoreBundle:Parameter', 'parameter');
+        //edit page
+        $crawler = $this->client->request('GET', '/admin/parameters/'.$entity->getId(), array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
+
         return $crawler;
     }
 }
