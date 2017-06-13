@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * To run the testcase:
  * @code
- * phpunit -v vendor/sebardo/core/CoreBundle/Tests/Controller/TranslationControllerTest.php
+ * php vendor/bin/phpunit -v vendor/sebardo/core/CoreBundle/Tests/Controller/TranslationControllerTest.php
  * @endcode
  */
 class TranslationControllerTest extends CoreTest
 {
     /**
      * @code
-     * phpunit -v --filter testTranslation vendor/sebardo/core/CoreBundle/Tests/Controller/TranslationControllerTest.php
+     * php vendor/bin/phpunit -v --filter testTranslation vendor/sebardo/core/CoreBundle/Tests/Controller/TranslationControllerTest.php
      * @endcode
      * 
      */
@@ -58,6 +58,20 @@ class TranslationControllerTest extends CoreTest
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click delete/////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
+        $entity = $this->client->getContainer()->get('asm_translation_loader.translation_manager')
+            ->findTranslationBy(
+                array(
+                    'transKey' => $uid,
+                    'transLocale' => $this->client->getRequest()->getLocale(),
+                    'messageDomain' => 'messages',
+                )
+            );
+        //edit page
+        $crawler = $this->client->request('GET', '/admin/translations/'.$entity->getTransKey().'/messages', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        
         $form = $crawler->filter('form[id="delete-entity"]')->form();
         $crawler = $this->client->submit($form);// submit the form
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);

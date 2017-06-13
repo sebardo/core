@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * To run the testcase:
  * @code
- * phpunit -v vendor/sebardo/core/CoreBundle/Tests/Controller/ParameterControllerTest.php
+ * php vendor/bin/phpunit -v vendor/sebardo/core/CoreBundle/Tests/Controller/ParameterControllerTest.php
  * @endcode
  */
 class ParameterControllerTest extends CoreTest
 {
     /**
      * @code
-     * phpunit -v --filter testParameter vendor/sebardo/core/CoreBundle/Tests/Controller/ParameterControllerTest.php
+     * php vendor/bin/phpunit -v --filter testParameter vendor/sebardo/core/CoreBundle/Tests/Controller/ParameterControllerTest.php
      * @endcode
      * 
      */
@@ -53,16 +53,22 @@ class ParameterControllerTest extends CoreTest
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         //$this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Parameter has been edited successfully")')->count());
-//
-//        ///////////////////////////////////////////////////////////////////////////////////////////
-//        //Click delete/////////////////////////////////////////////////////////////////////////////
-//        ///////////////////////////////////////////////////////////////////////////////////////////
-//        $form = $crawler->filter('form[id="delete-entity"]')->form();
-//        $crawler = $this->client->submit($form);// submit the form
-//        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
-//        $crawler = $this->client->followRedirect();
-//        //Asserts
-//        $this->assertTrue($this->client->getResponse()->isSuccessful());
-//        $this->assertGreaterThan(0, $crawler->filter('html:contains("Translation has been deleted successfully")')->count());
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        //Click delete/////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
+        $entity = $this->getEntity($uid, 'CoreBundle:Parameter', 'parameter');
+        //edit page
+        $crawler = $this->client->request('GET', '/admin/parameters/'.$entity->getId(), array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        $form = $crawler->filter('form[id="delete-entity"]')->form();
+        $crawler = $this->client->submit($form);// submit the form
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Parameter has been deleted successfully")')->count());
     }
 }

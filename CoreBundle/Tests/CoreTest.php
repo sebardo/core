@@ -1229,8 +1229,23 @@ class CoreTest  extends WebTestCase
         $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Translation has been created successfully")')->count());
+        
+        $entity = $this->client->getContainer()->get('asm_translation_loader.translation_manager')
+            ->findTranslationBy(
+                array(
+                    'transKey' => $uid,
+                    'transLocale' => $this->client->getRequest()->getLocale(),
+                    'messageDomain' => 'messages',
+                )
+            );
+        //edit page
+        $crawler = $this->client->request('GET', '/admin/translations/'.$entity->getTransKey().'/messages', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
         
         return $crawler;
     }
