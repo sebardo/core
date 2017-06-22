@@ -114,39 +114,52 @@ class CoreManager
     }
 
     public function getAbsolutePathMenuItem($id) {
-        return $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'menu'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
+        $uploadDirectory = $this->getCoreParameter('upload_directory');
+        return $this->getWebPath() .  $uploadDirectory . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'menu'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
     }
     
     public function getAbsolutePathProfile($id) {
-        return $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'profile'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
+        $uploadDirectory = $this->getCoreParameter('upload_directory');
+        return $this->getWebPath() . $uploadDirectory . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'profile'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
     }
     
     public function getAbsolutePathWeb($id) {
-        return $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'web'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
+        $uploadDirectory = $this->getCoreParameter('upload_directory');
+        return $this->getWebPath() .  $uploadDirectory . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'web'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
     }
     
     public function getAbsolutePathPost($id) {
-        return $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'post'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
+        $uploadDirectory = $this->getCoreParameter('upload_directory');
+        return $this->getWebPath() .  $uploadDirectory . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR . 'post'.  DIRECTORY_SEPARATOR . $id .DIRECTORY_SEPARATOR;
     }
 
     public function getWebPath() {
         return __DIR__ . '/../../../../../web/';
     }
- 
+    
+    public function getCoreParameter($parameter)
+    {
+        $em = $this->container->get('doctrine')->getManager();
+        $uploadDirectory = $em->getRepository('CoreBundle:Parameter')->findOneByParameter($parameter);
+        return $uploadDirectory->getValue();
+    }
+
+
     public function uploadProfileImage($entity)
     {
-        $absPathImage = $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
+        $uploadDirectory = $this->getCoreParameter('upload_directory');
+        $absPathImage = $this->getWebPath() .  $uploadDirectory  . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
         $extension = pathinfo($entity->getImage()->getPath(), PATHINFO_EXTENSION);
         $name = pathinfo($entity->getImage()->getPath(), PATHINFO_FILENAME);
         $imageName = $name . '.' . $extension;
 
-        $dir = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId();
+        $dir = $this->getWebPath().$uploadDirectory.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId();
         if(!is_dir($dir)) {
-            $this->createPath($this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId());
+            $this->createPath($this->getWebPath().$uploadDirectory.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId());
         }
         if (copy($absPathImage, $this->getAbsolutePathProfile($entity->getId()).$imageName)) {
             
-            $thumPath = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
+            $thumPath = $this->getWebPath().$uploadDirectory.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
             if(!is_dir($thumPath)) {
                 $this->createPath($thumPath);
             }
