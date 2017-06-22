@@ -149,6 +149,7 @@ class CoreManager
     {
         $uploadDirectory = $this->getCoreParameter('upload_directory');
         $absPathImage = $this->getWebPath() .  $uploadDirectory  . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
+        
         $extension = pathinfo($entity->getImage()->getPath(), PATHINFO_EXTENSION);
         $name = pathinfo($entity->getImage()->getPath(), PATHINFO_FILENAME);
         $imageName = $name . '.' . $extension;
