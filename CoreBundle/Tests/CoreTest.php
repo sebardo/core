@@ -1130,6 +1130,10 @@ class CoreTest  extends WebTestCase
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.name LIKE :search')
                     ->setParameter('search', '%'.$uid.'%');
+        }elseif(method_exists($all[0], 'getTitle')){
+            $qb = $repo->createQueryBuilder('r')
+                    ->where('r.title LIKE :search')
+                    ->setParameter('search', '%'.$uid.'%');
         }elseif(!is_null($key) && method_exists($all[0], 'get'. ucfirst($key))){
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.'.$key.' LIKE :search')

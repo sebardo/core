@@ -92,6 +92,11 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
     protected $created;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $deleted;
+    
+    /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      * @ORM\JoinTable(name="role_actorrole")
      */
@@ -378,6 +383,26 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         return $this->created;
     }
 
+    /**
+     * Set deleted
+     *
+     * @param datetime $deleted
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }
+
+    /**
+     * Get deleted
+     *
+     * @return datetime
+     */
+    public function getDeleted()
+    {
+        return $this->deleted;
+    }
+    
     /**
      * Add role
      *
