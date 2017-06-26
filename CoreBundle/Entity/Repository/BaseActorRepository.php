@@ -20,6 +20,7 @@ class BaseActorRepository extends EntityRepository implements UserLoaderInterfac
             ->select('u, r')
             ->leftJoin('u.roles', 'r')
             ->where('u.username = :username OR u.email = :email')
+            ->andWhere('u.active = TRUE')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
             ->getQuery();
