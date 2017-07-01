@@ -35,7 +35,6 @@ class CoreExtension extends \Twig_Extension
             new Twig_SimpleFunction('get_profile_image', array($this, 'getProfileImage')),
             new Twig_SimpleFunction('json_encode', array($this, 'jsonEncode')),
             new Twig_SimpleFunction('get_menu_items', array($this, 'getMenuItems')),
-            new Twig_SimpleFunction('get_carousel_items', array($this, 'getCarouselItems')),
             new Twig_SimpleFunction('get_random_header', array($this, 'getRandomHeader')),
             new Twig_SimpleFunction('created_ago', array($this, 'createdAgo')),
             new Twig_SimpleFunction('get_max_size_file', array($this, 'getMaxFileSize')),
@@ -267,18 +266,7 @@ class CoreExtension extends \Twig_Extension
 
         return $price;
     }
-    
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getCarouselItems()
-    {
-        $em = $this->container->get('doctrine')->getManager();
-        $headers = $em->getRepository("CoreExtraBundle:Slider")->findBy(array(), array('order' => 'ASC'));
-        return $headers;
-    }
-   
+
 
     /**
      * {@inheritDoc}
