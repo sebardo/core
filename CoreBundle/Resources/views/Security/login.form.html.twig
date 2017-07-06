@@ -1,4 +1,4 @@
-<form name="login" id="login-form" action="{{ path('login_check') }}" method="post" {%if params.form_class is defined and params.form_class !=''%}class="{{params.form_class}}"{% endif %}>
+<form name="login" id="login-form" action="{%if params.action is defined %}{{ params.action }}{% else %}{{ path('login_check') }}{% endif %}" method="post" {%if params.form_class is defined and params.form_class !=''%}class="{{params.form_class}}"{% endif %}>
     <div class="form-group">
        <div>
            <input class="form-control {%if params.input_email_class is defined and params.input_email_class !=''%}{{params.input_email_class}}{% endif %}" type="text" name="_username" id="_username" placeholder="{{ 'login.email' | trans }}" required="required">
@@ -14,7 +14,7 @@
             <input type="checkbox" class="{%if params.icheck_class is defined and params.icheck_class !=''%}{{params.icheck_class}}{% else %}minimal{% endif %}" value=""> {{ 'login.remember' | trans }}
         </div>
         <div class="col-md-6">  
-            <a class="pull-right" href="{{ path('core_baseactor_recovery') }}" title="{{ 'login.recovery' | trans }}">{{ 'login.recovery' | trans }}</a>
+            <a class="pull-right" href="{{ path('core_baseactor_recovery') }}" >{{ 'login.recovery' | trans }}</a>
         </div>   
     </div>
     <button type="submit" class="btn-core btn btn-block {%if params.button_submit_class is defined and params.button_submit_class !=''%}{{params.button_submit_class}}{% endif %}">{{ 'login.short' | trans }}</button>

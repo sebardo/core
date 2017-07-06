@@ -80,7 +80,7 @@ class SecurityController extends Controller
         // get the login error if there is one
         if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(
-                SecurityContext::AUTHENTICATION_ERROR
+                Security::AUTHENTICATION_ERROR
             );
         } else {
             $error = $session->get(Security::AUTHENTICATION_ERROR);

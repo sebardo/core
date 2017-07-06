@@ -38,7 +38,7 @@ class Parameter
      *
      * @var string
      * 
-     * @ORM\Column(name="value", type="string")
+     * @ORM\Column(name="value", type="text")
      */
     protected $value;
 
