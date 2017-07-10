@@ -65,6 +65,7 @@ class LoadCoreData extends SqlScriptFixture
             $encodePassword = $encoder->encodePassword($password, $root->getSalt());
             $root->setPassword($encodePassword);
             $root->setName('Root');
+            $root->setActive(true);
             $this->getManager()->persist($root);
 
             //User admin
@@ -77,6 +78,7 @@ class LoadCoreData extends SqlScriptFixture
             $admin->setPassword($encodePassword);
             $admin->setName('Admin');
             $admin->setLastname('Lastname');
+            $admin->setActive(true);
             $this->getManager()->persist($admin);
 
             $password2 = 'company';
@@ -88,6 +90,7 @@ class LoadCoreData extends SqlScriptFixture
             $company->setPassword($encodePassword2);
             $company->setName('Company');
             $company->setLastname('Lastname');
+            $company->setActive(true);
             $this->getManager()->persist($company);
 
             $password = 'user';
@@ -99,6 +102,7 @@ class LoadCoreData extends SqlScriptFixture
             $user->setPassword($encodePassword);
             $user->setName('User');
             $user->setLastname('Lastname');
+            $user->setActive(true);
             $this->getManager()->persist($user);
 
             $password2 = 'user2';
@@ -110,6 +114,7 @@ class LoadCoreData extends SqlScriptFixture
             $user2->setPassword($encodePassword2);
             $user2->setName('User2');
             $user2->setLastname('Lastname2');
+            $user2->setActive(true);
             $this->getManager()->persist($user2);
 
             $this->getManager()->flush();
