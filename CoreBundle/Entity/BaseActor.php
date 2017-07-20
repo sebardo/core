@@ -41,7 +41,6 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank(message="Please enter your password")
      */
     protected $password;
 

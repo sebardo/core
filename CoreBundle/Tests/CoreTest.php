@@ -176,7 +176,7 @@ class CoreTest  extends WebTestCase
         $categoryId = rand(999,9999);
         $crawler = $this->createCategoryBlog($categoryId);
         $category = $manager->getRepository('BlogBundle:Category')->findOneByName('category '.$categoryId);
-        
+
         //index
         if(is_null($username) && is_null($password)){
             $crawler = $this->client->request('GET', '/admin/post/', array(), array(), array(
@@ -192,20 +192,20 @@ class CoreTest  extends WebTestCase
         
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Publicaciones")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Posts")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva publicación")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New post")')->count());
    
         //fill form
         $form = $crawler->filter('form[name="post"]')->form();
@@ -229,7 +229,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("post '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la publicación satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Post has been created successfully")')->count());
         
         return $crawler;
     }
@@ -302,22 +302,22 @@ class CoreTest  extends WebTestCase
         
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Categorías")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Categories")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva categoría")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New category")')->count());
          //fill form
-        $form = $crawler->selectButton('Guardar')->form();
+        $form = $crawler->selectButton('Save')->form();
         $form['category[name]'] = 'category '.$uid;
         $form['category[description]'] = 'category description'.$uid;
         $form['category[metaTitle]'] = 'Meta title_'.$uid;
@@ -329,7 +329,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("category '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la categoría satisfactoriamente")')->count());
+        //$this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la categoría satisfactoriamente")')->count());
         
         return $crawler;
     }
@@ -441,23 +441,23 @@ class CoreTest  extends WebTestCase
         
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Etiquetas")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Tags")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva etiqueta")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New tag")')->count());
    
         //fill form
-        $form = $crawler->selectButton('Guardar')->form();
+        $form = $crawler->selectButton('Save')->form();
         $form['tag[name]'] = 'tag '.$uid;
         $form['tag[description]'] = 'tag description'.$uid;
         $form['tag[metaTitle]'] = 'Meta title_'.$uid;
@@ -470,7 +470,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("tag '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la etiqueta satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Tag has been created successfully")')->count());
         
         return $crawler;
     }
