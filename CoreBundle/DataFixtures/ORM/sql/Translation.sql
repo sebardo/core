@@ -807,7 +807,7 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('admin.plural', 'es', 'messages', 'Administradores', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.plural', 'en', 'messages', 'Administrators', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.plural', 'de', 'messages', 'Administrators', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
-('admin.new', 'es', 'messages', 'Nuev o administrador', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('admin.new', 'es', 'messages', 'Nuevo administrador', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.new', 'en', 'messages', 'New administrator', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.new', 'de', 'messages', 'Neue administrator', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.created', 'es', 'messages', 'Se ha creado el administrador satisfactoriamente', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
@@ -818,7 +818,26 @@ INSERT INTO `translation` (`trans_key`, `trans_locale`, `message_domain`, `trans
 ('admin.edited', 'de', 'messages', 'Die Administrator wurde erfolgreich bearbeitet', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.deleted', 'es', 'messages', 'Se ha eliminado el administrador satisfactoriamente', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
 ('admin.deleted', 'en', 'messages', 'Administrator has been deleted successfully', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
-('admin.deleted', 'de', 'messages', 'Die Administrator wurde erfolgreich gelöscht', '2017-02-26 17:38:15', '2017-02-26 17:38:15')
-
-
+('admin.deleted', 'de', 'messages', 'Die Administrator wurde erfolgreich gelöscht', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('pages', 'es', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('pages', 'en', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('pages', 'de', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.singular', 'es', 'messages', 'Page', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.singular', 'en', 'messages', 'Page', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.singular', 'de', 'messages', 'Page', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.plural', 'es', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.plural', 'en', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.plural', 'de', 'messages', 'Pages', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.new', 'es', 'messages', 'Nueva pagina', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.new', 'en', 'messages', 'New page', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.new', 'de', 'messages', 'Neue page', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.created', 'es', 'messages', 'Se ha creado la pagina satisfactoriamente', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.created', 'en', 'messages', 'Page has been created successfully', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.created', 'de', 'messages', 'Die Page wurde erfolgreich erstellt', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.edited', 'es', 'messages', 'Se ha editado la pagina satisfactoriamente', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.edited', 'en', 'messages', 'Page has been edited successfully', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.edited', 'de', 'messages', 'Die Page wurde erfolgreich bearbeitet', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.deleted', 'es', 'messages', 'Se ha eliminado la pagina satisfactoriamente', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.deleted', 'en', 'messages', 'Page has been deleted successfully', '2017-02-26 17:38:15', '2017-02-26 17:38:15'),
+('page.deleted', 'de', 'messages', 'Die Page wurde erfolgreich gelöscht', '2017-02-26 17:38:15', '2017-02-26 17:38:15')
 ;

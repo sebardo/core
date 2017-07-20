@@ -1118,14 +1118,23 @@ class CoreTest  extends WebTestCase
         $manager = $container->get('doctrine')->getManager();
         $repo = $manager->getRepository($repository);
         $all = $repo->findAll();
-
+            
         if(method_exists($all[0], 'getTranslations')){
-            $qb = $repo->createQueryBuilder('r')
+            if(!is_null($key)){
+                $qb = $repo->createQueryBuilder('r')
+                        ->join('r.translations', 't')
+                        ->where('t.'.$key.' LIKE :search')
+                        ->andWhere('t.locale = :locale')
+                        ->setParameter('locale', 'en')
+                        ->setParameter('search', '%'.$uid.'%');
+            }else{
+                $qb = $repo->createQueryBuilder('r')
                         ->join('r.translations', 't')
                         ->where('t.name LIKE :search')
                         ->andWhere('t.locale = :locale')
-                        ->setParameter('locale', 'es')
+                        ->setParameter('locale', 'en')
                         ->setParameter('search', '%'.$uid.'%');
+            }
         }elseif(method_exists($all[0], 'getName')){
             $qb = $repo->createQueryBuilder('r')
                     ->where('r.name LIKE :search')
@@ -1293,6 +1302,62 @@ class CoreTest  extends WebTestCase
         $entity = $this->getEntity($uid, 'CoreBundle:Parameter', 'parameter');
         //edit page
         $crawler = $this->client->request('GET', '/admin/parameters/'.$entity->getId(), array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$uid.'")')->count());
+
+        return $crawler;
+    }
+    
+     public function createPage($uid)
+    {
+        //Tax index
+        $crawler = $this->client->request('GET', '/admin/pages', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin',
+        ));
+        $crawler = $this->client->followRedirect();
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Pages")')->count());
+
+        //Click new
+        $link = $crawler
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
+            ->eq(0) // select the second link in the list
+            ->link()
+        ;
+        $crawler = $this->client->click($link);// and click it
+        
+        //Asserts
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New page")')->count());
+
+        //fill form
+        $form = $crawler->selectButton('Save')->form();
+        
+        $locales = $this->client->getContainer()->get('core_manager')->getLocales();
+        foreach ($locales as $locale) {
+            $form['page[translations]['.$locale.'][title]'] = 'post '.$uid.' ('.$locale.')';
+            $form['page[translations]['.$locale.'][description]'] = '<p>post <b>description</b> '.$uid. ' ('.$locale.')</p>';
+            $form['page[translations]['.$locale.'][metaTitle]'] = 'meta title  ('.$locale.')'.$uid;
+            $form['page[translations]['.$locale.'][metaDescription]'] = 'meta description ('.$locale.')'.$uid;
+            $form['page[translations]['.$locale.'][metaTags]'] = 'meta tags ('.$locale.')'.$uid;
+        }
+        $form['page[active]']->tick();
+        $crawler = $this->client->submit($form);// submit the form
+        //
+       //Asserts
+        $this->assertTrue($this->client->getResponse() instanceof RedirectResponse);
+        $crawler = $this->client->followRedirect();
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Page has been created successfully")')->count());
+        
+        $entity = $this->getEntity($uid, 'CoreBundle:Page', 'title');
+        //edit page
+        $crawler = $this->client->request('GET', '/admin/pages/'.$entity->getId(), array(), array(), array(
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW'   => 'admin',
         ));

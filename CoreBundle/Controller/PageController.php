@@ -15,7 +15,7 @@ use A2lix\I18nDoctrineBundle\Annotation\I18nDoctrine;
 /**
  * Page controller.
  *
- * @Route("/admin/page")
+ * @Route("/admin/pages")
  */
 class PageController extends Controller
 {
