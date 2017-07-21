@@ -5,13 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{ 'page' | trans }}
+        {{ 'page.singular' | trans }} {{ page.title  }}
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ path('admin_default_index') }}"> <i class="ion-home"></i>  {{ 'home' | trans }}</a></li>
         <li><a href="javascript:">{{ 'dashboard' | trans }}</a></li>
-        <li><a href="{{ path('core_page_index') }}">{{ 'Page' | trans }}</a></li>
+        <li><a href="{{ path('core_page_index') }}">{{ 'page.singular' | trans }}</a></li>
         <li><a href="{{ path('core_page_show', {'id': page.id }) }}">{{ page.title  }}</a></li>
       </ol>
     </section>
