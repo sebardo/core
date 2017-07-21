@@ -134,6 +134,11 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
     /** @ORM\Column(name="test_connect_access_token", type="string", length=255, nullable=true) */
     protected $test_connect_access_token;
     
+    /**
+     * @var Dinamyc
+     */
+    protected $posts;
+    
     public function __construct()
     {
         $this->active = false;
@@ -141,6 +146,7 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         $this->setCreated(new \DateTime());
         $this->roles = new ArrayCollection();
         $this->newsletter = false;
+        $this->posts = new ArrayCollection();
     }
 
     /**
@@ -728,5 +734,39 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
     public function isGranted($role)
     {
         return in_array($role, $this->getRoles());
+    }
+    
+    /**
+     * Add post
+     *
+     * @param Post $post
+     *
+     * @return Category
+     */
+    public function addPost(\BlogBundle\Entity\Post $post)
+    {
+        $this->posts->add($post);
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param Post $post
+     */
+    public function removePost(\BlogBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return ArrayCollection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 }

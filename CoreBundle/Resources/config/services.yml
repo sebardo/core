@@ -1,7 +1,4 @@
-
-
 services:
-    
     authentication_handler:
         class: "%core.authentication_handler_class%"
         arguments: ["@service_container"]
@@ -69,4 +66,9 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
-            
+
+    dynamic_discriminator_map.listener.doctrine_event_listener:
+        class: "CoreBundle\\EventListener\\DynamicDiscriminatorMapEventListener"
+        arguments: ["%core.dynamic_discriminator_map.mapping%"]
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }

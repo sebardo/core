@@ -37,6 +37,8 @@ class CoreExtension extends Extension
         $container->setParameter('core.admin_email', $config['admin_email']);
         $container->setParameter('core.validate_time', $config['validate_time']);         
                 
+        $container->setParameter('core.dynamic_discriminator_map.mapping', $config['dynamic_discriminator_map']);
+        
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
