@@ -139,6 +139,16 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      */
     protected $posts;
     
+    /**
+     * @var Dinamyc
+     */
+    protected $transactions;
+    
+    /**
+     * @var Dinamyc
+     */
+    protected $addresses;
+    
     public function __construct()
     {
         $this->active = false;
@@ -146,7 +156,7 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         $this->setCreated(new \DateTime());
         $this->roles = new ArrayCollection();
         $this->newsletter = false;
-        $this->posts = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -743,7 +753,7 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      *
      * @return Category
      */
-    public function addPost(\BlogBundle\Entity\Post $post)
+    public function addPost($post)
     {
         $this->posts->add($post);
 
@@ -755,7 +765,7 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      *
      * @param Post $post
      */
-    public function removePost(\BlogBundle\Entity\Post $post)
+    public function removePost($post)
     {
         $this->posts->removeElement($post);
     }
@@ -769,4 +779,72 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
     {
         return $this->posts;
     }
+    
+    /**
+     * Add transaction
+     *
+     * @param Transaction $transaction
+     *
+     * @return BaseActor
+     */
+    public function addTransaction($transaction)
+    {
+        $this->transactions->add($transaction);
+
+        return $this;
+    }
+
+    /**
+     * Remove transaction
+     *
+     * @param Transaction $transaction
+     */
+    public function removeTransaction($transaction)
+    {
+        $this->transactions->removeElement($transaction);
+    }
+
+    /**
+     * Get transactions
+     *
+     * @return ArrayCollection
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
+    /**
+     * Add address
+     *
+     * @param Address $address
+     *
+     * @return BaseActor
+     */
+    public function addAddress($address)
+    {
+        $this->addresses->add($address);
+
+        return $this;
+    }
+
+    /**
+     * Remove transaction
+     *
+     * @param Address $address
+     */
+    public function removeAddress($address)
+    {
+        $this->addresses->removeElement($address);
+    }
+
+    /**
+     * Get addresses
+     *
+     * @return ArrayCollection
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+    
 }

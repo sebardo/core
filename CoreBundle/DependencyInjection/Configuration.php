@@ -52,6 +52,11 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->defaultValue(array())
                 ->end()
+                ->scalarNode('currency_symbol')->defaultValue(null)->end()
+                ->scalarNode('vat')->defaultValue(null)->end()
+                ->scalarNode('special_percentage_charge')->defaultValue(null)->end()
+                ->scalarNode('delivery_expenses_type')->defaultValue(null)->end()
+                ->scalarNode('delivery_expenses_percentage')->defaultValue(null)->end()
              ->end()
              ;
                 

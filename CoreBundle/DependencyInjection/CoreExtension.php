@@ -35,10 +35,15 @@ class CoreExtension extends Extension
         $container->setParameter('core.fixtures_dev', $config['fixtures_dev']);
         $container->setParameter('core.fixtures_test', $config['fixtures_test']);
         $container->setParameter('core.admin_email', $config['admin_email']);
-        $container->setParameter('core.validate_time', $config['validate_time']);         
-                
+        $container->setParameter('core.validate_time', $config['validate_time']);  
         $container->setParameter('core.dynamic_discriminator_map.mapping', $config['dynamic_discriminator_map']);
-        
+        //payment
+        $container->setParameter('core.currency_symbol', $config['currency_symbol']);
+        $container->setParameter('core.vat', $config['vat']);
+        $container->setParameter('core.special_percentage_charge', $config['special_percentage_charge']);
+        $container->setParameter('core.delivery_expenses_type', $config['delivery_expenses_type']);  
+        $container->setParameter('core.delivery_expenses_percentage', $config['delivery_expenses_percentage']);  
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

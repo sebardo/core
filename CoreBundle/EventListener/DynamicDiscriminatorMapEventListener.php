@@ -27,7 +27,7 @@ class DynamicDiscriminatorMapEventListener
         }
 
         foreach ($this->mapping as $entityName => $map) {
-            if ($class->getName() == $map['entity']) {
+            if ($entityName == 'baseactor' && $class->getName() == $map['entity']) {
                 $reader = new AnnotationReader;
                 $discriminatorMap = array();
 
