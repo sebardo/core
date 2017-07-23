@@ -57,6 +57,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('special_percentage_charge')->defaultValue(null)->end()
                 ->scalarNode('delivery_expenses_type')->defaultValue(null)->end()
                 ->scalarNode('delivery_expenses_percentage')->defaultValue(null)->end()
+                ->scalarNode('bank_account')->defaultValue(null)->end()
+                ->scalarNode('address')->defaultValue(null)->end()
+                ->scalarNode('postal_code')->defaultValue(null)->end()
+                ->scalarNode('city')->defaultValue(null)->end()
              ->end()
              ;
                 

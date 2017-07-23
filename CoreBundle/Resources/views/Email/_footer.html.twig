@@ -2,12 +2,12 @@
             {{ twig_global.getParameter('name') }}
         </div>
         <div style="padding:5px 0 0 0; margin:0; font-family:Arial,Helvetica,sans-serif; font-size:11px; color:#868787; line-height:14px;">
-            {{ twig_global.getParameter('company.address', 'ecommerce') }}<br />
-            {{ twig_global.getParameter('company.postal_code', 'ecommerce') }} {{twig_global.getParameter('company.city', 'ecommerce') }}
+            {{ twig_global.getParameter('address') }}<br />
+            {{ twig_global.getParameter('postal_code') }} {{twig_global.getParameter('city') }}
         </div>
         <div style="padding:5px 0 0 0; margin:0; font-family:Arial,Helvetica,sans-serif; font-size:11px; line-height:14px;">
-            <a href="mailto:{{ twig_global.getParameter('company.email', 'ecommerce') }}" style="text-decoration:none; color:#4b9db9;">{{ twig_global.getParameter('company.email', 'ecommerce') }}</a><br />
-            <a href="http://{{ twig_global.getParameter('company.website_url', 'ecommerce') }}" style="text-decoration:none; color:#4b9db9;">{{ twig_global.getParameter('company.website_url', 'ecommerce') }}</a>
+            <a href="mailto:{{ twig_global.getParameter('admin_email') }}" style="text-decoration:none; color:#4b9db9;">{{ twig_global.getParameter('admin_email') }}</a><br />
+            <a href="http://{{ twig_global.getParameter('server_base_url') }}" style="text-decoration:none; color:#4b9db9;">{{ twig_global.getParameter('server_base_url') }}</a>
         </div>
 
     </div>

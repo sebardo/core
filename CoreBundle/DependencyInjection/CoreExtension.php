@@ -43,6 +43,11 @@ class CoreExtension extends Extension
         $container->setParameter('core.special_percentage_charge', $config['special_percentage_charge']);
         $container->setParameter('core.delivery_expenses_type', $config['delivery_expenses_type']);  
         $container->setParameter('core.delivery_expenses_percentage', $config['delivery_expenses_percentage']);  
+        $container->setParameter('core.bank_account', $config['bank_account']);  
+        $container->setParameter('core.address', $config['address']);  
+        $container->setParameter('core.city', $config['city']);  
+        $container->setParameter('core.postal_code', $config['postal_code']);  
+        
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
