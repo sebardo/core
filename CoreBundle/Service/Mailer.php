@@ -270,7 +270,7 @@ class Mailer
      *
      * @return void
      */
-    public function sendNotificationEmail($mail)
+    public function sendNotificationEmail($mail, $from=null)
     {
         $templateName = 'CoreBundle:Email:notification.email.html.twig';
 
@@ -278,13 +278,24 @@ class Mailer
             'mail' => $mail
         );
         
-        $this->sendMessage(
+        if(is_null($from)){
+            $this->sendMessage(
                 $templateName, 
                 $context,  
                 $mail->getSender(),
                 $mail->getRecipient(),
                 $mail->getAttachment()
                 );
+        }else{
+            $this->sendMessage(
+                $templateName, 
+                $context,  
+                $from,
+                $mail->getRecipient(),
+                $mail->getAttachment()
+                );
+        }
+        
     }
     
     /**
