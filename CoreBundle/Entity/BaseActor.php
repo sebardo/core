@@ -149,6 +149,11 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      */
     protected $addresses;
     
+    /**
+     * @var Dinamyc
+     */
+    protected $products;
+    
     public function __construct()
     {
         $this->active = false;
@@ -157,6 +162,7 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         $this->roles = new ArrayCollection();
         $this->newsletter = false;
         $this->transactions = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     /**
@@ -847,4 +853,37 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         return $this->addresses;
     }
     
+    /**
+     * Add product
+     *
+     * @param Product $product
+     *
+     * @return BaseActor
+     */
+    public function addProduct($product)
+    {
+        $this->products->add($product);
+
+        return $this;
+    }
+
+    /**
+     * Remove products
+     *
+     * @param Product $product
+     */
+    public function removeProduct($product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return ArrayCollection
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
 }
