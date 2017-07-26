@@ -61,6 +61,12 @@ class Image extends Timestampable
 
 
     /**
+     * @var string
+     */
+    protected $uploadDir='uploads/images/';
+    
+
+    /**
      * Get id
      *
      * @return integer
@@ -179,13 +185,23 @@ class Image extends Timestampable
      *
      * @return string
      */
-    protected function getUploadDir()
+    public function getUploadDir()
     {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return 'uploads/images/';
+        return $this->uploadDir;
     }
 
+    /**
+     * Set upload dir
+     *
+     * @return string
+     */
+    public function setUploadDir($dir)
+    {
+        $this->uploadDir = $dir;
+        
+        return $this;
+    }
+    
     /**
      * Set file
      *
@@ -246,9 +262,10 @@ class Image extends Timestampable
             return;
         }
 
+        $base = DIRECTORY_SEPARATOR.$this->getUploadDir().DIRECTORY_SEPARATOR;
         // do whatever you want to generate a unique name
         $filename = sha1(uniqid(mt_rand(), true));
-        $this->path = $filename . '.' . $this->getFile()->guessExtension();
+        $this->path = $base . $filename . '.' . $this->getFile()->guessExtension();
     }
 
     /**
