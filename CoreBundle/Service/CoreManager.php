@@ -485,7 +485,7 @@ class CoreManager
     
     public function getActorClass()
     {
-        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        $mapping = $this->container->getParameter('core.dynamic_discriminator_map.mapping');
         if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
             $actorClass = $mapping['baseactor']['map']['Actor'];
         }else{
@@ -493,9 +493,20 @@ class CoreManager
         }
         return $actorClass;
     }
+    
+    public function getProductClass()
+    {
+        $mapping = $this->container->getParameter('core.dynamic_discriminator_map.mapping');
+        if($mapping['product']['entity'] != 'CoreBundle\Entity\Product'){
+            $actorClass = $mapping['product']['entity'];
+        }else{
+            $actorClass = 'CatalogueBundle\Entity\Product';
+        }
+        return $actorClass;
+    }
             
     public function getActorBundleName() {
-        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        $mapping = $this->container->getParameter('core.dynamic_discriminator_map.mapping');
         if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
             $actorClass = $mapping['baseactor']['map']['Actor'];
             $bundleName = explode('\\', $actorClass);
@@ -508,7 +519,7 @@ class CoreManager
     
     public function getActorFormClass()
     {
-        $mapping = $this->container->getParameter('dynamic_discriminator_map.mapping');
+        $mapping = $this->container->getParameter('core.dynamic_discriminator_map.mapping');
         if($mapping['baseactor']['map']['Actor'] != 'CoreBundle\Entity\Actor'){
             $actorClass = $mapping['baseactor']['map']['Actor'];
         }else{
