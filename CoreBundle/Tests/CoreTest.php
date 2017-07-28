@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use EcommerceBundle\Entity\Brand;
+use CatalogueBundle\Entity\Brand;
 use CoreBundle\Entity\Pack;
-use EcommerceBundle\Entity\Address;
+use PaymentBundle\Entity\Address;
 use CoreBundle\Entity\Actor;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
@@ -251,23 +251,23 @@ class CoreTest  extends WebTestCase
         
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Categorías")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Categories")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva categoría")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New category")')->count());
    
         //fill form
-        $form = $crawler->selectButton('Guardar')->form();
+        $form = $crawler->selectButton('Save')->form();
         $form['category[name]'] = 'category '.$uid;
         $form['category[description]'] = 'category description'.$uid;
         $form['category[metaTitle]'] = 'Meta title_'.$uid;
@@ -280,7 +280,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("category '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la categoría satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("The category has been successfully created")')->count());
         
         return $crawler;
     }
@@ -348,25 +348,26 @@ class CoreTest  extends WebTestCase
                 'PHP_AUTH_PW'   => $password,
             ));
         }
+
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Marcas")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Brands")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nueva marca")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New brand")')->count());
    
         //fill form
-        $form = $crawler->selectButton('Guardar')->form();
+        $form = $crawler->selectButton('Save')->form();
         $form['brand[name]'] = 'brand '.$uid;
         $form['brand[available]']->tick();
         $crawler = $this->client->submit($form);// submit the form
@@ -376,7 +377,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("brand '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado la marca satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Brand has been successfully created")')->count());
 
         return $crawler;
     }
@@ -390,23 +391,23 @@ class CoreTest  extends WebTestCase
         ));
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Modelos")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Models")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nueva")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo modelo")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New model")')->count());
    
         //fill form
-        $form = $crawler->selectButton('Guardar')->form();
+        $form = $crawler->selectButton('Save')->form();
         $form['brand_model[name]'] = 'brandmodel '.$uid;
         if($brand instanceof Brand){
             $form['brand_model[brand]']->select($brand->getId());
@@ -419,7 +420,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("brandmodel '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado el modelo satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Model has been successfully created")')->count());
 
         return $crawler;
     }
@@ -499,7 +500,7 @@ class CoreTest  extends WebTestCase
         $categoryId = rand(999,9999);
         $crawler = $this->createCategory($categoryId);
         $categoryName = 'category '.$categoryId;
-        $category = $manager->getRepository('EcommerceBundle:Category')->findOneByName($categoryName);
+        $category = $manager->getRepository('CatalogueBundle:Category')->findOneByName($categoryName);
         
         ////////////////////////////////////////////////////////////////////////////
         // Brand ///////////////////////////////////////////////////////////////////
@@ -507,7 +508,7 @@ class CoreTest  extends WebTestCase
         $brandId = rand(999,9999);
         $crawler = $this->createBrand($brandId);
         $brandName = 'brand '.$brandId;
-        $brand = $manager->getRepository('EcommerceBundle:Brand')->findOneByName($brandName);
+        $brand = $manager->getRepository('CatalogueBundle:Brand')->findOneByName($brandName);
         
         //////////////////////////////////////////////////////////////////////////
         // Model /////////////////////////////////////////////////////////////////
@@ -515,7 +516,7 @@ class CoreTest  extends WebTestCase
         $modelId = rand(999,9999);
         $crawler = $this->createBrandModel($modelId, $brand);
         $brandModelName = 'brandmodel '.$modelId;
-        $brandModel = $manager->getRepository('EcommerceBundle:BrandModel')->findOneByName($brandModelName);
+        $brandModel = $manager->getRepository('CatalogueBundle:BrandModel')->findOneByName($brandModelName);
         
         //////////////////////////////////////////////////////////////////////////
         // Product ///////////////////////////////////////////////////////////////
@@ -527,20 +528,20 @@ class CoreTest  extends WebTestCase
         
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Productos")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Products")')->count());
       
         ///////////////////////////////////////////////////////////////////////////////////////////
         //Click new ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
         $link = $crawler
-            ->filter('a:contains("Añadir nuevo")') // find all links with the text "Greet"
+            ->filter('a:contains("Add new")') // find all links with the text "Greet"
             ->eq(0) // select the second link in the list
             ->link()
         ;
         $crawler = $this->client->click($link);// and click it
         //Asserts
         $this->assertTrue($this->client->getResponse()->isSuccessful());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Nuevo producto")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("New product")')->count());
    
         //fill form
         $form = $crawler->filter('form[name="product"]')->form();
@@ -567,7 +568,7 @@ class CoreTest  extends WebTestCase
         $crawler = $this->client->followRedirect();
         $this->assertTrue($this->client->getResponse()->isSuccessful());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("product '.$uid.'")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Se ha creado el producto satisfactoriamente")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Product has been successfully created")')->count());
         
         return $crawler;
     }
