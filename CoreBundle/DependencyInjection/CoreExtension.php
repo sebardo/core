@@ -32,7 +32,14 @@ class CoreExtension extends Extension
         $container->setParameter('core.notification_navbar_template', $config['notification_navbar_template']);
         $container->setParameter('core.upload_directory', $config['upload_directory']);
         $container->setParameter('core.server_base_url', $config['server_base_url']);
+        $container->setParameter('core.fixtures_bundle', $config['fixtures_bundle']);
+        $container->setParameter('core.fixtures_bundle_blog', $config['fixtures_bundle_blog']);
+        $container->setParameter('core.fixtures_bundle_catalogue', $config['fixtures_bundle_catalogue']);
+        $container->setParameter('core.fixtures_bundle_payment', $config['fixtures_bundle_payment']);
         $container->setParameter('core.fixtures_dev', $config['fixtures_dev']);
+        $container->setParameter('core.fixtures_dev_blog', $config['fixtures_dev_blog']);
+        $container->setParameter('core.fixtures_dev_catalogue', $config['fixtures_dev_catalogue']);
+        $container->setParameter('core.fixtures_dev_payment', $config['fixtures_dev_payment']);
         $container->setParameter('core.fixtures_test', $config['fixtures_test']);
         $container->setParameter('core.admin_email', $config['admin_email']);
         $container->setParameter('core.validate_time', $config['validate_time']);  
