@@ -8,6 +8,7 @@ use CoreBundle\Entity\NewsletterShipping;
 use Symfony\Component\HttpFoundation\Request;
 use CoreBundle\Entity\Actor;
 use CoreBundle\Entity\Role;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class CoreManager 
 {
@@ -534,5 +535,17 @@ class CoreManager
         $superAdmin = $em->getRepository('CoreBundle:BaseActor')->findOneByRole(Role::SUPER_ADMIN);
         
         return $superAdmin;
+    }
+    
+    
+    public function cleanImageForm($formFile, $entity) 
+    {
+        if(isset($formFile['image']['file']) && !$formFile['image']['file'] instanceof UploadedFile){
+            $entity->setImage(null);
+        }
+        //for test
+        if(!isset($formFile['image']['file'])){
+            $entity->setImage(null);
+        }
     }
 }

@@ -1,0 +1,11 @@
+{% if entity is defined and entity.image is not null %}
+    {{ form_row(form.image.file, { div_class: 'no-bottom', image: entity.image.path }) }}
+
+    {{ form_row(form.removeImage) }} 
+
+{% else %}
+    {{ form_row(form.image.file, { div_class: 'no-bottom' }) }}
+     <div style="display: none">{{ form_row(form.removeImage) }}</div>
+{% endif %}
+
+{{ form_widget(form.image.uploadDir) }}

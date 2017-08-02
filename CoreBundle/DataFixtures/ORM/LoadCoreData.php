@@ -23,7 +23,7 @@ class LoadCoreData extends SqlScriptFixture
         /**
          * Bundle fixtures
          */
-        if($this->container->getParameter('core.fixture_bundle')){
+        if($this->container->getParameter('core.fixtures_bundle')){
             $this->runSqlScript('Country.sql');
             $this->runSqlScript('State.sql');
             //$this->runSqlScript('PostalCode.sql');
@@ -81,7 +81,7 @@ class LoadCoreData extends SqlScriptFixture
         /**
          * Dev fixtures
          */
-        if($this->container->getParameter('core.fixture_dev')){
+        if($this->container->getParameter('core.fixtures_dev')){
             //User admin
             $password = 'admin';
             $admin = new $actorClass();
