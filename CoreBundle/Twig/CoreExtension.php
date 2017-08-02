@@ -100,6 +100,8 @@ class CoreExtension extends \Twig_Extension
     }
     
     public function getThumbImage($imageName, $size) {
+        
+        return $imageName;
         if($imageName == '') return null;
         $arr = explode('.', $imageName);
         $arr2 = explode('/', $arr[0]);
@@ -111,8 +113,11 @@ class CoreExtension extends \Twig_Extension
             
             $coreManager =  $this->container->get('core_manager');
             $twigGlobal = $this->container->get('twig.global');
+            
             if(!$coreManager->checkRemoteFile($twigGlobal->getParameter('server_base_url').$returnPath)){
                 $returnPath =  $path.'/thumbnail/'.$name.'_'.$size.'.jpg';
+            }else{
+                return $imageName;
             }
             
             return $returnPath;
