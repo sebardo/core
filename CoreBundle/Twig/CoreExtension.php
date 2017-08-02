@@ -110,8 +110,8 @@ class CoreExtension extends \Twig_Extension
             $returnPath =  $path.'/thumbnail/'.$name.'_'.$size.'.'.$arr[1];
             
             $coreManager =  $this->container->get('core_manager');
-            $core = $this->container->getParameter('core');
-            if(!$coreManager->checkRemoteFile($core['server_base_url'].$returnPath)){
+            $twigGlobal = $this->container->get('twig.global');
+            if(!$coreManager->checkRemoteFile($twigGlobal->getParameter('server_base_url').$returnPath)){
                 $returnPath =  $path.'/thumbnail/'.$name.'_'.$size.'.jpg';
             }
             
@@ -131,7 +131,8 @@ class CoreExtension extends \Twig_Extension
             $returnPath =  $path.'/'.$name.'.'.$arr[1];
             
             $frontManager =  $this->container->get('core_manager');
-            $baseUrl = $this->container->getParameter('core.server_base_url');
+            $twigGlobal = $this->container->get('twig.global');
+            $baseUrl = $twigGlobal->getParameter('server_base_url');
             if(!$frontManager->checkRemoteFile($baseUrl.$returnPath)){
                 return  $path.'/'.$name.'.'.$arr[1];
             }

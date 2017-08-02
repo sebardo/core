@@ -63,18 +63,18 @@ class CoreManager
     
     public function uploadMenuImage($entity)
     {
-        $absPathImage = $this->getWebPath() .  $this->parameters['upload_directory'] . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
+        $absPathImage = $this->getWebPath() .  $this->getCoreParameter('upload_directory') . DIRECTORY_SEPARATOR . 'images'. DIRECTORY_SEPARATOR .$entity->getImage()->getPath();
         $extension = pathinfo($entity->getImage()->getPath(), PATHINFO_EXTENSION);
         $name = pathinfo($entity->getImage()->getPath(), PATHINFO_FILENAME);
         $imageName = $name . '.' . $extension;
 
-        $dir = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId();
+        $dir = $this->getWebPath().$this->getCoreParameter('upload_directory').DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId();
         if(!is_dir($dir)) {
-            $this->createPath($this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId());
+            $this->createPath($this->getWebPath().$this->getCoreParameter('upload_directory').DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId());
         }
         if (copy($absPathImage, $this->getAbsolutePathMenuItem($entity->getId()).$imageName)) {
             
-            $thumPath = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
+            $thumPath = $this->getWebPath().$this->getCoreParameter('upload_directory').DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'menu'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
             if(!is_dir($thumPath)) {
                 $this->createPath($thumPath);
             }
@@ -187,7 +187,7 @@ class CoreManager
         if ($image->move($this->getAbsolutePathProfile($entity->getId()), $imageName)) {
             $absPathImage = $this->getAbsolutePathProfile($entity->getId()).$imageName;
             
-            $thumPath = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
+            $thumPath = $this->getWebPath().$this->getCoreParameter('upload_directory').DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
             if(!is_dir($thumPath)) {
                 $fs = new Filesystem();
                 $fs->mkdir($thumPath, 0777);
