@@ -59,8 +59,10 @@
                             </div>
                         </div>
                     </div>
-                                
-                    {{ include ('PaymentBundle:Profile:tabs.content.html.twig') }}
+                          
+                     {% if twig_global.checkUse('PaymentBundle') %}
+-                        {{ include ('PaymentBundle:Profile:tabs.content.html.twig') }}
+-                    {% endif %}
        
                 </div>
             </div>  
