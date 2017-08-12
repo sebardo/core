@@ -142,7 +142,11 @@ class CoreManager
     {
         $em = $this->container->get('doctrine')->getManager();
         $uploadDirectory = $em->getRepository('CoreBundle:Parameter')->findOneByParameter($parameter);
+        
+        if(method_exists($uploadDirectory, 'getValue'))
         return $uploadDirectory->getValue();
+        
+        else throw new \Exception('Parameter "'.$parameter.'" does not exist on your data base.');
     }
 
 

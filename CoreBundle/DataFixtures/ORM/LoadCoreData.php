@@ -2,8 +2,7 @@
 namespace CoreBundle\DataFixtures\ORM;
 
 use CoreBundle\DataFixtures\SqlScriptFixture;
-use CoreBundle\Entity\Slider;
-use CoreBundle\Entity\Image;
+use CoreBundle\Entity\Parameter;
 use CoreBundle\Entity\Role;
 use CoreBundle\Entity\BaseActor as BaseUser;
 
@@ -76,6 +75,12 @@ class LoadCoreData extends SqlScriptFixture
             $this->getManager()->persist($root);
             
             $this->getManager()->flush();
+            
+            /**
+             * Add Parameters
+             */
+            $this->addParameters();
+
         }
         
         /**
@@ -136,6 +141,24 @@ class LoadCoreData extends SqlScriptFixture
         
     }
 
+    private function addParameters()
+    {
+        //Parameter
+        $param = new Parameter();
+        $param->setParameter('upload_directory');
+        $param->setValue('uploads');
+        $this->getManager()->persist($param);
+        
+        //Parameter
+        $param = new Parameter();
+        $param->setParameter('server_base_url');
+        $param->setValue('http://localhost.dev');
+        $this->getManager()->persist($param);
+        
+        
+        $this->getManager()->flush();
+    }
+    
     public function getOrder()
     {
         return 1; // the order in which fixtures will be loaded
