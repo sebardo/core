@@ -101,7 +101,6 @@ class CoreExtension extends \Twig_Extension
     
     public function getThumbImage($imageName, $size) {
         
-        return $imageName;
         if($imageName == '') return null;
         $arr = explode('.', $imageName);
         $arr2 = explode('/', $arr[0]);
