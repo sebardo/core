@@ -154,6 +154,21 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      */
     protected $products;
     
+    /**
+     * @var Dinamyc
+     */
+    protected $places;
+    
+    /**
+     * @var Dinamyc
+     */
+    protected $events;
+//    
+//    /**
+//     * @var Dinamyc
+//     */
+//    protected $tickets;
+//    
     public function __construct()
     {
         $this->active = false;
@@ -163,6 +178,9 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
         $this->newsletter = false;
         $this->transactions = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->places = new ArrayCollection();
+        $this->events = new ArrayCollection();
+//        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -885,5 +903,110 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
     public function getProducts()
     {
         return $this->products;
+    }
+    
+    /**
+     * Add place
+     *
+     * @param Place $place
+     *
+     * @return BaseActor
+     */
+    public function addPlace($place)
+    {
+        $this->products->add($place);
+
+        return $this;
+    }
+
+    /**
+     * Remove places
+     *
+     * @param Place $place
+     *
+     */
+    public function removePlace($place)
+    {
+        $this->places->removeElement($place);
+    }
+
+    /**
+     * Get places
+     *
+     * @return ArrayCollection
+     */
+    public function getPlaces()
+    {
+        return $this->places;
+    }
+    
+    /**
+     * Add event
+     *
+     * @param Event $event
+     *
+     * @return BaseActor
+     */
+    public function addEvent($event)
+    {
+        $this->events->add($event);
+
+        return $this;
+    }
+
+    /**
+     * Remove event
+     *
+     * @param Event $event
+     *
+     */
+    public function removeEvent($event)
+    {
+        $this->events->removeElement($event);
+    }
+
+    /**
+     * Get events
+     *
+     * @return ArrayCollection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+    
+    /**
+     * Add ticket
+     *
+     * @param Event $ticket
+     *
+     * @return BaseActor
+     */
+    public function addTicket($ticket)
+    {
+        $this->tickets->add($ticket);
+
+        return $this;
+    }
+
+    /**
+     * Remove ticket
+     *
+     * @param Ticket $ticket
+     *
+     */
+    public function removeTicket($ticket)
+    {
+        $this->tickets->removeElement($ticket);
+    }
+
+    /**
+     * Get tickets
+     *
+     * @return ArrayCollection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
     }
 }

@@ -6,9 +6,6 @@
         <a href="{{ path('blog_blog_index')}}" class="header-item-left">{{ 'blog.singular' | trans }}</a>
         {% endif %}
         
-        {% if twig_global.checkUse('EcommerceBundle') %}
-        <a href="{{ path('ecommerce_checkout_index')}}" class="header-item-left">{{ 'ecommerce' | trans }}</a>
-        {% endif %}
         {% if twig_global.checkUse('PaymentBundle') %}
         <a href="{{ path('payment_checkout_index')}}" class="header-item-left">{{ 'ecommerce' | trans }}</a>
         {% endif %}
@@ -17,8 +14,18 @@
         <a href="{{ path('elearning_front_elearning')}}" class="header-item-left">{{ 'elearning' | trans }}</a>
         {% endif %}
         
+        {% if twig_global.checkUse('CatalogueBundle') %}
+            {% for item in get_catalogue_categories() %}
+                <a href="{{ path('catalogue_catalogue_category', {slug: item.slug })}}" class="header-item-left">{{ item.name }}</a>
+            {% endfor %}
+        {% endif %}
+        
         {% if twig_global.checkUse('CoreExtraBundle') %}
             {% include 'CoreExtraBundle:MenuItem:front.header.html.twig' %}
+        {% endif %}
+        
+        {% if twig_global.checkUse('TicketBundle') %}
+            <a href="{{ path('ticket_ticketing_index')}}" class="header-item-left">{{ 'tickets' | trans  }}</a>
         {% endif %}
         
         {{ get_languages() }}
@@ -30,5 +37,13 @@
             <div class="header-login text-right"><a href="/login">{{ 'login.short' | trans }}</a></div>
         {% endif %}
         
+        <div class="header-cart text-right">
+            {% set cart = cart_get() %}
+            <a href="/cart/detail">
+                <span class="glyphicon glyphicon-shopping-cart"></span>
+                {% if cart.items | length > 0%}<span class="counter">{{ cart.items | length }}</span>{% endif %}
+            </a>
+        </div>
+            
     </div>
 </div>

@@ -38,6 +38,7 @@
                     </div>
                 </div>
                 {%- endif %}
+                
                 <table class="table table-striped table-bordered table-hover" id="{{ "{{ uniqid }}" }}-table">
                     <thead>
                     <tr>
@@ -49,51 +50,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody>
-                        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
-                            <tr>
-                            {%- for field, metadata in fields %}
-                                {%- if loop.first and ('show' in actions) %}
-                                
-                                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
-                                {%- elseif metadata.type in ['datetime'] %}
-                                
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
-                                {%- elseif metadata.type in ['date'] %}
-                                
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
-                                {%- elseif metadata.type in ['time'] %}
-                                
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
-                                {%- elseif metadata.type in ['array'] %}
-                                
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
-                                {%- elseif metadata.type in ['boolean'] %}
-                                
-                                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
-                                {%- else %}
-                                
-                                <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
-                                {%- endif %}
-                                {%- if loop.last %}
-                                
-                                <td>
-                                    <ul>
-                                    {%- for action in record_actions %}
-                                        
-                                        <li>
-                                            <a href="{{ "{{ path('" ~ route_name_prefix ~ "_" ~ action ~ "', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ action }}</a>
-                                        </li>
-                                    {%- endfor %}
-                                    
-                                    </ul>
-                                </td>
-                                {%- endif %}
-                            {%- endfor %}
-                            
-                            </tr>
-                       {{ '{% endfor %}' }}
-                    </tbody>
+                    <tbody></tbody>
                 </table>
               </div>
           </div>
@@ -108,44 +65,43 @@
     
     <script>
         var table_columns = [
-                {%- for field, metadata in fields %}
-                    {%- if loop.first and ('show' in actions) %}
-                        {
-                            "mData": function (source) {
-                                return '<a href="' + source.{{ identifier }} + '">' + source.{{ identifier }} + '</a>';
-                            }
-                        },
-                    {%- elseif metadata.type in ['datetime'] %}
-                        {
-                            "mData": function (source) {
-                                var arrDate = source.{{field}}.date.split('.');
-                                return arrDate[0];
-                            }
-                        },
-                    {%- elseif metadata.type in ['boolean'] %}
-                        {        
-                            "mData": "{{field}}",
-                            "mRender": function(data) {
-                                var code = '';
-                                if (true == data) {
-                                    code = '<span class="label label-success">{{ "{{ 'yes' | trans }}"}}</span>';
-                                } else {
-                                    code = '<span class="label label-danger">{{ "{{ 'no' | trans }}"}}</span>';
-                                }
-                                return code;
-                            }
-                        },
-                    {%- else %}
-                        { "mData": "{{  field }}" },
-                    {%- endif %}
-                    {%- if loop.last %}
-                        {
-                            "mData": function(source) {
-                                return '<a href="' + source.id + '/edit" class="btn btn-primary btn-xs btn-flat"><i class="ion-compose"></i> {{ "{{ 'edit' | trans }}" }}</a> ';
-                            }
-                        }
-                    {%- endif %}
-                {%- endfor %}
+    {%- for field, metadata in fields %}
+        {%- if loop.first and ('show' in actions) %}
+            {
+                "mData": function (source) {
+                    return '<a href="' + source.{{ identifier }} + '">' + source.{{ identifier }} + '</a>';
+                }
+            },
+        {%- elseif metadata.type in ['datetime'] %}
+            {
+                "mData": function (source) {
+                    var arrDate = source.{{field}}.date.split('.');
+                    return arrDate[0];
+                }
+            },
+        {%- elseif metadata.type in ['boolean'] %}
+            {        
+                "mData": function(source) {
+                    var code = '';
+                    if (true == source.{{field}}) {
+                        code = '<i id="' + source.id + '-{{field}}" onclick="{{field}}(' + source.id + ', \'/admin/{{ entity_singularized  }}/' + source.id + '/{{field}}\')" style="font-size:25px;cursor:pointer;color:#00a65a" class="disable fa fa-check-circle-o" aria-hidden="true"></i>';
+                    } else {
+                        code = '<i id="' + source.id + '-{{field}}" onclick="{{field}}(' + source.id + ', \'/admin/{{ entity_singularized  }}/' + source.id + '/{{field}}\')" style="font-size:25px;cursor:pointer;color:#dd4b39" class="enable fa fa-circle-o" aria-hidden="true"></i>';
+                    }
+                    return code;
+                }
+            },
+        {%- else %}
+            { "mData": "{{  field }}" },
+        {%- endif %}
+        {%- if loop.last %}
+            {
+                "mData": function(source) {
+                    return '<a href="' + source.id + '/edit" class="btn btn-primary btn-xs btn-flat"><i class="ion-compose"></i> {{ "{{ 'edit' | trans }}" }}</a> ';
+                }
+            }
+        {%- endif %}
+    {%- endfor %}
         ];
 
         jQuery(document).ready(function() {

@@ -80,7 +80,25 @@
               padding-left: 5px;  
             }
         }
-        .header-login, .header-register{
+        
+        .header-cart{
+            .glyphicon{
+                font-size: 20px;
+            }
+            .counter{
+                position: absolute;
+                top: -9px;
+                left: 13px;
+                background-color: red;
+                color: #fff;
+                height: 20px;
+                line-height: 20px;
+                border-radius: 10px;
+                min-width: 20px;
+                text-align: center;
+            }
+        }
+        .header-login, .header-register, .header-cart{
             float: right;
             &>a{
                 float: right;
@@ -93,11 +111,12 @@
                 opacity: 0.5;  
             }
         }
-        .header-login a:hover, .header-register a:after{
+        .header-login a:hover, .header-register a:after, .header-cart a:hover,{
             color: #666869;
             text-decoration: none;
             opacity: 1; 
         }
+        
         .header-login a:after, .header-item:after, .header-item-left:after{
             background-color: #5B5A5C;
             content: '';

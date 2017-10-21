@@ -36,10 +36,12 @@ class CoreExtension extends Extension
         $container->setParameter('core.fixtures_bundle_blog', $config['fixtures_bundle_blog']);
         $container->setParameter('core.fixtures_bundle_catalogue', $config['fixtures_bundle_catalogue']);
         $container->setParameter('core.fixtures_bundle_payment', $config['fixtures_bundle_payment']);
+        $container->setParameter('core.fixtures_bundle_ticket', $config['fixtures_bundle_ticket']);
         $container->setParameter('core.fixtures_dev', $config['fixtures_dev']);
         $container->setParameter('core.fixtures_dev_blog', $config['fixtures_dev_blog']);
         $container->setParameter('core.fixtures_dev_catalogue', $config['fixtures_dev_catalogue']);
         $container->setParameter('core.fixtures_dev_payment', $config['fixtures_dev_payment']);
+        $container->setParameter('core.fixtures_dev_ticket', $config['fixtures_dev_ticket']);
         $container->setParameter('core.fixtures_test', $config['fixtures_test']);
         $container->setParameter('core.admin_email', $config['admin_email']);
         $container->setParameter('core.validate_time', $config['validate_time']);  
