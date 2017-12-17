@@ -80,8 +80,8 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Lo
             // set back original http method
             $context->setMethod($currentMethod);
             
-            if (isset($match['_route']) && $match['_route'] == 'ecommerce_checkout_identification' && isset($match['_locale'])) {
-                return new RedirectResponse($this->container->get('router')->generate('ecommerce_checkout_deliveryinfo', array('_locale' => $match['_locale'])));
+            if (isset($match['_route']) && $match['_route'] == 'payment_checkout_identification' && isset($match['_locale'])) {
+                return new RedirectResponse($this->container->get('router')->generate('payment_checkout_deliveryinfo', array('_locale' => $match['_locale'])));
             }
             return new RedirectResponse($this->container->get('router')->generate('index'));
         }
