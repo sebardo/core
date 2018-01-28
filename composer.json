@@ -23,7 +23,7 @@
         "a2lix/i18n-doctrine-bundle": "^0.1.0",
         "a2lix/translation-form-bundle": "^2.1",
         "asm/translation-loader-bundle": "~1.0",
-        "jms/i18n-routing-bundle": "1.1.*"
+        "jms/i18n-routing-bundle": "^2.0"
     },
     "autoload": {
         "psr-4": {"CoreBundle\\": "CoreBundle"}
