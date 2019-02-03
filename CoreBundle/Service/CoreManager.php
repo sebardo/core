@@ -6,7 +6,7 @@ use CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
 use CoreBundle\Entity\NewsletterShipping;
 use Symfony\Component\HttpFoundation\Request;
-use CoreBundle\Entity\Actor;
+use CoreBundle\Entity\BaseActor;
 use CoreBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -220,7 +220,7 @@ class CoreManager
                 $actor = $this->container->get('security.token_storage')->getToken()->getUser();
         }
 
-        if ($actor instanceof Actor && $actor->getImage() instanceof Image) {
+        if ($actor instanceof BaseActor && $actor->getImage() instanceof Image) {
             $profileImage = '/uploads/images/profile/'.$actor->getId().'/'.$actor->getImage()->getPath();
         } else {
             $profileImage = $this->getDefaultImageProfile();

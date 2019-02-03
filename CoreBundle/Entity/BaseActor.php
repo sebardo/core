@@ -56,14 +56,14 @@ class BaseActor implements UserInterface, EquatableInterface , \Serializable
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=100, nullable=true)
      */
-    private $lastname;
+    protected $lastname;
     
     /**
      * @var boolean
