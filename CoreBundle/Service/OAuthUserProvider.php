@@ -39,21 +39,21 @@ class OAuthUserProvider extends EntityUserProvider
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $sessionArr = $this->session->all();
-        $resourceOwnerName = $response->getResourceOwner()->getName();
+        $resourceOwnerName = $response->getResourceOwner()->getName();        
         $setter = 'set'.$this->dashesToCamelCase($resourceOwnerName, true);
         $setter_id = $setter.'Id';
         $setter_token = $setter.'AccessToken';
-
         
         if (!isset($this->properties[$resourceOwnerName])) {
             throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
         }
+
         //hack for oauth test_connect
         if($resourceOwnerName == 'test_connect'){
-            $response = (object) $response->getResponse();
-            $username = $response->username;
-            $email = $response->email;
-            $realName = $response->username;
+            $userInfo = (object) $response->getResponse();
+            $username = $userInfo->username;
+            $email = $userInfo->email;
+            $realName = $userInfo->username;
             $profilePicture = null;
         }else{
             $username = $response->getUsername();
