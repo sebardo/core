@@ -81,6 +81,8 @@ class OAuthUserProvider extends EntityUserProvider
             if (null === $user && $resourceOwnerName != 'twitter') $user = $this->findUser(array('email' => $email));
              //when the user is registrating
             if (null === $user) {
+                
+                print_r($response);die;
                 // create new user here
                 $user = new Actor();
                 $user->$setter_id($username);

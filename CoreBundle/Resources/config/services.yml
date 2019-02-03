@@ -70,3 +70,9 @@ services:
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
             
+    dynamic_discriminator_map.listener.doctrine_event_listener:
+        class: "CoreBundle\\EventListener\\DynamicDiscriminatorMapEventListener"
+        arguments: ["%core.dynamic_discriminator_map.mapping%"]
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata }
+            

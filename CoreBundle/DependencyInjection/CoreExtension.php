@@ -21,21 +21,26 @@ class CoreExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-              
-        $core = $container->getParameter('core');
-        $container->setParameter('core.name', $core['name']);
+             
+        $container->setParameter('core.name', $config['name']);
         $container->setParameter('core.extended_layout', $config['extended_layout']);
-        $container->setParameter('core.extended_layout_admin', $config['extended_layout_admin']);
-        $container->setParameter('core.authentication_handler_class', $config['authentication_handler_class']);
-        $container->setParameter('core.email_header_template', $config['email_header_template']);
-        $container->setParameter('core.email_footer_template', $config['email_footer_template']);
-        $container->setParameter('core.notification_navbar_template', $config['notification_navbar_template']);
-        $container->setParameter('core.upload_directory', $config['upload_directory']);
-        $container->setParameter('core.server_base_url', $config['server_base_url']);
-        $container->setParameter('core.fixtures_dev', $config['fixtures_dev']);
-        $container->setParameter('core.fixtures_test', $config['fixtures_test']);
-        $container->setParameter('core.admin_email', $config['admin_email']);
-        $container->setParameter('core.validate_time', $config['validate_time']);         
+        $container->setParameter('core.dynamic_discriminator_map.mapping',  $config['dynamic_discriminator_map']);
+        $container->setParameter('core.special_percentage_charge',  $config['special_percentage_charge']);
+        $container->setParameter('core.delivery_expenses_type',  $config['delivery_expenses_type']);
+        $container->setParameter('core.delivery_expenses_value',  $config['delivery_expenses_value']);
+        $container->setParameter('core.vat',  $config['vat']);
+        
+//        $container->setParameter('core.extended_layout_admin', $config['extended_layout_admin']);
+//        $container->setParameter('core.authentication_handler_class', $config['authentication_handler_class']);
+//        $container->setParameter('core.email_header_template', $config['email_header_template']);
+//        $container->setParameter('core.email_footer_template', $config['email_footer_template']);
+//        $container->setParameter('core.notification_navbar_template', $config['notification_navbar_template']);
+//        $container->setParameter('core.upload_directory', $config['upload_directory']);
+//        $container->setParameter('core.server_base_url', $config['server_base_url']);
+//        $container->setParameter('core.fixtures_dev', $config['fixtures_dev']);
+//        $container->setParameter('core.fixtures_test', $config['fixtures_test']);
+//        $container->setParameter('core.admin_email', $config['admin_email']);
+//        $container->setParameter('core.validate_time', $config['validate_time']);         
                 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
