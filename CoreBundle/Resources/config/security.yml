@@ -53,13 +53,9 @@ security:
                 role: ROLE_ADMIN
                 provider: main
             context: website
-            
-            
-            
         user:
             http_basic: ~
             anonymous: ~
-            context: test_connect
             pattern:    ^/
             form_login:
                 login_path:  /login
@@ -70,13 +66,12 @@ security:
             logout:
                 path:   /logout
                 target: /
-#                success_handler: authentication_handler
-            anonymous: true
             remember_me:
                 secret:      "%secret%"
                 lifetime: 31536000 # 365 days in seconds
                 path:     /
                 domain:   ~ # Defaults to the current domain from $_SERVER
+            context: website
 
     access_control:
         - { path: ^/admin/actor, roles: [ROLE_ADMIN] }

@@ -5,6 +5,7 @@ namespace CoreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 /**
  * {@inheritDoc}
@@ -18,7 +19,7 @@ class ProfileUserType extends AbstractType
     {
        
         $builder
-            ->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class, array('label' => 'form.email'))
+            ->add('email', EmailType::class, array('label' => 'form.email'))
             ->add('name')
             ->add('lastname')
      ;
@@ -30,7 +31,7 @@ class ProfileUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CoreBundle\Entity\Actor'
+            'data_class' => 'CoreBundle\Entity\BaseActor'
         ));
     }
 }

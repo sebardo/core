@@ -6,7 +6,7 @@ use CoreBundle\Entity\Image;
 use Symfony\Component\Filesystem\Filesystem;
 use CoreBundle\Entity\NewsletterShipping;
 use Symfony\Component\HttpFoundation\Request;
-use CoreBundle\Entity\Actor;
+use CoreBundle\Entity\BaseActor;
 use CoreBundle\Entity\Role;
 
 class CoreManager 
@@ -186,7 +186,7 @@ class CoreManager
         if ($image->move($this->getAbsolutePathProfile($entity->getId()), $imageName)) {
             $absPathImage = $this->getAbsolutePathProfile($entity->getId()).$imageName;
             
-            $thumPath = $this->getWebPath().$this->parameters['upload_directory'].DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
+            $thumPath = $this->getWebPath().$this->container->get('twig.global')->getParameter('upload_directory').DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'profile'.DIRECTORY_SEPARATOR.$entity->getId().DIRECTORY_SEPARATOR.'thumbnail';
             if(!is_dir($thumPath)) {
                 $fs = new Filesystem();
                 $fs->mkdir($thumPath, 0777);
@@ -215,7 +215,7 @@ class CoreManager
                 $actor = $this->container->get('security.token_storage')->getToken()->getUser();
         }
 
-        if ($actor instanceof Actor && $actor->getImage() instanceof Image) {
+        if ($actor instanceof BaseActor && $actor->getImage() instanceof Image) {
             $profileImage = '/uploads/images/profile/'.$actor->getId().'/'.$actor->getImage()->getPath();
         } else {
             $profileImage = $this->getDefaultImageProfile();
